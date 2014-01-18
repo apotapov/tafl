@@ -1,0 +1,166 @@
+
+explosion.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+explosion
+  rotate: false
+  xy: 2, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 0
+explosion
+  rotate: false
+  xy: 66, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 1
+explosion
+  rotate: false
+  xy: 130, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 2
+explosion
+  rotate: false
+  xy: 194, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 3
+explosion
+  rotate: false
+  xy: 258, 2
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 4
+explosion
+  rotate: false
+  xy: 2, 66
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 5
+explosion
+  rotate: false
+  xy: 66, 66
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 6
+explosion
+  rotate: false
+  xy: 130, 66
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 7
+explosion
+  rotate: false
+  xy: 194, 66
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 8
+explosion
+  rotate: false
+  xy: 258, 66
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 9
+explosion
+  rotate: false
+  xy: 2, 130
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 10
+explosion
+  rotate: false
+  xy: 66, 130
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 11
+explosion
+  rotate: false
+  xy: 130, 130
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 12
+explosion
+  rotate: false
+  xy: 194, 130
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 13
+explosion
+  rotate: false
+  xy: 258, 130
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 14
+explosion
+  rotate: false
+  xy: 2, 194
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 15
+explosion
+  rotate: false
+  xy: 66, 194
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 16
+explosion
+  rotate: false
+  xy: 130, 194
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 17
+explosion
+  rotate: false
+  xy: 194, 194
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 18
+explosion
+  rotate: false
+  xy: 258, 194
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 19
+explosion
+  rotate: false
+  xy: 2, 258
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 20
+explosion
+  rotate: false
+  xy: 66, 258
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 21
+explosion
+  rotate: false
+  xy: 130, 258
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 22

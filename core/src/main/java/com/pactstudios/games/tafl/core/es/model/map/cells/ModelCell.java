@@ -21,5 +21,6 @@ public abstract class ModelCell {
     }
 
     public void reset() {
+        entity = null;
     }
 }

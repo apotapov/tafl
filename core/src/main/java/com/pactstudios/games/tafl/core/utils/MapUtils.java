@@ -30,6 +30,10 @@ public class MapUtils {
         return position;
     }
 
+    public static Vector2 getTilePositionCenter(ModelCell cell) {
+        return getTilePositionCenter(cell.x, cell.y);
+    }
+
     public static Vector2 getMapPosition(Vector2 screenPosition) {
         position.set((int)(screenPosition.x / Constants.Map.TILE_SIZE),
                 (int)(screenPosition.y / Constants.Map.TILE_SIZE));

@@ -18,4 +18,12 @@ public class MapComponent implements Component {
     public String toString() {
         return "Map";
     }
+
+    public void changeTurn() {
+        if (turn == Team.BLACK) {
+            turn = Team.WHITE;
+        } else {
+            turn = Team.BLACK;
+        }
+    }
 }

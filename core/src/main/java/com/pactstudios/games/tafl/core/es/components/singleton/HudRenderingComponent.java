@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 
 
 public class HudRenderingComponent implements RenderingComponent {
@@ -15,19 +16,21 @@ public class HudRenderingComponent implements RenderingComponent {
     public Dialog lossDialog;
 
     // upper hud
-    public Label score;
+    public Label turn;
     public Label gameTime;
 
     // debug
     public Label mouseLocation;
     public Label fps;
 
+    public List log;
+
     @Override
     public void reset() {
         menu = null;
         winDialog = null;
         lossDialog = null;
-        score = null;
+        turn = null;
         gameTime = null;
     }
 

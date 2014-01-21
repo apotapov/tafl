@@ -83,13 +83,13 @@ public class TaflWorld implements Disposable {
     }
 
     public void resize(int width, int height) {
-        float centerX = Constants.Map.MAP_SIZE / 2.0f;
-        float centerY = Constants.Map.MAP_SIZE / 2.0f;
+        float boardSize = level.dimensions * Constants.BoardConstants.TILE_SIZE;
+        float center = boardSize / 2.0f;
 
-        this.camera.position.set(centerX, centerY, 0);
+        this.camera.position.set(center, center, 0);
         this.camera.viewportWidth = width;
         this.camera.viewportHeight = height;
-        this.camera.zoom = (float)Constants.Map.MAP_SIZE / width;
+        this.camera.zoom = boardSize / width;
         this.stage.setViewport(width, height);
     }
 

@@ -2,7 +2,7 @@ package com.pactstudios.games.tafl.core.es.components.render;
 
 import com.artemis.Component;
 import com.badlogic.gdx.graphics.Color;
-import com.pactstudios.games.tafl.core.es.model.map.cells.ModelCell;
+import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 
 public class HighlightComponent implements Component {
 

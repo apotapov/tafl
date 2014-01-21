@@ -38,7 +38,6 @@ public class TaflLevelDataLoader extends AsynchronousAssetLoader<TaflLevel, Asse
             FileHandle file, AssetLoaderParameters<TaflLevel> parameter) {
 
         TaflLevel level = json.fromJson(TaflLevel.class, file);
-        level.file = fileName;
         return level;
     }
 

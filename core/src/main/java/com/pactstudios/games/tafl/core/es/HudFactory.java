@@ -5,6 +5,7 @@ import com.artemis.systems.event.SystemEvent;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -147,22 +148,30 @@ public class HudFactory {
     private static void createUpperHud(HudRenderingComponent component, Skin skin, TaflWorld gameWorld) {
 
         HudBackground upperBackground =
-                createBackground(Constants.Game.GAME_HEIGHT - Constants.Hud.HUD_HEIGHT);
+                createBackground(Constants.GameConstants.GAME_HEIGHT - Constants.HudConstants.HUD_HEIGHT);
         component.hubStage.addActor(upperBackground);
 
         Table table = new Table(skin);
 
         createButtons(component, skin, table, gameWorld);
 
-        component.score = new Label("", skin);
-        table.add(component.score).expandX();
+        component.turn = new Label("", skin);
+        table.add(component.turn).expandX();
 
         component.gameTime = new Label("", skin);
         table.add(component.gameTime).expandX();
 
+        if (Constants.GameConstants.DEBUG) {
+            component.mouseLocation = new Label("", skin);
+            table.add(component.mouseLocation).expandX();
+
+            component.fps = new Label("", skin);
+            table.add(component.fps).expandX();
+        }
+
         table.right().top();
-        table.setPosition(0, Constants.Game.GAME_HEIGHT);
-        table.setWidth(Constants.Game.GAME_WIDTH);
+        table.setPosition(0, Constants.GameConstants.GAME_HEIGHT);
+        table.setWidth(Constants.GameConstants.GAME_WIDTH);
         component.hubStage.addActor(table);
     }
 
@@ -171,14 +180,13 @@ public class HudFactory {
         component.hubStage.addActor(lowerBackground);
 
         Table table = new Table();
-        component.mouseLocation = new Label("", skin);
-        table.add(component.mouseLocation).expandX();
 
-        component.fps = new Label("", skin);
-        table.add(component.fps).expandX();
+        component.log = new List(new Object[] {}, skin);
+        table.add(component.log).expandX();
+        table.row();
 
-        table.right().top().setPosition(0, Constants.Hud.HUD_HEIGHT);
-        table.setWidth(Constants.Game.GAME_WIDTH);
+        table.right().top().setPosition(0, Constants.HudConstants.HUD_HEIGHT);
+        table.setWidth(Constants.GameConstants.GAME_WIDTH);
         component.hubStage.addActor(table);
     }
 
@@ -198,15 +206,15 @@ public class HudFactory {
                 world.postEvent(null, lifecycleEvent);
             }
         });
-        table.add(button).size(Constants.Hud.BUTTON_WIDTH, Constants.Hud.BUTTON_HEIGHT).uniform();
+        table.add(button).size(Constants.HudConstants.BUTTON_WIDTH, Constants.HudConstants.BUTTON_HEIGHT).uniform();
     }
 
     private static HudBackground createBackground(float y) {
         HudBackground background = new HudBackground();
         background.setPosition(0, y);
-        background.setWidth(Constants.Game.GAME_WIDTH);
-        background.setHeight(Constants.Hud.HUD_HEIGHT);
-        background.setColor(Constants.Hud.HUD_BACKGROUND_COLOR);
+        background.setWidth(Constants.GameConstants.GAME_WIDTH);
+        background.setHeight(Constants.HudConstants.HUD_HEIGHT);
+        background.setColor(Constants.HudConstants.HUD_BACKGROUND_COLOR);
         return background;
     }
 }

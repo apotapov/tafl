@@ -65,7 +65,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
             list.setSelectedIndex(0);
         }
 
-        table.add(list).size(Constants.Screens.LIST_WIDTH, Constants.Screens.LIST_HEIGHT).uniform().spaceBottom(10);
+        table.add(list).size(Constants.ScreenConstants.LIST_WIDTH, Constants.ScreenConstants.LIST_HEIGHT).uniform().spaceBottom(10);
         table.row();
 
         String text = localeService._(LocalizedStrings.LevelSelectionMenu.PLAY_LEVEL_BUTTON);
@@ -79,7 +79,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
                 game.setScreen(screen);
             }
         });
-        table.add(button).size(Constants.Screens.BUTTON_WIDTH, Constants.Screens.BUTTON_HEIGHT).uniform();
+        table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT).uniform();
         table.row();
 
         Button mainMenuButton = game.getMainMenuButton();

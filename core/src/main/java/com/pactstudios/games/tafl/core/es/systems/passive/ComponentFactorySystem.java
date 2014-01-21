@@ -13,18 +13,15 @@ import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.movement.VelocityComponent;
 import com.pactstudios.games.tafl.core.es.components.render.AnimationComponent;
-import com.pactstudios.games.tafl.core.es.components.render.DirectionComponent;
 import com.pactstudios.games.tafl.core.es.components.render.DrawableComponent;
 import com.pactstudios.games.tafl.core.es.components.render.HighlightComponent;
 import com.pactstudios.games.tafl.core.es.components.render.OffsetComponent;
 import com.pactstudios.games.tafl.core.es.components.render.ScallingComponent;
+import com.pactstudios.games.tafl.core.es.components.singleton.GameBoardComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
-import com.pactstudios.games.tafl.core.es.components.singleton.MapComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
-import com.pactstudios.games.tafl.core.es.model.map.TaflMap;
-import com.pactstudios.games.tafl.core.es.model.map.cells.ModelCell;
-import com.pactstudios.games.tafl.core.es.model.map.objects.Team;
+import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 import com.pactstudios.games.tafl.core.level.TaflLevel;
 import com.roundtriangles.games.zaria.services.GraphicsService;
 
@@ -87,20 +84,16 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         return component;
     }
 
-    public DirectionComponent createDirectionComponent() {
-        DirectionComponent component = createComponent(DirectionComponent.class);
-        return component;
-    }
-
-    public MapComponent createMapComponent(TaflMap map) {
-        MapComponent component = createComponent(MapComponent.class);
-        component.map = map;
-        component.turn = Team.BLACK;
+    public GameBoardComponent createBoardComponent(TaflLevel level) {
+        GameBoardComponent component = createComponent(GameBoardComponent.class);
+        component.board = level.board;
+        component.rulesEngine = level.rulesEngine;
         return component;
     }
 
     public HudComponent createHudComponent(TaflLevel level) {
         HudComponent component = createComponent(HudComponent.class);
+        component.log = level.log;
         return component;
     }
 
@@ -108,7 +101,7 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         MapRenderingComponent component = createComponent(MapRenderingComponent.class);
         component.camera = world.camera;
 
-        component.spriteBatch = new SpriteBatch(Constants.Game.BATCH_SIZE);
+        component.spriteBatch = new SpriteBatch(Constants.GameConstants.BATCH_SIZE);
         component.shapeRenderer = new ShapeRenderer();
         component.font = graphics.getFont(Assets.Fonts.BLOWHOLE_FONT_GAME);
 

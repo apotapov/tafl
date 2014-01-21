@@ -5,7 +5,6 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
-import com.pactstudios.games.tafl.core.es.components.render.DirectionComponent;
 import com.pactstudios.games.tafl.core.es.components.render.DrawableComponent;
 import com.pactstudios.games.tafl.core.es.components.render.OffsetComponent;
 import com.pactstudios.games.tafl.core.es.components.render.ScallingComponent;
@@ -15,20 +14,17 @@ public class RegionRenderer {
     ComponentMapper<PositionComponent> positionMapper;
     ComponentMapper<DrawableComponent> drawableMapper;
     ComponentMapper<OffsetComponent> offsetMapper;
-    ComponentMapper<DirectionComponent> directionMapper;
     ComponentMapper<ScallingComponent> scallingMapper;
 
     public RegionRenderer(World world) {
         positionMapper = world.getMapper(PositionComponent.class);
         offsetMapper = world.getMapper(OffsetComponent.class);
-        directionMapper = world.getMapper(DirectionComponent.class);
         scallingMapper = world.getMapper(ScallingComponent.class);
     }
 
     public void drawRegion(MapRenderingComponent rendComponent, Entity e, TextureRegion region) {
         PositionComponent position = positionMapper.get(e);
         OffsetComponent offset = offsetMapper.get(e);
-        DirectionComponent direction = directionMapper.get(e);
         ScallingComponent scalling = scallingMapper.get(e);
 
         int width = region.getRegionWidth();
@@ -54,11 +50,6 @@ public class RegionRenderer {
         float angle = 0;
         int flipHorizontal = 1;
         int flipVertical = 1;
-        if (direction != null) {
-            angle = direction.angle;
-            flipHorizontal = direction.flipHorizontal;
-            flipVertical = direction.flipVertical;
-        }
 
         float positionX = position.position.x + xOffset;
         if (flipHorizontal < 0) {

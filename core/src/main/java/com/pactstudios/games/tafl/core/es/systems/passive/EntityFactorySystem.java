@@ -11,10 +11,9 @@ import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.render.AnimationComponent;
-import com.pactstudios.games.tafl.core.es.model.map.TaflMap;
-import com.pactstudios.games.tafl.core.es.model.map.cells.ModelCell;
-import com.pactstudios.games.tafl.core.es.model.map.objects.Piece;
-import com.pactstudios.games.tafl.core.es.model.map.objects.PieceType;
+import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
+import com.pactstudios.games.tafl.core.es.model.objects.Piece;
+import com.pactstudios.games.tafl.core.es.model.objects.PieceType;
 import com.pactstudios.games.tafl.core.level.TaflLevel;
 import com.pactstudios.games.tafl.core.utils.MapUtils;
 
@@ -32,9 +31,9 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         groupManager = world.getManager(GroupManager.class);
     }
 
-    public Entity createMap(TaflMap map) {
+    public Entity createBoard(TaflLevel level) {
         return singletonManager.addSingletonComponent(
-                componentFactory.createMapComponent(map));
+                componentFactory.createBoardComponent(level));
     }
 
     public Entity createHud(TaflLevel level) {
@@ -59,14 +58,13 @@ public class EntityFactorySystem extends PassiveEntitySystem {
                 Assets.Graphics.CREATURE_ATLAS,
                 piece.type.graphic,
                 Animation.LOOP,
-                Constants.Piece.FRAME_DURATION);
+                Constants.PieceConstants.FRAME_DURATION);
         e.addComponent(ac);
-        e.addComponent(componentFactory.createDirectionComponent());
-        e.addComponent(componentFactory.createScalingComponent(Constants.Piece.SCALING, Constants.Piece.SCALING));
+        e.addComponent(componentFactory.createScalingComponent(Constants.PieceConstants.SCALING, Constants.PieceConstants.SCALING));
 
         groupManager.add(e, piece.type.team.toString());
         if (piece.type == PieceType.KING) {
-            groupManager.add(e, Constants.Groups.KING);
+            groupManager.add(e, Constants.GroupConstants.KING);
         }
 
         e.addToWorld();
@@ -74,24 +72,24 @@ public class EntityFactorySystem extends PassiveEntitySystem {
     }
 
     public void addSelection(Entity entity) {
-        Array<Entity> selected = groupManager.getEntities(Constants.Groups.SELECTED_PIECE);
+        Array<Entity> selected = groupManager.getEntities(Constants.GroupConstants.SELECTED_PIECE);
         for (Entity e : selected) {
             removeSelection(e);
         }
 
-        groupManager.add(entity, Constants.Groups.SELECTED_PIECE);
+        groupManager.add(entity, Constants.GroupConstants.SELECTED_PIECE);
     }
 
     public void removeSelection(Entity entity) {
-        groupManager.remove(entity, Constants.Groups.SELECTED_PIECE);
+        groupManager.remove(entity, Constants.GroupConstants.SELECTED_PIECE);
     }
 
     public Entity createHighlightedCell(ModelCell cell) {
         Entity e = world.createEntity();
 
-        e.addComponent(componentFactory.createHilightComponent(cell, Constants.Map.HIGHLIGHT_COLOR));
+        e.addComponent(componentFactory.createHilightComponent(cell, Constants.BoardConstants.HIGHLIGHT_COLOR));
 
-        groupManager.add(e, Constants.Groups.HIGHLIGHTED_CELLS);
+        groupManager.add(e, Constants.GroupConstants.HIGHLIGHTED_CELLS);
 
         e.addToWorld();
         return e;

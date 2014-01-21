@@ -32,7 +32,7 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
         String buttonText = localeService._(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_START);
         TextButton button = createButton(buttonText,
                 skin, game.getLevelSelectionScreen());
-        table.add(button).size(Constants.Screens.BUTTON_WIDTH, Constants.Screens.BUTTON_HEIGHT).uniform().spaceBottom(10);
+        table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT).uniform().spaceBottom(10);
         table.row();
 
         buttonText = localeService._(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_OPTIONS);

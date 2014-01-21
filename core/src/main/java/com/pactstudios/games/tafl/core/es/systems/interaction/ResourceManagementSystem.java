@@ -8,6 +8,7 @@ import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.consts.Constants;
+import com.pactstudios.games.tafl.core.es.components.singleton.GameBoardComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
 import com.pactstudios.games.tafl.core.es.systems.events.MouseMoveEvent;
@@ -40,9 +41,11 @@ public class ResourceManagementSystem extends EntityProcessingSystem {
     protected void process(Entity e) {
         HudComponent infoComponent = hudMapper.get(e);
 
+        infoComponent.turn = manager.getSingletonComponent(GameBoardComponent.class).rulesEngine.turn;
+
         infoComponent.gameTime += world.getDelta();
 
-        if (Constants.Game.DEBUG) {
+        if (Constants.GameConstants.DEBUG) {
             world.getEvents(this, MouseMoveEvent.class, mouseMoves);
             if (mouseMoves.size > 0) {
                 MouseMoveEvent last = mouseMoves.get(mouseMoves.size - 1);

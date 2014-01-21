@@ -37,12 +37,7 @@ public class LocalizedStrings {
     public enum Hud {
         MENU_BUTTON,
 
-        ZOOM_IN,
-        ZOOM_OUT,
-
-        MONEY_LABEL,
-        LIVES_LABEL,
-        SCORE_LABEL,
+        TURN_LABEL,
         GAME_TIME_LABEL,
     }
 }

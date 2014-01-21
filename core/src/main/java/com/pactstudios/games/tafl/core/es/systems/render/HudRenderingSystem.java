@@ -34,19 +34,21 @@ public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
     protected void process(Entity e, HudRenderingComponent rendComponent) {
         HudComponent hudComponent = hudMapper.get(e);
         if (hudComponent != null) {
-            String text = localeService._(LocalizedStrings.Hud.SCORE_LABEL, hudComponent.score);
-            rendComponent.score.setText(text);
+            String text = localeService._(LocalizedStrings.Hud.TURN_LABEL, hudComponent.turn);
+            rendComponent.turn.setText(text);
 
             text = localeService._(LocalizedStrings.Hud.GAME_TIME_LABEL, floatToTime(hudComponent.gameTime));
             rendComponent.gameTime.setText(text);
 
-            if (Constants.Game.DEBUG) {
+            if (Constants.GameConstants.DEBUG) {
                 rendComponent.mouseLocation.setText("Mouse: " +
                         (int)hudComponent.mouseLocation.x +
                         ", " +
                         (int)hudComponent.mouseLocation.y);
                 rendComponent.fps.setText("FPS: " + hudComponent.fps);
             }
+
+            rendComponent.log.setItems(hudComponent.log.log.items);
 
             rendComponent.hubStage.act(world.getDelta());
             rendComponent.hubStage.draw();

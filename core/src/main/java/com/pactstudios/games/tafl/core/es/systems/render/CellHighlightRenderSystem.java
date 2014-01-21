@@ -48,7 +48,7 @@ public class CellHighlightRenderSystem extends RenderingSystem<MapRenderingCompo
 
         Vector2 position = MapUtils.getTilePosition(component.cell);
 
-        rendComponent.shapeRenderer.rect(position.x, position.y, Constants.Map.TILE_SIZE, Constants.Map.TILE_SIZE);
+        rendComponent.shapeRenderer.rect(position.x, position.y, Constants.BoardConstants.TILE_SIZE, Constants.BoardConstants.TILE_SIZE);
     }
 
 }

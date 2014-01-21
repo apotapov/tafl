@@ -53,7 +53,7 @@ public class UserInputSystem extends PassiveEntitySystem implements InputProcess
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        if (Constants.Game.DEBUG) {
+        if (Constants.GameConstants.DEBUG) {
             MouseMoveEvent event = SystemEvent.createEvent(MouseMoveEvent.class);
             event.x = screenX;
             event.y = screenY;

@@ -4,25 +4,25 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
-import com.pactstudios.games.tafl.core.es.components.singleton.MapComponent;
+import com.pactstudios.games.tafl.core.es.components.singleton.GameBoardComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
 import com.pactstudios.games.tafl.core.es.systems.render.RenderingSystem;
 import com.pactstudios.games.tafl.core.utils.MapUtils;
 
 public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent> {
 
-    ComponentMapper<MapComponent> mapper;
+    ComponentMapper<GameBoardComponent> boardMapper;
 
     @SuppressWarnings("unchecked")
     public CellIdRendererSystem() {
-        super(Aspect.getAspectForAll(MapComponent.class),
+        super(Aspect.getAspectForAll(GameBoardComponent.class),
                 MapRenderingComponent.class);
     }
 
     @Override
     public void initialize() {
         super.initialize();
-        mapper = world.getMapper(MapComponent.class);
+        boardMapper = world.getMapper(GameBoardComponent.class);
     }
 
     @Override
@@ -37,11 +37,11 @@ public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent>
 
     @Override
     protected void process(Entity e, MapRenderingComponent rendComponent) {
-        MapComponent map = mapper.get(e);
+        GameBoardComponent board = boardMapper.get(e);
 
-        for (int i = 0; i < map.map.width; i++) {
-            for (int j = 0; j < map.map.height; j++) {
-                if (map.map.getCell(i, j) != null) {
+        for (int i = 0; i < board.board.width; i++) {
+            for (int j = 0; j < board.board.height; j++) {
+                if (board.board.getCell(i, j) != null) {
                     Vector2 position = MapUtils.getTilePosition(i, j);
 
                     rendComponent.font.draw(rendComponent.spriteBatch,

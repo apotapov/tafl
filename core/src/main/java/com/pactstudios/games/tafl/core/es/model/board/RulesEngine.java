@@ -2,6 +2,7 @@ package com.pactstudios.games.tafl.core.es.model.board;
 
 import com.artemis.World;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.es.model.board.cells.CornerCell;
 import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 import com.pactstudios.games.tafl.core.es.model.objects.Piece;
@@ -16,9 +17,12 @@ public class RulesEngine {
     public TaflLevel level;
     public Team turn;
 
+    protected Array<ModelCell> legalMoves;
+
     public RulesEngine(TaflLevel level, World world) {
         this.level = level;
         this.turn = Team.BLACK;
+        legalMoves = new Array<ModelCell>();
     }
 
     public void changeTurn() {
@@ -55,8 +59,8 @@ public class RulesEngine {
     }
 
     private boolean checkCapture(ModelCell end) {
-        boolean capture = checkCaptureAbove(end);
-        capture |= checkCaptureBelow(end);
+        boolean capture = checkCaptureUp(end);
+        capture |= checkCaptureDown(end);
         capture |= checkCaptureRight(end);
         capture |= checkCaptureLeft(end);
         return capture;
@@ -78,7 +82,7 @@ public class RulesEngine {
         return checkCapture(end.piece, first, second, third, fourth);
     }
 
-    private boolean checkCaptureBelow(ModelCell end) {
+    private boolean checkCaptureDown(ModelCell end) {
         ModelCell first = level.board.getCell(end.x, end.y - 1);
         ModelCell second = level.board.getCell(end.x, end.y - 2);
         ModelCell third = level.board.getCell(end.x + 1, end.y - 1);
@@ -86,7 +90,7 @@ public class RulesEngine {
         return checkCapture(end.piece, first, second, third, fourth);
     }
 
-    private boolean checkCaptureAbove(ModelCell end) {
+    private boolean checkCaptureUp(ModelCell end) {
         ModelCell first = level.board.getCell(end.x, end.y + 1);
         ModelCell second = level.board.getCell(end.x, end.y + 2);
         ModelCell third = level.board.getCell(end.x + 1, end.y + 1);
@@ -95,20 +99,20 @@ public class RulesEngine {
     }
 
     private boolean checkCapture(Piece piece, ModelCell first, ModelCell second, ModelCell third, ModelCell fourth) {
-        if (first != null && first.piece != null && second != null && second.piece != null) {
-            if (piece.type.team != first.piece.type.team && piece.type.team == second.piece.type.team) {
-                if (first.piece.type == PieceType.KING) {
-                    if (third != null && third.piece != null && fourth != null && fourth.piece != null) {
-                        if (piece.type.team == third.piece.type.team && piece.type.team == fourth.piece.type.team) {
-                            first.piece.entity.deleteFromWorld();
-                            first.piece = null;
-                            return true;
-                        }
-                    }
-                } else {
+        if (first != null && first.piece != null && piece.type.team != first.piece.type.team &&
+                second != null && second.piece != null && piece.type.team == second.piece.type.team) {
+
+            if (first.piece.type == PieceType.KING) {
+                if (third != null && third.piece != null && piece.type.team == third.piece.type.team &&
+                        fourth != null && fourth.piece != null && piece.type.team == fourth.piece.type.team) {
+
                     first.piece.entity.deleteFromWorld();
                     first.piece = null;
+                    return true;
                 }
+            } else {
+                first.piece.entity.deleteFromWorld();
+                first.piece = null;
             }
         }
         return false;
@@ -137,5 +141,52 @@ public class RulesEngine {
             }
         }
         return false;
+    }
+
+    public Array<ModelCell> legalMoves(ModelCell start) {
+        legalMoves.clear();
+
+        legalUp(start);
+        legalDown(start);
+        legalRight(start);
+        legalLeft(start);
+
+        return legalMoves;
+    }
+
+    private void legalUp(ModelCell start) {
+        ModelCell next = start;
+        while ((next = next.up()) != null && next.piece == null) {
+            if (next.canWalk() || start.piece.type == PieceType.KING) {
+                legalMoves.add(next);
+            }
+        }
+    }
+
+    private void legalDown(ModelCell start) {
+        ModelCell next = start;
+        while ((next = next.down()) != null && next.piece == null) {
+            if (next.canWalk() || start.piece.type == PieceType.KING) {
+                legalMoves.add(next);
+            }
+        }
+    }
+
+    private void legalRight(ModelCell start) {
+        ModelCell next = start;
+        while ((next = next.right()) != null && next.piece == null) {
+            if (next.canWalk() || start.piece.type == PieceType.KING) {
+                legalMoves.add(next);
+            }
+        }
+    }
+
+    private void legalLeft(ModelCell start) {
+        ModelCell next = start;
+        while ((next = next.left()) != null && next.piece == null) {
+            if (next.canWalk() || start.piece.type == PieceType.KING) {
+                legalMoves.add(next);
+            }
+        }
     }
 }

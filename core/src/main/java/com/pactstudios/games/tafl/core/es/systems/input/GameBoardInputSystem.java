@@ -86,6 +86,10 @@ public class GameBoardInputSystem extends InputProcessingSystem<MapRenderingComp
     private void selectPiece(GameBoardComponent boardComponent, ModelCell cell) {
         clearCellHighlights();
         efs.createHighlightedCell(cell);
+        Array<ModelCell> legalMoves = boardComponent.rulesEngine.legalMoves(cell);
+        for (ModelCell move : legalMoves) {
+            efs.createHighlightedCell(move);
+        }
         boardComponent.selectedPiece = cell.piece;
     }
 

@@ -49,11 +49,11 @@ public class GameBoard {
                 (x == width - 1 && y == 0) ||
                 (x == 0 && y == height - 1) ||
                 (x == width -1 && y == height -1)) {
-            return new CornerCell(x, y);
+            return new CornerCell(x, y, this);
         } else if (x == width / 2 && y == height / 2) {
-            return new KingCell(x, y);
+            return new KingCell(x, y, this);
         } else {
-            return new RegularCell(x, y);
+            return new RegularCell(x, y, this);
         }
     }
 

@@ -47,7 +47,8 @@ public class TaflLevelService extends LevelService<TaflLevel>{
 
         for (Piece piece : level.pieces) {
             ModelCell cell = level.board.getCell(piece.x, piece.y);
-            cell.entity = efs.createPiece(piece);
+            piece.entity = efs.createPiece(piece);
+            cell.piece = piece;
         }
     }
 }

@@ -26,8 +26,6 @@ public final class Constants {
         public static final String HIGHLIGHTED_CELLS = "hcells";
         public static final String WHITE = "white";
         public static final String BLACK = "black";
-        public static final String KING = "king";
-        public static final String SELECTED_PIECE = "selected";
 
         public static final String BOARD = "board";
         public static final String RENDERER = "renderer";

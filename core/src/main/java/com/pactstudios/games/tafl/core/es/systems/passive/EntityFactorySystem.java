@@ -6,14 +6,12 @@ import com.artemis.managers.SingletonComponentManager;
 import com.artemis.systems.PassiveEntitySystem;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.render.AnimationComponent;
 import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 import com.pactstudios.games.tafl.core.es.model.objects.Piece;
-import com.pactstudios.games.tafl.core.es.model.objects.PieceType;
 import com.pactstudios.games.tafl.core.level.TaflLevel;
 import com.pactstudios.games.tafl.core.utils.MapUtils;
 
@@ -63,25 +61,9 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         e.addComponent(componentFactory.createScalingComponent(Constants.PieceConstants.SCALING, Constants.PieceConstants.SCALING));
 
         groupManager.add(e, piece.type.team.toString());
-        if (piece.type == PieceType.KING) {
-            groupManager.add(e, Constants.GroupConstants.KING);
-        }
 
         e.addToWorld();
         return e;
-    }
-
-    public void addSelection(Entity entity) {
-        Array<Entity> selected = groupManager.getEntities(Constants.GroupConstants.SELECTED_PIECE);
-        for (Entity e : selected) {
-            removeSelection(e);
-        }
-
-        groupManager.add(entity, Constants.GroupConstants.SELECTED_PIECE);
-    }
-
-    public void removeSelection(Entity entity) {
-        groupManager.remove(entity, Constants.GroupConstants.SELECTED_PIECE);
     }
 
     public Entity createHighlightedCell(ModelCell cell) {

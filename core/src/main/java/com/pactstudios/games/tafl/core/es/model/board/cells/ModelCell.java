@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.model.board.cells;
 
-import com.artemis.Entity;
+import com.pactstudios.games.tafl.core.es.model.objects.Piece;
 
 
 public abstract class ModelCell {
@@ -9,7 +9,7 @@ public abstract class ModelCell {
 
     public int x;
     public int y;
-    public Entity entity;
+    public Piece piece;
     public String name;
 
     public ModelCell(int x, int y) {
@@ -26,6 +26,6 @@ public abstract class ModelCell {
     }
 
     public void reset() {
-        entity = null;
+        piece = null;
     }
 }

@@ -48,8 +48,8 @@ public class GameBoardInputSystem extends InputProcessingSystem<MapRenderingComp
             Vector2 touchPosition = MapUtils.getMapPosition(gameTouchPoint);
             ModelCell touchedCell = boardComponent.board.getCell((int)touchPosition.x, (int)touchPosition.y);
             if (touchedCell != null) {
-                if (boardComponent.rulesEngine.checkTurn(touchedCell.entity)) {
-                    selectPiece(touchedCell);
+                if (boardComponent.rulesEngine.checkTurn(touchedCell.piece)) {
+                    selectPiece(boardComponent, touchedCell);
                 } else {
                     movePiece(boardComponent, touchedCell);
                 }
@@ -57,26 +57,24 @@ public class GameBoardInputSystem extends InputProcessingSystem<MapRenderingComp
         }
     }
 
-    private void movePiece(GameBoardComponent boardComponent, ModelCell touchedCell) {
-        Array<Entity> selectedEntities = groupManager.getEntities(Constants.GroupConstants.SELECTED_PIECE);
-        if (selectedEntities.size > 0) {
-            Entity selected = selectedEntities.first();
-            PositionComponent position = positionMapper.get(selected);
+    private void movePiece(GameBoardComponent boardComponent, ModelCell end) {
+        if (boardComponent.selectedPiece != null) {
+            PositionComponent position = positionMapper.get(boardComponent.selectedPiece.entity);
             Vector2 currentMapLocation = MapUtils.getMapPosition(position.position);
-            ModelCell currentCell = boardComponent.board.getCell((int)currentMapLocation.x, (int)currentMapLocation.y);
-            if (boardComponent.rulesEngine.legalMove(selected, currentCell, touchedCell)) {
-                move(boardComponent, touchedCell, selected, position, currentCell);
+            ModelCell start = boardComponent.board.getCell((int)currentMapLocation.x, (int)currentMapLocation.y);
+            if (boardComponent.rulesEngine.legalMove(boardComponent.selectedPiece, start, end)) {
+                move(boardComponent, start, end, position);
             }
         }
     }
 
-    private void move(GameBoardComponent boardComponent, ModelCell touchedCell,
-            Entity selected, PositionComponent position, ModelCell currentCell) {
-        boardComponent.rulesEngine.movePiece(selected, position.position, currentCell, touchedCell);
-        efs.removeSelection(selected);
+    private void move(GameBoardComponent boardComponent, ModelCell start, ModelCell end,
+            PositionComponent position) {
+        boardComponent.rulesEngine.movePiece(position.position, start, end);
+        boardComponent.selectedPiece = null;
         clearCellHighlights();
         Lifecycle lifecycle =
-                boardComponent.rulesEngine.checkGameState(selected, touchedCell);
+                boardComponent.rulesEngine.checkGameState(end);
         if (lifecycle != Lifecycle.PLAY) {
             LifecycleEvent lce = world.createEvent(LifecycleEvent.class);
             lce.lifecycle = lifecycle;
@@ -85,10 +83,10 @@ public class GameBoardInputSystem extends InputProcessingSystem<MapRenderingComp
         boardComponent.rulesEngine.changeTurn();
     }
 
-    private void selectPiece(ModelCell cell) {
+    private void selectPiece(GameBoardComponent boardComponent, ModelCell cell) {
         clearCellHighlights();
         efs.createHighlightedCell(cell);
-        efs.addSelection(cell.entity);
+        boardComponent.selectedPiece = cell.piece;
     }
 
     private void clearCellHighlights() {

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.pactstudios.games.tafl.core.consts.Constants;
 
 public class HudBackground extends Actor {
 
@@ -18,7 +19,10 @@ public class HudBackground extends Actor {
         Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
         renderer.begin(ShapeType.Filled);
         renderer.setColor(this.getColor());
-        renderer.rect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+
+        float height = (Gdx.graphics.getHeight() / Constants.GameConstants.GAME_HEIGHT) *
+                Constants.HudConstants.HUD_HEIGHT;
+        renderer.rect(this.getX(), this.getY(), this.getWidth(), height);
         renderer.end();
         Gdx.gl.glDisable(GL10.GL_BLEND);
         batch.begin();

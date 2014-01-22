@@ -20,7 +20,6 @@ public class GamePlayScreen extends AbstractScreen<TaflGame> {
 
     @Override
     public void resize(int width, int height) {
-        super.resize(width, height);
         world.resize(width, height);
     }
 

@@ -65,7 +65,7 @@ public final class Constants {
         public static final boolean DEBUG = true;
         public static final int BATCH_SIZE = 100;
         public static final int GAME_WIDTH = 600;
-        public static final int GAME_HEIGHT = 800;
+        public static final int GAME_HEIGHT = 1000;
         public static final boolean USE_GL20 = false;
     }
 }

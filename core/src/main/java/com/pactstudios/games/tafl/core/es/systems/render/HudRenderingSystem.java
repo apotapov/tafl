@@ -48,7 +48,7 @@ public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
                 rendComponent.fps.setText("FPS: " + hudComponent.fps);
             }
 
-            rendComponent.log.setItems(hudComponent.log.log.items);
+            //rendComponent.log.setItems(hudComponent.log.log.items);
 
             rendComponent.hubStage.act(world.getDelta());
             rendComponent.hubStage.draw();

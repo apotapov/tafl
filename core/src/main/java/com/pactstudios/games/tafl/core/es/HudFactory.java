@@ -2,10 +2,10 @@ package com.pactstudios.games.tafl.core.es;
 
 import com.artemis.World;
 import com.artemis.systems.event.SystemEvent;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -148,7 +148,7 @@ public class HudFactory {
     private static void createUpperHud(HudRenderingComponent component, Skin skin, TaflWorld gameWorld) {
 
         HudBackground upperBackground =
-                createBackground(Constants.GameConstants.GAME_HEIGHT - Constants.HudConstants.HUD_HEIGHT);
+                createBackground(Gdx.graphics.getHeight() - Constants.HudConstants.HUD_HEIGHT);
         component.hubStage.addActor(upperBackground);
 
         Table table = new Table(skin);
@@ -169,9 +169,7 @@ public class HudFactory {
             table.add(component.fps).expandX();
         }
 
-        table.right().top();
-        table.setPosition(0, Constants.GameConstants.GAME_HEIGHT);
-        table.setWidth(Constants.GameConstants.GAME_WIDTH);
+        table.right().top().setFillParent(true);
         component.hubStage.addActor(table);
     }
 
@@ -181,12 +179,11 @@ public class HudFactory {
 
         Table table = new Table();
 
-        component.log = new List(new Object[] {}, skin);
-        table.add(component.log).expandX();
-        table.row();
+        //        component.log = new List(new Object[] {}, skin);
+        //        table.add(component.log).expandX();
+        //        table.row();
 
-        table.right().top().setPosition(0, Constants.HudConstants.HUD_HEIGHT);
-        table.setWidth(Constants.GameConstants.GAME_WIDTH);
+        table.right().top().setFillParent(true);
         component.hubStage.addActor(table);
     }
 
@@ -212,8 +209,7 @@ public class HudFactory {
     private static HudBackground createBackground(float y) {
         HudBackground background = new HudBackground();
         background.setPosition(0, y);
-        background.setWidth(Constants.GameConstants.GAME_WIDTH);
-        background.setHeight(Constants.HudConstants.HUD_HEIGHT);
+        background.setWidth(Gdx.graphics.getWidth());
         background.setColor(Constants.HudConstants.HUD_BACKGROUND_COLOR);
         return background;
     }

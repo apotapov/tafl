@@ -90,7 +90,7 @@ public class TaflWorld implements Disposable {
         this.camera.viewportWidth = width;
         this.camera.viewportHeight = height;
         this.camera.zoom = boardSize / width;
-        this.stage.setViewport(width, height);
+        this.stage.setViewport(Constants.GameConstants.GAME_WIDTH, Constants.GameConstants.GAME_HEIGHT, true);
     }
 
     public void pause() {

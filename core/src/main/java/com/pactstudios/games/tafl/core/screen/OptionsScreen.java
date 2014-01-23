@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.pactstudios.games.tafl.core.TaflGame;
 import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
-import com.roundtriangles.games.zaria.AbstractScreen;
+import com.roundtriangles.games.zaria.screen.AbstractScreen;
 import com.roundtriangles.games.zaria.services.LocaleService;
 import com.roundtriangles.games.zaria.services.PreferenceService;
 import com.roundtriangles.games.zaria.services.SoundService;

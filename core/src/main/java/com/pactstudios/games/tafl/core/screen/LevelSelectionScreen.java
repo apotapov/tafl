@@ -17,7 +17,7 @@ import com.pactstudios.games.tafl.core.level.TaflLevel;
 import com.pactstudios.games.tafl.core.level.TaflLevelService;
 import com.pactstudios.games.tafl.core.profile.TaflProfile;
 import com.pactstudios.games.tafl.core.profile.TaflProfileService;
-import com.roundtriangles.games.zaria.AbstractScreen;
+import com.roundtriangles.games.zaria.screen.AbstractScreen;
 import com.roundtriangles.games.zaria.services.LocaleService;
 import com.roundtriangles.games.zaria.services.SoundService;
 

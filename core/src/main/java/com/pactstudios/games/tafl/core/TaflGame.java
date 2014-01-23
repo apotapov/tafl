@@ -13,8 +13,8 @@ import com.pactstudios.games.tafl.core.screen.LevelSelectionScreen;
 import com.pactstudios.games.tafl.core.screen.MainMenuScreen;
 import com.pactstudios.games.tafl.core.screen.OptionsScreen;
 import com.roundtriangles.games.zaria.AbstractGame;
-import com.roundtriangles.games.zaria.AbstractScreen;
-import com.roundtriangles.games.zaria.LoadingScreen;
+import com.roundtriangles.games.zaria.screen.AbstractScreen;
+import com.roundtriangles.games.zaria.screen.LoadingScreen;
 
 public class TaflGame extends AbstractGame<TaflGame>  {
     private static final int LOADING_IMAGE_WIDTH = 512;

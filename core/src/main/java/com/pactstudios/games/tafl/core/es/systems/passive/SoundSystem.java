@@ -12,7 +12,7 @@ public class SoundSystem extends PassiveEntitySystem {
         this.soundService = soundService;
     }
 
-    public void playShoot() {
+    public void playMove() {
         soundService.playSound(Assets.Sounds.CLICK_SOUND);
     }
 }

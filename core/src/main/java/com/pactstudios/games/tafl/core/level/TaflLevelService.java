@@ -1,22 +1,28 @@
 package com.pactstudios.games.tafl.core.level;
 
+import java.util.Date;
+
 import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.loaders.AsynchronousAssetLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
+import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
-import com.pactstudios.games.tafl.core.es.model.board.RulesEngine;
 import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
-import com.pactstudios.games.tafl.core.es.model.objects.Piece;
+import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
+import com.pactstudios.games.tafl.core.es.model.rules.RulesFactory;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
-import com.pactstudios.games.tafl.core.utils.log.GameLog;
+import com.pactstudios.games.tafl.core.utils.TaflDatabaseService;
 import com.roundtriangles.games.zaria.services.LevelService;
 
 public class TaflLevelService extends LevelService<TaflLevel>{
 
-    public TaflLevelService() {
+    public TaflDatabaseService databaseService;
+
+    public TaflLevelService(TaflDatabaseService databaseService) {
         super(TaflLevel.class, Assets.Game.LEVEL_LIST);
+        this.databaseService = databaseService;
     }
 
     @Override
@@ -24,29 +30,38 @@ public class TaflLevelService extends LevelService<TaflLevel>{
         return new TaflLevelDataLoader(new InternalFileHandleResolver());
     }
 
-    public void initializeLevel(TaflLevel level, TaflWorld gameWorld) {
-        if (level.board == null) {
-            loadBoard(level, gameWorld);
-        } else {
-            level.reset();
-        }
-        createLevelObjects(level, gameWorld);
+    public TaflMatch createNewMatch(TaflLevel level, TaflWorld world) {
+
+        TaflMatch match = new TaflMatch();
+        match.created = new Date();
+        match.updated = new Date();
+        match.name = level.name;
+        match.rules = level.rules;
+        match.dimension = level.dimensions;
+
+        match.pieces = level.pieces;
+        match.board = new GameBoard(level.dimensions);
+        match.rulesEngine = RulesFactory.getRules(level.rules, match);
+        match.turn = match.rulesEngine.turn;
+
+        createLevelObjects(match, world);
+
+        databaseService.createMatch(match);
+
+        return match;
     }
 
-    protected void loadBoard(TaflLevel level, TaflWorld gameWorld) {
-        level.board = new GameBoard(level.dimensions, level.dimensions);
-        level.log = new GameLog();
-        level.rulesEngine = new RulesEngine(level, gameWorld.world);
-    }
-
-    protected void createLevelObjects(TaflLevel level, TaflWorld gameWorld) {
+    protected void createLevelObjects(TaflMatch match, TaflWorld gameWorld) {
         EntityFactorySystem efs = gameWorld.world.getSystem(EntityFactorySystem.class);
-        efs.createBoard(level);
-        efs.createHud(level);
+        efs.createBoard(match);
+        efs.createHud(match);
         efs.createRenderers(gameWorld);
 
-        for (Piece piece : level.pieces) {
-            ModelCell cell = level.board.getCell(piece.x, piece.y);
+        for (GamePiece piece : match.pieces) {
+            piece.updated = new Date();
+            piece.match = match;
+
+            ModelCell cell = match.board.getCell(piece.x, piece.y);
             piece.entity = efs.createPiece(piece);
             cell.piece = piece;
         }

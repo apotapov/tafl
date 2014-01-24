@@ -12,11 +12,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.pactstudios.games.tafl.core.TaflGame;
 import com.pactstudios.games.tafl.core.consts.Constants;
+import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
 import com.pactstudios.games.tafl.core.level.TaflLevel;
-import com.pactstudios.games.tafl.core.profile.TaflProfile;
-import com.pactstudios.games.tafl.core.profile.TaflProfileService;
 import com.roundtriangles.games.zaria.camera.Bounded2DCamera;
 
 public class TaflWorld implements Disposable {
@@ -28,6 +27,7 @@ public class TaflWorld implements Disposable {
     public Stage stage;
 
     public TaflLevel level;
+    public TaflMatch match;
 
     private Array<EntitySystem> activeSystems;
 
@@ -44,12 +44,12 @@ public class TaflWorld implements Disposable {
 
     public void levelComplete() {
         TaflLevel nextLevel = level.nextLevel;
-        if (nextLevel != null) {
-            TaflProfileService profileService = game.getProfileService();
-            TaflProfile profile = profileService.retrieveProfile();
-            profile.currentLevel = nextLevel.name;
-            profileService.persist();
-        }
+        //        if (nextLevel != null) {
+        //            TaflProfileService profileService = game.profileService;
+        //            TaflProfile profile = profileService.retrieveProfile();
+        //            profile.currentLevel = nextLevel.name;
+        //            profileService.persist();
+        //        }
     }
 
     public void initialize() {
@@ -63,7 +63,7 @@ public class TaflWorld implements Disposable {
         SystemFactory.initSystems(this, activeSystems);
         world.initialize();
 
-        game.getLevelService().initializeLevel(level, this);
+        match = game.levelService.createNewMatch(level, this);
 
         lifecycle = Lifecycle.PLAY;
     }

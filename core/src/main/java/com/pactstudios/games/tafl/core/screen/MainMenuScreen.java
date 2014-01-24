@@ -12,46 +12,22 @@ import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
-import com.roundtriangles.games.zaria.services.LocaleService;
 import com.roundtriangles.games.zaria.services.SoundService;
 
 public class MainMenuScreen extends AbstractScreen<TaflGame> {
 
     public MainMenuScreen(final TaflGame game) {
         super(game);
-
-        Skin skin = game.getGraphicsService().getSkin(Assets.Skin.UI_SKIN);
-        Table table = new Table(skin);
-        table.setFillParent(true);
-
-        LocaleService localeService = game.getLocaleService();
-        Label label = new Label(localeService._(LocalizedStrings.MainMenu.GAME_TITLE), skin, Assets.Skin.MENU_STYLE_NAME);
-        table.add(label).spaceBottom(20);
-        table.row();
-
-        String buttonText = localeService._(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_START);
-        TextButton button = createButton(buttonText,
-                skin, game.getLevelSelectionScreen());
-        table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT).uniform().spaceBottom(10);
-        table.row();
-
-        buttonText = localeService._(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_OPTIONS);
-        button = createButton(buttonText,
-                skin, game.getOptionsScreen());
-        table.add(button);
-        table.row();
-
-        stage.addActor(table);
     }
 
     @Override
     public void show() {
         super.show();
-        game.getSoundService().playMusic(Assets.Sounds.MENU_MUSIC);
+        game.soundService.playMusic(Assets.Sounds.MENU_MUSIC);
     }
 
     private TextButton createButton(String text, Skin skin, final Screen screen) {
-        final SoundService soundService = game.getSoundService();
+        final SoundService soundService = game.soundService;
 
         TextButton button = new TextButton(text, skin, Assets.Skin.MENU_STYLE_NAME);
         button.addListener(new ChangeListener() {
@@ -63,5 +39,36 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
             }
         });
         return button;
+    }
+
+    @Override
+    public void initialize() {
+        Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
+        Table table = new Table(skin);
+        table.setFillParent(true);
+
+        Label label = new Label(game.localeService.get(LocalizedStrings.MainMenu.GAME_TITLE), skin, Assets.Skin.MENU_STYLE_NAME);
+        table.add(label).spaceBottom(20);
+        table.row();
+
+        String buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_START);
+        TextButton button = createButton(buttonText,
+                skin, game.levelSelectionScreen);
+        table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT).uniform().spaceBottom(10);
+        table.row();
+
+        buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_RESUME);
+        button = createButton(buttonText,
+                skin, game.gamePlayScreen);
+        table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT).uniform().spaceBottom(10);
+        table.row();
+
+        buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_OPTIONS);
+        button = createButton(buttonText,
+                skin, game.optionsScreen);
+        table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT).uniform().spaceBottom(10);
+        table.row();
+
+        stage.addActor(table);
     }
 }

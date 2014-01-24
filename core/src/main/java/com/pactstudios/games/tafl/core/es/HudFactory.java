@@ -17,7 +17,7 @@ import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingCompo
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
 import com.pactstudios.games.tafl.core.es.systems.render.hud.HudBackground;
-import com.roundtriangles.games.zaria.services.LocaleService;
+import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
 
 public class HudFactory {
@@ -26,16 +26,14 @@ public class HudFactory {
             HudRenderingComponent component,
             TaflWorld gameWorld) {
 
-        LocaleService localeService = gameWorld.game.getLocaleService();
-
         component.hubStage = gameWorld.stage;
 
-        Skin skin = gameWorld.game.getGraphicsService().getSkin(Assets.Skin.UI_SKIN);
+        Skin skin = gameWorld.game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
 
         createUpperHud(component, skin, gameWorld);
-        createLowerHud(component, skin, localeService);
+        createLowerHud(component, skin, gameWorld.game.localeService);
 
-        createDialogs(component, gameWorld.world, skin, localeService);
+        createDialogs(component, gameWorld.world, skin, gameWorld.game.localeService);
     }
 
     private static void createDialogs(final HudRenderingComponent component, final World world, Skin skin, LocaleService localeService) {
@@ -67,18 +65,18 @@ public class HudFactory {
             World world, Skin skin, LocaleService localeService, ChangeListener restartListener,
             ChangeListener quitListener) {
 
-        String text = localeService._(LocalizedStrings.GameMenu.LOSS_TITLE);
+        String text = localeService.get(LocalizedStrings.GameMenu.LOSS_TITLE);
         component.lossDialog = new Dialog(text, skin);
 
         component.lossDialog.setSkin(skin);
-        text = localeService._(LocalizedStrings.GameMenu.LOSS_TEXT);
+        text = localeService.get(LocalizedStrings.GameMenu.LOSS_TEXT);
         component.lossDialog.add(text);
 
-        text = localeService._(LocalizedStrings.GameMenu.RESTART_BUTTON);
+        text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
         TextButton restartButton = new TextButton(text, skin);
         restartButton.addListener(restartListener);
 
-        text = localeService._(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON);
+        text = localeService.get(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON);
         TextButton quitButton = new TextButton(text, skin);
         quitButton.addListener(quitListener);
 
@@ -90,19 +88,19 @@ public class HudFactory {
             World world, Skin skin, LocaleService localeService, ChangeListener restartListener,
             ChangeListener quitListener) {
 
-        String text = localeService._(LocalizedStrings.GameMenu.WIN_TITLE);
+        String text = localeService.get(LocalizedStrings.GameMenu.WIN_TITLE);
         component.winDialog = new Dialog(text, skin);
 
         component.winDialog.setSkin(skin);
 
-        text = localeService._(LocalizedStrings.GameMenu.WIN_TEXT);
+        text = localeService.get(LocalizedStrings.GameMenu.WIN_TEXT);
         component.winDialog.add(text);
 
-        text = localeService._(LocalizedStrings.GameMenu.RESTART_BUTTON);
+        text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
         TextButton restartButton = new TextButton(text, skin);
         restartButton.addListener(restartListener);
 
-        text = localeService._(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON);
+        text = localeService.get(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON);
         TextButton quitButton = new TextButton(text, skin);
         quitButton.addListener(quitListener);
 
@@ -113,15 +111,15 @@ public class HudFactory {
     private static void createMenuDialog(final HudRenderingComponent component,
             final World world, Skin skin, LocaleService localeService, ChangeListener restartListener, ChangeListener quitListener) {
 
-        String text = localeService._(LocalizedStrings.GameMenu.MENU_TITLE);
+        String text = localeService.get(LocalizedStrings.GameMenu.MENU_TITLE);
         component.menu = new Dialog(text, skin);
 
         component.menu.setSkin(skin);
 
-        text = localeService._(LocalizedStrings.GameMenu.MENU_TEXT);
+        text = localeService.get(LocalizedStrings.GameMenu.MENU_TEXT);
         component.menu.add(text);
 
-        text = localeService._(LocalizedStrings.GameMenu.RESUME_BUTTON);
+        text = localeService.get(LocalizedStrings.GameMenu.RESUME_BUTTON);
         TextButton resumeButton = new TextButton(text, skin);
         resumeButton.addListener(new ChangeListener() {
             @Override
@@ -133,11 +131,11 @@ public class HudFactory {
         });
         component.menu.button(resumeButton);
 
-        text = localeService._(LocalizedStrings.GameMenu.RESTART_BUTTON);
+        text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
         TextButton restartButton = new TextButton(text, skin);
         restartButton.addListener(restartListener);
 
-        text = localeService._(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON);
+        text = localeService.get(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON);
         TextButton quitButton = new TextButton(text, skin);
         quitButton.addListener(quitListener);
 
@@ -158,8 +156,8 @@ public class HudFactory {
         component.turn = new Label("", skin);
         table.add(component.turn).expandX();
 
-        component.gameTime = new Label("", skin);
-        table.add(component.gameTime).expandX();
+        component.timer = new Label("", skin);
+        table.add(component.timer).expandX();
 
         if (Constants.GameConstants.DEBUG) {
             component.mouseLocation = new Label("", skin);
@@ -190,10 +188,9 @@ public class HudFactory {
     private static void createButtons(HudRenderingComponent component,
             Skin skin, Table table, final TaflWorld gameWorld) {
 
-        LocaleService localeService = gameWorld.game.getLocaleService();
         final World world = gameWorld.world;
 
-        String text = localeService._(LocalizedStrings.Hud.MENU_BUTTON);
+        String text = gameWorld.game.localeService.get(LocalizedStrings.Hud.MENU_BUTTON);
         TextButton button = new TextButton(text, skin);
         button.addListener(new ChangeListener() {
             @Override

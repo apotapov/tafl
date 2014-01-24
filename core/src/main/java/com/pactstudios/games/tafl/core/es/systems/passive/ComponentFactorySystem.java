@@ -17,12 +17,12 @@ import com.pactstudios.games.tafl.core.es.components.render.DrawableComponent;
 import com.pactstudios.games.tafl.core.es.components.render.HighlightComponent;
 import com.pactstudios.games.tafl.core.es.components.render.OffsetComponent;
 import com.pactstudios.games.tafl.core.es.components.render.ScallingComponent;
-import com.pactstudios.games.tafl.core.es.components.singleton.GameBoardComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
+import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
+import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
-import com.pactstudios.games.tafl.core.level.TaflLevel;
 import com.roundtriangles.games.zaria.services.GraphicsService;
 
 public class ComponentFactorySystem extends PassiveEntitySystem {
@@ -84,16 +84,15 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         return component;
     }
 
-    public GameBoardComponent createBoardComponent(TaflLevel level) {
-        GameBoardComponent component = createComponent(GameBoardComponent.class);
-        component.board = level.board;
-        component.rulesEngine = level.rulesEngine;
+    public MatchComponent createBoardComponent(TaflMatch match) {
+        MatchComponent component = createComponent(MatchComponent.class);
+        component.match = match;
         return component;
     }
 
-    public HudComponent createHudComponent(TaflLevel level) {
+    public HudComponent createHudComponent(TaflMatch match) {
         HudComponent component = createComponent(HudComponent.class);
-        component.log = level.log;
+        component.match = match;
         return component;
     }
 

@@ -15,11 +15,7 @@ import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.pactstudios.games.tafl.core.level.TaflLevel;
 import com.pactstudios.games.tafl.core.level.TaflLevelService;
-import com.pactstudios.games.tafl.core.profile.TaflProfile;
-import com.pactstudios.games.tafl.core.profile.TaflProfileService;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
-import com.roundtriangles.games.zaria.services.LocaleService;
-import com.roundtriangles.games.zaria.services.SoundService;
 
 public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
 
@@ -29,20 +25,17 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         super(game);
 
         localizedMap = new ObjectMap<String, String>();
+    }
 
-        TaflProfileService profileService = game.getProfileService();
-        TaflProfile profile = profileService.retrieveProfile();
+    @Override
+    public void initialize() {
+        TaflLevelService levelService = game.levelService;
 
-        TaflLevelService levelService = game.getLevelService();
-
-        Skin skin = game.getGraphicsService().getSkin(Assets.Skin.UI_SKIN);
+        Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
         Table table = new Table(skin);
         table.setFillParent(true);
 
-        LocaleService localeService = game.getLocaleService();
-        final SoundService soundService = game.getSoundService();
-
-        table.add(localeService._(LocalizedStrings.LevelSelectionMenu.LEVEL_SELECTION_TITLE)).spaceBottom(20);
+        table.add(game.localeService.get(LocalizedStrings.LevelSelectionMenu.LEVEL_SELECTION_TITLE)).spaceBottom(20);
         table.row();
 
 
@@ -50,33 +43,25 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         String[] levelNames = new String[levels.size];
         int i = 0;
         for (String name : levels.keys()) {
-            String localizedName = localeService._(name);
+            String localizedName = game.localeService.get(name);
             levelNames[i++] = localizedName;
             localizedMap.put(localizedName, name);
         }
 
         final List list = new List(levelNames, skin, Assets.Skin.MENU_STYLE_NAME);
-        if (profile.currentLevel != null) {
-            //list.setSelection(localeService._(profile.currentLevel));
-            list.setSelectedIndex(0);
-        } else {
-            profile.currentLevel = localizedMap.get(levelNames[0]);
-            profileService.persist();
-            list.setSelectedIndex(0);
-        }
+        list.setSelectedIndex(0);
 
         table.add(list).size(Constants.ScreenConstants.LIST_WIDTH, Constants.ScreenConstants.LIST_HEIGHT).uniform().spaceBottom(10);
         table.row();
 
-        String text = localeService._(LocalizedStrings.LevelSelectionMenu.PLAY_LEVEL_BUTTON);
+        String text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.PLAY_LEVEL_BUTTON);
         TextButton button = new TextButton(text, skin, Assets.Skin.MENU_STYLE_NAME);
         button.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                soundService.playSound(Assets.Sounds.CLICK_SOUND);
-                GamePlayScreen screen = game.getGamePlayScreen();
-                screen.setLevel(levels.get(localizedMap.get(list.getSelection())));
-                game.setScreen(screen);
+                game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
+                game.gamePlayScreen.setLevel(levels.get(localizedMap.get(list.getSelection())));
+                game.setScreen(game.gamePlayScreen);
             }
         });
         table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT).uniform();

@@ -17,7 +17,7 @@ public class HudRenderingComponent implements RenderingComponent {
 
     // upper hud
     public Label turn;
-    public Label gameTime;
+    public Label timer;
 
     // debug
     public Label mouseLocation;
@@ -31,7 +31,7 @@ public class HudRenderingComponent implements RenderingComponent {
         winDialog = null;
         lossDialog = null;
         turn = null;
-        gameTime = null;
+        timer = null;
     }
 
     @Override

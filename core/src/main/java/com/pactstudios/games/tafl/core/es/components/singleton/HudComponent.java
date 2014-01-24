@@ -2,13 +2,10 @@ package com.pactstudios.games.tafl.core.es.components.singleton;
 
 import com.artemis.Component;
 import com.badlogic.gdx.math.Vector2;
-import com.pactstudios.games.tafl.core.es.model.objects.Team;
-import com.pactstudios.games.tafl.core.utils.log.GameLog;
+import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 
 public class HudComponent implements Component {
-    public float gameTime;
-    public GameLog log;
-    public Team turn;
+    public TaflMatch match;
 
     public Vector2 mouseLocation;
     public int fps;
@@ -19,9 +16,7 @@ public class HudComponent implements Component {
 
     @Override
     public void reset() {
-        gameTime = 0;
-        log = null;
-        turn = null;
+        match = null;
         mouseLocation.set(0, 0);
         fps = 0;
     }

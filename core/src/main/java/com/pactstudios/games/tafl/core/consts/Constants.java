@@ -35,8 +35,10 @@ public final class Constants {
     public static final class PieceConstants {
         private PieceConstants() {
         }
-        public static final float FRAME_DURATION = 0.2f;
         public static final float SCALING = 2f;
+
+        public static final float FRAME_DURATION = 0.2f;
+        public static final float EXPLOSION_FRAME_DURATION = 0.05f;
     }
 
     public static final class BoardConstants {
@@ -67,5 +69,19 @@ public final class Constants {
         public static final int GAME_WIDTH = 600;
         public static final int GAME_HEIGHT = 1000;
         public static final boolean USE_GL20 = false;
+    }
+
+    public static final class DbConstants {
+        private DbConstants() {
+        }
+        public static final String DB_URL_PREFIX = "jdbc:sqlite:";
+        public static final String SQLITE_DB_NAME = "tafl";
+        public static final String SQLITE_DB_FILE = SQLITE_DB_NAME + ".db";
+
+        public static final int CURRENT_DB_VERSION = 0;
+
+        public static final String MATCH_TABLE = "matches";
+        public static final String PIECE_TABLE = "pieces";
+        public static final String LOG_TABLE = "log";
     }
 }

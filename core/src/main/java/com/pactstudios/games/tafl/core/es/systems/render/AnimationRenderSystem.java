@@ -41,9 +41,13 @@ public class AnimationRenderSystem extends RenderingSystem<MapRenderingComponent
     @Override
     protected void process(Entity e, MapRenderingComponent rendComponent) {
         AnimationComponent animationComponent = animationMapper.get(e);
-        animationComponent.incrementStateTime(world.getDelta());
-        TextureRegion region = animationComponent.getFrame();
-        renderer.drawRegion(rendComponent, e, region);
+        if (animationComponent.isFinished()) {
+            e.deleteFromWorld();
+        } else {
+            animationComponent.incrementStateTime(world.getDelta());
+            TextureRegion region = animationComponent.getFrame();
+            renderer.drawRegion(rendComponent, e, region);
+        }
     }
 
 }

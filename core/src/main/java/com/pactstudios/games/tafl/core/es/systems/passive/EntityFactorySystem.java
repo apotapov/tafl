@@ -10,10 +10,10 @@ import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.render.AnimationComponent;
+import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
-import com.pactstudios.games.tafl.core.es.model.objects.Piece;
-import com.pactstudios.games.tafl.core.level.TaflLevel;
-import com.pactstudios.games.tafl.core.utils.MapUtils;
+import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
+import com.pactstudios.games.tafl.core.utils.BoardUtils;
 
 public class EntityFactorySystem extends PassiveEntitySystem {
 
@@ -29,14 +29,14 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         groupManager = world.getManager(GroupManager.class);
     }
 
-    public Entity createBoard(TaflLevel level) {
+    public Entity createBoard(TaflMatch match) {
         return singletonManager.addSingletonComponent(
-                componentFactory.createBoardComponent(level));
+                componentFactory.createBoardComponent(match));
     }
 
-    public Entity createHud(TaflLevel level) {
+    public Entity createHud(TaflMatch match) {
         return singletonManager.addSingletonComponent(
-                componentFactory.createHudComponent(level));
+                componentFactory.createHudComponent(match));
     }
 
     public Entity createRenderers(TaflWorld gameWorld) {
@@ -46,10 +46,10 @@ public class EntityFactorySystem extends PassiveEntitySystem {
                 componentFactory.createHudRenderingComponent(gameWorld));
     }
 
-    public Entity createPiece(Piece piece) {
+    public Entity createPiece(GamePiece piece) {
         Entity e = world.createEntity();
 
-        Vector2 position = MapUtils.getTilePositionCenter(piece.x, piece.y);
+        Vector2 position = BoardUtils.getTilePositionCenter(piece.x, piece.y);
         e.addComponent(componentFactory.createPositionComponent(position));
 
         AnimationComponent ac = componentFactory.createAnimationComponent(
@@ -72,6 +72,23 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         e.addComponent(componentFactory.createHilightComponent(cell, Constants.BoardConstants.HIGHLIGHT_COLOR));
 
         groupManager.add(e, Constants.GroupConstants.HIGHLIGHTED_CELLS);
+
+        e.addToWorld();
+        return e;
+    }
+
+    public Entity createCaptureAnimation(ModelCell cell) {
+        Entity e = world.createEntity();
+
+        Vector2 position = BoardUtils.getTilePositionCenter(cell.x, cell.y);
+        e.addComponent(componentFactory.createPositionComponent(position));
+
+        AnimationComponent ac = componentFactory.createAnimationComponent(
+                Assets.Graphics.EXPLOSION_ATLAS,
+                Assets.Graphics.EXPLOSION,
+                Animation.NORMAL,
+                Constants.PieceConstants.EXPLOSION_FRAME_DURATION);
+        e.addComponent(ac);
 
         e.addToWorld();
         return e;

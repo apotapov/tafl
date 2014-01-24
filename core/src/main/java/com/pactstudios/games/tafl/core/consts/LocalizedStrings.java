@@ -4,6 +4,7 @@ public class LocalizedStrings {
     public enum MainMenu {
         GAME_TITLE,
         MAIN_MENU_BUTTON_START,
+        MAIN_MENU_BUTTON_RESUME,
         MAIN_MENU_BUTTON_OPTIONS,
         MAIN_MENU_BUTTON
     }

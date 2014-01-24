@@ -8,7 +8,7 @@ import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
 import com.roundtriangles.games.zaria.services.GraphicsService;
-import com.roundtriangles.games.zaria.services.LocaleService;
+import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
 public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
 
@@ -34,11 +34,11 @@ public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
     protected void process(Entity e, HudRenderingComponent rendComponent) {
         HudComponent hudComponent = hudMapper.get(e);
         if (hudComponent != null) {
-            String text = localeService._(LocalizedStrings.Hud.TURN_LABEL, hudComponent.turn);
+            String text = localeService.get(LocalizedStrings.Hud.TURN_LABEL, hudComponent.match.rulesEngine.turn);
             rendComponent.turn.setText(text);
 
-            text = localeService._(LocalizedStrings.Hud.GAME_TIME_LABEL, floatToTime(hudComponent.gameTime));
-            rendComponent.gameTime.setText(text);
+            text = localeService.get(LocalizedStrings.Hud.GAME_TIME_LABEL, floatToTime(hudComponent.match.timer));
+            rendComponent.timer.setText(text);
 
             if (Constants.GameConstants.DEBUG) {
                 rendComponent.mouseLocation.setText("Mouse: " +

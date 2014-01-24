@@ -4,14 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 
-public class MapUtils {
-
-    public enum RelativePosition {
-        ABOVE,
-        BELOW,
-        RIGHT,
-        LEFT;
-    }
+public class BoardUtils {
 
     private static Vector2 position = new Vector2();
 

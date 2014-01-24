@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.render.HighlightComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
-import com.pactstudios.games.tafl.core.utils.MapUtils;
+import com.pactstudios.games.tafl.core.utils.BoardUtils;
 
 public class CellHighlightRenderSystem extends RenderingSystem<MapRenderingComponent> {
 
@@ -46,7 +46,7 @@ public class CellHighlightRenderSystem extends RenderingSystem<MapRenderingCompo
         HighlightComponent component = mapper.get(e);
         rendComponent.shapeRenderer.setColor(component.color);
 
-        Vector2 position = MapUtils.getTilePosition(component.cell);
+        Vector2 position = BoardUtils.getTilePosition(component.cell);
 
         rendComponent.shapeRenderer.rect(position.x, position.y, Constants.BoardConstants.TILE_SIZE, Constants.BoardConstants.TILE_SIZE);
     }

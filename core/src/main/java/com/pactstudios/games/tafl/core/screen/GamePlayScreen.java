@@ -47,4 +47,8 @@ public class GamePlayScreen extends AbstractScreen<TaflGame> {
     public void render(float delta) {
         world.render(delta);
     }
+
+    @Override
+    public void initialize() {
+    }
 }

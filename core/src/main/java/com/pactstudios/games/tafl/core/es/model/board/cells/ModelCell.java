@@ -1,7 +1,7 @@
 package com.pactstudios.games.tafl.core.es.model.board.cells;
 
 import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
-import com.pactstudios.games.tafl.core.es.model.objects.Piece;
+import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 
 
 public abstract class ModelCell {
@@ -11,7 +11,7 @@ public abstract class ModelCell {
     public GameBoard board;
     public int x;
     public int y;
-    public Piece piece;
+    public GamePiece piece;
     public String name;
 
     public ModelCell(int x, int y, GameBoard board) {

@@ -6,24 +6,25 @@ import com.artemis.Entity;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.es.components.singleton.GameBoardComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
+import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
+import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
-import com.pactstudios.games.tafl.core.utils.MapUtils;
+import com.pactstudios.games.tafl.core.utils.BoardUtils;
 
 public class GameBoardRenderSystem extends RenderingSystem<MapRenderingComponent> {
 
-    ComponentMapper<GameBoardComponent> boardMapper;
+    ComponentMapper<MatchComponent> boardMapper;
 
     @SuppressWarnings("unchecked")
     public GameBoardRenderSystem() {
-        super(Aspect.getAspectForAll(GameBoardComponent.class), MapRenderingComponent.class);
+        super(Aspect.getAspectForAll(MatchComponent.class), MapRenderingComponent.class);
     }
 
     @Override
     public void initialize() {
         super.initialize();
-        boardMapper = world.getMapper(GameBoardComponent.class);
+        boardMapper = world.getMapper(MatchComponent.class);
     }
 
     @Override
@@ -40,29 +41,32 @@ public class GameBoardRenderSystem extends RenderingSystem<MapRenderingComponent
 
     @Override
     protected void process(Entity e, MapRenderingComponent rendComponent) {
-        GameBoardComponent boardComponent = boardMapper.get(e);
+        MatchComponent matchComponent = boardMapper.get(e);
+        GameBoard board = matchComponent.match.board;
 
-        int boardSize = boardComponent.board.width * Constants.BoardConstants.TILE_SIZE;
-        for (int i = 0; i <= boardComponent.board.width; i++) {
+        int boardSize = board.dimentions * Constants.BoardConstants.TILE_SIZE;
+        for (int i = 0; i <= board.dimentions; i++) {
             int location = Constants.BoardConstants.TILE_SIZE * i;
             rendComponent.shapeRenderer.line(location, 0, location, boardSize);
-        }
-
-        for (int i = 0; i <= boardComponent.board.width; i++) {
-            int location = Constants.BoardConstants.TILE_SIZE * i;
             rendComponent.shapeRenderer.line(0, location, boardSize, location);
         }
 
 
-        for (int i = 0; i < boardComponent.board.width; i++) {
-            for (int j = 0; j < boardComponent.board.height; j++) {
-                ModelCell cell = boardComponent.board.getCell(i, j);
+        for (int i = 0; i < board.dimentions; i++) {
+            for (int j = 0; j < board.dimentions; j++) {
+                ModelCell cell = board.getCell(i, j);
                 if (!cell.canWalk()) {
-                    Vector2 position = MapUtils.getTilePosition(i, j);
-                    rendComponent.shapeRenderer.line(position.x, position.y,
-                            position.x + Constants.BoardConstants.TILE_SIZE, position.y + Constants.BoardConstants.TILE_SIZE);
-                    rendComponent.shapeRenderer.line(position.x, position.y + Constants.BoardConstants.TILE_SIZE,
-                            position.x + Constants.BoardConstants.TILE_SIZE, position.y);
+                    Vector2 position = BoardUtils.getTilePosition(i, j);
+
+                    rendComponent.shapeRenderer.line(position.x,
+                            position.y,
+                            position.x + Constants.BoardConstants.TILE_SIZE,
+                            position.y + Constants.BoardConstants.TILE_SIZE);
+
+                    rendComponent.shapeRenderer.line(position.x,
+                            position.y + Constants.BoardConstants.TILE_SIZE,
+                            position.x + Constants.BoardConstants.TILE_SIZE,
+                            position.y);
                 }
             }
         }

@@ -21,7 +21,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
 
     ObjectMap<String, String> localizedMap;
 
-    public LevelSelectionScreen(final TaflGame game) {
+    public LevelSelectionScreen(TaflGame game) {
         super(game);
 
         localizedMap = new ObjectMap<String, String>();
@@ -61,6 +61,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
             public void changed (ChangeEvent event, Actor actor) {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
                 game.gamePlayScreen.setLevel(levels.get(localizedMap.get(list.getSelection())));
+                game.gamePlayScreen.createNewMatch();
                 game.setScreen(game.gamePlayScreen);
             }
         });

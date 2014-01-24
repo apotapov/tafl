@@ -52,6 +52,8 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         Vector2 position = BoardUtils.getTilePositionCenter(piece.x, piece.y);
         e.addComponent(componentFactory.createPositionComponent(position));
 
+        e.addComponent(componentFactory.createPieceComponent(piece));
+
         AnimationComponent ac = componentFactory.createAnimationComponent(
                 Assets.Graphics.CREATURE_ATLAS,
                 piece.type.graphic,

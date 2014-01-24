@@ -18,6 +18,14 @@ public class GamePlayScreen extends AbstractScreen<TaflGame> {
         world.setLevel(level);
     }
 
+    public void createNewMatch() {
+        world.createNewMatch();
+    }
+
+    public boolean loadExistingMatch() {
+        return world.loadExistingMatch();
+    }
+
     @Override
     public void resize(int width, int height) {
         world.resize(width, height);

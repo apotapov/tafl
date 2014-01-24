@@ -13,8 +13,12 @@ import com.badlogic.gdx.utils.Disposable;
 import com.pactstudios.games.tafl.core.TaflGame;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
+import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
+import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
+import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
+import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
 import com.pactstudios.games.tafl.core.level.TaflLevel;
 import com.roundtriangles.games.zaria.camera.Bounded2DCamera;
 
@@ -63,9 +67,10 @@ public class TaflWorld implements Disposable {
         SystemFactory.initSystems(this, activeSystems);
         world.initialize();
 
-        match = game.levelService.createNewMatch(level, this);
+        createLevelObjects();
 
         lifecycle = Lifecycle.PLAY;
+        world.getSystem(CellHighlightSystem.class).highlightTeam(match.turn);
     }
 
     public void render(float delta) {
@@ -83,7 +88,7 @@ public class TaflWorld implements Disposable {
     }
 
     public void resize(int width, int height) {
-        float boardSize = level.dimensions * Constants.BoardConstants.TILE_SIZE;
+        float boardSize = match.dimensions * Constants.BoardConstants.TILE_SIZE;
         float center = boardSize / 2.0f;
 
         this.camera.position.set(center, center, 0);
@@ -113,6 +118,9 @@ public class TaflWorld implements Disposable {
 
     public void restart() {
         dispose();
+
+        createNewMatch();
+
         initialize();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
@@ -123,5 +131,39 @@ public class TaflWorld implements Disposable {
         activeSystems.clear();
         stage.clear();
         lifecycle = null;
+    }
+
+    public boolean createNewMatch() {
+        if (level == null && match == null) {
+            game.setScreen(game.levelSelectionScreen);
+        } else if (level == null) {
+            level = game.levelService.getLevel(match.name);
+        }
+        match = game.levelService.createNewMatch(level);
+        return match != null;
+    }
+
+    public boolean loadExistingMatch() {
+        TaflMatch match = game.databaseService.loadMatch();
+        if (match != null) {
+            this.match = match;
+            return true;
+        }
+        return false;
+    }
+
+    protected void createLevelObjects() {
+        EntityFactorySystem efs = world.getSystem(EntityFactorySystem.class);
+        efs.createBoard(match);
+        efs.createHud(match);
+        efs.createRenderers(this);
+
+        for (GamePiece piece : match.pieces) {
+            if (piece.killed == null) {
+                ModelCell cell = match.board.getCell(piece.x, piece.y);
+                piece.entity = efs.createPiece(piece);
+                cell.piece = piece;
+            }
+        }
     }
 }

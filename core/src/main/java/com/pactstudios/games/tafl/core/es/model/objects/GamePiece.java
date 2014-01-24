@@ -67,4 +67,16 @@ public class GamePiece {
     public String toString() {
         return Integer.toString(_id);
     }
+
+    @Override
+    public GamePiece clone() {
+        GamePiece piece = new GamePiece();
+        piece.killed = this.killed;
+        piece.match = this.match;
+        piece.type = this.type;
+        piece.updated = this.updated;
+        piece.x = this.x;
+        piece.y = this.y;
+        return piece;
+    }
 }

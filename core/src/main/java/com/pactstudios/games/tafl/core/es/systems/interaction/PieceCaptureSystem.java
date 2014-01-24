@@ -2,10 +2,12 @@ package com.pactstudios.games.tafl.core.es.systems.interaction;
 
 import com.artemis.Aspect;
 import com.artemis.Entity;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceCaptureEvent;
+import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
 import com.pactstudios.games.tafl.core.utils.TaflDatabaseService;
 
@@ -13,6 +15,7 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
 
     TaflDatabaseService dbService;
 
+    CellHighlightSystem highlightSystem;
     EntityFactorySystem efs;
 
     @SuppressWarnings("unchecked")
@@ -24,6 +27,7 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
     @Override
     public void initialize() {
         super.initialize();
+        highlightSystem = world.getSystem(CellHighlightSystem.class);
         efs = world.getSystem(EntityFactorySystem.class);
     }
 
@@ -32,10 +36,13 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
         for (ModelCell cell : event.capturedPieces) {
 
             cell.piece.killed = event.entry;
+            cell.piece.x = Constants.BoardConstants.OFF_BOARD;
+            cell.piece.y = Constants.BoardConstants.OFF_BOARD;
             dbService.updatePiece(cell.piece);
 
             cell.piece.entity.deleteFromWorld();
             cell.piece = null;
+            highlightSystem.clearCellHighlights(cell);
             efs.createCaptureAnimation(cell);
         }
     }

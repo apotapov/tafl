@@ -48,7 +48,7 @@ public class TaflMatch {
     public Team turn;
 
     @DatabaseField(columnName = DIMENSION_COLUMN, canBeNull = false)
-    public int dimension;
+    public int dimensions;
 
     @DatabaseField(columnName = RULE_ENGINE_COLUMN, canBeNull = false)
     public RulesEngineType rules;

@@ -17,6 +17,9 @@ public final class Constants {
 
         public static final int LIST_WIDTH = 200;
         public static final int LIST_HEIGHT = 200;
+
+        public static final float FADE_TIME = 1f;
+        public static final float DISPLAY_TIME = 1.75f;
     }
 
     public static final class GroupConstants {
@@ -49,6 +52,8 @@ public final class Constants {
 
         public static final Color BACKGROUND_COLOR = new Color(0.5f, .25f, .25f, 1f);
         public static final Color HIGHLIGHT_COLOR = new Color(1f, 1f, 1f, 0.25f);
+
+        public static final int OFF_BOARD = -1;
     }
 
     public static final class HudConstants {
@@ -83,5 +88,7 @@ public final class Constants {
         public static final String MATCH_TABLE = "matches";
         public static final String PIECE_TABLE = "pieces";
         public static final String LOG_TABLE = "log";
+
+        public static final int MATCH_TO_RESUME = 1;
     }
 }

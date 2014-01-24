@@ -18,7 +18,7 @@ public class BasicRulesEngine extends RulesEngine {
     Array<ModelCell> capturedPieces;
 
     public BasicRulesEngine(TaflMatch match) {
-        super(match, Team.BLACK);
+        super(match);
         legalMoves = new Array<ModelCell>();
         capturedPieces = new Array<ModelCell>();
 
@@ -204,5 +204,10 @@ public class BasicRulesEngine extends RulesEngine {
         } else {
             return new RegularCell(x, y, board);
         }
+    }
+
+    @Override
+    public Team getFirstTurn() {
+        return Team.BLACK;
     }
 }

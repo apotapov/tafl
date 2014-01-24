@@ -10,29 +10,28 @@ import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycl
 public abstract class RulesEngine {
 
     public TaflMatch match;
-    public Team turn;
 
     public enum RulesEngineType {
         BASIC;
     }
 
-    public RulesEngine(TaflMatch match, Team turn) {
+    public RulesEngine(TaflMatch match) {
         this.match = match;
-        this.turn = turn;
     }
 
     public void changeTurn() {
-        if (turn == Team.BLACK) {
-            turn = Team.WHITE;
+        if (match.turn == Team.BLACK) {
+            match.turn = Team.WHITE;
         } else {
-            turn = Team.BLACK;
+            match.turn = Team.BLACK;
         }
     }
 
     public boolean checkTurn(GamePiece piece) {
-        return piece != null && piece.type.team == turn;
+        return piece != null && piece.type.team == match.turn;
     }
 
+    public abstract Team getFirstTurn();
     public abstract Array<ModelCell> getCapturedPieces(ModelCell end);
     public abstract Lifecycle checkGameState(ModelCell end, Array<ModelCell> capturedPieces);
     public abstract boolean legalMove(GamePiece piece, ModelCell start, ModelCell end);

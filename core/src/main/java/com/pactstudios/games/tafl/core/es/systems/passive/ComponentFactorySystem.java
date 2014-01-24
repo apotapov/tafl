@@ -10,6 +10,7 @@ import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.HudFactory;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
+import com.pactstudios.games.tafl.core.es.components.interaction.PieceComponent;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.movement.VelocityComponent;
 import com.pactstudios.games.tafl.core.es.components.render.AnimationComponent;
@@ -23,6 +24,7 @@ import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingCompo
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
+import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.roundtriangles.games.zaria.services.GraphicsService;
 
 public class ComponentFactorySystem extends PassiveEntitySystem {
@@ -117,6 +119,12 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         HighlightComponent component = createComponent(HighlightComponent.class);
         component.cell = cell;
         component.color = color;
+        return component;
+    }
+
+    public PieceComponent createPieceComponent(GamePiece piece) {
+        PieceComponent component = createComponent(PieceComponent.class);
+        component.piece = piece;
         return component;
     }
 }

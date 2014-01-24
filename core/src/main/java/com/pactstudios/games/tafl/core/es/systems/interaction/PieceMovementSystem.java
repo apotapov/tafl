@@ -80,6 +80,8 @@ public class PieceMovementSystem extends EventProcessingSystem<PieceMoveEvent> {
                 match.rulesEngine.checkGameState(event.end, capturedPieces);
         if (lifecycle == Lifecycle.PLAY) {
             match.rulesEngine.changeTurn();
+            dbService.updateMatch(match);
+            highlightSystem.highlightTeam(match.turn);
         } else {
             LifecycleEvent lce = world.createEvent(LifecycleEvent.class);
             lce.lifecycle = lifecycle;
@@ -99,10 +101,12 @@ public class PieceMovementSystem extends EventProcessingSystem<PieceMoveEvent> {
         PositionComponent position = positionMapper.get(event.piece.entity);
         position.position.set(newPosition);
 
-        soundSystem.playMove();
+        event.piece.x = event.end.x;
+        event.piece.y = event.end.y;
 
         dbService.updatePiece(event.piece);
-        dbService.updateMatch(match);
+
+        soundSystem.playMove();
 
         return log(match, event);
     }

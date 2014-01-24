@@ -1,18 +1,14 @@
 package com.pactstudios.games.tafl.core.screen;
 
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.pactstudios.games.tafl.core.TaflGame;
 import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
-import com.roundtriangles.games.zaria.services.SoundService;
 
 public class MainMenuScreen extends AbstractScreen<TaflGame> {
 
@@ -26,46 +22,29 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
         game.soundService.playMusic(Assets.Sounds.MENU_MUSIC);
     }
 
-    private TextButton createButton(String text, Skin skin, final Screen screen) {
-        final SoundService soundService = game.soundService;
-
-        TextButton button = new TextButton(text, skin, Assets.Skin.MENU_STYLE_NAME);
-        button.addListener(new ChangeListener() {
-
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                soundService.playSound(Assets.Sounds.CLICK_SOUND);
-                game.setScreen(screen);
-            }
-        });
-        return button;
-    }
-
     @Override
     public void initialize() {
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
         Table table = new Table(skin);
         table.setFillParent(true);
 
-        Label label = new Label(game.localeService.get(LocalizedStrings.MainMenu.GAME_TITLE), skin, Assets.Skin.MENU_STYLE_NAME);
+        String labelText = game.localeService.get(LocalizedStrings.MainMenu.GAME_TITLE);
+        Label label = new Label(labelText, skin, Assets.Skin.MENU_STYLE_NAME);
         table.add(label).spaceBottom(20);
         table.row();
 
         String buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_START);
-        TextButton button = createButton(buttonText,
-                skin, game.levelSelectionScreen);
+        Button button = game.createSwitchScreenButton(buttonText, game.levelSelectionScreen);
         table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT).uniform().spaceBottom(10);
         table.row();
 
         buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_RESUME);
-        button = createButton(buttonText,
-                skin, game.gamePlayScreen);
+        button = game.createSwitchScreenButton(buttonText, game.loadGameScreen);
         table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT).uniform().spaceBottom(10);
         table.row();
 
         buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_OPTIONS);
-        button = createButton(buttonText,
-                skin, game.optionsScreen);
+        button = game.createSwitchScreenButton(buttonText, game.optionsScreen);
         table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT).uniform().spaceBottom(10);
         table.row();
 

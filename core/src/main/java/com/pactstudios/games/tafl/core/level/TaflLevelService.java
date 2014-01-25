@@ -11,6 +11,7 @@ import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.pactstudios.games.tafl.core.es.model.rules.RulesFactory;
+import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
 import com.pactstudios.games.tafl.core.utils.TaflDatabaseService;
 import com.roundtriangles.games.zaria.services.LevelService;
 
@@ -34,6 +35,7 @@ public class TaflLevelService extends LevelService<TaflLevel>{
         match.created = new Date();
         match.updated = new Date();
         match.name = level.name;
+        match.status = Lifecycle.PLAY;
         match.rules = level.rules;
         match.dimensions = level.dimensions;
 

@@ -66,12 +66,19 @@ public class LifecycleSystem extends EntityProcessingSystem {
 
     private void loss(HudRenderingComponent component) {
         gameWorld.pauseSystems();
+
+        gameWorld.match.status = Lifecycle.LOSS;
+        gameWorld.game.databaseService.updateMatch(gameWorld.match);
+
         component.lossDialog.show(component.hubStage);
     }
 
     private void win(HudRenderingComponent component) {
         gameWorld.pauseSystems();
-        gameWorld.levelComplete();
+
+        gameWorld.match.status = Lifecycle.WIN;
+        gameWorld.game.databaseService.updateMatch(gameWorld.match);
+
         component.winDialog.show(component.hubStage);
     }
 

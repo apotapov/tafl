@@ -46,16 +46,6 @@ public class TaflWorld implements Disposable {
         this.level = level;
     }
 
-    public void levelComplete() {
-        TaflLevel nextLevel = level.nextLevel;
-        //        if (nextLevel != null) {
-        //            TaflProfileService profileService = game.profileService;
-        //            TaflProfile profile = profileService.retrieveProfile();
-        //            profile.currentLevel = nextLevel.name;
-        //            profileService.persist();
-        //        }
-    }
-
     public void initialize() {
         this.world = new World();
         this.camera = new Bounded2DCamera();
@@ -118,6 +108,9 @@ public class TaflWorld implements Disposable {
 
     public void restart() {
         dispose();
+
+        match.status = Lifecycle.RESTART;
+        game.databaseService.updateMatch(match);
 
         createNewMatch();
 

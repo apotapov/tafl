@@ -18,6 +18,7 @@ import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.pactstudios.games.tafl.core.es.model.rules.RulesFactory;
+import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
 import com.roundtriangles.games.zaria.services.db.DatabaseService;
 import com.roundtriangles.games.zaria.services.db.DatabaseServiceConfig;
 import com.roundtriangles.games.zaria.services.db.upgrade.DatabaseUpgradeService;
@@ -57,6 +58,7 @@ public class TaflDatabaseService extends DatabaseService {
     private void initializeQueries() {
         try {
             QueryBuilder<TaflMatch, Integer> qb = matchDao.queryBuilder();
+            qb.where().eq(TaflMatch.STATUS_COLUMN, Lifecycle.PLAY);
             qb.orderBy(TaflMatch.CREATED_COLUMN, false);
             loadMatchQuery = qb.prepare();
         } catch (Exception e) {

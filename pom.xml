@@ -10,6 +10,7 @@
 
 	<properties>
         <gdx.version>0.9.9</gdx.version>
+        <ormlite.version>4.47</ormlite.version>
         <android.version>4.1.1.4</android.version>
         <android.maven.version>3.6.0</android.maven.version>
         <gwt.version>2.5.0</gwt.version>
@@ -68,6 +69,11 @@
                     <artifactId>gdx-backend-lwjgl</artifactId>
                     <version>${gdx.version}</version>
                 </dependency>
+                <dependency>
+                    <groupId>com.j256.ormlite</groupId>
+                    <artifactId>ormlite-jdbc</artifactId>
+                    <version>${ormlite.version}</version>
+                </dependency>
             </dependencies>
         </profile>
         <profile>
@@ -80,6 +86,11 @@
                     <groupId>com.badlogicgames.gdx</groupId>
                     <artifactId>gdx-backend-android</artifactId>
                     <version>${gdx.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>com.j256.ormlite</groupId>
+                    <artifactId>ormlite-android</artifactId>
+                    <version>${ormlite.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>com.google.android</groupId>

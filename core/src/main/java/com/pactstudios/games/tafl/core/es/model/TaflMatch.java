@@ -14,12 +14,14 @@ import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.pactstudios.games.tafl.core.es.model.objects.Team;
 import com.pactstudios.games.tafl.core.es.model.rules.RulesEngine;
 import com.pactstudios.games.tafl.core.es.model.rules.RulesEngine.RulesEngineType;
+import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
 
 @DatabaseTable(tableName = Constants.DbConstants.MATCH_TABLE)
 public class TaflMatch {
 
     public static final String ID_COLUMN = "_id";
     public static final String NAME_COLUMN = "name";
+    public static final String STATUS_COLUMN = "status";
     public static final String TURN_COLUMN = "turn";
     public static final String DIMENSION_COLUMN = "dim";
     public static final String RULE_ENGINE_COLUMN = "rules";
@@ -29,6 +31,7 @@ public class TaflMatch {
 
     public static final String[] COLUMN_MAP = new String[] {
         NAME_COLUMN,
+        STATUS_COLUMN,
         TURN_COLUMN,
         DIMENSION_COLUMN,
         RULE_ENGINE_COLUMN,
@@ -43,6 +46,9 @@ public class TaflMatch {
 
     @DatabaseField(columnName = NAME_COLUMN, canBeNull = false)
     public String name;
+
+    @DatabaseField(columnName = STATUS_COLUMN, canBeNull = false)
+    public Lifecycle status;
 
     @DatabaseField(columnName = TURN_COLUMN, canBeNull = false)
     public Team turn;

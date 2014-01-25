@@ -26,6 +26,12 @@
 			<artifactId>tafl-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+        
+        <dependency>
+            <groupId>com.j256.ormlite</groupId>
+            <artifactId>ormlite-android</artifactId>
+            <version>${ormlite.version}</version>
+        </dependency>
 
 		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>
@@ -102,7 +108,7 @@
 					<undeployBeforeDeploy>true</undeployBeforeDeploy>
 					<dex>
 						<jvmArguments>
-							<jvmArgument>-Xmx1024m</jvmArgument>
+							<jvmArgument>-Xmx2048m</jvmArgument>
 						</jvmArguments>
 					</dex>
 				</configuration>

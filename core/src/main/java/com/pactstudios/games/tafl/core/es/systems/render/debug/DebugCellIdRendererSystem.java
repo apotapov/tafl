@@ -11,12 +11,12 @@ import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
 import com.pactstudios.games.tafl.core.es.systems.render.RenderingSystem;
 import com.pactstudios.games.tafl.core.utils.BoardUtils;
 
-public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent> {
+public class DebugCellIdRendererSystem extends RenderingSystem<MapRenderingComponent> {
 
     ComponentMapper<MatchComponent> matchMapper;
 
     @SuppressWarnings("unchecked")
-    public CellIdRendererSystem() {
+    public DebugCellIdRendererSystem() {
         super(Aspect.getAspectForAll(MatchComponent.class),
                 MapRenderingComponent.class);
     }
@@ -42,8 +42,8 @@ public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent>
         MatchComponent match = matchMapper.get(e);
         GameBoard board = match.match.board;
 
-        for (int i = 0; i < board.dimentions; i++) {
-            for (int j = 0; j < board.dimentions; j++) {
+        for (int i = 0; i < board.dimensions; i++) {
+            for (int j = 0; j < board.dimensions; j++) {
                 if (board.getCell(i, j) != null) {
                     Vector2 position = BoardUtils.getTilePosition(i, j);
 

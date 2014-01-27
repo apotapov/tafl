@@ -2,11 +2,10 @@ package com.pactstudios.games.tafl.core.es.model.board.cells;
 
 import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
+import com.pactstudios.games.tafl.core.utils.BoardUtils;
 
 
 public abstract class ModelCell {
-
-    private static final String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     public GameBoard board;
     public int x;
@@ -18,7 +17,7 @@ public abstract class ModelCell {
         this.x = x;
         this.y = y;
         this.board = board;
-        this.name = "" + LETTERS.charAt(x) + y;
+        this.name = BoardUtils.getCellId(x, y);
     }
 
     public abstract boolean canWalk();

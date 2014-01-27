@@ -592,84 +592,84 @@ creature_dead20
   index: 0
 creature21
   rotate: false
-  xy: 0, 672
+  xy: 0, 674
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 0
 creature21
   rotate: false
-  xy: 32, 672
+  xy: 32, 674
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
 creature21
   rotate: false
-  xy: 64, 672
+  xy: 64, 674
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
 creature_dead21
   rotate: false
-  xy: 96, 672
+  xy: 96, 674
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 0
 creature22
   rotate: false
-  xy: 0, 704
+  xy: 0, 706
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 0
 creature22
   rotate: false
-  xy: 32, 704
+  xy: 32, 706
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
 creature22
   rotate: false
-  xy: 64, 704
+  xy: 64, 706
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
 creature_dead22
   rotate: false
-  xy: 96, 704
+  xy: 96, 706
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 0
 creature23
   rotate: false
-  xy: 0, 736
+  xy: 0, 738
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 0
 creature23
   rotate: false
-  xy: 32, 736
+  xy: 32, 738
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
 creature23
   rotate: false
-  xy: 64, 736
+  xy: 64, 738
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
 creature_dead23
   rotate: false
-  xy: 96, 736
+  xy: 96, 738
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

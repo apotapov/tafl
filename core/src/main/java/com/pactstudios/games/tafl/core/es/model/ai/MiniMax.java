@@ -50,8 +50,8 @@ public class MiniMax {
 
         if (depth > 0) {
             Array<Move> legalMoves = legalMovesPool.obtain();
-            for (int i = 0; i < match.board.dimentions; i++) {
-                for (int j = 0; j < match.board.dimentions; j++) {
+            for (int i = 0; i < match.board.dimensions; i++) {
+                for (int j = 0; j < match.board.dimensions; j++) {
                     ModelCell start = match.board.getCell(i, j);
                     if (start.piece != null) {
                         Array<ModelCell> moves = match.rulesEngine.legalMoves(start);
@@ -91,8 +91,8 @@ public class MiniMax {
         }
         if (depth > 0) {
             Array<Move> legalMoves = legalMovesPool.obtain();
-            for (int i = 0; i < match.board.dimentions; i++) {
-                for (int j = 0; j < match.board.dimentions; j++) {
+            for (int i = 0; i < match.board.dimensions; i++) {
+                for (int j = 0; j < match.board.dimensions; j++) {
                     ModelCell start = match.board.getCell(i, j);
                     if (start.piece != null) {
                         Array<ModelCell> moves = match.rulesEngine.legalMoves(start);

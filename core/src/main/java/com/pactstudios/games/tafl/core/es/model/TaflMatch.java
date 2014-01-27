@@ -11,6 +11,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
+import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.pactstudios.games.tafl.core.es.model.objects.Team;
@@ -165,5 +166,14 @@ public class TaflMatch {
             return move;
         }
         return null;
+    }
+
+    public float getBoardDimensionWithBorders() {
+        return dimensions * Constants.BoardConstants.TILE_SIZE +
+                Constants.BoardConstants.BOARD_FRAME_WIDTH * 2;
+    }
+
+    public ModelCell getCastleCell() {
+        return board.getCell(dimensions / 2, dimensions / 2);
     }
 }

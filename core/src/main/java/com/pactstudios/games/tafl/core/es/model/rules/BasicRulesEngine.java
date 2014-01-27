@@ -195,22 +195,26 @@ public class BasicRulesEngine extends RulesEngine {
 
     @Override
     public void populateBoard() {
-        match.board.cells = new ModelCell[match.board.dimentions][match.board.dimentions];
-        for (int i = 0; i < match.board.dimentions; i++) {
-            for (int j = 0; j < match.board.dimentions; j++) {
+        match.board.cells = new ModelCell[match.board.dimensions][match.board.dimensions];
+        for (int i = 0; i < match.board.dimensions; i++) {
+            for (int j = 0; j < match.board.dimensions; j++) {
                 ModelCell cell = createCell(match.board, i, j);
                 match.board.cells[i][j] = cell;
             }
         }
+        match.board.cornerCells[0] = match.board.cells[0][0];
+        match.board.cornerCells[1] = match.board.cells[0][match.board.dimensions - 1];
+        match.board.cornerCells[2] = match.board.cells[match.board.dimensions - 1][0];
+        match.board.cornerCells[3] = match.board.cells[match.board.dimensions - 1][match.board.dimensions - 1];
     }
 
     protected ModelCell createCell(GameBoard board, int x, int y) {
         if ((x == 0 && y == 0) ||
-                (x == board.dimentions - 1 && y == 0) ||
-                (x == 0 && y == board.dimentions - 1) ||
-                (x == board.dimentions -1 && y == board.dimentions -1)) {
+                (x == board.dimensions - 1 && y == 0) ||
+                (x == 0 && y == board.dimensions - 1) ||
+                (x == board.dimensions -1 && y == board.dimensions -1)) {
             return new CornerCell(x, y, board);
-        } else if (x == board.dimentions / 2 && y == board.dimentions / 2) {
+        } else if (x == board.dimensions / 2 && y == board.dimensions / 2) {
             return new KingCell(x, y, board);
         } else {
             return new RegularCell(x, y, board);

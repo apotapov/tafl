@@ -49,9 +49,29 @@ public final class Constants {
         }
         public static final int TILE_SIZE = 64;
         public static final int HALF_TILE_SIZE = TILE_SIZE / 2;
+        public static final int QUARTER_TILE_SIZE = HALF_TILE_SIZE / 2;
+
+        public static final int BOARD_FRAME_WIDTH = HALF_TILE_SIZE;
 
         public static final Color BACKGROUND_COLOR = new Color(0.5f, .25f, .25f, 1f);
         public static final Color HIGHLIGHT_COLOR = new Color(1f, 1f, 1f, 0.25f);
+        public static final Color LINE_COLOR = new Color(0, 0, 0, 1f);
+
+        public static final Color BORDER_COLOR = new Color(0.5f, 0f, 0f, 1f);
+        public static final Color CASTLE_COLOR = new Color(0.4f, 0f, 0f, 1f);
+        public static final Color CORNER_COLOR = new Color(0.4f, 0f, 0f, 1f);
+
+        public static final float FONT_WEIRDNESS_OFFSET = 2;
+
+        public static final float HORIZONTAL_CELL_ID_HORIZONTAL_OFFSET = HALF_TILE_SIZE;
+        public static final float HORIZONTAL_CELL_ID_BOTTOM_OFFSET = -BOARD_FRAME_WIDTH / 2 + FONT_WEIRDNESS_OFFSET;
+        public static final float HORIZONTAL_CELL_ID_TOP_OFFSET = HALF_TILE_SIZE * 3f -
+                BOARD_FRAME_WIDTH / 2 + FONT_WEIRDNESS_OFFSET;
+
+        public static final float VERTICAL_CELL_ID_VERTICAL_OFFSET = HALF_TILE_SIZE + FONT_WEIRDNESS_OFFSET;
+        public static final float VERTICAL_CELL_ID_LEFT_OFFSET = -QUARTER_TILE_SIZE;
+        public static final float VERTICAL_CELL_ID_RIGHT_OFFSET = TILE_SIZE + QUARTER_TILE_SIZE;
+
     }
 
     public static final class HudConstants {

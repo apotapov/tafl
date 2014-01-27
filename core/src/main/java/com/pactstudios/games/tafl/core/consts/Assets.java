@@ -67,7 +67,7 @@ public class Assets extends GameAssetLoader<TaflLevel> {
         private Fonts() {
         }
         public static final String DEFAULT_FONT = "skin/default.fnt";
-        public static final FontDefinition BLOWHOLE_FONT_GAME = new FontDefinition("skin/BlowholeBB.ttf", 15);
+        public static final FontDefinition BLOWHOLE_FONT_GAME = new FontDefinition("skin/BlowholeBB.ttf", 32);
         public static final FontDefinition BLOWHOLE_FONT_MENU = new FontDefinition("skin/BlowholeBB.ttf", 44);
     }
 

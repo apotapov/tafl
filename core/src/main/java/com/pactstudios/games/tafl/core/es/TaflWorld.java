@@ -78,7 +78,7 @@ public class TaflWorld implements Disposable {
     }
 
     public void resize(int width, int height) {
-        float boardSize = match.dimensions * Constants.BoardConstants.TILE_SIZE;
+        float boardSize = match.getBoardDimensionWithBorders();
         float center = boardSize / 2.0f;
 
         this.camera.position.set(center, center, 0);

@@ -18,6 +18,8 @@ import com.pactstudios.games.tafl.core.es.systems.passive.SoundSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.UserInputSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.AnimationRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.CellHighlightRenderSystem;
+import com.pactstudios.games.tafl.core.es.systems.render.CellIdRendererSystem;
+import com.pactstudios.games.tafl.core.es.systems.render.GameBoardColorRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.GameBoardRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.HudRenderingSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.PreRenderSystem;
@@ -70,7 +72,9 @@ public class SystemFactory {
 
     protected static void initRenderingSystems(TaflWorld gameWorld) {
         gameWorld.world.setSystem(new PreRenderSystem());
+        gameWorld.world.setSystem(new GameBoardColorRenderSystem());
         gameWorld.world.setSystem(new GameBoardRenderSystem());
+        gameWorld.world.setSystem(new CellIdRendererSystem());
         gameWorld.world.setSystem(new CellHighlightRenderSystem());
         gameWorld.world.setSystem(new SpriteRenderSystem());
         gameWorld.world.setSystem(new AnimationRenderSystem());
@@ -78,7 +82,7 @@ public class SystemFactory {
 
     protected static void initDebugRenderingSystems(TaflWorld gameWorld) {
         //        gameWorld.world.setSystem(new DebugRenderSystem());
-        //gameWorld.world.setSystem(new CellIdRendererSystem());
+        //gameWorld.world.setSystem(new DebugCellIdRendererSystem());
         gameWorld.world.setSystem(new VelocityRenderSystem());
     }
 

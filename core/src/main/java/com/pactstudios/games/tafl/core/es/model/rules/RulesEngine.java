@@ -32,8 +32,8 @@ public abstract class RulesEngine {
     }
 
     public abstract Team getFirstTurn();
-    public abstract Array<ModelCell> getCapturedPieces(ModelCell end);
-    public abstract Lifecycle checkGameState(ModelCell end, Array<ModelCell> capturedPieces);
+    public abstract Array<GamePiece> getCapturedPieces(ModelCell end);
+    public abstract Lifecycle checkGameState(ModelCell end, Array<GamePiece> capturedPieces);
     public abstract boolean legalMove(GamePiece piece, ModelCell start, ModelCell end);
     public abstract Array<ModelCell> legalMoves(ModelCell start);
     public abstract void populateBoard();

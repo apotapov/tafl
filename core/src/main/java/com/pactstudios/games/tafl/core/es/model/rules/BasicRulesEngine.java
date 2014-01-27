@@ -15,18 +15,18 @@ import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycl
 public class BasicRulesEngine extends RulesEngine {
 
     Array<ModelCell> legalMoves;
-    Array<ModelCell> capturedPieces;
+    Array<GamePiece> capturedPieces;
 
     public BasicRulesEngine(TaflMatch match) {
         super(match);
         legalMoves = new Array<ModelCell>();
-        capturedPieces = new Array<ModelCell>();
+        capturedPieces = new Array<GamePiece>();
 
         populateBoard();
     }
 
     @Override
-    public Lifecycle checkGameState(ModelCell end, Array<ModelCell> capturedPieces) {
+    public Lifecycle checkGameState(ModelCell end, Array<GamePiece> capturedPieces) {
         if (checkCaptureKing(capturedPieces)) {
             return Lifecycle.LOSS;
         } else if (checkWin(end)) {
@@ -35,9 +35,9 @@ public class BasicRulesEngine extends RulesEngine {
         return Lifecycle.PLAY;
     }
 
-    private boolean checkCaptureKing(Array<ModelCell> capturedPieces) {
-        for (ModelCell cell : capturedPieces) {
-            if (cell.piece.type == PieceType.KING) {
+    private boolean checkCaptureKing(Array<GamePiece> capturedPieces) {
+        for (GamePiece piece : capturedPieces) {
+            if (piece.type == PieceType.KING) {
                 return true;
             }
         }
@@ -49,7 +49,7 @@ public class BasicRulesEngine extends RulesEngine {
     }
 
     @Override
-    public Array<ModelCell> getCapturedPieces(ModelCell end) {
+    public Array<GamePiece> getCapturedPieces(ModelCell end) {
         capturedPieces.clear();
 
         checkCaptureUp(end);
@@ -100,10 +100,10 @@ public class BasicRulesEngine extends RulesEngine {
                 if (third != null && third.piece != null && piece.type.team == third.piece.type.team &&
                         fourth != null && fourth.piece != null && piece.type.team == fourth.piece.type.team) {
 
-                    capturedPieces.add(first);
+                    capturedPieces.add(first.piece);
                 }
             } else {
-                capturedPieces.add(first);
+                capturedPieces.add(first.piece);
             }
         }
     }

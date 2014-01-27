@@ -34,6 +34,7 @@ public class CellHighlightSystem extends PassiveEntitySystem {
     }
 
     public void highlightTeam(Team team) {
+        clearCellHighlights();
         MatchComponent matchComponent = singletonManager.getSingletonComponent(MatchComponent.class);
         Array<Entity> pieces = groupManager.getEntities(team.toString());
         for (Entity e : pieces) {

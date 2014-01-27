@@ -35,8 +35,16 @@ public class LocalizedStrings {
         RESUME_BUTTON,
     }
 
+    public enum Game {
+        TEAM_WHITE,
+        TEAM_BLACK,
+    }
+
     public enum Hud {
         MENU_BUTTON,
+
+        UNDO_BUTTON,
+        REDO_BUTTON,
 
         TURN_LABEL,
         GAME_TIME_LABEL,

@@ -52,8 +52,6 @@ public final class Constants {
 
         public static final Color BACKGROUND_COLOR = new Color(0.5f, .25f, .25f, 1f);
         public static final Color HIGHLIGHT_COLOR = new Color(1f, 1f, 1f, 0.25f);
-
-        public static final int OFF_BOARD = -1;
     }
 
     public static final class HudConstants {
@@ -69,7 +67,7 @@ public final class Constants {
     public static final class GameConstants {
         private GameConstants() {
         }
-        public static final boolean DEBUG = true;
+        public static final boolean DEBUG = false;
         public static final int BATCH_SIZE = 100;
         public static final int GAME_WIDTH = 600;
         public static final int GAME_HEIGHT = 1000;

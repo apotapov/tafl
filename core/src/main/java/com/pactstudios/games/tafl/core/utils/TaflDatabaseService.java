@@ -16,6 +16,7 @@ import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
+import com.pactstudios.games.tafl.core.es.model.log.MatchLogFactory;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.pactstudios.games.tafl.core.es.model.rules.RulesFactory;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
@@ -30,6 +31,7 @@ public class TaflDatabaseService extends DatabaseService {
     RuntimeExceptionDao<MatchLogEntry, Integer> logDao;
 
     PreparedQuery<TaflMatch> loadMatchQuery;
+    PreparedQuery<TaflMatch> matchLogQuery;
 
     public TaflDatabaseService(ConnectionSource connectionSource) {
         config = new DatabaseServiceConfig();
@@ -94,6 +96,10 @@ public class TaflDatabaseService extends DatabaseService {
         logDao.create(entry);
     }
 
+    public void deleteLogEntry(MatchLogEntry entry) {
+        logDao.delete(entry);
+    }
+
     public void updatePiece(GamePiece piece) {
         piece.updated = new Date();
         pieceDao.update(piece);
@@ -107,12 +113,20 @@ public class TaflDatabaseService extends DatabaseService {
             match.board = new GameBoard(match.dimensions);
             match.rulesEngine = RulesFactory.getRules(match.rules, match);
 
-            CloseableIterator<GamePiece> iterator =
+            CloseableIterator<GamePiece> it =
                     match.persistedPiece.closeableIterator();
-            while (iterator.hasNext()) {
-                GamePiece piece = iterator.next();
+            while (it.hasNext()) {
+                GamePiece piece = it.next();
                 match.pieces.add(piece);
             }
+            it.closeQuietly();
+
+            CloseableIterator<MatchLogEntry> it2 =
+                    match.persistedLog.closeableIterator();
+            while (it2.hasNext()) {
+                match.undoStack.add(MatchLogFactory.parseLog(it2.next(), match.pieces));
+            }
+            it2.closeQuietly();
         }
 
         return match;

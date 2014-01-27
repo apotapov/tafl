@@ -8,9 +8,10 @@ import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
+import com.pactstudios.games.tafl.core.es.model.board.Move;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogFactory;
+import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
@@ -54,30 +55,30 @@ public class PieceMovementSystem extends EventProcessingSystem<PieceMoveEvent> {
 
         //matchComponent.animationInProgress = true;
 
-        MatchLogEntry entry = move(match, event);
+        move(match, event);
         clearSelection(match);
-        processCapturedPieces(event, match, entry);
+        processCapturedPieces(event, match);
     }
 
-    private void processCapturedPieces(PieceMoveEvent event, TaflMatch match, MatchLogEntry entry) {
-        Array<ModelCell> capturedPieces =
-                match.rulesEngine.getCapturedPieces(event.end);
+    private void processCapturedPieces(PieceMoveEvent event, TaflMatch match) {
+        Array<GamePiece> captured =
+                match.rulesEngine.getCapturedPieces(event.move.end);
 
-        if (capturedPieces.size > 0) {
+        if (captured.size > 0) {
             PieceCaptureEvent captureEvent =
                     world.createEvent(PieceCaptureEvent.class);
-            captureEvent.capturedPieces.addAll(capturedPieces);
-            captureEvent.entry = entry;
+            captureEvent.move = event.move.clone();
+            captureEvent.move.captured.addAll(captured);
             world.postEvent(this, captureEvent);
         }
 
-        checkEndGame(event, match, capturedPieces);
+        checkEndGame(event, match, captured);
     }
 
     private void checkEndGame(PieceMoveEvent event, TaflMatch match,
-            Array<ModelCell> capturedPieces) {
+            Array<GamePiece> capturedPieces) {
         Lifecycle lifecycle =
-                match.rulesEngine.checkGameState(event.end, capturedPieces);
+                match.rulesEngine.checkGameState(event.move.end, capturedPieces);
         if (lifecycle == Lifecycle.PLAY) {
             match.rulesEngine.changeTurn();
             dbService.updateMatch(match);
@@ -94,27 +95,24 @@ public class PieceMovementSystem extends EventProcessingSystem<PieceMoveEvent> {
         highlightSystem.clearCellHighlights();
     }
 
-    private MatchLogEntry move(TaflMatch match, PieceMoveEvent event) {
-        event.start.piece = null;
-        event.end.piece = event.piece;
-        Vector2 newPosition = BoardUtils.getTilePositionCenter(event.end);
-        PositionComponent position = positionMapper.get(event.piece.entity);
+    private void move(TaflMatch match, PieceMoveEvent event) {
+
+        Vector2 newPosition = BoardUtils.getTilePositionCenter(event.move.end);
+        PositionComponent position = positionMapper.get(event.move.piece.entity);
         position.position.set(newPosition);
 
-        event.piece.x = event.end.x;
-        event.piece.y = event.end.y;
+        event.move.entry = log(match, event.move);
 
-        dbService.updatePiece(event.piece);
+        match.applyMove(event.move.clone(), true);
+
+        dbService.updatePiece(event.move.piece);
 
         soundSystem.playMove();
-
-        return log(match, event);
     }
 
-    private MatchLogEntry log(TaflMatch match, PieceMoveEvent event) {
-        MatchLogEntry entry = MatchLogFactory.log(match, event.piece, event.start, event.end);
+    private MatchLogEntry log(TaflMatch match, Move move) {
+        MatchLogEntry entry = MatchLogFactory.log(match, move);
         dbService.createLogEntry(entry);
         return entry;
     }
-
 }

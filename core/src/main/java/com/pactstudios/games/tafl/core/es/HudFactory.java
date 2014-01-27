@@ -16,6 +16,8 @@ import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
+import com.pactstudios.games.tafl.core.es.systems.events.RedoEvent;
+import com.pactstudios.games.tafl.core.es.systems.events.UndoEvent;
 import com.pactstudios.games.tafl.core.es.systems.render.hud.HudBackground;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
@@ -151,7 +153,7 @@ public class HudFactory {
 
         Table table = new Table(skin);
 
-        createButtons(component, skin, table, gameWorld);
+        createMenu(component, skin, table, gameWorld);
 
         component.turn = new Label("", skin);
         table.add(component.turn).expandX();
@@ -166,6 +168,8 @@ public class HudFactory {
             component.fps = new Label("", skin);
             table.add(component.fps).expandX();
         }
+
+        createUndoRedo(component, skin, table, gameWorld);
 
         table.right().top().setFillParent(true);
         component.hubStage.addActor(table);
@@ -185,7 +189,36 @@ public class HudFactory {
         component.hubStage.addActor(table);
     }
 
-    private static void createButtons(HudRenderingComponent component,
+
+    private static void createUndoRedo(HudRenderingComponent component,
+            Skin skin, Table table, TaflWorld gameWorld) {
+
+        final World world = gameWorld.world;
+
+        String text = gameWorld.game.localeService.get(LocalizedStrings.Hud.UNDO_BUTTON);
+        TextButton button = new TextButton(text, skin);
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                UndoEvent undoEvent = SystemEvent.createEvent(UndoEvent.class);
+                world.postEvent(null, undoEvent);
+            }
+        });
+        table.add(button).size(Constants.HudConstants.BUTTON_WIDTH, Constants.HudConstants.BUTTON_HEIGHT).uniform();
+
+        text = gameWorld.game.localeService.get(LocalizedStrings.Hud.REDO_BUTTON);
+        button = new TextButton(text, skin);
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                RedoEvent redoEvent = SystemEvent.createEvent(RedoEvent.class);
+                world.postEvent(null, redoEvent);
+            }
+        });
+        table.add(button).size(Constants.HudConstants.BUTTON_WIDTH, Constants.HudConstants.BUTTON_HEIGHT).uniform();
+    }
+
+    private static void createMenu(HudRenderingComponent component,
             Skin skin, Table table, final TaflWorld gameWorld) {
 
         final World world = gameWorld.world;

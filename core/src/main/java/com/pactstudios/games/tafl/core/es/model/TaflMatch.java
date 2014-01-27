@@ -3,12 +3,14 @@ package com.pactstudios.games.tafl.core.es.model;
 import java.util.Date;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pools;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
+import com.pactstudios.games.tafl.core.es.model.board.Move;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.pactstudios.games.tafl.core.es.model.objects.Team;
@@ -78,6 +80,16 @@ public class TaflMatch {
     public RulesEngine rulesEngine;
     public GameBoard board;
 
+    public Array<Move> undoStack;
+    public Array<Move> redoStack;
+    public Array<Move> simulatedMoves;
+
+    public TaflMatch() {
+        undoStack = new Array<Move>();
+        redoStack = new Array<Move>();
+        simulatedMoves = new Array<Move>();
+    }
+
     @Override
     public int hashCode() {
         return name == null ? 0 : name.hashCode();
@@ -91,5 +103,67 @@ public class TaflMatch {
     @Override
     public String toString() {
         return Integer.toString(_id);
+    }
+
+    public void simulateMove(Move move) {
+        if (move != null) {
+            move.captured.addAll(rulesEngine.getCapturedPieces(move.end));
+            for (GamePiece piece : move.captured) {
+                board.getCell(piece.x, piece.y).piece = null;
+            }
+            applyMove(move, false);
+            simulatedMoves.add(move);
+        }
+    }
+
+    public void rollBackSimulatedMove() {
+        if (simulatedMoves.size > 0) {
+            Move move = simulatedMoves.pop();
+            undoMove(move, false);
+            for (GamePiece piece : move.captured) {
+                board.getCell(piece.x, piece.y).piece = piece;
+            }
+        }
+    }
+
+    public void applyMove(Move move, boolean record) {
+        move.start.piece = null;
+        move.end.piece = move.piece;
+        move.piece.x = move.end.x;
+        move.piece.y = move.end.y;
+        if (record) {
+            Pools.freeAll(redoStack);
+            redoStack.clear();
+            undoStack.add(move);
+        }
+    }
+
+    public void undoMove(Move move, boolean record) {
+        move.start.piece = move.piece;
+        move.end.piece = null;
+        move.piece.x = move.start.x;
+        move.piece.y = move.start.y;
+        if (record) {
+            redoStack.add(move);
+        }
+    }
+
+    public Move undoMove() {
+        if (undoStack.size > 0) {
+            Move move = undoStack.pop();
+            undoMove(move, true);
+            return move;
+        }
+        return null;
+    }
+
+    public Move redoMove() {
+        if (redoStack.size > 0) {
+            Move move = redoStack.pop();
+            applyMove(move, false);
+            undoStack.add(move);
+            return move;
+        }
+        return null;
     }
 }

@@ -9,6 +9,7 @@ import com.pactstudios.games.tafl.core.es.systems.interaction.MovementSystem;
 import com.pactstudios.games.tafl.core.es.systems.interaction.PieceCaptureSystem;
 import com.pactstudios.games.tafl.core.es.systems.interaction.PieceMovementSystem;
 import com.pactstudios.games.tafl.core.es.systems.interaction.ResourceManagementSystem;
+import com.pactstudios.games.tafl.core.es.systems.interaction.UndoRedoSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.ComponentFactorySystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
@@ -57,6 +58,7 @@ public class SystemFactory {
     }
 
     protected static void initPassiveSystems(TaflWorld gameWorld) {
+        gameWorld.world.setSystem(new UndoRedoSystem(gameWorld.game.databaseService));
         gameWorld.world.setSystem(new PieceMovementSystem(gameWorld.game.databaseService));
         gameWorld.world.setSystem(new PieceCaptureSystem(gameWorld.game.databaseService));
         gameWorld.world.setSystem(new LifecycleSystem(gameWorld));

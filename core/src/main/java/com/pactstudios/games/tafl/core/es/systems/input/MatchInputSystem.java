@@ -70,9 +70,9 @@ public class MatchInputSystem extends InputProcessingSystem<MapRenderingComponen
 
     private void move(ModelCell start, ModelCell end) {
         PieceMoveEvent event = world.createEvent(PieceMoveEvent.class);
-        event.piece = start.piece;
-        event.start = start;
-        event.end = end;
+        event.move.piece = start.piece;
+        event.move.start = start;
+        event.move.end = end;
         world.postEvent(this, event);
     }
 

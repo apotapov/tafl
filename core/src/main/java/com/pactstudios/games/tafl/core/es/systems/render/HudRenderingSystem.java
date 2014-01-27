@@ -34,7 +34,8 @@ public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
     protected void process(Entity e, HudRenderingComponent rendComponent) {
         HudComponent hudComponent = hudMapper.get(e);
         if (hudComponent != null) {
-            String text = localeService.get(LocalizedStrings.Hud.TURN_LABEL, hudComponent.match.turn);
+            String text = localeService.get(hudComponent.match.turn.getLocalizedName());
+            text = localeService.get(LocalizedStrings.Hud.TURN_LABEL, text);
             rendComponent.turn.setText(text);
 
             text = localeService.get(LocalizedStrings.Hud.GAME_TIME_LABEL, floatToTime(hudComponent.match.timer));

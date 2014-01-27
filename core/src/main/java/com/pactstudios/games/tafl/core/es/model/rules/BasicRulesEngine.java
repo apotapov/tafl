@@ -93,20 +93,31 @@ public class BasicRulesEngine extends RulesEngine {
     }
 
     private void checkCapture(GamePiece piece, ModelCell first, ModelCell second, ModelCell third, ModelCell fourth) {
-        if (first != null && first.piece != null && piece.type.team != first.piece.type.team &&
-                second != null && second.piece != null && piece.type.team == second.piece.type.team) {
-
-            if (first.piece.type == PieceType.KING) {
-                if (third != null && third.piece != null && piece.type.team == third.piece.type.team &&
-                        fourth != null && fourth.piece != null && piece.type.team == fourth.piece.type.team) {
-
+        if (first != null && first.piece != null && piece.type.team != first.piece.type.team) {
+            if (first.piece.type != PieceType.KING) {
+                if (isHostile(piece, second)) {
                     capturedPieces.add(first.piece);
                 }
             } else {
-                capturedPieces.add(first.piece);
+                if (isKingHostile(piece, second) && isKingHostile(piece, third) && isKingHostile(piece, fourth)) {
+                    capturedPieces.add(first.piece);
+                }
             }
         }
     }
+
+    private boolean isHostile(GamePiece piece, ModelCell oppositeCell) {
+        return oppositeCell != null &&
+                ((oppositeCell.piece != null && piece.type.team == oppositeCell.piece.type.team) ||
+                        (!oppositeCell.canWalk() &&
+                                (oppositeCell.piece == null || piece.type.team == oppositeCell.piece.type.team)));
+    }
+
+    private boolean isKingHostile(GamePiece piece, ModelCell oppositeCell) {
+        return isHostile(piece, oppositeCell) || oppositeCell == null;
+    }
+
+
 
     @Override
     public boolean legalMove(GamePiece piece, ModelCell start, ModelCell end) {

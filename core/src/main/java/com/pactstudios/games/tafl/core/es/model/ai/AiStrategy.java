@@ -8,7 +8,8 @@ public interface AiStrategy {
 
     public enum AiType {
         NONE,
-        RANDOM;
+        RANDOM,
+        MINIMAX_PIECE_COUNT;
     }
 
     public Move search(TaflMatch match, Team team);

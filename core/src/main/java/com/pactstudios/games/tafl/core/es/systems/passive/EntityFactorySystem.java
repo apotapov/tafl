@@ -100,4 +100,8 @@ public class EntityFactorySystem extends PassiveEntitySystem {
     public void movePiece(Move move) {
         move.piece.entity.addComponent(componentFactory.createVelocityComponent(move));
     }
+
+    public void createAiProcessingPrompt(Entity e, String text) {
+        e.addComponent(componentFactory.createAiProcessingComponent(text));
+    }
 }

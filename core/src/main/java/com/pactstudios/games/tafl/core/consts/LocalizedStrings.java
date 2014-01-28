@@ -44,6 +44,7 @@ public class LocalizedStrings {
     public enum Game {
         TEAM_WHITE,
         TEAM_BLACK,
+        AI_PROCESSING,
     }
 
     public enum Hud {

@@ -126,11 +126,11 @@ public class TaflMatch {
 
     public void simulateMove(Move move) {
         if (move != null) {
+            applyMove(move, false);
             move.captured.addAll(rulesEngine.getCapturedPieces(move.end));
             for (GamePiece piece : move.captured) {
                 board.getCell(piece.x, piece.y).piece = null;
             }
-            applyMove(move, false);
             simulatedMoves.add(move);
         }
     }

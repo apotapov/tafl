@@ -16,6 +16,7 @@ import com.pactstudios.games.tafl.core.es.components.movement.VelocityComponent;
 import com.pactstudios.games.tafl.core.es.components.render.AnimationComponent;
 import com.pactstudios.games.tafl.core.es.components.render.DrawableComponent;
 import com.pactstudios.games.tafl.core.es.components.render.HighlightComponent;
+import com.pactstudios.games.tafl.core.es.components.render.AiProcessingComponent;
 import com.pactstudios.games.tafl.core.es.components.render.OffsetComponent;
 import com.pactstudios.games.tafl.core.es.components.render.ScallingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudComponent;
@@ -132,6 +133,12 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
     public PieceComponent createPieceComponent(GamePiece piece) {
         PieceComponent component = createComponent(PieceComponent.class);
         component.piece = piece;
+        return component;
+    }
+
+    public AiProcessingComponent createAiProcessingComponent(String text) {
+        AiProcessingComponent component = createComponent(AiProcessingComponent.class);
+        component.text = text;
         return component;
     }
 }

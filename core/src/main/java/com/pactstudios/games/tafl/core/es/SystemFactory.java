@@ -18,6 +18,7 @@ import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.LifecycleSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.SoundSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.UserInputSystem;
+import com.pactstudios.games.tafl.core.es.systems.render.AiProcessingRendererSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.AnimationRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.CellHighlightRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.CellIdRendererSystem;
@@ -63,7 +64,7 @@ public class SystemFactory {
 
     protected static void initPassiveSystems(TaflWorld gameWorld) {
         gameWorld.world.setSystem(new ChangeTurnSystem(gameWorld.game.databaseService));
-        gameWorld.world.setSystem(new AiSystem());
+        gameWorld.world.setSystem(new AiSystem(gameWorld.game.localeService));
         gameWorld.world.setSystem(new UndoSystem(gameWorld.game.databaseService));
         gameWorld.world.setSystem(new PieceMovementSystem(gameWorld.game.databaseService));
         gameWorld.world.setSystem(new PieceCaptureSystem(gameWorld.game.databaseService));
@@ -83,6 +84,7 @@ public class SystemFactory {
         gameWorld.world.setSystem(new CellHighlightRenderSystem());
         gameWorld.world.setSystem(new SpriteRenderSystem());
         gameWorld.world.setSystem(new AnimationRenderSystem());
+        gameWorld.world.setSystem(new AiProcessingRendererSystem());
     }
 
     protected static void initDebugRenderingSystems(TaflWorld gameWorld) {

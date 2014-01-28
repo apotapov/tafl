@@ -41,7 +41,7 @@ public class TaflLevelService extends LevelService<TaflLevel>{
         match.rulesType = level.rules;
         match.dimensions = level.dimensions;
         match.versusComputer = versusComputer;
-        match.aiType = versusComputer ? AiType.RANDOM : AiType.NONE;
+        match.aiType = versusComputer ? AiType.MINIMAX_PIECE_COUNT : AiType.NONE;
 
 
         match.pieces = new Array<GamePiece>(level.pieces.size);

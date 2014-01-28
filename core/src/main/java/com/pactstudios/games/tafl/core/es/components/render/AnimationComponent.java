@@ -10,9 +10,6 @@ public class AnimationComponent implements Component {
     public float stateTime;
     public String name;
 
-    public AnimationComponent() {
-    }
-
     @Override
     public void reset() {
         name = null;

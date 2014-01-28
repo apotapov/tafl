@@ -35,6 +35,38 @@ public class BasicRulesEngine extends RulesEngine {
         return winner;
     }
 
+    @Override
+    public Team checkWinner() {
+        Team winner = null;
+        if (checkCaptureKing()) {
+            winner = Team.BLACK;
+        } else if (checkKingEscaped()) {
+            winner = Team.WHITE;
+        }
+        return winner;
+    }
+
+    private boolean checkCaptureKing() {
+        for (int i = 0; i < match.board.dimensions; i++) {
+            for (int j = 0; j < match.board.dimensions; j++) {
+                ModelCell cell = match.board.getCell(i, j);
+                if (cell.piece != null && cell.piece.type == PieceType.KING) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean checkKingEscaped() {
+        return checkKingEscaped(match.board.cornerCells[0]) ||
+                checkKingEscaped(match.board.cornerCells[1]) ||
+                checkKingEscaped(match.board.cornerCells[2]) ||
+                checkKingEscaped(match.board.cornerCells[3]);
+    }
+
+
+
     private boolean checkCaptureKing(Array<GamePiece> capturedPieces) {
         for (GamePiece piece : capturedPieces) {
             if (piece.type == PieceType.KING) {
@@ -45,7 +77,7 @@ public class BasicRulesEngine extends RulesEngine {
     }
 
     private boolean checkKingEscaped(ModelCell end) {
-        return end instanceof CornerCell && end.piece.type == PieceType.KING;
+        return end != null && end instanceof CornerCell && end.piece != null && end.piece.type == PieceType.KING;
     }
 
     @Override
@@ -93,16 +125,20 @@ public class BasicRulesEngine extends RulesEngine {
     }
 
     private void checkCapture(GamePiece piece, ModelCell first, ModelCell second, ModelCell third, ModelCell fourth) {
-        if (first != null && first.piece != null && piece.type.team != first.piece.type.team) {
-            if (first.piece.type != PieceType.KING) {
-                if (isHostile(piece, second)) {
-                    capturedPieces.add(first.piece);
-                }
-            } else {
-                if (isKingHostile(piece, second) && isKingHostile(piece, third) && isKingHostile(piece, fourth)) {
-                    capturedPieces.add(first.piece);
+        try {
+            if (first != null && first.piece != null && piece.type.team != first.piece.type.team) {
+                if (first.piece.type != PieceType.KING) {
+                    if (isHostile(piece, second)) {
+                        capturedPieces.add(first.piece);
+                    }
+                } else {
+                    if (isKingHostile(piece, second) && isKingHostile(piece, third) && isKingHostile(piece, fourth)) {
+                        capturedPieces.add(first.piece);
+                    }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

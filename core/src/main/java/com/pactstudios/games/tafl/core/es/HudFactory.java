@@ -2,7 +2,6 @@ package com.pactstudios.games.tafl.core.es;
 
 import com.artemis.World;
 import com.artemis.systems.event.SystemEvent;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -17,7 +16,6 @@ import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingCompo
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
 import com.pactstudios.games.tafl.core.es.systems.events.UndoEvent;
-import com.pactstudios.games.tafl.core.es.systems.render.hud.HudBackground;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
 
@@ -169,10 +167,6 @@ public class HudFactory {
 
     private static void createUpperHud(HudRenderingComponent component, Skin skin, TaflWorld gameWorld) {
 
-        HudBackground upperBackground =
-                createBackground(Gdx.graphics.getHeight() - Constants.HudConstants.HUD_HEIGHT);
-        component.hubStage.addActor(upperBackground);
-
         Table table = new Table(skin);
 
         createMenu(component, skin, table, gameWorld);
@@ -195,9 +189,6 @@ public class HudFactory {
     }
 
     private static void createLowerHud(HudRenderingComponent component, Skin skin, LocaleService localeService) {
-        HudBackground lowerBackground = createBackground(0);
-        component.hubStage.addActor(lowerBackground);
-
         Table table = new Table();
 
         //        component.log = new List(new Object[] {}, skin);
@@ -242,13 +233,5 @@ public class HudFactory {
             }
         });
         table.add(button).size(Constants.HudConstants.BUTTON_WIDTH, Constants.HudConstants.BUTTON_HEIGHT).uniform();
-    }
-
-    private static HudBackground createBackground(float y) {
-        HudBackground background = new HudBackground();
-        background.setPosition(0, y);
-        background.setWidth(Gdx.graphics.getWidth());
-        background.setColor(Constants.HudConstants.HUD_BACKGROUND_COLOR);
-        return background;
     }
 }

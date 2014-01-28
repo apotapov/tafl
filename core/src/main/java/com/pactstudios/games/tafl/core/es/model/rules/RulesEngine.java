@@ -34,6 +34,7 @@ public abstract class RulesEngine {
     public abstract Team getSecondTurn();
     public abstract Array<GamePiece> getCapturedPieces(ModelCell end);
     public abstract Team checkWinner(ModelCell end, Array<GamePiece> capturedPieces);
+    public abstract Team checkWinner();
     public abstract boolean legalMove(GamePiece piece, ModelCell start, ModelCell end);
     public abstract Array<ModelCell> legalMoves(ModelCell start);
     public abstract void populateBoard();

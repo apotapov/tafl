@@ -42,10 +42,6 @@ public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
             rendComponent.timer.setText(text);
 
             if (Constants.GameConstants.DEBUG) {
-                rendComponent.mouseLocation.setText("Mouse: " +
-                        (int)hudComponent.mouseLocation.x +
-                        ", " +
-                        (int)hudComponent.mouseLocation.y);
                 rendComponent.fps.setText("FPS: " + hudComponent.fps);
             }
 

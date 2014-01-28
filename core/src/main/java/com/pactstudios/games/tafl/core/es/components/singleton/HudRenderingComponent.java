@@ -12,7 +12,8 @@ public class HudRenderingComponent implements RenderingComponent {
     public Stage hubStage;
 
     public Dialog menu;
-    public Dialog winDialog;
+    public Dialog whiteWinDialog;
+    public Dialog blackWinDialog;
     public Dialog lossDialog;
 
     // upper hud
@@ -20,7 +21,6 @@ public class HudRenderingComponent implements RenderingComponent {
     public Label timer;
 
     // debug
-    public Label mouseLocation;
     public Label fps;
 
     public List log;
@@ -28,7 +28,8 @@ public class HudRenderingComponent implements RenderingComponent {
     @Override
     public void reset() {
         menu = null;
-        winDialog = null;
+        whiteWinDialog = null;
+        blackWinDialog = null;
         lossDialog = null;
         turn = null;
         timer = null;

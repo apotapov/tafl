@@ -18,8 +18,8 @@ public class GamePlayScreen extends AbstractScreen<TaflGame> {
         world.setLevel(level);
     }
 
-    public void createNewMatch() {
-        world.createNewMatch();
+    public void createNewMatch(boolean versusComputer, boolean computerStarts) {
+        world.createNewMatch(versusComputer, computerStarts);
     }
 
     public boolean loadExistingMatch() {

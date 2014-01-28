@@ -7,6 +7,7 @@ import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
+import com.pactstudios.games.tafl.core.es.model.objects.Team;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
 
@@ -42,7 +43,7 @@ public class LifecycleSystem extends EntityProcessingSystem {
                 displayMenu(component);
                 break;
             case WIN:
-                win(component);
+                win(component, event.winner);
                 break;
             case LOSS:
                 loss(component);
@@ -73,13 +74,17 @@ public class LifecycleSystem extends EntityProcessingSystem {
         component.lossDialog.show(component.hubStage);
     }
 
-    private void win(HudRenderingComponent component) {
+    private void win(HudRenderingComponent component, Team winner) {
         gameWorld.pauseSystems();
 
         gameWorld.match.status = Lifecycle.WIN;
         gameWorld.game.databaseService.updateMatch(gameWorld.match);
 
-        component.winDialog.show(component.hubStage);
+        if (winner == Team.WHITE) {
+            component.whiteWinDialog.show(component.hubStage);
+        } else {
+            component.blackWinDialog.show(component.hubStage);
+        }
     }
 
     private void play() {

@@ -18,14 +18,20 @@ public class LocalizedStrings {
     public enum LevelSelectionMenu {
         LEVEL_SELECTION_TITLE,
         PLAY_LEVEL_BUTTON,
+
+        PLAY_VERSUS_COMPUTER,
+        COMPUTER_STARTS,
     }
 
     public enum GameMenu {
         LOSS_TITLE,
         LOSS_TEXT,
 
-        WIN_TITLE,
-        WIN_TEXT,
+        WHITE_WIN_TITLE,
+        WHITE_WIN_TEXT,
+
+        BLACK_WIN_TITLE,
+        BLACK_WIN_TEXT,
 
         MENU_TITLE,
         MENU_TEXT,
@@ -44,7 +50,6 @@ public class LocalizedStrings {
         MENU_BUTTON,
 
         UNDO_BUTTON,
-        REDO_BUTTON,
 
         TURN_LABEL,
         GAME_TIME_LABEL,

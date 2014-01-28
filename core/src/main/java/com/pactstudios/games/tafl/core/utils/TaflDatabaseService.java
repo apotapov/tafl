@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.dao.LruObjectCache;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -14,6 +15,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
+import com.pactstudios.games.tafl.core.es.model.ai.AiFactory;
 import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogFactory;
@@ -48,10 +50,19 @@ public class TaflDatabaseService extends DatabaseService {
         try {
             matchDao = new RuntimeExceptionDao<TaflMatch, Integer>((Dao<TaflMatch, Integer>)
                     DaoManager.createDao(config.connectionSource, TaflMatch.class));
+            matchDao.setObjectCache(true);
+            matchDao.setObjectCache(new LruObjectCache(Constants.DbConstants.CACHE_SIZE));
+
+
             pieceDao = new RuntimeExceptionDao<GamePiece, Integer>((Dao<GamePiece, Integer>)
                     DaoManager.createDao(config.connectionSource, GamePiece.class));
+            pieceDao.setObjectCache(true);
+            pieceDao.setObjectCache(new LruObjectCache(Constants.DbConstants.CACHE_SIZE));
+
             logDao = new RuntimeExceptionDao<MatchLogEntry, Integer>((Dao<MatchLogEntry, Integer>)
                     DaoManager.createDao(config.connectionSource, MatchLogEntry.class));
+            logDao.setObjectCache(true);
+            logDao.setObjectCache(new LruObjectCache(Constants.DbConstants.CACHE_SIZE));
         } catch (Exception e) {
             throw new GdxRuntimeException("Could not create the DAOs", e);
         }
@@ -111,7 +122,8 @@ public class TaflDatabaseService extends DatabaseService {
         if (match != null) {
             match.pieces = new Array<GamePiece>();
             match.board = new GameBoard(match.dimensions);
-            match.rulesEngine = RulesFactory.getRules(match.rules, match);
+            match.rulesEngine = RulesFactory.getRules(match.rulesType, match);
+            match.aiStrategy = AiFactory.getAiStrategy(match.aiType);
 
             CloseableIterator<GamePiece> it =
                     match.persistedPiece.closeableIterator();

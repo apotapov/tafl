@@ -5,7 +5,6 @@ import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.pactstudios.games.tafl.core.es.model.objects.Team;
-import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
 
 public abstract class RulesEngine {
 
@@ -32,8 +31,9 @@ public abstract class RulesEngine {
     }
 
     public abstract Team getFirstTurn();
+    public abstract Team getSecondTurn();
     public abstract Array<GamePiece> getCapturedPieces(ModelCell end);
-    public abstract Lifecycle checkGameState(ModelCell end, Array<GamePiece> capturedPieces);
+    public abstract Team checkWinner(ModelCell end, Array<GamePiece> capturedPieces);
     public abstract boolean legalMove(GamePiece piece, ModelCell start, ModelCell end);
     public abstract Array<ModelCell> legalMoves(ModelCell start);
     public abstract void populateBoard();

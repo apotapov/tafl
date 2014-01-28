@@ -15,6 +15,7 @@ import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
+import com.pactstudios.games.tafl.core.es.systems.events.AiTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
@@ -61,6 +62,12 @@ public class TaflWorld implements Disposable {
 
         lifecycle = Lifecycle.PLAY;
         world.getSystem(CellHighlightSystem.class).highlightTeam(match.turn);
+
+        if (match.versusComputer &&
+                match.turn == match.computerTeam) {
+            AiTurnEvent aiTurn = world.createEvent(AiTurnEvent.class);
+            world.postEvent(null, aiTurn);
+        }
     }
 
     public void render(float delta) {
@@ -112,7 +119,7 @@ public class TaflWorld implements Disposable {
         match.status = Lifecycle.RESTART;
         game.databaseService.updateMatch(match);
 
-        createNewMatch();
+        createNewMatch(match.versusComputer, match.computerTeam == match.rulesEngine.getFirstTurn());
 
         initialize();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -126,13 +133,13 @@ public class TaflWorld implements Disposable {
         lifecycle = null;
     }
 
-    public boolean createNewMatch() {
+    public boolean createNewMatch(boolean versusComputer, boolean computerStarts) {
         if (level == null && match == null) {
             game.setScreen(game.levelSelectionScreen);
         } else if (level == null) {
             level = game.levelService.getLevel(match.name);
         }
-        match = game.levelService.createNewMatch(level);
+        match = game.levelService.createNewMatch(level, versusComputer, computerStarts);
         return match != null;
     }
 

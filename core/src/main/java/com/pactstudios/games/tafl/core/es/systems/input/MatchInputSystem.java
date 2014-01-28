@@ -42,17 +42,20 @@ public class MatchInputSystem extends InputProcessingSystem<MapRenderingComponen
         if (event.type == InputType.TOUCH_UP) {
             MatchComponent matchComponent = matchMapper.get(e);
             TaflMatch match = matchComponent.match;
+            if (match.acceptInput()) {
 
-            if (!matchComponent.animationInProgress) {
-                Vector2 touchPosition = BoardUtils.getMapPosition(gameTouchPoint);
-                ModelCell touchedCell = match.board.getCell(
-                        (int)touchPosition.x, (int)touchPosition.y);
 
-                if (touchedCell != null) {
-                    if (match.rulesEngine.checkTurn(touchedCell.piece)) {
-                        selectPiece(match, touchedCell);
-                    } else if (match.board.selectedPiece != null) {
-                        movePiece(match, touchedCell);
+                if (!matchComponent.animationInProgress) {
+                    Vector2 touchPosition = BoardUtils.getMapPosition(gameTouchPoint);
+                    ModelCell touchedCell = match.board.getCell(
+                            (int)touchPosition.x, (int)touchPosition.y);
+
+                    if (touchedCell != null) {
+                        if (match.rulesEngine.checkTurn(touchedCell.piece)) {
+                            selectPiece(match, touchedCell);
+                        } else if (match.board.selectedPiece != null) {
+                            movePiece(match, touchedCell);
+                        }
                     }
                 }
             }

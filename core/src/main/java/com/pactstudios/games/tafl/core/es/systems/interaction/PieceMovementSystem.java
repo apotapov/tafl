@@ -12,6 +12,8 @@ import com.pactstudios.games.tafl.core.es.model.board.Move;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogFactory;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
+import com.pactstudios.games.tafl.core.es.model.objects.Team;
+import com.pactstudios.games.tafl.core.es.systems.events.ChangeTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
@@ -56,7 +58,6 @@ public class PieceMovementSystem extends EventProcessingSystem<PieceMoveEvent> {
         //matchComponent.animationInProgress = true;
 
         move(match, event);
-        clearSelection(match);
         processCapturedPieces(event, match);
     }
 
@@ -77,22 +78,27 @@ public class PieceMovementSystem extends EventProcessingSystem<PieceMoveEvent> {
 
     private void checkEndGame(PieceMoveEvent event, TaflMatch match,
             Array<GamePiece> capturedPieces) {
-        Lifecycle lifecycle =
-                match.rulesEngine.checkGameState(event.move.end, capturedPieces);
-        if (lifecycle == Lifecycle.PLAY) {
-            match.rulesEngine.changeTurn();
-            dbService.updateMatch(match);
-            highlightSystem.highlightTeam(match.turn);
-        } else {
+        Team winner =
+                match.rulesEngine.checkWinner(event.move.end, capturedPieces);
+        if (winner != null) {
+            Lifecycle lifecycle = Lifecycle.WIN;
+            if (match.versusComputer && match.computerTeam == winner) {
+                lifecycle = Lifecycle.LOSS;
+            }
             LifecycleEvent lce = world.createEvent(LifecycleEvent.class);
             lce.lifecycle = lifecycle;
+            lce.winner = winner;
             world.postEvent(this, lce);
+        } else {
+            if (capturedPieces.size == 0) {
+                changeTurn(match);
+            }
         }
     }
 
-    private void clearSelection(TaflMatch match) {
-        match.board.selectedPiece = null;
-        highlightSystem.clearCellHighlights();
+    private void changeTurn(TaflMatch match) {
+        ChangeTurnEvent event = world.createEvent(ChangeTurnEvent.class);
+        world.postEvent(this, event);
     }
 
     private void move(TaflMatch match, PieceMoveEvent event) {

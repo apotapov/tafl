@@ -2,6 +2,7 @@ package com.pactstudios.games.tafl.core.screen;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -49,20 +50,58 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         }
 
         final List list = new List(levelNames, skin, Assets.Skin.MENU_STYLE_NAME);
-        list.setSelectedIndex(0);
+        list.setSelectedIndex(game.preferenceService.getDefaultLevel());
+        list.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.preferenceService.setDefaultLevel(list.getSelectedIndex());
+                game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
+            }
+        });
 
         table.add(list).size(Constants.ScreenConstants.LIST_WIDTH, Constants.ScreenConstants.LIST_HEIGHT).uniform().spaceBottom(10);
         table.row();
 
-        String text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.PLAY_LEVEL_BUTTON);
+        String text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.PLAY_VERSUS_COMPUTER);
+        final CheckBox versusComputer = new CheckBox(text, skin, Assets.Skin.MENU_STYLE_NAME);
+        versusComputer.setChecked(game.preferenceService.getVersusComputer());
+        versusComputer.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.preferenceService.setVersusComputer(versusComputer.isChecked());
+                game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
+            }
+        });
+        table.add(versusComputer);
+        table.row();
+
+        text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.COMPUTER_STARTS);
+        final CheckBox computerStarts = new CheckBox(text, skin, Assets.Skin.MENU_STYLE_NAME);
+        computerStarts.setChecked(game.preferenceService.getComputerStarts());
+        computerStarts.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.preferenceService.setComputerStarts(computerStarts.isChecked());
+                game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
+            }
+        });
+
+        table.add(computerStarts);
+        table.row();
+
+        text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.PLAY_LEVEL_BUTTON);
         TextButton button = new TextButton(text, skin, Assets.Skin.MENU_STYLE_NAME);
         button.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
                 game.gamePlayScreen.setLevel(levels.get(localizedMap.get(list.getSelection())));
-                game.gamePlayScreen.createNewMatch();
+                game.gamePlayScreen.createNewMatch(versusComputer.isChecked(), computerStarts.isChecked());
                 game.setScreen(game.gamePlayScreen);
+                game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
         table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT).uniform();

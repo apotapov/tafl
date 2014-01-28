@@ -35,8 +35,7 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                boolean enabled = soundEffectsCheckbox.isChecked();
-                game.preferenceService.setSoundEnabled(enabled);
+                game.preferenceService.setSoundEnabled(soundEffectsCheckbox.isChecked());
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
@@ -49,9 +48,8 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
         musicCheckbox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                boolean enabled = musicCheckbox.isChecked();
+                game.preferenceService.setMusicEnabled(musicCheckbox.isChecked());
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
-                game.preferenceService.setMusicEnabled(enabled);
             }
         });
         table.add(musicCheckbox).uniform().spaceBottom(20);

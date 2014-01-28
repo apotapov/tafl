@@ -4,8 +4,10 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
+import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
+import com.pactstudios.games.tafl.core.es.systems.events.ChangeTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceCaptureEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
@@ -52,6 +54,12 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
             highlightSystem.clearCellHighlights(cell);
             efs.createCaptureAnimation(cell);
         }
+        component.match.undoStack.peek().captured.addAll(event.move.captured);
+        changeTurn(component.match);
     }
 
+    private void changeTurn(TaflMatch match) {
+        ChangeTurnEvent event = world.createEvent(ChangeTurnEvent.class);
+        world.postEvent(this, event);
+    }
 }

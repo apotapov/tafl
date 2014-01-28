@@ -4,10 +4,8 @@ import com.artemis.systems.PassiveEntitySystem;
 import com.artemis.systems.event.SystemEvent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.systems.events.InputEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.InputEvent.InputType;
-import com.pactstudios.games.tafl.core.es.systems.events.MouseMoveEvent;
 
 public class UserInputSystem extends PassiveEntitySystem implements InputProcessor {
 
@@ -53,12 +51,6 @@ public class UserInputSystem extends PassiveEntitySystem implements InputProcess
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        if (Constants.GameConstants.DEBUG) {
-            MouseMoveEvent event = SystemEvent.createEvent(MouseMoveEvent.class);
-            event.x = screenX;
-            event.y = screenY;
-            world.postEvent(this, event);
-        }
         return false;
     }
 

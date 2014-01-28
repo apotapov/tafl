@@ -10,7 +10,6 @@ import com.pactstudios.games.tafl.core.es.model.board.cells.RegularCell;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.pactstudios.games.tafl.core.es.model.objects.PieceType;
 import com.pactstudios.games.tafl.core.es.model.objects.Team;
-import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
 
 public class BasicRulesEngine extends RulesEngine {
 
@@ -26,13 +25,14 @@ public class BasicRulesEngine extends RulesEngine {
     }
 
     @Override
-    public Lifecycle checkGameState(ModelCell end, Array<GamePiece> capturedPieces) {
+    public Team checkWinner(ModelCell end, Array<GamePiece> capturedPieces) {
+        Team winner = null;
         if (checkCaptureKing(capturedPieces)) {
-            return Lifecycle.LOSS;
-        } else if (checkWin(end)) {
-            return Lifecycle.WIN;
+            winner = Team.BLACK;
+        } else if (checkKingEscaped(end)) {
+            winner = Team.WHITE;
         }
-        return Lifecycle.PLAY;
+        return winner;
     }
 
     private boolean checkCaptureKing(Array<GamePiece> capturedPieces) {
@@ -44,7 +44,7 @@ public class BasicRulesEngine extends RulesEngine {
         return false;
     }
 
-    private boolean checkWin(ModelCell end) {
+    private boolean checkKingEscaped(ModelCell end) {
         return end instanceof CornerCell && end.piece.type == PieceType.KING;
     }
 
@@ -224,5 +224,10 @@ public class BasicRulesEngine extends RulesEngine {
     @Override
     public Team getFirstTurn() {
         return Team.BLACK;
+    }
+
+    @Override
+    public Team getSecondTurn() {
+        return Team.WHITE;
     }
 }

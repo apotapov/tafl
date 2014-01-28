@@ -8,6 +8,10 @@ public final class Constants {
     private Constants() {
     }
 
+    public static final class AiConstants {
+        public static final int MAX_TREE_DEPTH = 3;
+    }
+
     public static final class ScreenConstants {
         private ScreenConstants() {
         }
@@ -87,11 +91,15 @@ public final class Constants {
     public static final class GameConstants {
         private GameConstants() {
         }
-        public static final boolean DEBUG = false;
+        public static final boolean DEBUG = true;
         public static final int BATCH_SIZE = 100;
         public static final int GAME_WIDTH = 600;
         public static final int GAME_HEIGHT = 1000;
         public static final boolean USE_GL20 = false;
+
+        public static final int DEFAULT_LEVEL_INDEX = 0;
+        public static final boolean DEFAULT_VERSUS_COMPUTER = true;
+        public static final boolean DEFAULT_COMPUTER_STARTS = true;
     }
 
     public static final class DbConstants {
@@ -108,5 +116,7 @@ public final class Constants {
         public static final String LOG_TABLE = "log";
 
         public static final int MATCH_TO_RESUME = 1;
+
+        public static final int CACHE_SIZE = 1000;
     }
 }

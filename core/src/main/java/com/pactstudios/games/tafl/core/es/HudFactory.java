@@ -16,7 +16,6 @@ import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
-import com.pactstudios.games.tafl.core.es.systems.events.RedoEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.UndoEvent;
 import com.pactstudios.games.tafl.core.es.systems.render.hud.HudBackground;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
@@ -59,7 +58,8 @@ public class HudFactory {
         };
 
         createMenuDialog(component, world, skin, localeService, restartListener, quitListener);
-        createWinDialog(component, world, skin, localeService, restartListener, quitListener);
+        createWhiteWinDialog(component, world, skin, localeService, restartListener, quitListener);
+        createBlackWinDialog(component, world, skin, localeService, restartListener, quitListener);
         createLossDialog(component, world, skin, localeService, restartListener, quitListener);
     }
 
@@ -69,8 +69,8 @@ public class HudFactory {
 
         String text = localeService.get(LocalizedStrings.GameMenu.LOSS_TITLE);
         component.lossDialog = new Dialog(text, skin);
-
         component.lossDialog.setSkin(skin);
+
         text = localeService.get(LocalizedStrings.GameMenu.LOSS_TEXT);
         component.lossDialog.add(text);
 
@@ -86,17 +86,16 @@ public class HudFactory {
         component.lossDialog.button(quitButton);
     }
 
-    private static void createWinDialog(HudRenderingComponent component,
+    private static void createWhiteWinDialog(HudRenderingComponent component,
             World world, Skin skin, LocaleService localeService, ChangeListener restartListener,
             ChangeListener quitListener) {
 
-        String text = localeService.get(LocalizedStrings.GameMenu.WIN_TITLE);
-        component.winDialog = new Dialog(text, skin);
+        String text = localeService.get(LocalizedStrings.GameMenu.WHITE_WIN_TITLE);
+        component.whiteWinDialog = new Dialog(text, skin);
+        component.whiteWinDialog.setSkin(skin);
 
-        component.winDialog.setSkin(skin);
-
-        text = localeService.get(LocalizedStrings.GameMenu.WIN_TEXT);
-        component.winDialog.add(text);
+        text = localeService.get(LocalizedStrings.GameMenu.WHITE_WIN_TEXT);
+        component.whiteWinDialog.add(text);
 
         text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
         TextButton restartButton = new TextButton(text, skin);
@@ -106,8 +105,31 @@ public class HudFactory {
         TextButton quitButton = new TextButton(text, skin);
         quitButton.addListener(quitListener);
 
-        component.winDialog.button(restartButton);
-        component.winDialog.button(quitButton);
+        component.whiteWinDialog.button(restartButton);
+        component.whiteWinDialog.button(quitButton);
+    }
+
+    private static void createBlackWinDialog(HudRenderingComponent component,
+            World world, Skin skin, LocaleService localeService, ChangeListener restartListener,
+            ChangeListener quitListener) {
+
+        String text = localeService.get(LocalizedStrings.GameMenu.BLACK_WIN_TITLE);
+        component.blackWinDialog = new Dialog(text, skin);
+        component.blackWinDialog.setSkin(skin);
+
+        text = localeService.get(LocalizedStrings.GameMenu.BLACK_WIN_TEXT);
+        component.blackWinDialog.add(text);
+
+        text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
+        TextButton restartButton = new TextButton(text, skin);
+        restartButton.addListener(restartListener);
+
+        text = localeService.get(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON);
+        TextButton quitButton = new TextButton(text, skin);
+        quitButton.addListener(quitListener);
+
+        component.blackWinDialog.button(restartButton);
+        component.blackWinDialog.button(quitButton);
     }
 
     private static void createMenuDialog(final HudRenderingComponent component,
@@ -162,14 +184,11 @@ public class HudFactory {
         table.add(component.timer).expandX();
 
         if (Constants.GameConstants.DEBUG) {
-            component.mouseLocation = new Label("", skin);
-            table.add(component.mouseLocation).expandX();
-
             component.fps = new Label("", skin);
             table.add(component.fps).expandX();
         }
 
-        createUndoRedo(component, skin, table, gameWorld);
+        createUndo(component, skin, table, gameWorld);
 
         table.right().top().setFillParent(true);
         component.hubStage.addActor(table);
@@ -190,7 +209,7 @@ public class HudFactory {
     }
 
 
-    private static void createUndoRedo(HudRenderingComponent component,
+    private static void createUndo(HudRenderingComponent component,
             Skin skin, Table table, TaflWorld gameWorld) {
 
         final World world = gameWorld.world;
@@ -202,17 +221,6 @@ public class HudFactory {
             public void changed (ChangeEvent event, Actor actor) {
                 UndoEvent undoEvent = SystemEvent.createEvent(UndoEvent.class);
                 world.postEvent(null, undoEvent);
-            }
-        });
-        table.add(button).size(Constants.HudConstants.BUTTON_WIDTH, Constants.HudConstants.BUTTON_HEIGHT).uniform();
-
-        text = gameWorld.game.localeService.get(LocalizedStrings.Hud.REDO_BUTTON);
-        button = new TextButton(text, skin);
-        button.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                RedoEvent redoEvent = SystemEvent.createEvent(RedoEvent.class);
-                world.postEvent(null, redoEvent);
             }
         });
         table.add(button).size(Constants.HudConstants.BUTTON_WIDTH, Constants.HudConstants.BUTTON_HEIGHT).uniform();

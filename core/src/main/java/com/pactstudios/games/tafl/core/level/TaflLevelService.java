@@ -8,6 +8,8 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
+import com.pactstudios.games.tafl.core.es.model.ai.AiFactory;
+import com.pactstudios.games.tafl.core.es.model.ai.AiStrategy.AiType;
 import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.pactstudios.games.tafl.core.es.model.rules.RulesFactory;
@@ -29,15 +31,18 @@ public class TaflLevelService extends LevelService<TaflLevel>{
         return new TaflLevelDataLoader(new InternalFileHandleResolver());
     }
 
-    public TaflMatch createNewMatch(TaflLevel level) {
+    public TaflMatch createNewMatch(TaflLevel level, boolean versusComputer, boolean computerStarts) {
 
         TaflMatch match = new TaflMatch();
         match.created = new Date();
         match.updated = new Date();
         match.name = level.name;
         match.status = Lifecycle.PLAY;
-        match.rules = level.rules;
+        match.rulesType = level.rules;
         match.dimensions = level.dimensions;
+        match.versusComputer = versusComputer;
+        match.aiType = versusComputer ? AiType.RANDOM : AiType.NONE;
+
 
         match.pieces = new Array<GamePiece>(level.pieces.size);
         for (GamePiece piece : level.pieces) {
@@ -50,6 +55,10 @@ public class TaflLevelService extends LevelService<TaflLevel>{
         match.board = new GameBoard(level.dimensions);
         match.rulesEngine = RulesFactory.getRules(level.rules, match);
         match.turn = match.rulesEngine.getFirstTurn();
+        match.aiStrategy = AiFactory.getAiStrategy(match.aiType);
+
+        match.computerTeam = computerStarts ? match.rulesEngine.getFirstTurn() :
+            match.rulesEngine.getSecondTurn();
 
         databaseService.createMatch(match);
 

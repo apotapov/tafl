@@ -46,6 +46,12 @@ public final class Constants {
 
         public static final float FRAME_DURATION = 0.2f;
         public static final float EXPLOSION_FRAME_DURATION = 0.05f;
+
+        public static final float SLOW_DOWN_DISTANCE = BoardConstants.TILE_SIZE;
+        public static final int PIECE_SPEED = 200;
+
+        public static final Color PATH_COLOR = new Color(0.4f, 0.25f, .25f, 1f);
+        public static final Color END_COLOR = new Color(0.25f, 0.25f, .25f, 1f);
     }
 
     public static final class BoardConstants {
@@ -75,7 +81,6 @@ public final class Constants {
         public static final float VERTICAL_CELL_ID_VERTICAL_OFFSET = HALF_TILE_SIZE + FONT_WEIRDNESS_OFFSET;
         public static final float VERTICAL_CELL_ID_LEFT_OFFSET = -QUARTER_TILE_SIZE;
         public static final float VERTICAL_CELL_ID_RIGHT_OFFSET = TILE_SIZE + QUARTER_TILE_SIZE;
-
     }
 
     public static final class HudConstants {

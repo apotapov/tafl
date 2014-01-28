@@ -1,25 +1,15 @@
 package com.pactstudios.games.tafl.core.es.components.movement;
 
 import com.artemis.Component;
-import com.badlogic.gdx.math.Vector2;
+import com.pactstudios.games.tafl.core.es.model.board.Move;
 
 public class VelocityComponent implements Component {
-    public Vector2 velocity;
-    public float maxAngleChange;
-
-    public VelocityComponent() {
-        velocity = new Vector2();
-    }
+    public Move move;
+    public float distanceRemaining;
 
     @Override
     public void reset() {
-        velocity.set(0, 0);
-        maxAngleChange = 0;
+        move = null;
+        distanceRemaining = 0;
     }
-
-    @Override
-    public String toString() {
-        return "Velocity" + velocity;
-    }
-
 }

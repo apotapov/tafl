@@ -7,6 +7,7 @@ import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
+import com.pactstudios.games.tafl.core.es.model.objects.PieceType;
 import com.pactstudios.games.tafl.core.es.systems.events.ChangeTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceCaptureEvent;
@@ -42,7 +43,11 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
 
         MatchComponent component = matchMapper.get(e);
 
+        boolean changeTurn = true;
         for (GamePiece piece : event.move.captured) {
+            if (piece.type == PieceType.KING) {
+                changeTurn = false;
+            }
             piece.killed = event.move.entry;
             dbService.updatePiece(piece);
 
@@ -55,7 +60,9 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
             efs.createCaptureAnimation(cell);
         }
         component.match.undoStack.peek().captured.addAll(event.move.captured);
-        changeTurn(component.match);
+        if (changeTurn) {
+            changeTurn(component.match);
+        }
     }
 
     private void changeTurn(TaflMatch match) {

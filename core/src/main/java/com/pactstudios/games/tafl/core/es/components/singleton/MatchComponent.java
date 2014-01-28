@@ -8,6 +8,10 @@ public class MatchComponent implements Component {
     public TaflMatch match;
     public boolean animationInProgress;
 
+    public boolean acceptInput() {
+        return !animationInProgress && match.acceptInput();
+    }
+
     @Override
     public void reset() {
         match = null;

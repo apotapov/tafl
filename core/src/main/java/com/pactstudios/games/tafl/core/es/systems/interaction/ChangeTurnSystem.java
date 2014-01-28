@@ -46,13 +46,7 @@ public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
             world.postEvent(this, aiTurn);
         }
 
-        highlightTeam(match);
-    }
-
-    private void highlightTeam(TaflMatch match) {
-        match.board.selectedPiece = null;
-        highlightSystem.clearCellHighlights();
         highlightSystem.highlightTeam(match.turn);
+        matchComponent.animationInProgress = false;
     }
-
 }

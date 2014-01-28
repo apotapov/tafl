@@ -11,6 +11,7 @@ import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.render.AnimationComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
+import com.pactstudios.games.tafl.core.es.model.board.Move;
 import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.pactstudios.games.tafl.core.utils.BoardUtils;
@@ -94,5 +95,9 @@ public class EntityFactorySystem extends PassiveEntitySystem {
 
         e.addToWorld();
         return e;
+    }
+
+    public void movePiece(Move move) {
+        move.piece.entity.addComponent(componentFactory.createVelocityComponent(move));
     }
 }

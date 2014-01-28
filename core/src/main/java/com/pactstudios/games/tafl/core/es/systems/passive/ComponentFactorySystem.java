@@ -23,16 +23,22 @@ import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingCompo
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
+import com.pactstudios.games.tafl.core.es.model.board.Move;
 import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
+import com.pactstudios.games.tafl.core.utils.BoardUtils;
 import com.roundtriangles.games.zaria.services.GraphicsService;
 
 public class ComponentFactorySystem extends PassiveEntitySystem {
 
     GraphicsService graphics;
+    Vector2 position;
+    Vector2 end;
 
     public ComponentFactorySystem(GraphicsService graphics) {
         this.graphics = graphics;
+        position = new Vector2();
+        end = new Vector2();
     }
 
     protected <T extends Component> T createComponent(Class<T> type) {
@@ -51,10 +57,11 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         return component;
     }
 
-    public VelocityComponent createVelocityComponent(Vector2 velocity, float maxAngleChange) {
+    public VelocityComponent createVelocityComponent(Move move) {
         VelocityComponent component = createComponent(VelocityComponent.class);
-        component.velocity.set(velocity);
-        component.maxAngleChange = maxAngleChange;
+        component.move = move;
+        position.set(BoardUtils.getTilePosition(move.start));
+        component.distanceRemaining = position.dst(BoardUtils.getTilePosition(move.end));
         return component;
     }
 

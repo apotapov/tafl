@@ -14,29 +14,32 @@ import com.pactstudios.games.tafl.core.es.model.log.MatchLogFactory;
 import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.pactstudios.games.tafl.core.es.model.objects.Team;
 import com.pactstudios.games.tafl.core.es.systems.events.ChangeTurnEvent;
-import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem;
+import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem2;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
+import com.pactstudios.games.tafl.core.es.systems.events.MoveFinishedEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceCaptureEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceMoveEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
+import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.SoundSystem;
 import com.pactstudios.games.tafl.core.utils.BoardUtils;
 import com.pactstudios.games.tafl.core.utils.TaflDatabaseService;
 
-public class PieceMovementSystem extends EventProcessingSystem<PieceMoveEvent> {
+public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, MoveFinishedEvent> {
 
     ComponentMapper<MatchComponent> matchMapper;
     ComponentMapper<PositionComponent> positionMapper;
 
-    CellHighlightSystem highlightSystem;
     SoundSystem soundSystem;
+    EntityFactorySystem efs;
+    CellHighlightSystem highlightSystem;
 
     TaflDatabaseService dbService;
 
     @SuppressWarnings("unchecked")
     public PieceMovementSystem(TaflDatabaseService dbService) {
-        super(Aspect.getAspectForAll(MatchComponent.class), PieceMoveEvent.class);
+        super(Aspect.getAspectForAll(MatchComponent.class), PieceMoveEvent.class, MoveFinishedEvent.class);
         this.dbService = dbService;
     }
 
@@ -46,22 +49,21 @@ public class PieceMovementSystem extends EventProcessingSystem<PieceMoveEvent> {
         matchMapper = world.getMapper(MatchComponent.class);
         positionMapper = world.getMapper(PositionComponent.class);
 
-        highlightSystem = world.getSystem(CellHighlightSystem.class);
         soundSystem = world.getSystem(SoundSystem.class);
+        efs = world.getSystem(EntityFactorySystem.class);
+        highlightSystem = world.getSystem(CellHighlightSystem.class);
     }
 
     @Override
     protected void processEvent(Entity e, PieceMoveEvent event) {
         MatchComponent matchComponent = matchMapper.get(e);
-        TaflMatch match = matchComponent.match;
-
-        //matchComponent.animationInProgress = true;
-
-        move(match, event);
-        processCapturedPieces(event, match);
+        matchComponent.animationInProgress = true;
+        efs.movePiece(event.move.clone());
+        matchComponent.match.board.selectedPiece = null;
+        highlightSystem.clearCellHighlights();
     }
 
-    private void processCapturedPieces(PieceMoveEvent event, TaflMatch match) {
+    private void processCapturedPieces(TaflMatch match, MoveFinishedEvent event) {
         Array<GamePiece> captured =
                 match.rulesEngine.getCapturedPieces(event.move.end);
 
@@ -73,10 +75,10 @@ public class PieceMovementSystem extends EventProcessingSystem<PieceMoveEvent> {
             world.postEvent(this, captureEvent);
         }
 
-        checkEndGame(event, match, captured);
+        checkEndGame(match, event, captured);
     }
 
-    private void checkEndGame(PieceMoveEvent event, TaflMatch match,
+    private void checkEndGame(TaflMatch match, MoveFinishedEvent event,
             Array<GamePiece> capturedPieces) {
         Team winner =
                 match.rulesEngine.checkWinner(event.move.end, capturedPieces);
@@ -101,7 +103,7 @@ public class PieceMovementSystem extends EventProcessingSystem<PieceMoveEvent> {
         world.postEvent(this, event);
     }
 
-    private void move(TaflMatch match, PieceMoveEvent event) {
+    private void move(TaflMatch match, MoveFinishedEvent event) {
 
         Vector2 newPosition = BoardUtils.getTilePositionCenter(event.move.end);
         PositionComponent position = positionMapper.get(event.move.piece.entity);
@@ -120,5 +122,14 @@ public class PieceMovementSystem extends EventProcessingSystem<PieceMoveEvent> {
         MatchLogEntry entry = MatchLogFactory.log(match, move);
         dbService.createLogEntry(entry);
         return entry;
+    }
+
+    @Override
+    protected void processEvent2(Entity e, MoveFinishedEvent event) {
+        MatchComponent matchComponent = matchMapper.get(e);
+        TaflMatch match = matchComponent.match;
+
+        move(match, event);
+        processCapturedPieces(match, event);
     }
 }

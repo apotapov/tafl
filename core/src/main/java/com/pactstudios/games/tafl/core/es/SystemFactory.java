@@ -6,11 +6,11 @@ import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.es.systems.input.HudInputSystem;
 import com.pactstudios.games.tafl.core.es.systems.input.MatchInputSystem;
 import com.pactstudios.games.tafl.core.es.systems.interaction.AiSystem;
-import com.pactstudios.games.tafl.core.es.systems.interaction.MovementSystem;
+import com.pactstudios.games.tafl.core.es.systems.interaction.ChangeTurnSystem;
 import com.pactstudios.games.tafl.core.es.systems.interaction.PieceCaptureSystem;
+import com.pactstudios.games.tafl.core.es.systems.interaction.PieceMoveAnimationSystem;
 import com.pactstudios.games.tafl.core.es.systems.interaction.PieceMovementSystem;
 import com.pactstudios.games.tafl.core.es.systems.interaction.ResourceManagementSystem;
-import com.pactstudios.games.tafl.core.es.systems.interaction.ChangeTurnSystem;
 import com.pactstudios.games.tafl.core.es.systems.interaction.UndoSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.ComponentFactorySystem;
@@ -24,9 +24,9 @@ import com.pactstudios.games.tafl.core.es.systems.render.CellIdRendererSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.GameBoardColorRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.GameBoardRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.HudRenderingSystem;
+import com.pactstudios.games.tafl.core.es.systems.render.MotionRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.PreRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.SpriteRenderSystem;
-import com.pactstudios.games.tafl.core.es.systems.render.debug.VelocityRenderSystem;
 
 
 public class SystemFactory {
@@ -53,7 +53,7 @@ public class SystemFactory {
     }
 
     protected static void initActiveSystems(TaflWorld gameWorld, Array<EntitySystem> activeSystems) {
-        activeSystems.add(new MovementSystem());
+        activeSystems.add(new PieceMoveAnimationSystem());
         activeSystems.add(new ResourceManagementSystem());
 
         for (EntitySystem system : activeSystems) {
@@ -77,6 +77,7 @@ public class SystemFactory {
     protected static void initRenderingSystems(TaflWorld gameWorld) {
         gameWorld.world.setSystem(new PreRenderSystem());
         gameWorld.world.setSystem(new GameBoardColorRenderSystem());
+        gameWorld.world.setSystem(new MotionRenderSystem());
         gameWorld.world.setSystem(new GameBoardRenderSystem());
         gameWorld.world.setSystem(new CellIdRendererSystem());
         gameWorld.world.setSystem(new CellHighlightRenderSystem());
@@ -87,7 +88,6 @@ public class SystemFactory {
     protected static void initDebugRenderingSystems(TaflWorld gameWorld) {
         //        gameWorld.world.setSystem(new DebugRenderSystem());
         //gameWorld.world.setSystem(new DebugCellIdRendererSystem());
-        gameWorld.world.setSystem(new VelocityRenderSystem());
     }
 
     protected static void initHudRenderingSystems(TaflWorld gameWorld) {

@@ -29,7 +29,7 @@ public class MiniMaxStrategy implements AiStrategy {
 
             @Override
             public void free (Array<Move> object) {
-                object.clear();
+                object.size = 0;
                 super.free(object);
             }
         };

@@ -12,7 +12,8 @@ public class PositionComponent implements Component {
 
     @Override
     public void reset() {
-        position.set(0, 0);
+        position.x = 0;
+        position.y = 0;
     }
 
     @Override

@@ -102,7 +102,7 @@ public final class Constants {
     public static final class GameConstants {
         private GameConstants() {
         }
-        public static final boolean DEBUG = true;
+        public static final boolean DEBUG = false;
         public static final int BATCH_SIZE = 100;
         public static final int GAME_WIDTH = 600;
         public static final int GAME_HEIGHT = 1000;

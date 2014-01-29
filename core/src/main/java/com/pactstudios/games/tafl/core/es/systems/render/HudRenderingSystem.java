@@ -7,6 +7,8 @@ import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
+import com.pactstudios.games.tafl.core.es.model.objects.Team;
+import com.pactstudios.games.tafl.core.utils.TimeCharSequence;
 import com.roundtriangles.games.zaria.services.GraphicsService;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
@@ -17,11 +19,15 @@ public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
     LocaleService localeService;
     GraphicsService graphicService;
 
+    TimeCharSequence time;
+
     @SuppressWarnings("unchecked")
     public HudRenderingSystem(LocaleService localeService, GraphicsService graphicService) {
         super(Aspect.getAspectForAll(HudComponent.class), HudRenderingComponent.class);
         this.localeService = localeService;
         this.graphicService = graphicService;
+
+        time = new TimeCharSequence();
     }
 
     @Override
@@ -33,42 +39,44 @@ public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
     @Override
     protected void process(Entity e, HudRenderingComponent rendComponent) {
         HudComponent hudComponent = hudMapper.get(e);
-        if (hudComponent != null) {
-            String text = localeService.get(hudComponent.match.turn.getLocalizedName());
-            text = localeService.get(LocalizedStrings.Hud.TURN_LABEL, text);
-            rendComponent.turn.setText(text);
+        updateTurn(rendComponent, hudComponent);
+        updateTime(rendComponent, hudComponent);
+        updateDebugInfo(rendComponent, hudComponent);
 
-            text = localeService.get(LocalizedStrings.Hud.GAME_TIME_LABEL, floatToTime(hudComponent.match.timer));
-            rendComponent.timer.setText(text);
+        rendComponent.hubStage.act(world.getDelta());
+        rendComponent.hubStage.draw();
 
-            if (Constants.GameConstants.DEBUG) {
-                rendComponent.fps.setText("FPS: " + hudComponent.fps);
+    }
+
+    private void updateDebugInfo(HudRenderingComponent rendComponent,
+            HudComponent hudComponent) {
+        if (Constants.GameConstants.DEBUG) {
+            rendComponent.fps.setText("FPS: " + hudComponent.fps);
+        }
+    }
+
+    private void updateTime(HudRenderingComponent rendComponent,
+            HudComponent hudComponent) {
+        time.setTime((int) hudComponent.match.timer);
+        rendComponent.timer.setText(time);
+    }
+
+    private void updateTurn(HudRenderingComponent rendComponent,
+            HudComponent hudComponent) {
+        String text;
+        if (!hudComponent.match.versusComputer || hudComponent.match.computerTeam != hudComponent.match.turn) {
+            if (hudComponent.match.turn == Team.WHITE) {
+                text = localeService.get(LocalizedStrings.Hud.WHITE_TURN_LABEL);
+            } else {
+                text = localeService.get(LocalizedStrings.Hud.BLACK_TURN_LABEL);
             }
-
-            //rendComponent.log.setItems(hudComponent.log.log.items);
-
-            rendComponent.hubStage.act(world.getDelta());
-            rendComponent.hubStage.draw();
-        }
-    }
-
-    private String floatToTime(float gameTime) {
-        int seconds = (int)(gameTime) % 60;
-        int minutes = ((int)(gameTime) / 60) % 60;
-        return paddedInt(minutes) + ":" + paddedInt(seconds);
-    }
-
-    protected String paddedInt(int intVal) {
-        String str;
-        if (intVal == 0) {
-            str = "00";
-        } else if (intVal < 10) {
-            str = "0" + intVal;
         } else {
-            str = Integer.toString(intVal);
+            text = localeService.get(LocalizedStrings.Hud.COMPUTER_TURN_LABEL);
         }
-        return str;
+        rendComponent.turn.setText(text);
     }
+
+
 
     @Override
     protected void begin(HudRenderingComponent rendComponent) {

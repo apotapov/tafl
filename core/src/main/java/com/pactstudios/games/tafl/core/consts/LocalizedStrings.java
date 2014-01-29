@@ -52,7 +52,8 @@ public class LocalizedStrings {
 
         UNDO_BUTTON,
 
-        TURN_LABEL,
-        GAME_TIME_LABEL,
+        WHITE_TURN_LABEL,
+        BLACK_TURN_LABEL,
+        COMPUTER_TURN_LABEL,
     }
 }

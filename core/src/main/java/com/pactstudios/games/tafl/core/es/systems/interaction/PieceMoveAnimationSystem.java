@@ -54,7 +54,8 @@ public class PieceMoveAnimationSystem extends EntityProcessingSystem {
     }
 
     private void calculateVelocity(Move move, Vector2 position) {
-        velocity.set(move.end.x - move.start.x, move.end.y - move.start.y);
+        velocity.x = move.end.x - move.start.x;
+        velocity.y = move.end.y - move.start.y;
         velocity.nor().scl(Constants.PieceConstants.PIECE_SPEED);
     }
 

@@ -19,8 +19,8 @@ public class BoardUtils {
     private static Vector2 position = new Vector2();
 
     public static Vector2 getTilePosition(int x, int y) {
-        position.set(x * Constants.BoardConstants.TILE_SIZE + Constants.BoardConstants.BOARD_FRAME_WIDTH,
-                y * Constants.BoardConstants.TILE_SIZE + Constants.BoardConstants.BOARD_FRAME_WIDTH);
+        position.x = x * Constants.BoardConstants.TILE_SIZE + Constants.BoardConstants.BOARD_FRAME_WIDTH;
+        position.y = y * Constants.BoardConstants.TILE_SIZE + Constants.BoardConstants.BOARD_FRAME_WIDTH;
         return position;
     }
 
@@ -39,8 +39,8 @@ public class BoardUtils {
     }
 
     public static Vector2 getMapPosition(Vector2 screenPosition) {
-        position.set((int)((screenPosition.x - Constants.BoardConstants.BOARD_FRAME_WIDTH) / Constants.BoardConstants.TILE_SIZE),
-                (int)((screenPosition.y - Constants.BoardConstants.BOARD_FRAME_WIDTH) / Constants.BoardConstants.TILE_SIZE));
+        position.x = (int)((screenPosition.x - Constants.BoardConstants.BOARD_FRAME_WIDTH) / Constants.BoardConstants.TILE_SIZE);
+        position.y = (int)((screenPosition.y - Constants.BoardConstants.BOARD_FRAME_WIDTH) / Constants.BoardConstants.TILE_SIZE);
         return position;
     }
 

@@ -6,13 +6,13 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.pactstudios.games.tafl.core.TaflGame;
 import com.pactstudios.games.tafl.core.level.TaflLevel;
 import com.pactstudios.games.tafl.core.level.TaflLevelService;
-import com.pactstudios.games.tafl.core.utils.CustomSkinLoader;
 import com.roundtriangles.games.zaria.services.GraphicsService;
 import com.roundtriangles.games.zaria.services.SoundService;
 import com.roundtriangles.games.zaria.services.db.DatabaseService;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
 import com.roundtriangles.games.zaria.services.utils.FontDefinition;
 import com.roundtriangles.games.zaria.services.utils.GameAssetLoader;
+import com.roundtriangles.games.zaria.utils.CustomSkinLoader;
 
 public class Assets extends GameAssetLoader<TaflLevel> {
 

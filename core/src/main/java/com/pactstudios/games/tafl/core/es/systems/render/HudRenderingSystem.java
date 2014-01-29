@@ -8,9 +8,9 @@ import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
 import com.pactstudios.games.tafl.core.es.model.objects.Team;
-import com.pactstudios.games.tafl.core.utils.TimeCharSequence;
 import com.roundtriangles.games.zaria.services.GraphicsService;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
+import com.roundtriangles.games.zaria.utils.TimeCharSequence;
 
 public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
 

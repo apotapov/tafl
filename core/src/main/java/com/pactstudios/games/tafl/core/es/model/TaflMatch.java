@@ -3,7 +3,6 @@ package com.pactstudios.games.tafl.core.es.model;
 import java.util.Date;
 
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pools;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -151,7 +150,7 @@ public class TaflMatch {
         move.piece.x = move.end.x;
         move.piece.y = move.end.y;
         if (record) {
-            Pools.freeAll(redoStack);
+            Move.movePool.freeAll(redoStack);
             redoStack.clear();
             undoStack.add(move);
         }

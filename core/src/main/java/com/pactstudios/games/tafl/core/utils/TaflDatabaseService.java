@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.IntMap;
 import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -16,6 +17,7 @@ import com.j256.ormlite.table.TableUtils;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.ai.AiFactory;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.ZorbistHash;
 import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogFactory;
@@ -35,11 +37,15 @@ public class TaflDatabaseService extends DatabaseService {
     PreparedQuery<TaflMatch> loadMatchQuery;
     PreparedQuery<TaflMatch> matchLogQuery;
 
+    public IntMap<ZorbistHash> hashs;
+
     public TaflDatabaseService(ConnectionSource connectionSource) {
         config = new DatabaseServiceConfig();
         config.connectionSource = connectionSource;
         config.upgradeHistory.currentVersion = Constants.DbConstants.CURRENT_DB_VERSION;
         this.upgradeService = new DatabaseUpgradeService(config);
+
+        this.hashs = new IntMap<ZorbistHash>();
 
         initializeDaos();
         initializeQueries();
@@ -86,8 +92,20 @@ public class TaflDatabaseService extends DatabaseService {
             TableUtils.createTableIfNotExists(config.connectionSource, GamePiece.class);
             TableUtils.createTableIfNotExists(config.connectionSource, MatchLogEntry.class);
         } catch (Exception e) {
-
+            throw new GdxRuntimeException("Failed to created DB tables.", e);
         }
+    }
+
+    @Override
+    protected void loadData() {
+        //FIXME do not hard code these, and get them from the database.
+        ZorbistHash hash = new ZorbistHash(Constants.PieceConstants.PIECE_TYPES, 9*9);
+        hash.generate();
+        hashs.put(9, hash);
+
+        hash = new ZorbistHash(Constants.PieceConstants.PIECE_TYPES, 11*11);
+        hash.generate();
+        hashs.put(11, hash);
     }
 
     public void createMatch(TaflMatch match) {
@@ -121,7 +139,10 @@ public class TaflDatabaseService extends DatabaseService {
 
         if (match != null) {
             match.pieces = new Array<GamePiece>();
-            match.board = new GameBoard(match.dimensions);
+            match.board = new GameBoard(match.dimensions,
+                    Constants.PieceConstants.PIECE_TYPES,
+                    hashs.get(match.dimensions));
+
             match.rulesEngine = RulesFactory.getRules(match.rulesType, match);
             match.aiStrategy = AiFactory.getAiStrategy(match.aiType);
 

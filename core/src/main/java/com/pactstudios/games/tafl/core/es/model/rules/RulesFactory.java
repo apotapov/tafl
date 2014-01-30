@@ -8,7 +8,7 @@ public class RulesFactory {
     public static RulesEngine getRules(RulesEngineType rule, TaflMatch game) {
         switch(rule) {
         case BASIC:
-            return new BasicRulesEngine(game);
+            return new OfficialRulesEngine(game);
         default:
             return null;
         }

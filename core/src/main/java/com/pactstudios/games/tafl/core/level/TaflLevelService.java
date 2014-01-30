@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.loaders.AsynchronousAssetLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.consts.Assets;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.ai.AiFactory;
 import com.pactstudios.games.tafl.core.es.model.ai.AiStrategy.AiType;
@@ -52,7 +53,10 @@ public class TaflLevelService extends LevelService<TaflLevel>{
             match.pieces.add(matchPiece);
         }
 
-        match.board = new GameBoard(level.dimensions);
+        match.board = match.board = new GameBoard(match.dimensions,
+                Constants.PieceConstants.PIECE_TYPES,
+                databaseService.hashs.get(match.dimensions));
+
         match.rulesEngine = RulesFactory.getRules(level.rules, match);
         match.turn = match.rulesEngine.getFirstTurn();
         match.aiStrategy = AiFactory.getAiStrategy(match.aiType);

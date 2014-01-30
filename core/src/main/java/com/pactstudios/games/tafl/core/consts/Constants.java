@@ -16,6 +16,8 @@ public final class Constants {
         public static final Color LOADING_PROMP_COLOR = new Color(0f, 0f, 0f, 0.4f);
         public static final float LOADING_PROMPT_WIDTH = 150;
         public static final float LOADING_PROMPT_HEIGHT = 60;
+
+        public static final int TABLE_SIZE = 1048576; // 1m
     }
 
     public static final class ScreenConstants {
@@ -48,6 +50,8 @@ public final class Constants {
     public static final class PieceConstants {
         private PieceConstants() {
         }
+        public static final int PIECE_TYPES = 3;
+
         public static final float SCALING = 2f;
 
         public static final float FRAME_DURATION = 0.2f;
@@ -87,6 +91,8 @@ public final class Constants {
         public static final float VERTICAL_CELL_ID_VERTICAL_OFFSET = HALF_TILE_SIZE + FONT_WEIRDNESS_OFFSET;
         public static final float VERTICAL_CELL_ID_LEFT_OFFSET = -QUARTER_TILE_SIZE;
         public static final float VERTICAL_CELL_ID_RIGHT_OFFSET = TILE_SIZE + QUARTER_TILE_SIZE;
+
+        public static final int BOARD_TYPES = 2;
     }
 
     public static final class HudConstants {

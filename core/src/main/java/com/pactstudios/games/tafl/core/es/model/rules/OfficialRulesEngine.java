@@ -11,12 +11,12 @@ import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.pactstudios.games.tafl.core.es.model.objects.PieceType;
 import com.pactstudios.games.tafl.core.es.model.objects.Team;
 
-public class BasicRulesEngine extends RulesEngine {
+public class OfficialRulesEngine extends RulesEngine {
 
     Array<ModelCell> legalMoves;
     Array<GamePiece> capturedPieces;
 
-    public BasicRulesEngine(TaflMatch match) {
+    public OfficialRulesEngine(TaflMatch match) {
         super(match);
         legalMoves = new Array<ModelCell>();
         capturedPieces = new Array<GamePiece>();
@@ -150,10 +150,8 @@ public class BasicRulesEngine extends RulesEngine {
     }
 
     private boolean isKingHostile(GamePiece piece, ModelCell oppositeCell) {
-        return isHostile(piece, oppositeCell) || oppositeCell == null;
+        return oppositeCell != null && oppositeCell.piece != null && piece.type.team == oppositeCell.piece.type.team;
     }
-
-
 
     @Override
     public boolean legalMove(GamePiece piece, ModelCell start, ModelCell end) {

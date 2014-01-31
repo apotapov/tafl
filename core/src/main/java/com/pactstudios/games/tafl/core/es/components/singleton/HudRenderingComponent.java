@@ -15,6 +15,7 @@ public class HudRenderingComponent implements RenderingComponent {
     public Dialog whiteWinDialog;
     public Dialog blackWinDialog;
     public Dialog lossDialog;
+    public Dialog drawDialog;
 
     // upper hud
     public Label turn;
@@ -31,6 +32,7 @@ public class HudRenderingComponent implements RenderingComponent {
         whiteWinDialog = null;
         blackWinDialog = null;
         lossDialog = null;
+        drawDialog = null;
         turn = null;
         timer = null;
     }

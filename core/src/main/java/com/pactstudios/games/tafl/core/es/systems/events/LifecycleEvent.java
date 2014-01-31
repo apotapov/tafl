@@ -1,18 +1,10 @@
 package com.pactstudios.games.tafl.core.es.systems.events;
 
 import com.artemis.systems.event.SystemEvent;
-import com.pactstudios.games.tafl.core.es.model.objects.Team;
+import com.pactstudios.games.tafl.core.enums.Lifecycle;
+import com.pactstudios.games.tafl.core.enums.Team;
 
 public class LifecycleEvent extends SystemEvent {
-    public enum Lifecycle {
-        PLAY,
-        MENU,
-        QUIT,
-        RESTART,
-        WIN,
-        LOSS;
-    }
-
     public Lifecycle lifecycle;
     public Team winner;
 

@@ -1,4 +1,4 @@
-package com.pactstudios.games.tafl.core.es.model.board;
+package com.pactstudios.games.tafl.core.enums;
 
 import com.pactstudios.games.tafl.core.consts.Constants;
 

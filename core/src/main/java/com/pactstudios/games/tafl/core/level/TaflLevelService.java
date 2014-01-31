@@ -6,9 +6,9 @@ import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.loaders.AsynchronousAssetLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.pactstudios.games.tafl.core.consts.Assets;
+import com.pactstudios.games.tafl.core.enums.AiType;
+import com.pactstudios.games.tafl.core.enums.Lifecycle;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.ai.AiStrategy.AiType;
-import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
 import com.roundtriangles.games.zaria.services.LevelService;
 
 public class TaflLevelService extends LevelService<TaflLevel>{

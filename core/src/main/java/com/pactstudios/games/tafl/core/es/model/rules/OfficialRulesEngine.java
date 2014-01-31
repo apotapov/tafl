@@ -5,9 +5,10 @@ import java.util.BitSet;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
 import com.pactstudios.games.tafl.core.consts.Constants;
+import com.pactstudios.games.tafl.core.enums.RulesEngine;
+import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
-import com.pactstudios.games.tafl.core.es.model.objects.Team;
 
 public class OfficialRulesEngine extends RulesEngine {
 

@@ -1,10 +1,9 @@
-package com.pactstudios.games.tafl.core.es.model.rules;
+package com.pactstudios.games.tafl.core.enums;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
-import com.pactstudios.games.tafl.core.es.model.objects.Team;
 
 public abstract class RulesEngine {
 

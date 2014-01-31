@@ -14,7 +14,6 @@ import java.util.BitSet;
 
 import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.Move;
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.Move.MoveType;
 import com.pactstudios.games.tafl.core.es.model.board.GameBitBoard;
 
 public class MoveListGenerator {
@@ -82,17 +81,6 @@ public class MoveListGenerator {
         return moves;
     }
 
-    public Array<Move> computeCaptureMoves(GameBitBoard board, int pieceType) {
-        computeLegalMoves(board, pieceType);
-        for (int i = moves.size - 1; i >= 0; i--) {
-            Move mov = moves.get(i);
-            if (mov.moveType != MoveType.CAPTURE_MOVE) {
-                moves.removeIndex(i);
-            }
-        }
-        return moves;
-    }
-
     private void computeMoves(GameBitBoard board, int pieceType) {
         // Fetch the bitboard containing positions of these pieces
         BitSet pieces = board.bitBoards[pieceType];
@@ -123,7 +111,6 @@ public class MoveListGenerator {
                             mov.source = square;
                             mov.destination = dest;
                             mov.pieceType = pieceType;
-                            mov.moveType = MoveType.NORMAL_MOVE;
                             moves.add(mov);
                         }
                     }

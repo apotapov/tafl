@@ -1,4 +1,4 @@
-package com.pactstudios.games.tafl.core.es.model.ai.optimization;
+package com.pactstudios.games.tafl.core.enums;
 
 
 /**

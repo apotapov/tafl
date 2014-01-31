@@ -5,11 +5,11 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.utils.Array;
+import com.pactstudios.games.tafl.core.enums.Lifecycle;
+import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
-import com.pactstudios.games.tafl.core.es.model.objects.Team;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
-import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
 
 public class LifecycleSystem extends EntityProcessingSystem {
 
@@ -48,6 +48,9 @@ public class LifecycleSystem extends EntityProcessingSystem {
             case LOSS:
                 loss(component);
                 break;
+            case DRAW:
+                draw(component);
+                break;
             case PLAY:
                 play();
                 break;
@@ -85,6 +88,16 @@ public class LifecycleSystem extends EntityProcessingSystem {
         } else {
             component.blackWinDialog.show(component.hubStage);
         }
+    }
+
+
+    private void draw(HudRenderingComponent component) {
+        gameWorld.pauseSystems();
+
+        gameWorld.match.status = Lifecycle.DRAW;
+        gameWorld.game.databaseService.updateMatch(gameWorld.match);
+
+        component.drawDialog.show(component.hubStage);
     }
 
     private void play() {

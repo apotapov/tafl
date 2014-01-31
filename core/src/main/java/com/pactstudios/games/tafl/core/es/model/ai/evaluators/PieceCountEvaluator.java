@@ -2,8 +2,8 @@ package com.pactstudios.games.tafl.core.es.model.ai.evaluators;
 
 import java.util.BitSet;
 
+import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.objects.Team;
 
 public class PieceCountEvaluator implements BoardEvaluator {
 

@@ -1,13 +1,9 @@
 package com.pactstudios.games.tafl.core.es.systems.events;
 
 import com.artemis.systems.event.SystemEvent;
+import com.pactstudios.games.tafl.core.enums.InputType;
 
 public class InputEvent extends SystemEvent {
-    public enum InputType {
-        TOUCH_DOWN,
-        TOUCH_UP,
-        TOUCH_DRAG
-    }
 
     public InputType type;
     public int x;

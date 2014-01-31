@@ -5,8 +5,8 @@ import java.util.Date;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.pactstudios.games.tafl.core.consts.Constants;
+import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.objects.Team;
 
 @DatabaseTable(tableName = Constants.DbConstants.LOG_TABLE)
 public class MatchLogEntry {

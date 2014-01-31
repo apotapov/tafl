@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition;
 
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.EvaluationType;
+import com.pactstudios.games.tafl.core.enums.EvaluationType;
 
 public class TranspositionTable {
 

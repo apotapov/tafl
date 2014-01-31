@@ -4,8 +4,8 @@ import com.artemis.systems.PassiveEntitySystem;
 import com.artemis.systems.event.SystemEvent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.pactstudios.games.tafl.core.enums.InputType;
 import com.pactstudios.games.tafl.core.es.systems.events.InputEvent;
-import com.pactstudios.games.tafl.core.es.systems.events.InputEvent.InputType;
 
 public class UserInputSystem extends PassiveEntitySystem implements InputProcessor {
 

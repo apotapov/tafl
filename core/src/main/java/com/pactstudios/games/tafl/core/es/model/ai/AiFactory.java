@@ -1,7 +1,7 @@
 package com.pactstudios.games.tafl.core.es.model.ai;
 
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.es.model.ai.AiStrategy.AiType;
+import com.pactstudios.games.tafl.core.enums.AiType;
 import com.pactstudios.games.tafl.core.es.model.ai.evaluators.PieceCountEvaluator;
 
 public class AiFactory {

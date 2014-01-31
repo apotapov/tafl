@@ -1,7 +1,8 @@
 package com.pactstudios.games.tafl.core.es.model.rules;
 
+import com.pactstudios.games.tafl.core.enums.RulesEngine;
+import com.pactstudios.games.tafl.core.enums.RulesEngine.RulesEngineType;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.rules.RulesEngine.RulesEngineType;
 
 public class RulesFactory {
 

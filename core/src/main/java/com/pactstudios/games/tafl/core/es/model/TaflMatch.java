@@ -11,19 +11,19 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.pactstudios.games.tafl.core.consts.Constants;
+import com.pactstudios.games.tafl.core.enums.AiType;
+import com.pactstudios.games.tafl.core.enums.GameBoardType;
+import com.pactstudios.games.tafl.core.enums.Lifecycle;
+import com.pactstudios.games.tafl.core.enums.PieceType;
+import com.pactstudios.games.tafl.core.enums.RulesEngine;
+import com.pactstudios.games.tafl.core.enums.RulesEngine.RulesEngineType;
+import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.ai.AiFactory;
 import com.pactstudios.games.tafl.core.es.model.ai.AiStrategy;
-import com.pactstudios.games.tafl.core.es.model.ai.AiStrategy.AiType;
 import com.pactstudios.games.tafl.core.es.model.board.GameBitBoard;
-import com.pactstudios.games.tafl.core.es.model.board.GameBoardType;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
-import com.pactstudios.games.tafl.core.es.model.objects.PieceType;
-import com.pactstudios.games.tafl.core.es.model.objects.Team;
-import com.pactstudios.games.tafl.core.es.model.rules.RulesEngine;
-import com.pactstudios.games.tafl.core.es.model.rules.RulesEngine.RulesEngineType;
 import com.pactstudios.games.tafl.core.es.model.rules.RulesFactory;
-import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
 import com.pactstudios.games.tafl.core.utils.TaflDatabaseService;
 
 @DatabaseTable(tableName = Constants.DbConstants.MATCH_TABLE)

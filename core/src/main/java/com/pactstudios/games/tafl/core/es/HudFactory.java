@@ -12,9 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
+import com.pactstudios.games.tafl.core.enums.Lifecycle;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
-import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
 import com.pactstudios.games.tafl.core.es.systems.events.UndoEvent;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
@@ -59,6 +59,7 @@ public class HudFactory {
         createWhiteWinDialog(component, world, skin, localeService, restartListener, quitListener);
         createBlackWinDialog(component, world, skin, localeService, restartListener, quitListener);
         createLossDialog(component, world, skin, localeService, restartListener, quitListener);
+        createDrawDialog(component, world, skin, localeService, restartListener, quitListener);
     }
 
     private static void createLossDialog(HudRenderingComponent component,
@@ -82,6 +83,29 @@ public class HudFactory {
 
         component.lossDialog.button(restartButton);
         component.lossDialog.button(quitButton);
+    }
+
+    private static void createDrawDialog(HudRenderingComponent component,
+            World world, Skin skin, LocaleService localeService, ChangeListener restartListener,
+            ChangeListener quitListener) {
+
+        String text = localeService.get(LocalizedStrings.GameMenu.DRAW_TITLE);
+        component.drawDialog = new Dialog(text, skin);
+        component.drawDialog.setSkin(skin);
+
+        text = localeService.get(LocalizedStrings.GameMenu.DRAW_TEXT);
+        component.drawDialog.add(text);
+
+        text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
+        TextButton restartButton = new TextButton(text, skin);
+        restartButton.addListener(restartListener);
+
+        text = localeService.get(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON);
+        TextButton quitButton = new TextButton(text, skin);
+        quitButton.addListener(quitListener);
+
+        component.drawDialog.button(restartButton);
+        component.drawDialog.button(quitButton);
     }
 
     private static void createWhiteWinDialog(HudRenderingComponent component,

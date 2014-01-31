@@ -3,9 +3,9 @@ package com.pactstudios.games.tafl.core.es.model.log;
 import java.util.Date;
 
 import com.pactstudios.games.tafl.core.consts.Constants;
+import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
-import com.pactstudios.games.tafl.core.es.model.objects.Team;
 
 public class MatchLogFactory {
 

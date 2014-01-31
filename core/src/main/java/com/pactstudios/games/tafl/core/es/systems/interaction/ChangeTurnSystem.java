@@ -40,6 +40,8 @@ public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
         match.rulesEngine.changeTurn();
         dbService.updateMatch(match);
 
+        match.rulesEngine.calculateLegalMoves();
+
         if (match.versusComputer &&
                 match.turn == match.computerTeam) {
             AiTurnEvent aiTurn = world.createEvent(AiTurnEvent.class);

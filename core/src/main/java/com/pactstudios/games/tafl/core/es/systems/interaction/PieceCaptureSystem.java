@@ -49,10 +49,10 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
                 changeTurn = false;
             }
 
-            component.match.removePiece(capturedPiece);
+            component.match.removePiece(event.move.pieceType, capturedPiece);
 
             highlightSystem.clearCellHighlights(capturedPiece);
-            Vector2 position = component.match.getCellPosition(capturedPiece);
+            Vector2 position = component.match.getCellPositionCenter(capturedPiece);
             efs.createCaptureAnimation(position);
         }
         component.match.undoStack.peek().capturedPieces.addAll(event.move.capturedPieces);

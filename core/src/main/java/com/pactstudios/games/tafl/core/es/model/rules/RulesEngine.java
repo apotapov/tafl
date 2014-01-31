@@ -24,7 +24,6 @@ public abstract class RulesEngine {
         } else {
             match.turn = Team.BLACK;
         }
-        calculateLegalMoves();
     }
 
     public abstract Team getFirstTurn();

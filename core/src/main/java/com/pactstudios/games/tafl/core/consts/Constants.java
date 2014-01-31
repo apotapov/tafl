@@ -9,7 +9,7 @@ public final class Constants {
     }
 
     public static final class AiConstants {
-        public static final int MAX_TREE_DEPTH = 8;
+        public static final int MAX_TREE_DEPTH = 4;
         public static final int WIN = 200;
         public static final int LOSS = -WIN;
 
@@ -39,8 +39,6 @@ public final class Constants {
         }
 
         public static final String HIGHLIGHTED_CELLS = "hcells";
-        public static final String WHITE = "white";
-        public static final String BLACK = "black";
 
         public static final String BOARD = "board";
         public static final String RENDERER = "renderer";

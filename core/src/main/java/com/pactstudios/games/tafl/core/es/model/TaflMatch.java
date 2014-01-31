@@ -171,7 +171,10 @@ public class TaflMatch {
 
     @Override
     public boolean equals(Object other) {
-        return other != null && other instanceof TaflMatch && name != null && name.equals(((TaflMatch)other).name);
+        return other != null &&
+                other instanceof TaflMatch &&
+                name != null &&
+                name.equals(((TaflMatch)other).name);
     }
 
     @Override
@@ -184,7 +187,7 @@ public class TaflMatch {
             applyMove(move, true);
             move.capturedPieces.addAll(rulesEngine.getCapturedPieces(move.destination));
             for (int i = 0; i < move.capturedPieces.size; i++) {
-                board.bitBoards[move.pieceType].clear(move.capturedPieces.items[i]);
+                board.bitBoards[(move.pieceType + 1) % 2].clear(move.capturedPieces.items[i]);
             }
             simulatedMoves.add(move);
         }
@@ -195,7 +198,7 @@ public class TaflMatch {
             Move move = simulatedMoves.pop();
             undoMove(move, true);
             for (int i = 0; i < move.capturedPieces.size; i++) {
-                board.bitBoards[move.pieceType].set(move.capturedPieces.items[i]);
+                board.bitBoards[(move.pieceType + 1) % 2].set(move.capturedPieces.items[i]);
             }
 
         }
@@ -294,10 +297,9 @@ public class TaflMatch {
         return null;
     }
 
-    public void removePiece(int capturedPiece) {
-        for (BitSet bitBoard : board.bitBoards) {
-            bitBoard.clear(capturedPiece);
-        }
+    public void removePiece(int captor, int capturedPiece) {
+        board.bitBoards[(captor + 1) % 2].clear(capturedPiece);
+
         if (capturedPiece == king) {
             king = Constants.BoardConstants.KING_DEAD;
         }

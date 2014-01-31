@@ -116,8 +116,9 @@ public class OfficialRulesEngine extends RulesEngine {
 
     private void checkCapture(int destination, int first, int second, int third, int fourth) {
         try {
-            Team capturingTeam = match.getTeam(destination);
-            if (match.board.isValid(first) && match.board.bitBoards[capturingTeam.getOpositeTeam().bitBoardId()].get(first)) {
+            int capturingTeam = match.getTeam(destination).bitBoardId();
+            int oppositeTeam = (capturingTeam + 1) % 2;
+            if (match.board.isValid(first) && match.board.bitBoards[oppositeTeam].get(first)) {
                 if (first == match.king) {
                     if (isKingHostile(capturingTeam, second) &&
                             isKingHostile(capturingTeam, third) &&
@@ -135,15 +136,15 @@ public class OfficialRulesEngine extends RulesEngine {
         }
     }
 
-    private boolean isHostile(Team capturingTeam, int oppositeCell) {
+    private boolean isHostile(int capturingTeam, int oppositeCell) {
         return match.board.isValid(oppositeCell) &&
-                (match.board.bitBoards[capturingTeam.bitBoardId()].get(oppositeCell) ||
+                (match.board.bitBoards[capturingTeam].get(oppositeCell) ||
                         (!match.canWalk(oppositeCell) && oppositeCell != match.king));
     }
 
-    private boolean isKingHostile(Team capturingTeam, int oppositeCell) {
+    private boolean isKingHostile(int capturingTeam, int oppositeCell) {
         return match.board.isValid(oppositeCell) &&
-                match.board.bitBoards[capturingTeam.bitBoardId()].get(oppositeCell);
+                match.board.bitBoards[capturingTeam].get(oppositeCell);
     }
 
     @Override
@@ -205,7 +206,7 @@ public class OfficialRulesEngine extends RulesEngine {
         for (int i = source + match.board.dimensions; i < match.board.numberCells; i += match.board.dimensions) {
             if (!match.board.bitBoards[Team.WHITE.bitBoardId()].get(i) &&
                     !match.board.bitBoards[Team.BLACK.bitBoardId()].get(i) &&
-                    (match.canWalk(i) || i == match.king)) {
+                    (match.canWalk(i) || source == match.king)) {
                 legalMoves.add(i);
             } else {
                 break;
@@ -217,7 +218,7 @@ public class OfficialRulesEngine extends RulesEngine {
         for (int i = source - match.board.dimensions; i >= 0; i -= match.board.dimensions) {
             if (!match.board.bitBoards[Team.WHITE.bitBoardId()].get(i) &&
                     !match.board.bitBoards[Team.BLACK.bitBoardId()].get(i) &&
-                    (match.canWalk(i) || i == match.king)) {
+                    (match.canWalk(i) || source == match.king)) {
                 legalMoves.add(i);
             } else {
                 break;
@@ -230,7 +231,7 @@ public class OfficialRulesEngine extends RulesEngine {
         for (int i = source + 1; i < nextRow; i++) {
             if (!match.board.bitBoards[Team.WHITE.bitBoardId()].get(i) &&
                     !match.board.bitBoards[Team.BLACK.bitBoardId()].get(i) &&
-                    (match.canWalk(i) || i == match.king)) {
+                    (match.canWalk(i) || source == match.king)) {
                 legalMoves.add(i);
             } else {
                 break;
@@ -243,7 +244,7 @@ public class OfficialRulesEngine extends RulesEngine {
         for (int i = source - 1; i > previousRow; i--) {
             if (!match.board.bitBoards[Team.WHITE.bitBoardId()].get(i) &&
                     !match.board.bitBoards[Team.BLACK.bitBoardId()].get(i) &&
-                    (match.canWalk(i) || i == match.king)) {
+                    (match.canWalk(i) || source == match.king)) {
                 legalMoves.add(i);
             } else {
                 break;

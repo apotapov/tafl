@@ -1,8 +1,9 @@
 package com.pactstudios.games.tafl.core.es.model.ai.evaluators;
 
+import java.util.BitSet;
+
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 import com.pactstudios.games.tafl.core.es.model.objects.Team;
 
 public class PieceCountEvaluator implements BoardEvaluator {
@@ -15,17 +16,16 @@ public class PieceCountEvaluator implements BoardEvaluator {
         if (winner != null) {
             value = winner == team ? Constants.AiConstants.WIN : Constants.AiConstants.LOSS;
         } else {
-            for (int i = 0; i < match.board.dimensions; i++) {
-                for (int j = 0; j < match.board.dimensions; j++) {
-                    ModelCell cell = match.board.getCell(i, j);
-                    if (cell.piece != null) {
-                        if (cell.piece.type.team == team) {
-                            value++;
-                        } else {
-                            value--;
-                        }
-                    }
-                }
+            BitSet pieces = match.board.bitBoards[Team.WHITE.bitBoardId()];
+            for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
+                value++;
+            }
+            pieces = match.board.bitBoards[Team.BLACK.bitBoardId()];
+            for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
+                value--;
+            }
+            if (team == Team.BLACK) {
+                value *= -1;
             }
         }
 

@@ -66,9 +66,9 @@ public class AiSystem extends EventProcessingSystem2<AiTurnEvent, AiCompleteEven
         e.removeComponent(AiProcessingComponent.class);
 
         PieceMoveEvent moveEvent = world.createEvent(PieceMoveEvent.class);
-        moveEvent.move.piece = event.move.piece;
-        moveEvent.move.start = event.move.start;
-        moveEvent.move.end = event.move.end;
+        moveEvent.move.pieceType = event.move.pieceType;
+        moveEvent.move.source = event.move.source;
+        moveEvent.move.destination = event.move.destination;
         world.postEvent(this, moveEvent);
     }
 

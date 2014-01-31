@@ -3,60 +3,38 @@ package com.pactstudios.games.tafl.core.es.model.board;
 import java.util.BitSet;
 
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.ZorbistHash;
-import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
-import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 
-public class GameBoard {
+public class GameBitBoard {
 
     public static final int NUMBER_OF_TEAMS = 2;
 
-    public ModelCell[][] cells;
-
-    public GamePiece selectedPiece;
-
-    public ModelCell[] cornerCells;
+    private char[] bitSetChars;
 
     public int dimensions;
     public int pieceTypes;
-    public int numberSquares;
+    public int numberCells;
 
     public BitSet[] bitBoards;
 
     public ZorbistHash zorbistHash;
 
-    public GameBoard(int dimensions, int pieceTypes, ZorbistHash zorbistHash) {
+    public GameBitBoard(int dimensions, int pieceTypes, ZorbistHash zorbistHash) {
         this.dimensions = dimensions;
         this.pieceTypes = pieceTypes;
-        this.numberSquares = dimensions * dimensions;
+        this.numberCells = dimensions * dimensions;
         this.zorbistHash = zorbistHash;
 
-        this.cornerCells = new ModelCell[4];
+        bitSetChars = new char[1024];
 
-        bitBoards = new BitSet[pieceTypes + NUMBER_OF_TEAMS];
+        bitBoards = new BitSet[pieceTypes];
         for (int i = 0; i < pieceTypes; i++) {
-            bitBoards[i] = new BitSet(numberSquares);
-        }
-    }
-
-    public ModelCell getCell(int x, int y) {
-        if(x >= 0 && x < dimensions && y >= 0 && y < dimensions) {
-            return cells[x][y];
-        }
-        return null;
-    }
-
-    public void setCell(ModelCell cell) {
-        if(cell.x >= 0 && cell.x < dimensions && cell.y >= 0 && cell.y < dimensions) {
-            cells[cell.x][cell.y] = cell;
+            bitBoards[i] = new BitSet(numberCells);
         }
     }
 
     public void reset() {
-        for (int i = 0; i < dimensions; i++) {
-            for (int j = 0; j < dimensions; j++) {
-                ModelCell cell = getCell(i, j);
-                cell.reset();
-            }
+        for (BitSet bitBoard : bitBoards) {
+            bitBoard.clear();
         }
     }
 
@@ -74,7 +52,7 @@ public class GameBoard {
             // of the "currSqaure" loop once we found one king of one color,
             // etc.
             // But for simplicity's sake, we'll keep things generic.
-            for (int currSquare = 0; currSquare < numberSquares; currSquare++) {
+            for (int currSquare = 0; currSquare < numberCells; currSquare++) {
                 // Zobrist's method: generate a bunch of random bitfields, each
                 // representing a certain "piece X is on square Y" predicate;
                 // XOR
@@ -101,7 +79,7 @@ public class GameBoard {
         int hash = 0;
         for (int currPiece = 0; currPiece < pieceTypes; currPiece++) {
             BitSet board = bitBoards[currPiece];
-            for (int currSquare = 0; currSquare < numberSquares; currSquare++) {
+            for (int currSquare = 0; currSquare < numberCells; currSquare++) {
                 if (board.get(currSquare)) {
                     hash ^= zorbistHash.hashLock[currPiece][currSquare];
                 }
@@ -112,9 +90,27 @@ public class GameBoard {
 
     @Override
     public boolean equals(Object other) {
-        if (other != null && other instanceof GameBoard) {
+        if (other != null && other instanceof GameBitBoard) {
             return hashCode() == other.hashCode();
         }
         return false;
+    }
+
+    public boolean isValid(int cellId) {
+        return cellId >= 0 && cellId < numberCells;
+    }
+
+    public void stringToBitSet(String input, int pieceType) {
+        for (int i = 0; i < input.length(); i++) {
+            bitBoards[pieceType].set(i, input.charAt(i) == '1');
+        }
+    }
+
+    public String bitSetToString(int pieceType) {
+        BitSet bitBoard = bitBoards[pieceType];
+        for (int i = 0; i < bitBoard.size(); i++) {
+            bitSetChars[i] = bitBoard.get(i) ? '1' : '0';
+        }
+        return new String(bitSetChars, 0, bitBoard.length());
     }
 }

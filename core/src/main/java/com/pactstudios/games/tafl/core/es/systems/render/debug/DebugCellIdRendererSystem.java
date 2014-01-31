@@ -7,9 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
-import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
+import com.pactstudios.games.tafl.core.es.model.board.GameBitBoard;
 import com.pactstudios.games.tafl.core.es.systems.render.RenderingSystem;
-import com.pactstudios.games.tafl.core.utils.BoardUtils;
 
 public class DebugCellIdRendererSystem extends RenderingSystem<MapRenderingComponent> {
 
@@ -40,19 +39,15 @@ public class DebugCellIdRendererSystem extends RenderingSystem<MapRenderingCompo
     @Override
     protected void process(Entity e, MapRenderingComponent rendComponent) {
         MatchComponent match = matchMapper.get(e);
-        GameBoard board = match.match.board;
+        GameBitBoard board = match.match.board;
 
-        for (int i = 0; i < board.dimensions; i++) {
-            for (int j = 0; j < board.dimensions; j++) {
-                if (board.getCell(i, j) != null) {
-                    Vector2 position = BoardUtils.getTilePosition(i, j);
+        for (int i = 0; i < board.numberCells; i++) {
+            Vector2 position = match.match.getCellPosition(i);
 
-                    rendComponent.font.draw(rendComponent.spriteBatch,
-                            i + "," + j,
-                            position.x + Constants.BoardConstants.HALF_TILE_SIZE,
-                            position.y + Constants.BoardConstants.HALF_TILE_SIZE);
-                }
-            }
+            rendComponent.font.draw(rendComponent.spriteBatch,
+                    "" + i,
+                    position.x + Constants.BoardConstants.HALF_TILE_SIZE,
+                    position.y + Constants.BoardConstants.HALF_TILE_SIZE);
         }
     }
 

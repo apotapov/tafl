@@ -1,5 +1,6 @@
 package com.pactstudios.games.tafl.core.es.model.ai.optimization;
 
+import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 public class Move implements Poolable {
@@ -9,32 +10,34 @@ public class Move implements Poolable {
         CAPTURE_MOVE;
     }
 
-    public int movingPiece;
+    public int pieceType;
 
-    public int sourceSquare;
-    public int destinationSquare;
+    public int source;
+    public int destination;
 
     public int eval;
     public EvaluationType evalType;
     public int searchDepth;
 
-    public int[] capturedPieces;
+    public IntArray capturedPieces = new IntArray();
     public MoveType moveType;
 
     @Override
     public void reset() {
-        movingPiece = 0;
-        sourceSquare = 0;
-        destinationSquare = 0;
+        pieceType = 0;
+        source = 0;
+        destination = 0;
         eval = 0;
         evalType = null;
         searchDepth = 0;
+        capturedPieces.clear();
+        moveType = null;
     }
 
     public void copy(Move move) {
-        movingPiece = move.movingPiece;
-        sourceSquare = move.sourceSquare;
-        destinationSquare = move.destinationSquare;
+        pieceType = move.pieceType;
+        source = move.source;
+        destination = move.destination;
 
         eval = move.eval;
         evalType = move.evalType;

@@ -1,35 +1,33 @@
 package com.pactstudios.games.tafl.core.es.model.rules;
 
+import java.util.BitSet;
+
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntArray;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
-import com.pactstudios.games.tafl.core.es.model.board.cells.CornerCell;
-import com.pactstudios.games.tafl.core.es.model.board.cells.KingCell;
-import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
-import com.pactstudios.games.tafl.core.es.model.board.cells.RegularCell;
-import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
-import com.pactstudios.games.tafl.core.es.model.objects.PieceType;
+import com.pactstudios.games.tafl.core.es.model.board.Move;
 import com.pactstudios.games.tafl.core.es.model.objects.Team;
 
 public class OfficialRulesEngine extends RulesEngine {
 
-    Array<ModelCell> legalMoves;
-    Array<GamePiece> capturedPieces;
+    Array<Move> allLegalMoves;
+    IntArray legalMoves;
+    IntArray capturedPieces;
 
     public OfficialRulesEngine(TaflMatch match) {
         super(match);
-        legalMoves = new Array<ModelCell>();
-        capturedPieces = new Array<GamePiece>();
-
-        populateBoard();
+        allLegalMoves = new Array<Move>();
+        legalMoves = new IntArray();
+        capturedPieces = new IntArray();
     }
 
     @Override
-    public Team checkWinner(ModelCell end, Array<GamePiece> capturedPieces) {
+    public Team checkWinner(int destination, IntArray capturedPieces) {
         Team winner = null;
         if (checkCaptureKing(capturedPieces)) {
             winner = Team.BLACK;
-        } else if (checkKingEscaped(end)) {
+        } else if (checkKingEscaped(destination)) {
             winner = Team.WHITE;
         }
         return winner;
@@ -47,93 +45,88 @@ public class OfficialRulesEngine extends RulesEngine {
     }
 
     private boolean checkCaptureKing() {
-        for (int i = 0; i < match.board.dimensions; i++) {
-            for (int j = 0; j < match.board.dimensions; j++) {
-                ModelCell cell = match.board.getCell(i, j);
-                if (cell.piece != null && cell.piece.type == PieceType.KING) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return match.king != Constants.BoardConstants.KING_DEAD;
     }
 
     private boolean checkKingEscaped() {
-        return checkKingEscaped(match.board.cornerCells[0]) ||
-                checkKingEscaped(match.board.cornerCells[1]) ||
-                checkKingEscaped(match.board.cornerCells[2]) ||
-                checkKingEscaped(match.board.cornerCells[3]);
+        return match.corners[0] == match.king ||
+                match.corners[1] == match.king ||
+                match.corners[2] == match.king ||
+                match.corners[3] == match.king;
     }
 
 
 
-    private boolean checkCaptureKing(Array<GamePiece> capturedPieces) {
-        for (GamePiece piece : capturedPieces) {
-            if (piece.type == PieceType.KING) {
+    private boolean checkCaptureKing(IntArray capturedPieces) {
+        for (int i = 0; i < capturedPieces.size; i++) {
+            if (capturedPieces.items[i] == match.king) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean checkKingEscaped(ModelCell end) {
-        return end != null && end instanceof CornerCell && end.piece != null && end.piece.type == PieceType.KING;
+    private boolean checkKingEscaped(int cellId) {
+        return match.isCornerCell(cellId) && cellId == match.king;
     }
 
     @Override
-    public Array<GamePiece> getCapturedPieces(ModelCell end) {
+    public IntArray getCapturedPieces(int destination) {
         capturedPieces.clear();
 
-        checkCaptureUp(end);
-        checkCaptureDown(end);
-        checkCaptureRight(end);
-        checkCaptureLeft(end);
+        checkCaptureUp(destination);
+        checkCaptureDown(destination);
+        checkCaptureRight(destination);
+        checkCaptureLeft(destination);
 
         return capturedPieces;
     }
 
-    private void checkCaptureLeft(ModelCell end) {
-        ModelCell first = match.board.getCell(end.x - 1, end.y);
-        ModelCell second = match.board.getCell(end.x - 2, end.y);
-        ModelCell third = match.board.getCell(end.x - 1, end.y + 1);
-        ModelCell fourth = match.board.getCell(end.x - 1, end.y - 1);
-        checkCapture(end.piece, first, second, third, fourth);
+    private void checkCaptureLeft(int destination) {
+        int first = destination - 1;
+        int second = destination - 2;
+        int third = first + match.board.dimensions;
+        int fourth = first - match.board.dimensions;
+        checkCapture(destination, first, second, third, fourth);
     }
 
-    private void checkCaptureRight(ModelCell end) {
-        ModelCell first = match.board.getCell(end.x + 1, end.y);
-        ModelCell second = match.board.getCell(end.x + 2, end.y);
-        ModelCell third = match.board.getCell(end.x + 1, end.y + 1);
-        ModelCell fourth = match.board.getCell(end.x + 1, end.y - 1);
-        checkCapture(end.piece, first, second, third, fourth);
+    private void checkCaptureRight(int destination) {
+        int first = destination + 1;
+        int second = destination + 2;
+        int third = first + match.board.dimensions;
+        int fourth = first - match.board.dimensions;
+        checkCapture(destination, first, second, third, fourth);
     }
 
-    private void checkCaptureDown(ModelCell end) {
-        ModelCell first = match.board.getCell(end.x, end.y - 1);
-        ModelCell second = match.board.getCell(end.x, end.y - 2);
-        ModelCell third = match.board.getCell(end.x + 1, end.y - 1);
-        ModelCell fourth = match.board.getCell(end.x - 1, end.y - 1);
-        checkCapture(end.piece, first, second, third, fourth);
+    private void checkCaptureDown(int destination) {
+        int first = destination - match.board.dimensions;
+        int second = destination - 2 * match.board.dimensions;
+        int third = first + 1;
+        int fourth = first - 1;
+        checkCapture(destination, first, second, third, fourth);
     }
 
-    private void checkCaptureUp(ModelCell end) {
-        ModelCell first = match.board.getCell(end.x, end.y + 1);
-        ModelCell second = match.board.getCell(end.x, end.y + 2);
-        ModelCell third = match.board.getCell(end.x + 1, end.y + 1);
-        ModelCell fourth = match.board.getCell(end.x - 1, end.y + 1);
-        checkCapture(end.piece, first, second, third, fourth);
+    private void checkCaptureUp(int destination) {
+        int first = destination + match.board.dimensions;
+        int second = destination + 2 * match.board.dimensions;
+        int third = first + 1;
+        int fourth = first - 1;
+        checkCapture(destination, first, second, third, fourth);
     }
 
-    private void checkCapture(GamePiece piece, ModelCell first, ModelCell second, ModelCell third, ModelCell fourth) {
+    private void checkCapture(int destination, int first, int second, int third, int fourth) {
         try {
-            if (first != null && first.piece != null && piece.type.team != first.piece.type.team) {
-                if (first.piece.type != PieceType.KING) {
-                    if (isHostile(piece, second)) {
-                        capturedPieces.add(first.piece);
+            Team capturingTeam = match.getTeam(destination);
+            if (match.board.isValid(first) && match.board.bitBoards[capturingTeam.getOpositeTeam().bitBoardId()].get(first)) {
+                if (first == match.king) {
+                    if (isKingHostile(capturingTeam, second) &&
+                            isKingHostile(capturingTeam, third) &&
+                            isKingHostile(capturingTeam, fourth)) {
+                        capturedPieces.add(first);
                     }
                 } else {
-                    if (isKingHostile(piece, second) && isKingHostile(piece, third) && isKingHostile(piece, fourth)) {
-                        capturedPieces.add(first.piece);
+                    if (isHostile(capturingTeam, second)) {
+                        capturedPieces.add(first);
                     }
                 }
             }
@@ -142,37 +135,22 @@ public class OfficialRulesEngine extends RulesEngine {
         }
     }
 
-    private boolean isHostile(GamePiece piece, ModelCell oppositeCell) {
-        return oppositeCell != null &&
-                ((oppositeCell.piece != null && piece.type.team == oppositeCell.piece.type.team) ||
-                        (!oppositeCell.canWalk() &&
-                                (oppositeCell.piece == null || piece.type.team == oppositeCell.piece.type.team)));
+    private boolean isHostile(Team capturingTeam, int oppositeCell) {
+        return match.board.isValid(oppositeCell) &&
+                (match.board.bitBoards[capturingTeam.bitBoardId()].get(oppositeCell) ||
+                        (!match.canWalk(oppositeCell) && oppositeCell != match.king));
     }
 
-    private boolean isKingHostile(GamePiece piece, ModelCell oppositeCell) {
-        return oppositeCell != null && oppositeCell.piece != null && piece.type.team == oppositeCell.piece.type.team;
+    private boolean isKingHostile(Team capturingTeam, int oppositeCell) {
+        return match.board.isValid(oppositeCell) &&
+                match.board.bitBoards[capturingTeam.bitBoardId()].get(oppositeCell);
     }
 
     @Override
-    public boolean legalMove(GamePiece piece, ModelCell start, ModelCell end) {
-        if (end.piece == null && (end.canWalk() || piece.type == PieceType.KING)) {
-            if (start.x == end.x) {
-                int increment = Integer.signum(end.y - start.y);
-                for (int i = start.y + increment; i != end.y; i += increment) {
-                    ModelCell examined = match.board.getCell(start.x, i);
-                    if (examined.piece != null) {
-                        return false;
-                    }
-                }
-                return true;
-            } else if (start.y == end.y) {
-                int increment = Integer.signum(end.x - start.x);
-                for (int i = start.x + increment; i != end.x; i += increment) {
-                    ModelCell examined = match.board.getCell(i, start.y);
-                    if (examined.piece != null) {
-                        return false;
-                    }
-                }
+    public boolean isMoveLegal(int source, int destination) {
+        IntArray legalMoves = legalMoves(source);
+        for (int i = 0; i < legalMoves.size; i++) {
+            if (legalMoves.items[i] == destination) {
                 return true;
             }
         }
@@ -180,78 +158,96 @@ public class OfficialRulesEngine extends RulesEngine {
     }
 
     @Override
-    public Array<ModelCell> legalMoves(ModelCell start) {
-        legalMoves.clear();
-
-        legalUp(start);
-        legalDown(start);
-        legalRight(start);
-        legalLeft(start);
-
-        return legalMoves;
+    public Array<Move> legalMoves() {
+        return allLegalMoves;
     }
 
-    private void legalUp(ModelCell start) {
-        ModelCell next = start;
-        while ((next = next.up()) != null && next.piece == null) {
-            if (next.canWalk() || start.piece.type == PieceType.KING) {
-                legalMoves.add(next);
-            }
-        }
-    }
-
-    private void legalDown(ModelCell start) {
-        ModelCell next = start;
-        while ((next = next.down()) != null && next.piece == null) {
-            if (next.canWalk() || start.piece.type == PieceType.KING) {
-                legalMoves.add(next);
-            }
-        }
-    }
-
-    private void legalRight(ModelCell start) {
-        ModelCell next = start;
-        while ((next = next.right()) != null && next.piece == null) {
-            if (next.canWalk() || start.piece.type == PieceType.KING) {
-                legalMoves.add(next);
-            }
-        }
-    }
-
-    private void legalLeft(ModelCell start) {
-        ModelCell next = start;
-        while ((next = next.left()) != null && next.piece == null) {
-            if (next.canWalk() || start.piece.type == PieceType.KING) {
-                legalMoves.add(next);
+    @Override
+    public void calculateLegalMoves() {
+        Move.movePool.freeAll(allLegalMoves);
+        allLegalMoves.clear();
+        BitSet bitBoard = match.board.bitBoards[match.turn.bitBoardId()];
+        for (int source = bitBoard.nextSetBit(0); source >= 0; source = bitBoard.nextSetBit(source+1)) {
+            IntArray moves = calculateLegalMoves(source);
+            for (int i = 0; i < moves.size; i++) {
+                Move move = Move.movePool.obtain();
+                move.pieceType = match.turn.bitBoardId();
+                move.source = source;
+                move.destination = moves.items[i];
+                allLegalMoves.add(move);
             }
         }
     }
 
     @Override
-    public void populateBoard() {
-        match.board.cells = new ModelCell[match.board.dimensions][match.board.dimensions];
-        for (int i = 0; i < match.board.dimensions; i++) {
-            for (int j = 0; j < match.board.dimensions; j++) {
-                ModelCell cell = createCell(match.board, i, j);
-                match.board.cells[i][j] = cell;
+    public IntArray legalMoves(int source) {
+        legalMoves.clear();
+        for (Move move : allLegalMoves) {
+            if (move.source == source) {
+                legalMoves.add(move.destination);
             }
         }
-        match.board.cornerCells[0] = match.board.cells[0][0];
-        match.board.cornerCells[1] = match.board.cells[0][match.board.dimensions - 1];
-        match.board.cornerCells[2] = match.board.cells[match.board.dimensions - 1][0];
-        match.board.cornerCells[3] = match.board.cells[match.board.dimensions - 1][match.board.dimensions - 1];
+        return legalMoves;
     }
 
-    protected ModelCell createCell(GameBoard board, int x, int y) {
-        if ((x == 0 && y == 0) ||
-                (x == board.dimensions - 1 && y == 0) ||
-                (x == 0 && y == board.dimensions - 1) ||
-                (x == board.dimensions -1 && y == board.dimensions -1)) {
-            return new CornerCell(x, y, board);
-        } else if (x == board.dimensions / 2 && y == board.dimensions / 2) {
-            return new KingCell(x, y, board);
-        } else {
-            return new RegularCell(x, y, board);
+    private IntArray calculateLegalMoves(int source) {
+        legalMoves.clear();
+
+        legalUp(source);
+        legalDown(source);
+        legalRight(source);
+        legalLeft(source);
+
+        return legalMoves;
+    }
+
+    private void legalUp(int source) {
+        for (int i = source + match.board.dimensions; i < match.board.numberCells; i += match.board.dimensions) {
+            if (!match.board.bitBoards[Team.WHITE.bitBoardId()].get(i) &&
+                    !match.board.bitBoards[Team.BLACK.bitBoardId()].get(i) &&
+                    (match.canWalk(i) || i == match.king)) {
+                legalMoves.add(i);
+            } else {
+                break;
+            }
+        }
+    }
+
+    private void legalDown(int source) {
+        for (int i = source - match.board.dimensions; i >= 0; i -= match.board.dimensions) {
+            if (!match.board.bitBoards[Team.WHITE.bitBoardId()].get(i) &&
+                    !match.board.bitBoards[Team.BLACK.bitBoardId()].get(i) &&
+                    (match.canWalk(i) || i == match.king)) {
+                legalMoves.add(i);
+            } else {
+                break;
+            }
+        }
+    }
+
+    private void legalRight(int source) {
+        int nextRow = ((source + match.board.dimensions) / match.board.dimensions) * match.board.dimensions;
+        for (int i = source + 1; i < nextRow; i++) {
+            if (!match.board.bitBoards[Team.WHITE.bitBoardId()].get(i) &&
+                    !match.board.bitBoards[Team.BLACK.bitBoardId()].get(i) &&
+                    (match.canWalk(i) || i == match.king)) {
+                legalMoves.add(i);
+            } else {
+                break;
+            }
+        }
+    }
+
+    private void legalLeft(int source) {
+        int previousRow = (source / match.board.dimensions) * match.board.dimensions - 1;
+        for (int i = source - 1; i > previousRow; i--) {
+            if (!match.board.bitBoards[Team.WHITE.bitBoardId()].get(i) &&
+                    !match.board.bitBoards[Team.BLACK.bitBoardId()].get(i) &&
+                    (match.canWalk(i) || i == match.king)) {
+                legalMoves.add(i);
+            } else {
+                break;
+            }
         }
     }
 

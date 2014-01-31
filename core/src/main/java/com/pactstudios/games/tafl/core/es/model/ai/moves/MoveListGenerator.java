@@ -15,7 +15,7 @@ import java.util.BitSet;
 import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.Move;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.Move.MoveType;
-import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
+import com.pactstudios.games.tafl.core.es.model.board.GameBitBoard;
 
 public class MoveListGenerator {
 
@@ -55,8 +55,8 @@ public class MoveListGenerator {
      */
     public Move findMoveForSquares(int source, int dest) {
         for (Move testMove : moves) {
-            if (testMove.sourceSquare == source &&
-                    testMove.destinationSquare == dest) {
+            if (testMove.source == source &&
+                    testMove.destination == dest) {
                 return testMove;
             }
         }
@@ -74,7 +74,7 @@ public class MoveListGenerator {
      * @param teamId
      * @return
      */
-    public Array<Move> computeLegalMoves(GameBoard board, int pieceType) {
+    public Array<Move> computeLegalMoves(GameBitBoard board, int pieceType) {
         // First, clean up the old list of moves, if any
         moves.clear();
 
@@ -82,7 +82,7 @@ public class MoveListGenerator {
         return moves;
     }
 
-    public Array<Move> computeCaptureMoves(GameBoard board, int pieceType) {
+    public Array<Move> computeCaptureMoves(GameBitBoard board, int pieceType) {
         computeLegalMoves(board, pieceType);
         for (int i = moves.size - 1; i >= 0; i--) {
             Move mov = moves.get(i);
@@ -93,7 +93,7 @@ public class MoveListGenerator {
         return moves;
     }
 
-    private void computeMoves(GameBoard board, int pieceType) {
+    private void computeMoves(GameBitBoard board, int pieceType) {
         // Fetch the bitboard containing positions of these pieces
         BitSet pieces = board.bitBoards[pieceType];
 
@@ -120,9 +120,9 @@ public class MoveListGenerator {
                             // Otherwise, the move is legal, so we must prepare to
                             // add it
                             Move mov = new Move();
-                            mov.sourceSquare = square;
-                            mov.destinationSquare = dest;
-                            mov.movingPiece = pieceType;
+                            mov.source = square;
+                            mov.destination = dest;
+                            mov.pieceType = pieceType;
                             mov.moveType = MoveType.NORMAL_MOVE;
                             moves.add(mov);
                         }

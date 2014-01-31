@@ -9,7 +9,7 @@ public final class Constants {
     }
 
     public static final class AiConstants {
-        public static final int MAX_TREE_DEPTH = 3;
+        public static final int MAX_TREE_DEPTH = 8;
         public static final int WIN = 200;
         public static final int LOSS = -WIN;
 
@@ -50,7 +50,6 @@ public final class Constants {
     public static final class PieceConstants {
         private PieceConstants() {
         }
-        public static final int PIECE_TYPES = 3;
 
         public static final float SCALING = 2f;
 
@@ -93,6 +92,14 @@ public final class Constants {
         public static final float VERTICAL_CELL_ID_RIGHT_OFFSET = TILE_SIZE + QUARTER_TILE_SIZE;
 
         public static final int BOARD_TYPES = 2;
+        public static final int STANDARD_BOARD_DIMENSION = 11;
+        public static final int STANDARD_BOARD_NUMBER_CELLS = STANDARD_BOARD_DIMENSION * STANDARD_BOARD_DIMENSION;
+
+        public static final int SMALL_BOARD_DIMENSION = 9;
+        public static final int SMALL_BOARD_NUMBER_CELLS = SMALL_BOARD_DIMENSION * SMALL_BOARD_DIMENSION;
+
+        public static final int KING_DEAD = -1;
+        public static final int NO_PIECE_SELECTED = -1;
     }
 
     public static final class HudConstants {
@@ -132,8 +139,8 @@ public final class Constants {
         public static final String PIECE_TABLE = "pieces";
         public static final String LOG_TABLE = "log";
 
-        public static final int MATCH_TO_RESUME = 1;
-
         public static final int CACHE_SIZE = 1000;
+
+        public static final int NO_CAPTURES = -1;
     }
 }

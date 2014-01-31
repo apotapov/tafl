@@ -1,12 +1,14 @@
 package com.pactstudios.games.tafl.core.es.model.ai;
 
+import java.util.BitSet;
+
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.Pool;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.ai.evaluators.BoardEvaluator;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
-import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 import com.pactstudios.games.tafl.core.es.model.objects.Team;
 
 public class MiniMaxStrategy implements AiStrategy {
@@ -127,19 +129,16 @@ public class MiniMaxStrategy implements AiStrategy {
 
     private Array<Move> getLegalMoves(TaflMatch match, Team team) {
         Array<Move> legalMoves = arrayPool.obtain();
-        for (int i = 0; i < match.board.dimensions; i++) {
-            for (int j = 0; j < match.board.dimensions; j++) {
-                ModelCell start = match.board.getCell(i, j);
-                if (start.piece != null && start.piece.type.team == team) {
-                    Array<ModelCell> moves = match.rulesEngine.legalMoves(start);
-                    for (ModelCell end : moves) {
-                        Move move = Move.movePool.obtain();
-                        move.piece = start.piece;
-                        move.start = start;
-                        move.end = end;
-                        legalMoves.add(move);
-                    }
-                }
+
+        BitSet bitBoard = match.board.bitBoards[team.bitBoardId()];
+        for (int source = bitBoard.nextSetBit(0); source >= 0; source = bitBoard.nextSetBit(source+1)) {
+            IntArray moves = match.rulesEngine.legalMoves(source);
+            for (int destId = 0; destId < moves.size; destId++ ) {
+                Move move = Move.movePool.obtain();
+                move.pieceType = team.bitBoardId();
+                move.source = source;
+                move.destination = moves.items[destId];
+                legalMoves.add(move);
             }
         }
         return legalMoves;

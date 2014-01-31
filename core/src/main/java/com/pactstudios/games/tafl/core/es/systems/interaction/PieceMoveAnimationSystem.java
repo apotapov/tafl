@@ -5,7 +5,6 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.math.Vector2;
-import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.movement.VelocityComponent;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
@@ -16,12 +15,9 @@ public class PieceMoveAnimationSystem extends EntityProcessingSystem {
     ComponentMapper<PositionComponent> positionMapper;
     ComponentMapper<VelocityComponent> velocityMapper;
 
-    Vector2 velocity;
-
     @SuppressWarnings("unchecked")
     public PieceMoveAnimationSystem() {
         super(Aspect.getAspectForAll(PositionComponent.class, VelocityComponent.class));
-        velocity = new Vector2();
     }
 
     @Override
@@ -45,18 +41,9 @@ public class PieceMoveAnimationSystem extends EntityProcessingSystem {
         }
     }
 
-    private void move(VelocityComponent velocityComponent, Vector2 position) {
-        calculateVelocity(velocityComponent.move, position);
-
-        velocity.scl(world.getDelta());
-        position.add(velocity);
-        velocityComponent.distanceRemaining -= Math.abs(velocity.x + velocity.y);
-    }
-
-    private void calculateVelocity(Move move, Vector2 position) {
-        velocity.x = move.end.x - move.start.x;
-        velocity.y = move.end.y - move.start.y;
-        velocity.nor().scl(Constants.PieceConstants.PIECE_SPEED);
+    private void move(VelocityComponent vc, Vector2 position) {
+        position.add(vc.velocity.x * world.getDelta(), vc.velocity.y * world.getDelta());
+        vc.distanceRemaining -= Math.abs(vc.velocity.x + vc.velocity.y) * world.getDelta();
     }
 
     private void animationFinished(Entity e, Move move) {

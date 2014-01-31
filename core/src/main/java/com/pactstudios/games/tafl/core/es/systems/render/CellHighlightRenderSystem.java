@@ -3,6 +3,7 @@ package com.pactstudios.games.tafl.core.es.systems.render;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.managers.SingletonComponentManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -10,11 +11,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.render.HighlightComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
-import com.pactstudios.games.tafl.core.utils.BoardUtils;
+import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 
 public class CellHighlightRenderSystem extends RenderingSystem<MapRenderingComponent> {
 
     ComponentMapper<HighlightComponent> mapper;
+
+    SingletonComponentManager singletonManager;
 
     @SuppressWarnings("unchecked")
     public CellHighlightRenderSystem() {
@@ -25,6 +28,7 @@ public class CellHighlightRenderSystem extends RenderingSystem<MapRenderingCompo
     public void initialize() {
         super.initialize();
         mapper = world.getMapper(HighlightComponent.class);
+        singletonManager = world.getManager(SingletonComponentManager.class);
     }
 
     @Override
@@ -46,7 +50,9 @@ public class CellHighlightRenderSystem extends RenderingSystem<MapRenderingCompo
         HighlightComponent component = mapper.get(e);
         rendComponent.shapeRenderer.setColor(component.color);
 
-        Vector2 position = BoardUtils.getTilePosition(component.cell);
+        MatchComponent matchComponent = singletonManager.getSingletonComponent(MatchComponent.class);
+
+        Vector2 position = matchComponent.match.getCellPosition(component.cellId);
 
         rendComponent.shapeRenderer.rect(position.x, position.y,
                 Constants.BoardConstants.TILE_SIZE, Constants.BoardConstants.TILE_SIZE);

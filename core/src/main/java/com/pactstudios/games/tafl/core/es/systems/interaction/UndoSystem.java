@@ -8,13 +8,10 @@ import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
-import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
-import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.es.systems.events.UndoEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
-import com.pactstudios.games.tafl.core.utils.BoardUtils;
 import com.pactstudios.games.tafl.core.utils.TaflDatabaseService;
 
 public class UndoSystem extends EventProcessingSystem<UndoEvent> {
@@ -64,26 +61,23 @@ public class UndoSystem extends EventProcessingSystem<UndoEvent> {
         Move move = match.undoMove();
         if (move != null) {
 
-            if (move.piece.entity != null) {
-                Vector2 newPosition = BoardUtils.getTilePositionCenter(move.start);
-                PositionComponent position = positionMapper.get(move.piece.entity);
+            Entity entity = match.pieceEntities[move.source];
+            if (entity != null) {
+                Vector2 newPosition = match.getCellPositionCenter(move.source);
+                PositionComponent position = positionMapper.get(entity);
                 position.position.set(newPosition);
             } else {
-                move.piece.entity = efs.createPiece(move.piece);
+                match.pieceEntities[move.source] = efs.createPiece(
+                        match, move.source, match.getPieceType(move.source));
             }
 
-            dbService.updatePiece(move.piece);
-
-            for (GamePiece piece : move.captured) {
-                piece.killed = null;
-                dbService.updatePiece(piece);
-
-                if (piece.entity == null) {
-                    piece.entity = efs.createPiece(piece);
+            for (int i = 0; i < move.capturedPieces.size; i++) {
+                int piece = move.capturedPieces.items[i];
+                entity = match.pieceEntities[piece];
+                if (entity == null) {
+                    match.pieceEntities[move.capturedPieces.items[i]] =
+                            efs.createPiece(match, piece, match.getPieceType(piece));
                 }
-
-                ModelCell cell = match.board.getCell(piece.x, piece.y);
-                cell.piece = piece;
             }
             dbService.deleteLogEntry(move.entry);
 

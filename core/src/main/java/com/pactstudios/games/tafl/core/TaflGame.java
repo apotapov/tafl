@@ -50,7 +50,7 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     @Override
     public void initialize() {
         databaseService = new TaflDatabaseService(config.getConnectionSource());
-        levelService = new TaflLevelService(databaseService);
+        levelService = new TaflLevelService();
         preferenceService = new TaflPreferenceService(getClass().getSimpleName(), soundService);
 
         assets = new Assets(this, soundService, graphicsService, localeService, levelService, databaseService);

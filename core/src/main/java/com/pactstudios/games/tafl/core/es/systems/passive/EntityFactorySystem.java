@@ -12,9 +12,7 @@ import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.render.AnimationComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
-import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
-import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
-import com.pactstudios.games.tafl.core.utils.BoardUtils;
+import com.pactstudios.games.tafl.core.es.model.objects.PieceType;
 
 public class EntityFactorySystem extends PassiveEntitySystem {
 
@@ -47,32 +45,28 @@ public class EntityFactorySystem extends PassiveEntitySystem {
                 componentFactory.createHudRenderingComponent(gameWorld));
     }
 
-    public Entity createPiece(GamePiece piece) {
+    public Entity createPiece(TaflMatch match, int id, PieceType pieceType) {
         Entity e = world.createEntity();
 
-        Vector2 position = BoardUtils.getTilePositionCenter(piece.x, piece.y);
+        Vector2 position = match.getCellPositionCenter(id);
         e.addComponent(componentFactory.createPositionComponent(position));
-
-        e.addComponent(componentFactory.createPieceComponent(piece));
 
         AnimationComponent ac = componentFactory.createAnimationComponent(
                 Assets.Graphics.CREATURE_ATLAS,
-                piece.type.graphic,
+                pieceType.graphic,
                 Animation.LOOP,
                 Constants.PieceConstants.FRAME_DURATION);
         e.addComponent(ac);
         e.addComponent(componentFactory.createScalingComponent(Constants.PieceConstants.SCALING, Constants.PieceConstants.SCALING));
 
-        groupManager.add(e, piece.type.team.toString());
-
         e.addToWorld();
         return e;
     }
 
-    public Entity createHighlightedCell(ModelCell cell) {
+    public Entity createHighlightedCell(int cellId) {
         Entity e = world.createEntity();
 
-        e.addComponent(componentFactory.createHilightComponent(cell, Constants.BoardConstants.HIGHLIGHT_COLOR));
+        e.addComponent(componentFactory.createHilightComponent(cellId, Constants.BoardConstants.HIGHLIGHT_COLOR));
 
         groupManager.add(e, Constants.GroupConstants.HIGHLIGHTED_CELLS);
 
@@ -80,10 +74,11 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         return e;
     }
 
-    public Entity createCaptureAnimation(ModelCell cell) {
+
+
+    public Entity createCaptureAnimation(Vector2 position) {
         Entity e = world.createEntity();
 
-        Vector2 position = BoardUtils.getTilePositionCenter(cell.x, cell.y);
         e.addComponent(componentFactory.createPositionComponent(position));
 
         AnimationComponent ac = componentFactory.createAnimationComponent(
@@ -97,8 +92,9 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         return e;
     }
 
-    public void movePiece(Move move) {
-        move.piece.entity.addComponent(componentFactory.createVelocityComponent(move));
+    public void movePiece(TaflMatch match, Move move, Vector2 velocity, float distanceRemaining) {
+        Entity entity = match.pieceEntities[move.source];
+        entity.addComponent(componentFactory.createVelocityComponent(move, velocity, distanceRemaining));
     }
 
     public void createAiProcessingPrompt(Entity e, String text) {

@@ -31,8 +31,8 @@ public class HistoryTable {
 
         @Override
         public int compare(Move mov1, Move mov2) {
-            if (currentHistory[mov1.sourceSquare][mov1.destinationSquare] >
-            currentHistory[mov2.sourceSquare][mov2.destinationSquare]) {
+            if (currentHistory[mov1.source][mov1.destination] >
+            currentHistory[mov2.source][mov2.destination]) {
                 return -1;
             } else {
                 return 1;
@@ -66,7 +66,7 @@ public class HistoryTable {
 
     // History table compilation
     public boolean addCount(Move move, int teamId) {
-        history[teamId][move.sourceSquare][move.destinationSquare]++;
+        history[teamId][move.source][move.destination]++;
         return true;
     }
 

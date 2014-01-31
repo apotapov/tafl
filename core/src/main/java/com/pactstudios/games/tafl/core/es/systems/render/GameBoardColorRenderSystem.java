@@ -10,8 +10,6 @@ import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
-import com.pactstudios.games.tafl.core.utils.BoardUtils;
 
 public class GameBoardColorRenderSystem extends RenderingSystem<MapRenderingComponent> {
 
@@ -63,17 +61,17 @@ public class GameBoardColorRenderSystem extends RenderingSystem<MapRenderingComp
 
     private void drawSpecialCells(TaflMatch match, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Constants.BoardConstants.CORNER_COLOR);
-        drawCornerCell(shapeRenderer, match.board.cornerCells[0]);
-        drawCornerCell(shapeRenderer, match.board.cornerCells[1]);
-        drawCornerCell(shapeRenderer, match.board.cornerCells[2]);
-        drawCornerCell(shapeRenderer, match.board.cornerCells[3]);
+        drawRefugeCell(shapeRenderer, match, match.corners[0]);
+        drawRefugeCell(shapeRenderer, match, match.corners[1]);
+        drawRefugeCell(shapeRenderer, match, match.corners[2]);
+        drawRefugeCell(shapeRenderer, match, match.corners[3]);
 
         shapeRenderer.setColor(Constants.BoardConstants.CASTLE_COLOR);
-        drawCornerCell(shapeRenderer, match.getCastleCell());
+        drawRefugeCell(shapeRenderer, match, match.center);
     }
 
-    private void drawCornerCell(ShapeRenderer shapeRenderer, ModelCell cell) {
-        Vector2 position = BoardUtils.getTilePosition(cell.x, cell.y);
+    private void drawRefugeCell(ShapeRenderer shapeRenderer, TaflMatch match, int cellId) {
+        Vector2 position = match.getCellPosition(cellId);
         shapeRenderer.rect(position.x, position.y, Constants.BoardConstants.TILE_SIZE, Constants.BoardConstants.TILE_SIZE);
     }
 

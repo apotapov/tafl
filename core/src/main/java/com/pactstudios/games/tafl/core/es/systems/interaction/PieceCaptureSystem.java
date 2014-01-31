@@ -3,11 +3,9 @@ package com.pactstudios.games.tafl.core.es.systems.interaction;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
-import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
-import com.pactstudios.games.tafl.core.es.model.objects.PieceType;
 import com.pactstudios.games.tafl.core.es.systems.events.ChangeTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceCaptureEvent;
@@ -44,22 +42,20 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
         MatchComponent component = matchMapper.get(e);
 
         boolean changeTurn = true;
-        for (GamePiece piece : event.move.captured) {
-            if (piece.type == PieceType.KING) {
+        for (int i = 0; i < event.move.capturedPieces.size; i++) {
+            int capturedPiece = event.move.capturedPieces.items[i];
+
+            if (component.match.king == capturedPiece) {
                 changeTurn = false;
             }
-            piece.killed = event.move.entry;
-            dbService.updatePiece(piece);
 
-            piece.entity.deleteFromWorld();
-            piece.entity = null;
+            component.match.removePiece(capturedPiece);
 
-            ModelCell cell = component.match.board.getCell(piece.x, piece.y);
-            cell.piece = null;
-            highlightSystem.clearCellHighlights(cell);
-            efs.createCaptureAnimation(cell);
+            highlightSystem.clearCellHighlights(capturedPiece);
+            Vector2 position = component.match.getCellPosition(capturedPiece);
+            efs.createCaptureAnimation(position);
         }
-        component.match.undoStack.peek().captured.addAll(event.move.captured);
+        component.match.undoStack.peek().capturedPieces.addAll(event.move.capturedPieces);
         if (changeTurn) {
             changeTurn(component.match);
         }

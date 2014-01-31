@@ -10,9 +10,7 @@ import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
-import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
-import com.pactstudios.games.tafl.core.utils.BoardUtils;
+import com.pactstudios.games.tafl.core.es.model.board.GameBitBoard;
 
 public class GameBoardRenderSystem extends RenderingSystem<MapRenderingComponent> {
 
@@ -54,15 +52,15 @@ public class GameBoardRenderSystem extends RenderingSystem<MapRenderingComponent
     }
 
     private void drawSpecialCells(TaflMatch match, ShapeRenderer shapeRenderer) {
-        drawCell(shapeRenderer, match.board.cornerCells[0]);
-        drawCell(shapeRenderer, match.board.cornerCells[1]);
-        drawCell(shapeRenderer, match.board.cornerCells[2]);
-        drawCell(shapeRenderer, match.board.cornerCells[3]);
-        drawCell(shapeRenderer, match.getCastleCell());
+        drawCell(shapeRenderer, match, match.corners[0]);
+        drawCell(shapeRenderer, match, match.corners[1]);
+        drawCell(shapeRenderer, match, match.corners[2]);
+        drawCell(shapeRenderer, match, match.corners[3]);
+        drawCell(shapeRenderer, match, match.center);
     }
 
-    private void drawCell(ShapeRenderer shapeRenderer, ModelCell cell) {
-        Vector2 position = BoardUtils.getTilePosition(cell.x, cell.y);
+    private void drawCell(ShapeRenderer shapeRenderer, TaflMatch match, int cellId) {
+        Vector2 position = match.getCellPosition(cellId);
 
         shapeRenderer.line(position.x,
                 position.y,
@@ -82,7 +80,7 @@ public class GameBoardRenderSystem extends RenderingSystem<MapRenderingComponent
         shapeRenderer.line(boardSize, 0, boardSize, boardSize);
     }
 
-    private void drawGrid(GameBoard board, ShapeRenderer shapeRenderer,
+    private void drawGrid(GameBitBoard board, ShapeRenderer shapeRenderer,
             float boardSize) {
         for (int i = 0; i <= board.dimensions; i++) {
             int location = Constants.BoardConstants.TILE_SIZE * i +

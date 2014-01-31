@@ -8,8 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
-import com.pactstudios.games.tafl.core.es.model.board.GameBoard;
-import com.pactstudios.games.tafl.core.utils.BoardUtils;
+import com.pactstudios.games.tafl.core.es.model.board.GameBitBoard;
 
 public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent> {
 
@@ -40,16 +39,16 @@ public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent>
     @Override
     protected void process(Entity e, MapRenderingComponent rendComponent) {
         MatchComponent match = matchMapper.get(e);
-        GameBoard board = match.match.board;
+        GameBitBoard board = match.match.board;
 
         for (int i = 0; i < board.dimensions; i++) {
-            String index = BoardUtils.getHorizontalCellId(i);
+            String index = match.match.getHorizontalCellId(i);
 
             TextBounds bounds = rendComponent.font.getBounds(index);
             float textXoffset = bounds.width / 2;
             float textYoffset = bounds.height / 2;
 
-            Vector2 position = BoardUtils.getTilePosition(i, 0).add(
+            Vector2 position = match.match.getCellPosition(i).add(
                     Constants.BoardConstants.HORIZONTAL_CELL_ID_HORIZONTAL_OFFSET - textXoffset,
                     Constants.BoardConstants.HORIZONTAL_CELL_ID_BOTTOM_OFFSET + textYoffset);
 
@@ -58,7 +57,7 @@ public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent>
                     position.x,
                     position.y);
 
-            position = BoardUtils.getTilePosition(i, match.match.dimensions - 1).add(
+            position = match.match.getCellPosition(board.numberCells - board.dimensions + i).add(
                     Constants.BoardConstants.HORIZONTAL_CELL_ID_HORIZONTAL_OFFSET - textXoffset,
                     Constants.BoardConstants.HORIZONTAL_CELL_ID_TOP_OFFSET + textYoffset);
 
@@ -69,13 +68,13 @@ public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent>
         }
 
         for (int i = 0; i < board.dimensions; i++) {
-            String index = BoardUtils.getVerticalCellId(i);
+            String index = match.match.getVerticalCellId(i);
 
             TextBounds bounds = rendComponent.font.getBounds(index);
             float textXoffset = bounds.width / 2;
             float textYoffset = bounds.height / 2;
 
-            Vector2 position = BoardUtils.getTilePosition(0, i).add(
+            Vector2 position = match.match.getCellPosition(i * board.dimensions).add(
                     Constants.BoardConstants.VERTICAL_CELL_ID_LEFT_OFFSET - textXoffset,
                     Constants.BoardConstants.VERTICAL_CELL_ID_VERTICAL_OFFSET + textYoffset);
 
@@ -84,7 +83,7 @@ public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent>
                     position.x,
                     position.y);
 
-            position = BoardUtils.getTilePosition(match.match.dimensions - 1, i).add(
+            position = match.match.getCellPosition(i * board.dimensions + board.dimensions - 1).add(
                     Constants.BoardConstants.VERTICAL_CELL_ID_RIGHT_OFFSET - textXoffset,
                     Constants.BoardConstants.VERTICAL_CELL_ID_VERTICAL_OFFSET + textYoffset);
 

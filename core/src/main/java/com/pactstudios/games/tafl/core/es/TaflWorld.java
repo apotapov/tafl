@@ -1,5 +1,8 @@
 package com.pactstudios.games.tafl.core.es;
 
+import java.util.BitSet;
+
+import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.SingletonComponentManager;
@@ -13,8 +16,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.pactstudios.games.tafl.core.TaflGame;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
-import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
+import com.pactstudios.games.tafl.core.es.model.objects.PieceType;
 import com.pactstudios.games.tafl.core.es.systems.events.AiTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent.Lifecycle;
@@ -58,7 +60,9 @@ public class TaflWorld implements Disposable {
         SystemFactory.initSystems(this, activeSystems);
         world.initialize();
 
-        createLevelObjects();
+        match.initialize(game.databaseService);
+
+        createEntities();
 
         lifecycle = Lifecycle.PLAY;
         world.getSystem(CellHighlightSystem.class).highlightTeam(match.turn);
@@ -152,18 +156,26 @@ public class TaflWorld implements Disposable {
         return false;
     }
 
-    protected void createLevelObjects() {
+    protected void createEntities() {
         EntityFactorySystem efs = world.getSystem(EntityFactorySystem.class);
         efs.createBoard(match);
         efs.createHud(match);
         efs.createRenderers(this);
 
-        for (GamePiece piece : match.pieces) {
-            if (piece.killed == null) {
-                ModelCell cell = match.board.getCell(piece.x, piece.y);
-                piece.entity = efs.createPiece(piece);
-                cell.piece = piece;
+        match.pieceEntities = new Entity[match.board.numberCells];
+
+        BitSet pieces = match.board.bitBoards[PieceType.WHITE.bitBoardId()];
+        for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
+            if (i == match.king) {
+                match.pieceEntities[i] = efs.createPiece(match, i, PieceType.KING);
+            } else {
+                match.pieceEntities[i] = efs.createPiece(match, i, PieceType.WHITE);
             }
+        }
+
+        pieces = match.board.bitBoards[PieceType.BLACK.bitBoardId()];
+        for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
+            match.pieceEntities[i] = efs.createPiece(match, i, PieceType.BLACK);
         }
     }
 }

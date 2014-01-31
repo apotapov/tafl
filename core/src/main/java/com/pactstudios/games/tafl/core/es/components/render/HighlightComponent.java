@@ -2,11 +2,10 @@ package com.pactstudios.games.tafl.core.es.components.render;
 
 import com.artemis.Component;
 import com.badlogic.gdx.graphics.Color;
-import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 
 public class HighlightComponent implements Component {
 
-    public ModelCell cell;
+    public int cellId;
     public Color color;
 
     public HighlightComponent() {
@@ -14,7 +13,7 @@ public class HighlightComponent implements Component {
 
     @Override
     public void reset() {
-        cell = null;
+        cellId = 0;
         color = null;
     }
 }

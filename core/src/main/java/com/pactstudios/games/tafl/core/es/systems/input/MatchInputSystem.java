@@ -4,17 +4,16 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntArray;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
 import com.pactstudios.games.tafl.core.es.systems.events.InputEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.InputEvent.InputType;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceMoveEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
-import com.pactstudios.games.tafl.core.utils.BoardUtils;
 
 public class MatchInputSystem extends InputProcessingSystem<MapRenderingComponent> {
 
@@ -44,15 +43,12 @@ public class MatchInputSystem extends InputProcessingSystem<MapRenderingComponen
             TaflMatch match = matchComponent.match;
             if (matchComponent.acceptInput()) {
                 if (!matchComponent.animationInProgress) {
-                    Vector2 touchPosition = BoardUtils.getMapPosition(gameTouchPoint);
-                    ModelCell touchedCell = match.board.getCell(
-                            (int)touchPosition.x, (int)touchPosition.y);
-
-                    if (touchedCell != null) {
-                        if (match.rulesEngine.checkTurn(touchedCell.piece)) {
-                            selectPiece(match, touchedCell);
-                        } else if (match.board.selectedPiece != null) {
-                            movePiece(match, touchedCell);
+                    int cellId = match.getCellId(gameTouchPoint);
+                    if (cellId >= 0 && cellId < match.board.numberCells) {
+                        if (match.board.bitBoards[match.turn.bitBoardId()].get(cellId)) {
+                            selectPiece(match, cellId);
+                        } else if (match.selectedPiece != Constants.BoardConstants.NO_PIECE_SELECTED) {
+                            movePiece(match, cellId);
                         }
                     }
                 }
@@ -60,29 +56,31 @@ public class MatchInputSystem extends InputProcessingSystem<MapRenderingComponen
         }
     }
 
-    private void movePiece(TaflMatch match, ModelCell end) {
-        PositionComponent position = positionMapper.get(match.board.selectedPiece.entity);
-        Vector2 currentMapLocation = BoardUtils.getMapPosition(position.position);
-        ModelCell start = match.board.getCell((int)currentMapLocation.x, (int)currentMapLocation.y);
-        if (match.rulesEngine.legalMove(match.board.selectedPiece, start, end)) {
-            move(start, end);
+    private void movePiece(TaflMatch match, int destination) {
+        Entity pieceEntity = match.pieceEntities[match.selectedPiece];
+        PositionComponent position = positionMapper.get(pieceEntity);
+
+        int source = match.getCellId(position.position);
+        if (match.rulesEngine.isMoveLegal(source, destination)) {
+            move(match.turn.bitBoardId(), source, destination);
         }
     }
 
-    private void move(ModelCell start, ModelCell end) {
+    private void move(int pieceType, int source, int destination) {
         PieceMoveEvent event = world.createEvent(PieceMoveEvent.class);
-        event.move.piece = start.piece;
-        event.move.start = start;
-        event.move.end = end;
+        event.move.pieceType = pieceType;
+        event.move.source = source;
+        event.move.destination = destination;
         world.postEvent(this, event);
     }
 
-    private void selectPiece(TaflMatch match, ModelCell cell) {
-        highlightSystem.clearCellHighlights();
-        highlightSystem.highlightCell(cell);
-        Array<ModelCell> legalMoves = match.rulesEngine.legalMoves(cell);
-        highlightSystem.highlightCells(legalMoves);
-
-        match.board.selectedPiece = cell.piece;
+    private void selectPiece(TaflMatch match, int cellId) {
+        if (cellId != match.selectedPiece) {
+            highlightSystem.clearCellHighlights();
+            highlightSystem.highlightCell(cellId);
+            IntArray legalMoves = match.rulesEngine.legalMoves(cellId);
+            highlightSystem.highlightCells(legalMoves);
+            match.selectedPiece = cellId;
+        }
     }
 }

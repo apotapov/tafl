@@ -1,9 +1,9 @@
 package com.pactstudios.games.tafl.core.es.model.rules;
 
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntArray;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.cells.ModelCell;
-import com.pactstudios.games.tafl.core.es.model.objects.GamePiece;
+import com.pactstudios.games.tafl.core.es.model.board.Move;
 import com.pactstudios.games.tafl.core.es.model.objects.Team;
 
 public abstract class RulesEngine {
@@ -24,18 +24,17 @@ public abstract class RulesEngine {
         } else {
             match.turn = Team.BLACK;
         }
-    }
-
-    public boolean checkTurn(GamePiece piece) {
-        return piece != null && piece.type.team == match.turn;
+        calculateLegalMoves();
     }
 
     public abstract Team getFirstTurn();
     public abstract Team getSecondTurn();
-    public abstract Array<GamePiece> getCapturedPieces(ModelCell end);
-    public abstract Team checkWinner(ModelCell end, Array<GamePiece> capturedPieces);
+    public abstract IntArray getCapturedPieces(int destination);
+    public abstract Team checkWinner(int destination, IntArray capturedPieces);
     public abstract Team checkWinner();
-    public abstract boolean legalMove(GamePiece piece, ModelCell start, ModelCell end);
-    public abstract Array<ModelCell> legalMoves(ModelCell start);
-    public abstract void populateBoard();
+
+    public abstract boolean isMoveLegal(int source, int destination);
+    public abstract IntArray legalMoves(int source);
+    public abstract Array<Move> legalMoves();
+    public abstract void calculateLegalMoves();
 }

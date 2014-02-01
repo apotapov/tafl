@@ -47,20 +47,20 @@ public class GameBitBoard {
         // Look at all pieces, one at a time
         for (int currPiece = 0; currPiece < pieceTypes; currPiece++) {
             BitSet board = bitBoards[currPiece];
-            // Search for all pieces on all squares. We could optimize here: not
+            // Search for all pieces on all cells. We could optimize here: not
             // looking for pawns on the back row (or the eight row), getting out
             // of the "currSqaure" loop once we found one king of one color,
             // etc.
             // But for simplicity's sake, we'll keep things generic.
-            for (int currSquare = 0; currSquare < numberCells; currSquare++) {
+            for (int currCell = 0; currCell < numberCells; currCell++) {
                 // Zobrist's method: generate a bunch of random bitfields, each
-                // representing a certain "piece X is on square Y" predicate;
+                // representing a certain "piece X is on cell Y" predicate;
                 // XOR
                 // the bitfields associated with predicates which are true.
-                // Therefore, if we find a piece (in tmp) in a certain square,
+                // Therefore, if we find a piece (in tmp) in a certain cell,
                 // we accumulate the related HashKeyComponent.
-                if (board.get(currSquare)) {
-                    hash ^= zorbistHash.hash[currPiece][currSquare];
+                if (board.get(currCell)) {
+                    hash ^= zorbistHash.hash[currPiece][currCell];
                 }
             }
         }
@@ -69,7 +69,7 @@ public class GameBitBoard {
 
     /**
      * Compute a second 32-bit hash key, using an entirely different set
-     * piece/square components.
+     * piece/cell components.
      * This is required to be able to detect hashing collisions without
      * storing an entire board in each slot of the TranspositionTable,
      * which would gobble up inordinate amounts of memory
@@ -79,9 +79,9 @@ public class GameBitBoard {
         int hash = 0;
         for (int currPiece = 0; currPiece < pieceTypes; currPiece++) {
             BitSet board = bitBoards[currPiece];
-            for (int currSquare = 0; currSquare < numberCells; currSquare++) {
-                if (board.get(currSquare)) {
-                    hash ^= zorbistHash.hashLock[currPiece][currSquare];
+            for (int currCell = 0; currCell < numberCells; currCell++) {
+                if (board.get(currCell)) {
+                    hash ^= zorbistHash.hashLock[currPiece][currCell];
                 }
             }
         }

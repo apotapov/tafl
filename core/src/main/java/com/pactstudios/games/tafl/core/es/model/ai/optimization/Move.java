@@ -1,7 +1,9 @@
 package com.pactstudios.games.tafl.core.es.model.ai.optimization;
 
-import com.badlogic.gdx.utils.IntArray;
+import java.util.BitSet;
+
 import com.badlogic.gdx.utils.Pool.Poolable;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.EvaluationType;
 
 public class Move implements Poolable {
@@ -14,7 +16,7 @@ public class Move implements Poolable {
     public EvaluationType evalType;
     public int searchDepth;
 
-    public IntArray capturedPieces = new IntArray();
+    public BitSet capturedPieces = new BitSet(Constants.BoardConstants.BIGGEST_BOARD_NUMBER_CELLS);
 
     @Override
     public void reset() {

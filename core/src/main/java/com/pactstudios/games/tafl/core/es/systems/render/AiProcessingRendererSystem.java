@@ -42,7 +42,7 @@ public class AiProcessingRendererSystem extends RenderingSystem<MapRenderingComp
     protected void process(Entity e, MapRenderingComponent rendComponent) {
         AiProcessingComponent component = promptMapper.get(e);
         MatchComponent matchComponent = matchMapper.get(e);
-        float boardSize = matchComponent.match.getBoardDimensionWithBorders();
+        float boardSize = matchComponent.match.board.getDimensionWithBorders();
 
         Gdx.gl.glEnable(GL10.GL_BLEND);
         Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);

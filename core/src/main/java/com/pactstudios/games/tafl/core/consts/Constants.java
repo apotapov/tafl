@@ -66,6 +66,7 @@ public final class Constants {
         }
 
         public static final int BOARD_TYPES = 2;
+
         public static final int STANDARD_BOARD_DIMENSION = 11;
         public static final int STANDARD_BOARD_NUMBER_CELLS =
                 STANDARD_BOARD_DIMENSION * STANDARD_BOARD_DIMENSION;
@@ -74,8 +75,10 @@ public final class Constants {
         public static final int SMALL_BOARD_NUMBER_CELLS =
                 SMALL_BOARD_DIMENSION * SMALL_BOARD_DIMENSION;
 
-        public static final int KING_DEAD = -1;
-        public static final int NO_PIECE_SELECTED = -1;
+        public static final int BIGGEST_BOARD_DIMENSION = STANDARD_BOARD_DIMENSION;
+        public static final int BIGGEST_BOARD_NUMBER_CELLS =
+                BIGGEST_BOARD_DIMENSION * BIGGEST_BOARD_DIMENSION;
+
         public static final int ILLEGAL_CELL = -1;
     }
 
@@ -138,6 +141,10 @@ public final class Constants {
         public static final int DRAW_MOVE_THRESHHOLD = 100;
         public static final int DRAW_BOARD_REPETITION_THRESHHOLD = 3;
         public static final int DRAW_MOVES_TO_CHECK = 4;
+
+        public static final int KING_CAPTURE_THRESHHOLD = 3;
+        public static final int RAICHI_THRESHHOLD = 1;
+        public static final int TUICHI_THRESHHOLD = 2;
     }
 
     public static final class DbConstants {
@@ -154,7 +161,5 @@ public final class Constants {
         public static final String LOG_TABLE = "log";
 
         public static final int CACHE_SIZE = 1000;
-
-        public static final int NO_CAPTURES = -1;
     }
 }

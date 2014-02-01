@@ -102,6 +102,7 @@ public class TaflDatabaseService extends DatabaseService {
     public void updateMatch(TaflMatch match) {
         match.updated.setTime(System.currentTimeMillis());
 
+        match.updateKing(match.board.king);
         match.whitePieces = match.board.bitSetToString(Team.WHITE.bitBoardId());
         match.blackPieces = match.board.bitSetToString(Team.BLACK.bitBoardId());
 

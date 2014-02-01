@@ -1,8 +1,10 @@
 package com.pactstudios.games.tafl.core.es.model.rules;
 
+import java.util.BitSet;
+
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntArray;
 import com.pactstudios.games.tafl.core.enums.DrawReasonEnum;
+import com.pactstudios.games.tafl.core.enums.PlayerWarningEnum;
 import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
@@ -31,6 +33,8 @@ public class OfficialRulesEngine extends RulesEngine {
         return Team.WHITE;
     }
 
+
+
     @Override
     public Team checkWinner() {
         return gameEndRules.checkWinner();
@@ -52,7 +56,7 @@ public class OfficialRulesEngine extends RulesEngine {
     }
 
     @Override
-    public IntArray getCapturedPieces(int destination) {
+    public BitSet getCapturedPieces(int destination) {
         return captureRules.getCapturedPieces(destination);
     }
 
@@ -72,7 +76,12 @@ public class OfficialRulesEngine extends RulesEngine {
     }
 
     @Override
-    public IntArray legalMoves(int source) {
+    public BitSet legalMoves(int source) {
         return moveRules.legalMoves(source);
+    }
+
+    @Override
+    public PlayerWarningEnum checkPlayerWarning() {
+        return moveRules.checkPlayerWarning();
     }
 }

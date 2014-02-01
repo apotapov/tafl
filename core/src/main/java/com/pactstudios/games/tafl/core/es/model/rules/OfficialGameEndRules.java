@@ -21,23 +21,12 @@ public class OfficialGameEndRules {
     }
     public Team checkWinner() {
         Team winner = null;
-        if (checkCaptureKing()) {
+        if (match.board.king == Constants.BoardConstants.ILLEGAL_CELL) {
             winner = Team.BLACK;
-        } else if (checkKingEscaped()) {
+        } else if (match.board.corners.get(match.board.king)) {
             winner = Team.WHITE;
         }
         return winner;
-    }
-
-    private boolean checkCaptureKing() {
-        return match.king == Constants.BoardConstants.KING_DEAD;
-    }
-
-    private boolean checkKingEscaped() {
-        return match.corners[0] == match.king ||
-                match.corners[1] == match.king ||
-                match.corners[2] == match.king ||
-                match.corners[3] == match.king;
     }
 
     public void recordBoardConfiguration(int boardHash) {

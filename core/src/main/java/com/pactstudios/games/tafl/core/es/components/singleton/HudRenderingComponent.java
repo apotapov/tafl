@@ -12,12 +12,18 @@ public class HudRenderingComponent implements RenderingComponent {
     public Stage hubStage;
 
     public Dialog menu;
-    public Dialog whiteWinDialog;
-    public Dialog blackWinDialog;
-    public Dialog lossDialog;
-    public Dialog drawDialog;
 
-    public Label drawDialogText;
+    public Dialog winDialog;
+    public Label winText;
+
+    public Dialog lossDialog;
+
+    public Dialog drawDialog;
+    public Label drawText;
+
+    public Dialog playerWarningDialog;
+    public Label playerWarningText;
+
 
     // upper hud
     public Label turn;
@@ -31,10 +37,13 @@ public class HudRenderingComponent implements RenderingComponent {
     @Override
     public void reset() {
         menu = null;
-        whiteWinDialog = null;
-        blackWinDialog = null;
+        winDialog = null;
+        winText = null;
         lossDialog = null;
         drawDialog = null;
+        drawText = null;
+        playerWarningDialog = null;
+        playerWarningText = null;
         turn = null;
         timer = null;
     }

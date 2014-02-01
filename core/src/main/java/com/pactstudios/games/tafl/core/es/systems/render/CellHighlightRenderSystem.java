@@ -53,7 +53,7 @@ public class CellHighlightRenderSystem extends RenderingSystem<MapRenderingCompo
         MatchComponent matchComponent =
                 singletonManager.getSingletonComponent(MatchComponent.class);
 
-        Vector2 position = matchComponent.match.getCellPosition(component.cellId);
+        Vector2 position = matchComponent.match.board.getCellPosition(component.cellId);
 
         rendComponent.shapeRenderer.rect(position.x,
                 position.y,

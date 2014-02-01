@@ -37,7 +37,7 @@ public class TaflLevelService extends LevelService<TaflLevel>{
 
         match.whitePieces = level.whitePieces;
         match.blackPieces = level.blackPieces;
-        match.king = level.king;
+        match.updateKing(level.king);
 
         return match;
     }

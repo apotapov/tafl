@@ -1,20 +1,21 @@
 package com.pactstudios.games.tafl.core.es.model.rules;
 
-import com.badlogic.gdx.utils.IntArray;
+import java.util.BitSet;
+
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 
 public class OfficialCaptureRules {
 
     TaflMatch match;
-    IntArray capturedPieces;
+    BitSet capturedPieces;
 
     public OfficialCaptureRules(TaflMatch match) {
         this.match = match;
-        capturedPieces = new IntArray();
+        capturedPieces = new BitSet(Constants.BoardConstants.BIGGEST_BOARD_NUMBER_CELLS);
     }
 
-    public IntArray getCapturedPieces(int destination) {
+    public BitSet getCapturedPieces(int destination) {
         capturedPieces.clear();
 
         checkCaptureUp(destination);
@@ -82,31 +83,27 @@ public class OfficialCaptureRules {
     }
 
     private void checkCapture(int destination, int first, int second, int third, int fourth) {
-        try {
-            int capturingTeam = match.getTeam(destination).bitBoardId();
-            int oppositeTeam = (capturingTeam + 1) % 2;
-            if (match.board.isValid(first) && match.board.bitBoards[oppositeTeam].get(first)) {
-                if (first == match.king) {
-                    if (isKingHostile(capturingTeam, second) &&
-                            isKingHostile(capturingTeam, third) &&
-                            isKingHostile(capturingTeam, fourth)) {
-                        capturedPieces.add(first);
-                    }
-                } else {
-                    if (isHostile(capturingTeam, second)) {
-                        capturedPieces.add(first);
-                    }
+        int capturingTeam = match.board.getTeam(destination).bitBoardId();
+        int oppositeTeam = (capturingTeam + 1) % 2;
+        if (match.board.isValid(first) && match.board.bitBoards[oppositeTeam].get(first)) {
+            if (first == match.board.king) {
+                if (isKingHostile(capturingTeam, second) &&
+                        isKingHostile(capturingTeam, third) &&
+                        isKingHostile(capturingTeam, fourth)) {
+                    capturedPieces.set(first);
+                }
+            } else {
+                if (isHostile(capturingTeam, second)) {
+                    capturedPieces.set(first);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
     private boolean isHostile(int capturingTeam, int oppositeCell) {
         return match.board.isValid(oppositeCell) &&
                 (match.board.bitBoards[capturingTeam].get(oppositeCell) ||
-                        (!match.canWalk(oppositeCell) && oppositeCell != match.king));
+                        (!match.board.canWalk(oppositeCell) && oppositeCell != match.board.king));
     }
 
     private boolean isKingHostile(int capturingTeam, int oppositeCell) {

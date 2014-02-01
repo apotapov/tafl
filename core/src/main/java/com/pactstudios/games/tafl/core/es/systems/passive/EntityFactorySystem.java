@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.enums.PieceType;
+import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.render.AnimationComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
@@ -45,15 +45,24 @@ public class EntityFactorySystem extends PassiveEntitySystem {
                 componentFactory.createHudRenderingComponent(gameWorld));
     }
 
-    public Entity createPiece(TaflMatch match, int id, PieceType pieceType) {
+    public Entity createPiece(TaflMatch match, int cellId) {
         Entity e = world.createEntity();
 
-        Vector2 position = match.getCellPositionCenter(id);
+        Vector2 position = match.board.getCellPositionCenter(cellId);
         e.addComponent(componentFactory.createPositionComponent(position));
+
+        String graphic;
+        if (cellId == match.board.king) {
+            graphic = Assets.Graphics.KING_PIECE;
+        } else if (match.board.getTeam(cellId) == Team.WHITE) {
+            graphic = Assets.Graphics.WHITE_PIECE;
+        } else {
+            graphic = Assets.Graphics.BLACK_PIECE;
+        }
 
         AnimationComponent ac = componentFactory.createAnimationComponent(
                 Assets.Graphics.CREATURE_ATLAS,
-                pieceType.graphic,
+                graphic,
                 Animation.LOOP,
                 Constants.PieceConstants.FRAME_DURATION);
         e.addComponent(ac);

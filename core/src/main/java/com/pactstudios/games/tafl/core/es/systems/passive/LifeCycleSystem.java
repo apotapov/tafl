@@ -3,16 +3,18 @@ package com.pactstudios.games.tafl.core.es.systems.passive;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.utils.Array;
+import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.pactstudios.games.tafl.core.enums.DrawReasonEnum;
 import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
+import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem2;
 import com.pactstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
+import com.pactstudios.games.tafl.core.es.systems.events.PlayerWarningEvent;
 
-public class LifeCycleSystem extends EntityProcessingSystem {
+public class LifeCycleSystem extends EventProcessingSystem2<LifeCycleEvent, PlayerWarningEvent> {
 
     ComponentMapper<HudRenderingComponent> hudRendMapper;
 
@@ -21,7 +23,8 @@ public class LifeCycleSystem extends EntityProcessingSystem {
 
     @SuppressWarnings("unchecked")
     public LifeCycleSystem(TaflWorld gameWorld) {
-        super(Aspect.getAspectForAll(HudRenderingComponent.class));
+        super(Aspect.getAspectForAll(HudRenderingComponent.class),
+                LifeCycleEvent.class, PlayerWarningEvent.class);
         this.gameWorld = gameWorld;
         lifecycleEvents = new Array<LifeCycleEvent>();
     }
@@ -33,31 +36,36 @@ public class LifeCycleSystem extends EntityProcessingSystem {
     }
 
     @Override
-    protected void process(Entity e) {
+    protected void processEvent2(Entity e, PlayerWarningEvent event) {
         HudRenderingComponent component = hudRendMapper.get(e);
 
-        world.getEvents(this, LifeCycleEvent.class, lifecycleEvents);
-        for (LifeCycleEvent event : lifecycleEvents) {
-            gameWorld.lifecycle = event.lifecycle;
-            switch (event.lifecycle) {
-            case MENU:
-                displayMenu(component);
-                break;
-            case WIN:
-                win(component, event.winner);
-                break;
-            case LOSS:
-                loss(component);
-                break;
-            case DRAW:
-                draw(component, event.drawReason);
-                break;
-            case PLAY:
-                play();
-                break;
-            default:
-                continue;
-            }
+        gameWorld.pauseSystems();
+
+        component.playerWarningText.setText(gameWorld.game.localeService.get(event.playerWarning.text));
+        component.playerWarningDialog.show(component.hubStage);
+    }
+
+    @Override
+    protected void processEvent(Entity e, LifeCycleEvent event) {
+        HudRenderingComponent component = hudRendMapper.get(e);
+        gameWorld.lifecycle = event.lifecycle;
+        switch (event.lifecycle) {
+        case MENU:
+            displayMenu(component);
+            break;
+        case WIN:
+            win(component, event.winner);
+            break;
+        case LOSS:
+            loss(component);
+            break;
+        case DRAW:
+            draw(component, event.drawReason);
+            break;
+        case PLAY:
+            play();
+            break;
+        default:
         }
     }
 
@@ -86,10 +94,13 @@ public class LifeCycleSystem extends EntityProcessingSystem {
         gameWorld.game.databaseService.updateMatch(gameWorld.match);
 
         if (winner == Team.WHITE) {
-            component.whiteWinDialog.show(component.hubStage);
+            component.drawText.setText(
+                    gameWorld.game.localeService.get(LocalizedStrings.GameMenu.WHITE_WIN_TEXT));
         } else {
-            component.blackWinDialog.show(component.hubStage);
+            component.drawText.setText(
+                    gameWorld.game.localeService.get(LocalizedStrings.GameMenu.BLACK_WIN_TEXT));
         }
+        component.winDialog.show(component.hubStage);
     }
 
 
@@ -99,7 +110,7 @@ public class LifeCycleSystem extends EntityProcessingSystem {
         gameWorld.match.status = LifeCycle.DRAW;
         gameWorld.game.databaseService.updateMatch(gameWorld.match);
 
-        component.drawDialogText.setText(gameWorld.game.localeService.get(drawReason.text));
+        component.drawText.setText(gameWorld.game.localeService.get(drawReason.text));
         component.drawDialog.show(component.hubStage);
     }
 

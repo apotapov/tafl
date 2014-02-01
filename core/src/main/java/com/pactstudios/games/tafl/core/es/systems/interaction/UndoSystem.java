@@ -63,20 +63,18 @@ public class UndoSystem extends EventProcessingSystem<UndoEvent> {
 
             Entity entity = match.pieceEntities[move.source];
             if (entity != null) {
-                Vector2 newPosition = match.getCellPositionCenter(move.source);
+                Vector2 newPosition = match.board.getCellPositionCenter(move.source);
                 PositionComponent position = positionMapper.get(entity);
                 position.position.set(newPosition);
             } else {
-                match.pieceEntities[move.source] = efs.createPiece(
-                        match, move.source, match.getPieceType(move.source));
+                match.pieceEntities[move.source] = efs.createPiece(match, move.source);
             }
 
-            for (int i = 0; i < move.capturedPieces.size; i++) {
-                int piece = move.capturedPieces.items[i];
-                entity = match.pieceEntities[piece];
+            for (int i = move.capturedPieces.nextSetBit(0); i >= 0; i = move.capturedPieces.nextSetBit(i+1)) {
+                entity = match.pieceEntities[i];
                 if (entity == null) {
-                    match.pieceEntities[move.capturedPieces.items[i]] =
-                            efs.createPiece(match, piece, match.getPieceType(piece));
+                    match.pieceEntities[i] =
+                            efs.createPiece(match, i);
                 }
             }
             dbService.deleteLogEntry(move.entry);

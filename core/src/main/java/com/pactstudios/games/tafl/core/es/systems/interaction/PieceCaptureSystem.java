@@ -41,16 +41,15 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
 
         MatchComponent component = matchMapper.get(e);
 
-        for (int i = 0; i < event.move.capturedPieces.size; i++) {
-            int capturedPiece = event.move.capturedPieces.items[i];
+        for (int i = event.move.capturedPieces.nextSetBit(0); i >= 0; i = event.move.capturedPieces.nextSetBit(i+1)) {
+            component.match.removePiece(event.move.pieceType, i);
 
-            component.match.removePiece(event.move.pieceType, capturedPiece);
-
-            highlightSystem.clearCellHighlights(capturedPiece);
-            Vector2 position = component.match.getCellPositionCenter(capturedPiece);
+            highlightSystem.clearCellHighlights(i);
+            Vector2 position = component.match.board.getCellPositionCenter(i);
             efs.createCaptureAnimation(position);
         }
-        component.match.undoStack.peek().capturedPieces.addAll(event.move.capturedPieces);
+        component.match.undoStack.peek().capturedPieces.clear();
+        component.match.undoStack.peek().capturedPieces.or(event.move.capturedPieces);
         changeTurn(component.match);
     }
 

@@ -44,7 +44,7 @@ public class GameBoardRenderSystem extends RenderingSystem<MapRenderingComponent
         MatchComponent matchComponent = matchMapper.get(e);
 
         ShapeRenderer shapeRenderer = rendComponent.shapeRenderer;
-        float boardSize = matchComponent.match.getBoardDimensionWithBorders();
+        float boardSize = matchComponent.match.board.getDimensionWithBorders();
 
         drawOutline(shapeRenderer, boardSize);
         drawGrid(matchComponent.match.board, shapeRenderer, boardSize);
@@ -52,15 +52,15 @@ public class GameBoardRenderSystem extends RenderingSystem<MapRenderingComponent
     }
 
     private void drawSpecialCells(TaflMatch match, ShapeRenderer shapeRenderer) {
-        drawCell(shapeRenderer, match, match.corners[0]);
-        drawCell(shapeRenderer, match, match.corners[1]);
-        drawCell(shapeRenderer, match, match.corners[2]);
-        drawCell(shapeRenderer, match, match.corners[3]);
-        drawCell(shapeRenderer, match, match.center);
+        for (int c = match.board.corners.nextSetBit(0); c >= 0; c = match.board.corners.nextSetBit(c+1)) {
+            drawCell(shapeRenderer, match, c);
+        }
+
+        drawCell(shapeRenderer, match, match.board.center);
     }
 
     private void drawCell(ShapeRenderer shapeRenderer, TaflMatch match, int cellId) {
-        Vector2 position = match.getCellPosition(cellId);
+        Vector2 position = match.board.getCellPosition(cellId);
 
         shapeRenderer.line(position.x,
                 position.y,

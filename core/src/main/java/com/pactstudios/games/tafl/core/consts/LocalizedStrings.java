@@ -34,10 +34,8 @@ public class LocalizedStrings {
         DRAW_THREE_PEAT_TEXT,
         DRAW_TOO_MANY_TURNS_TEXT,
 
-        WHITE_WIN_TITLE,
+        WIN_TITLE,
         WHITE_WIN_TEXT,
-
-        BLACK_WIN_TITLE,
         BLACK_WIN_TEXT,
 
         MENU_TITLE,
@@ -46,6 +44,12 @@ public class LocalizedStrings {
         RESTART_BUTTON,
         MAIN_MENU_BUTTON,
         RESUME_BUTTON,
+        OK_BUTTON,
+
+        PLAYER_WARNING_TITLE,
+        RAICHI_TEXT,
+        TUICHI_TEXT,
+        WATCH_YOUR_KING_TEXT,
     }
 
     public enum Game {

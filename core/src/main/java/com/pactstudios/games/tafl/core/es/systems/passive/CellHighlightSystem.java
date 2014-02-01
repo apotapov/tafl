@@ -8,7 +8,6 @@ import com.artemis.managers.GroupManager;
 import com.artemis.managers.SingletonComponentManager;
 import com.artemis.systems.PassiveEntitySystem;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntArray;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.components.render.HighlightComponent;
@@ -38,7 +37,7 @@ public class CellHighlightSystem extends PassiveEntitySystem {
 
         BitSet pieces = matchComponent.match.board.bitBoards[team.bitBoardId()];
         for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
-            if (matchComponent.match.rulesEngine.legalMoves(i).size > 0) {
+            if (matchComponent.match.rulesEngine.legalMoves(i).cardinality() > 0) {
                 highlightCell(i);
             }
         }
@@ -55,9 +54,9 @@ public class CellHighlightSystem extends PassiveEntitySystem {
         efs.createHighlightedCell(cellId);
     }
 
-    public void highlightCells(IntArray cells) {
-        for (int i = 0; i < cells.size; i++) {
-            highlightCell(cells.items[i]);
+    public void highlightCells(BitSet cells) {
+        for (int i = cells.nextSetBit(0); i >= 0; i = cells.nextSetBit(i+1)) {
+            highlightCell(i);
         }
     }
 

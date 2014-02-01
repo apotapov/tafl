@@ -13,14 +13,14 @@ import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingCompo
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 
-public class MotionRenderSystem extends RenderingSystem<MapRenderingComponent> {
+public class PieceMovementRenderSystem extends RenderingSystem<MapRenderingComponent> {
 
     ComponentMapper<VelocityComponent> velocityMapper;
 
     SingletonComponentManager singletonManager;
 
     @SuppressWarnings("unchecked")
-    public MotionRenderSystem() {
+    public PieceMovementRenderSystem() {
         super(Aspect.getAspectForAll(VelocityComponent.class), MapRenderingComponent.class);
     }
 
@@ -55,7 +55,7 @@ public class MotionRenderSystem extends RenderingSystem<MapRenderingComponent> {
     }
 
     private void drawCell(ShapeRenderer shapeRenderer, TaflMatch match, int cellId) {
-        Vector2 position = match.getCellPosition(cellId);
+        Vector2 position = match.board.getCellPosition(cellId);
         shapeRenderer.rect(position.x,
                 position.y,
                 Constants.BoardRenderConstants.TILE_SIZE,

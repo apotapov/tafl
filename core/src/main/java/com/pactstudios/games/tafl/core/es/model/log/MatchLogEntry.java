@@ -41,13 +41,13 @@ public class MatchLogEntry {
     public Date updated;
 
     @DatabaseField(columnName = CAPTURE_1_COLUMN, canBeNull = false)
-    public int capture1 = Constants.DbConstants.NO_CAPTURES;
+    public int capture1 = Constants.BoardConstants.ILLEGAL_CELL;
 
     @DatabaseField(columnName = CAPTURE_2_COLUMN, canBeNull = false)
-    public int capture2 = Constants.DbConstants.NO_CAPTURES;
+    public int capture2 = Constants.BoardConstants.ILLEGAL_CELL;
 
     @DatabaseField(columnName = CAPTURE_3_COLUMN, canBeNull = false)
-    public int capture3 = Constants.DbConstants.NO_CAPTURES;
+    public int capture3 = Constants.BoardConstants.ILLEGAL_CELL;
 
 
     @Override

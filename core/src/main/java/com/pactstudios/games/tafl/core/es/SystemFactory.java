@@ -25,7 +25,7 @@ import com.pactstudios.games.tafl.core.es.systems.render.CellIdRendererSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.GameBoardColorRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.GameBoardRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.HudRenderingSystem;
-import com.pactstudios.games.tafl.core.es.systems.render.MotionRenderSystem;
+import com.pactstudios.games.tafl.core.es.systems.render.PieceMovementRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.PreRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.SpriteRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.debug.DebugCellIdRendererSystem;
@@ -79,7 +79,7 @@ public class SystemFactory {
     protected static void initRenderingSystems(TaflWorld gameWorld) {
         gameWorld.world.setSystem(new PreRenderSystem());
         gameWorld.world.setSystem(new GameBoardColorRenderSystem());
-        gameWorld.world.setSystem(new MotionRenderSystem());
+        gameWorld.world.setSystem(new PieceMovementRenderSystem());
         gameWorld.world.setSystem(new GameBoardRenderSystem());
         gameWorld.world.setSystem(new CellIdRendererSystem());
         gameWorld.world.setSystem(new CellHighlightRenderSystem());

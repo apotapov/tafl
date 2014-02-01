@@ -17,16 +17,10 @@ public class MatchLogFactory {
         entry.destination = move.destination;
         entry.updated = new Date();
 
-        switch (move.capturedPieces.size) {
-        case 3:
-            entry.capture3 = move.capturedPieces.items[2];
-        case 2:
-            entry.capture2 = move.capturedPieces.items[1];
-        case 1:
-            entry.capture1 = move.capturedPieces.items[0];
-            break;
-        default:
-        }
+        entry.capture1 = move.capturedPieces.nextSetBit(0);
+        entry.capture2 = move.capturedPieces.nextSetBit(entry.capture1 + 1);
+        entry.capture3 = move.capturedPieces.nextSetBit(entry.capture2 + 1);
+
         return entry;
     }
 
@@ -37,16 +31,18 @@ public class MatchLogFactory {
         move.source = entry.source;
         move.destination = entry.destination;
 
-        if (entry.capture1 != Constants.DbConstants.NO_CAPTURES) {
-            move.capturedPieces.add(entry.capture1);
+        move.capturedPieces.set(entry.capture1);
+
+        if (entry.capture1 != Constants.BoardConstants.ILLEGAL_CELL) {
+            move.capturedPieces.set(entry.capture1);
         }
 
-        if (entry.capture2 != Constants.DbConstants.NO_CAPTURES) {
-            move.capturedPieces.add(entry.capture3);
+        if (entry.capture2 != Constants.BoardConstants.ILLEGAL_CELL) {
+            move.capturedPieces.set(entry.capture2);
         }
 
-        if (entry.capture3 != Constants.DbConstants.NO_CAPTURES) {
-            move.capturedPieces.add(entry.capture2);
+        if (entry.capture3 != Constants.BoardConstants.ILLEGAL_CELL) {
+            move.capturedPieces.set(entry.capture3);
         }
 
         return move;

@@ -1,10 +1,11 @@
 package com.pactstudios.games.tafl.core.es.systems.interaction;
 
+import java.util.BitSet;
+
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.IntArray;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
@@ -62,7 +63,7 @@ public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, 
         velocity = calculateVelocity(matchComponent.match, event.move);
 
         efs.movePiece(matchComponent.match, event.move.clone(), velocity, distance);
-        matchComponent.match.selectedPiece = Constants.BoardConstants.NO_PIECE_SELECTED;
+        matchComponent.match.board.selectedPiece = Constants.BoardConstants.ILLEGAL_CELL;
         highlightSystem.clearCellHighlights();
     }
 
@@ -80,22 +81,23 @@ public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, 
 
     private float calculateDistance(PieceMoveEvent event,
             TaflMatch match) {
-        Vector2 position = match.getCellPosition(event.move.source);
+        Vector2 position = match.board.getCellPosition(event.move.source);
         float x = position.x;
         float y = position.y;
-        position = match.getCellPosition(event.move.destination);
+        position = match.board.getCellPosition(event.move.destination);
         return position.dst(x, y);
     }
 
     private void processCapturedPieces(TaflMatch match, MoveFinishedEvent event) {
-        IntArray captured =
+        BitSet captured =
                 match.rulesEngine.getCapturedPieces(event.move.destination);
 
-        if (captured.size > 0) {
+        if (captured.cardinality() > 0) {
             PieceCaptureEvent captureEvent =
                     world.createEvent(PieceCaptureEvent.class);
             captureEvent.move = event.move.clone();
-            captureEvent.move.capturedPieces.addAll(captured);
+            captureEvent.move.capturedPieces.clear();
+            captureEvent.move.capturedPieces.or(captured);
             world.postEvent(this, captureEvent);
         } else {
             changeTurn(match);
@@ -109,13 +111,13 @@ public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, 
 
     private void move(TaflMatch match, MoveFinishedEvent event) {
         Entity entity = match.pieceEntities[event.move.source];
-        Vector2 newPosition = match.getCellPositionCenter(event.move.destination);
+        Vector2 newPosition = match.board.getCellPositionCenter(event.move.destination);
         PositionComponent position = positionMapper.get(entity);
         position.position.set(newPosition);
 
         event.move.entry = log(match, event.move);
 
-        match.applyMove(event.move.clone(), false);
+        match.applyMove(event.move, false);
 
         soundSystem.playMove();
     }

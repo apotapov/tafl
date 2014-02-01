@@ -3,10 +3,8 @@ package com.pactstudios.games.tafl.core.es.model.ai;
 import java.util.BitSet;
 
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.Pool;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.ai.evaluators.BoardEvaluator;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
@@ -38,39 +36,39 @@ public class MiniMaxStrategy implements AiStrategy {
 
 
     @Override
-    public Move search(TaflMatch match, Team team) {
-        Move move = max(match, team, null, this.maxDepth);
+    public Move search(TaflMatch match) {
+        Move move = max(match, null, this.maxDepth);
         System.out.println(move.eval);
         return move;
     }
 
-    protected void evaluate(TaflMatch match, Team team, Move move) {
-        move.eval = boardEvaluator.evaluate(match, team);
+    protected void evaluate(TaflMatch match, Move move) {
+        move.eval = boardEvaluator.evaluate(match);
     }
 
-    protected Move max(TaflMatch match, Team team, Move previousMove, int depth) {
+    protected Move max(TaflMatch match, Move previousMove, int depth) {
         match.simulateMove(previousMove);
         if (depth > 0) {
-            Array<Move> legalMoves = getLegalMoves(match, team);
-            Move maxMove = chooseMax(match, team, depth, legalMoves);
+            Array<Move> legalMoves = getLegalMoves(match);
+            Move maxMove = chooseMax(match, depth, legalMoves);
             if (previousMove != null) {
                 previousMove.eval = maxMove.eval;
             } else {
                 previousMove = maxMove;
             }
         } else {
-            evaluate(match, team, previousMove);
+            evaluate(match, previousMove);
         }
         match.rollBackSimulatedMove();
 
         return previousMove;
     }
 
-    private Move chooseMax(TaflMatch match, Team team, int depth, Array<Move> legalMoves) {
+    private Move chooseMax(TaflMatch match, int depth, Array<Move> legalMoves) {
         Array<Move> equalMoves = arrayPool.obtain();
         int max = Integer.MIN_VALUE;
         for (Move move : legalMoves) {
-            min(match, team, move, depth - 1);
+            min(match, move, depth - 1);
             if (move.eval == Constants.AiConstants.WIN) {
                 Move maxMove = move.clone();
                 cleanUp(legalMoves, equalMoves);
@@ -90,25 +88,25 @@ public class MiniMaxStrategy implements AiStrategy {
         return maxMove;
     }
 
-    protected void min(TaflMatch match, Team team, Move previousMove, int depth) {
+    protected void min(TaflMatch match, Move previousMove, int depth) {
         match.simulateMove(previousMove);
         if (depth > 0) {
-            Array<Move> legalMoves = getLegalMoves(match, team);
+            Array<Move> legalMoves = getLegalMoves(match);
             if (previousMove != null) {
-                previousMove.eval = chooseMin(match, team, depth, legalMoves);
+                previousMove.eval = chooseMin(match, depth, legalMoves);
             }
         } else {
-            evaluate(match, team, previousMove);
+            evaluate(match, previousMove);
         }
         match.rollBackSimulatedMove();
     }
 
-    private int chooseMin(TaflMatch match, Team team, int depth,
+    private int chooseMin(TaflMatch match, int depth,
             Array<Move> legalMoves) {
         Array<Move> equalMoves = arrayPool.obtain();
         int min = Integer.MAX_VALUE;
         for (Move move : legalMoves) {
-            max(match, team, move, depth - 1);
+            max(match, move, depth - 1);
             if (move.eval == Constants.AiConstants.LOSS) {
                 cleanUp(legalMoves, equalMoves);
                 return Constants.AiConstants.LOSS;
@@ -127,17 +125,17 @@ public class MiniMaxStrategy implements AiStrategy {
         return value;
     }
 
-    private Array<Move> getLegalMoves(TaflMatch match, Team team) {
+    private Array<Move> getLegalMoves(TaflMatch match) {
         Array<Move> legalMoves = arrayPool.obtain();
 
-        BitSet bitBoard = match.board.bitBoards[team.bitBoardId()];
+        BitSet bitBoard = match.currentBitBoard();
         for (int source = bitBoard.nextSetBit(0); source >= 0; source = bitBoard.nextSetBit(source+1)) {
-            IntArray moves = match.rulesEngine.legalMoves(source);
-            for (int destId = 0; destId < moves.size; destId++ ) {
+            BitSet moves = match.rulesEngine.legalMoves(source);
+            for (int dest = moves.nextSetBit(0); dest >= 0; dest = moves.nextSetBit(dest+1)) {
                 Move move = Move.movePool.obtain();
-                move.pieceType = team.bitBoardId();
+                move.pieceType = match.turn.bitBoardId();
                 move.source = source;
-                move.destination = moves.items[destId];
+                move.destination = dest;
                 legalMoves.add(move);
             }
         }

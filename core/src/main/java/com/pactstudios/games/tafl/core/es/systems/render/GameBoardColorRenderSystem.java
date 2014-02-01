@@ -42,7 +42,7 @@ public class GameBoardColorRenderSystem extends RenderingSystem<MapRenderingComp
         MatchComponent matchComponent = matchMapper.get(e);
         ShapeRenderer shapeRenderer = rendComponent.shapeRenderer;
 
-        float boardSize = matchComponent.match.getBoardDimensionWithBorders();
+        float boardSize = matchComponent.match.board.getDimensionWithBorders();
 
         drawBorder(shapeRenderer, boardSize);
         drawSpecialCells(matchComponent.match, shapeRenderer);
@@ -61,17 +61,16 @@ public class GameBoardColorRenderSystem extends RenderingSystem<MapRenderingComp
 
     private void drawSpecialCells(TaflMatch match, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Constants.BoardRenderConstants.CORNER_COLOR);
-        drawRefugeCell(shapeRenderer, match, match.corners[0]);
-        drawRefugeCell(shapeRenderer, match, match.corners[1]);
-        drawRefugeCell(shapeRenderer, match, match.corners[2]);
-        drawRefugeCell(shapeRenderer, match, match.corners[3]);
+        for (int c = match.board.corners.nextSetBit(0); c >= 0; c = match.board.corners.nextSetBit(c+1)) {
+            drawRefugeCell(shapeRenderer, match, c);
+        }
 
         shapeRenderer.setColor(Constants.BoardRenderConstants.CASTLE_COLOR);
-        drawRefugeCell(shapeRenderer, match, match.center);
+        drawRefugeCell(shapeRenderer, match, match.board.center);
     }
 
     private void drawRefugeCell(ShapeRenderer shapeRenderer, TaflMatch match, int cellId) {
-        Vector2 position = match.getCellPosition(cellId);
+        Vector2 position = match.board.getCellPosition(cellId);
         shapeRenderer.rect(position.x,
                 position.y,
                 Constants.BoardRenderConstants.TILE_SIZE,

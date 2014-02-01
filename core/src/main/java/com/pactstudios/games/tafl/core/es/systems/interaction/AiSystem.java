@@ -50,7 +50,7 @@ public class AiSystem extends EventProcessingSystem2<AiTurnEvent, AiCompleteEven
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                Move move = match.aiStrategy.search(match, match.computerTeam);
+                Move move = match.aiStrategy.search(match);
                 AiCompleteEvent completeEvent = world.createEvent(AiCompleteEvent.class);
                 completeEvent.move = move;
                 world.postEvent(AiSystem.this, completeEvent);

@@ -2,7 +2,6 @@ package com.pactstudios.games.tafl.core.es;
 
 import java.util.BitSet;
 
-import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.SingletonComponentManager;
@@ -16,7 +15,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.pactstudios.games.tafl.core.TaflGame;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.LifeCycle;
-import com.pactstudios.games.tafl.core.enums.PieceType;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.systems.events.AiTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
@@ -89,7 +87,7 @@ public class TaflWorld implements Disposable {
     }
 
     public void resize(int width, int height) {
-        float boardSize = match.getBoardDimensionWithBorders();
+        float boardSize = match.board.getDimensionWithBorders();
         float center = boardSize / 2.0f;
 
         this.camera.position.set(center, center, 0);
@@ -164,20 +162,14 @@ public class TaflWorld implements Disposable {
         efs.createHud(match);
         efs.createRenderers(this);
 
-        match.pieceEntities = new Entity[match.board.numberCells];
-
-        BitSet pieces = match.board.bitBoards[PieceType.WHITE.bitBoardId()];
+        BitSet pieces = match.board.whiteBitBoard();
         for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
-            if (i == match.king) {
-                match.pieceEntities[i] = efs.createPiece(match, i, PieceType.KING);
-            } else {
-                match.pieceEntities[i] = efs.createPiece(match, i, PieceType.WHITE);
-            }
+            match.pieceEntities[i] = efs.createPiece(match, i);
         }
 
-        pieces = match.board.bitBoards[PieceType.BLACK.bitBoardId()];
+        pieces = match.board.blackBitBoard();
         for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
-            match.pieceEntities[i] = efs.createPiece(match, i, PieceType.BLACK);
+            match.pieceEntities[i] = efs.createPiece(match, i);
         }
     }
 }

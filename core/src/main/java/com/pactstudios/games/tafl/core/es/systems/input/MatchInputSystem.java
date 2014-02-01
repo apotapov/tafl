@@ -1,10 +1,11 @@
 package com.pactstudios.games.tafl.core.es.systems.input;
 
+import java.util.BitSet;
+
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.IntArray;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.InputType;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
@@ -43,11 +44,11 @@ public class MatchInputSystem extends InputProcessingSystem<MapRenderingComponen
             TaflMatch match = matchComponent.match;
             if (matchComponent.acceptInput()) {
                 if (!matchComponent.animationInProgress) {
-                    int cellId = match.getCellId(gameTouchPoint);
+                    int cellId = match.board.getCellId(gameTouchPoint);
                     if (cellId >= 0 && cellId < match.board.numberCells) {
                         if (match.board.bitBoards[match.turn.bitBoardId()].get(cellId)) {
                             selectPiece(match, cellId);
-                        } else if (match.selectedPiece != Constants.BoardConstants.NO_PIECE_SELECTED) {
+                        } else if (match.board.selectedPiece != Constants.BoardConstants.ILLEGAL_CELL) {
                             movePiece(match, cellId);
                         }
                     }
@@ -57,10 +58,10 @@ public class MatchInputSystem extends InputProcessingSystem<MapRenderingComponen
     }
 
     private void movePiece(TaflMatch match, int destination) {
-        Entity pieceEntity = match.pieceEntities[match.selectedPiece];
+        Entity pieceEntity = match.pieceEntities[match.board.selectedPiece];
         PositionComponent position = positionMapper.get(pieceEntity);
 
-        int source = match.getCellId(position.position);
+        int source = match.board.getCellId(position.position);
         if (match.rulesEngine.isMoveLegal(source, destination)) {
             move(match.turn.bitBoardId(), source, destination);
         }
@@ -75,12 +76,12 @@ public class MatchInputSystem extends InputProcessingSystem<MapRenderingComponen
     }
 
     private void selectPiece(TaflMatch match, int cellId) {
-        if (cellId != match.selectedPiece) {
+        if (cellId != match.board.selectedPiece) {
             highlightSystem.clearCellHighlights();
             highlightSystem.highlightCell(cellId);
-            IntArray legalMoves = match.rulesEngine.legalMoves(cellId);
+            BitSet legalMoves = match.rulesEngine.legalMoves(cellId);
             highlightSystem.highlightCells(legalMoves);
-            match.selectedPiece = cellId;
+            match.board.selectedPiece = cellId;
         }
     }
 }

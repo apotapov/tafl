@@ -114,8 +114,8 @@ public class TaflMatch {
                 dbService.hashs.get(boardType.dimensions),
                 king);
 
-        board.stringToBitSet(whitePieces, Team.WHITE.bitBoardId());
-        board.stringToBitSet(blackPieces, Team.BLACK.bitBoardId());
+        board.stringToBitSet(whitePieces, Team.WHITE.bitBoardId);
+        board.stringToBitSet(blackPieces, Team.BLACK.bitBoardId);
 
         board.initialize();
 
@@ -221,7 +221,7 @@ public class TaflMatch {
     }
 
     public BitSet currentBitBoard() {
-        return board.bitBoards[turn.bitBoardId()];
+        return board.bitBoards[turn.bitBoardId];
     }
 
     public void updateKing(int king) {

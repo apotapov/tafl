@@ -35,7 +35,7 @@ public class CellHighlightSystem extends PassiveEntitySystem {
         clearCellHighlights();
         MatchComponent matchComponent = singletonManager.getSingletonComponent(MatchComponent.class);
 
-        BitSet pieces = matchComponent.match.board.bitBoards[team.bitBoardId()];
+        BitSet pieces = matchComponent.match.board.bitBoards[team.bitBoardId];
         for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
             if (matchComponent.match.rulesEngine.legalMoves(i).cardinality() > 0) {
                 highlightCell(i);

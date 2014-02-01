@@ -80,6 +80,9 @@ public final class Constants {
                 BIGGEST_BOARD_DIMENSION * BIGGEST_BOARD_DIMENSION;
 
         public static final int ILLEGAL_CELL = -1;
+
+        public static final int WHITE_TEAM_BIT_BOARD_ID = 0;
+        public static final int BLACK_TEAM_BIT_BOARD_ID = 0;
     }
 
     public static final class BoardRenderConstants {

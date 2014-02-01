@@ -27,7 +27,7 @@ public class MatchLogFactory {
     public static Move parseLog(MatchLogEntry entry, TaflMatch match) {
         Move move = new Move();
 
-        move.pieceType = entry.team.bitBoardId();
+        move.pieceType = entry.team.bitBoardId;
         move.source = entry.source;
         move.destination = entry.destination;
 

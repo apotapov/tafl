@@ -83,7 +83,7 @@ public class OfficialCaptureRules {
     }
 
     private void checkCapture(int destination, int first, int second, int third, int fourth) {
-        int capturingTeam = match.board.getTeam(destination).bitBoardId();
+        int capturingTeam = match.board.getTeam(destination).bitBoardId;
         int oppositeTeam = (capturingTeam + 1) % 2;
         if (match.board.isValid(first) && match.board.bitBoards[oppositeTeam].get(first)) {
             if (first == match.board.king) {

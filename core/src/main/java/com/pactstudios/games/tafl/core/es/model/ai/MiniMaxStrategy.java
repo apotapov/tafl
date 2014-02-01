@@ -133,7 +133,7 @@ public class MiniMaxStrategy implements AiStrategy {
             BitSet moves = match.rulesEngine.legalMoves(source);
             for (int dest = moves.nextSetBit(0); dest >= 0; dest = moves.nextSetBit(dest+1)) {
                 Move move = Move.movePool.obtain();
-                move.pieceType = match.turn.bitBoardId();
+                move.pieceType = match.turn.bitBoardId;
                 move.source = source;
                 move.destination = dest;
                 legalMoves.add(move);

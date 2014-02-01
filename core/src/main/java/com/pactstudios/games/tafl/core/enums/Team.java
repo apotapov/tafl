@@ -1,25 +1,16 @@
 package com.pactstudios.games.tafl.core.enums;
 
-import com.pactstudios.games.tafl.core.es.model.board.IBitBoardIdentifier;
+import com.pactstudios.games.tafl.core.consts.Constants;
 
 
-public enum Team implements IBitBoardIdentifier {
-    WHITE(0),
-    BLACK(1);
+public enum Team {
+    WHITE(Constants.BoardConstants.WHITE_TEAM_BIT_BOARD_ID),
+    BLACK(Constants.BoardConstants.BLACK_TEAM_BIT_BOARD_ID);
 
-    private int bitBoardId;
+    public int bitBoardId;
 
     private Team(int bitBoardId) {
         this.bitBoardId = bitBoardId;
-    }
-
-    @Override
-    public int bitBoardId() {
-        return bitBoardId;
-    }
-
-    public Team getOpositeTeam() {
-        return this == WHITE ? BLACK : WHITE;
     }
 
     public static Team fromId(int id) {

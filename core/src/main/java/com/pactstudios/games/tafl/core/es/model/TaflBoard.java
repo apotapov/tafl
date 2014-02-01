@@ -128,11 +128,11 @@ public class TaflBoard extends GameBitBoard {
     }
 
     public BitSet blackBitBoard() {
-        return bitBoards[Team.BLACK.bitBoardId()];
+        return bitBoards[Constants.BoardConstants.BLACK_TEAM_BIT_BOARD_ID];
     }
 
     public BitSet whiteBitBoard() {
-        return bitBoards[Team.WHITE.bitBoardId()];
+        return bitBoards[Constants.BoardConstants.WHITE_TEAM_BIT_BOARD_ID];
     }
 
     public void applyMove(Move move) {

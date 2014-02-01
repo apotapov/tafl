@@ -46,7 +46,7 @@ public class MatchInputSystem extends InputProcessingSystem<MapRenderingComponen
                 if (!matchComponent.animationInProgress) {
                     int cellId = match.board.getCellId(gameTouchPoint);
                     if (cellId >= 0 && cellId < match.board.numberCells) {
-                        if (match.board.bitBoards[match.turn.bitBoardId].get(cellId)) {
+                        if (match.board.bitBoards[match.turn].get(cellId)) {
                             selectPiece(match, cellId);
                         } else if (match.board.selectedPiece != Constants.BoardConstants.ILLEGAL_CELL) {
                             movePiece(match, cellId);
@@ -63,7 +63,7 @@ public class MatchInputSystem extends InputProcessingSystem<MapRenderingComponen
 
         int source = match.board.getCellId(position.position);
         if (match.rulesEngine.isMoveLegal(source, destination)) {
-            move(match.turn.bitBoardId, source, destination);
+            move(match.turn, source, destination);
         }
     }
 

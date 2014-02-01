@@ -13,7 +13,6 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.LifeCycle;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.ZorbistHash;
 import com.pactstudios.games.tafl.core.es.model.board.GameBitBoard;
@@ -103,8 +102,8 @@ public class TaflDatabaseService extends DatabaseService {
         match.updated.setTime(System.currentTimeMillis());
 
         match.updateKing(match.board.king);
-        match.whitePieces = match.board.bitSetToString(Team.WHITE.bitBoardId);
-        match.blackPieces = match.board.bitSetToString(Team.BLACK.bitBoardId);
+        match.whitePieces = match.board.bitSetToString(Constants.BoardConstants.WHITE_TEAM);
+        match.blackPieces = match.board.bitSetToString(Constants.BoardConstants.BLACK_TEAM);
 
         matchDao.update(match);
     }

@@ -81,8 +81,9 @@ public final class Constants {
 
         public static final int ILLEGAL_CELL = -1;
 
-        public static final int WHITE_TEAM_BIT_BOARD_ID = 0;
-        public static final int BLACK_TEAM_BIT_BOARD_ID = 0;
+        public static final int WHITE_TEAM = 0;
+        public static final int BLACK_TEAM = 1;
+        public static final int NO_TEAM = -1;
     }
 
     public static final class BoardRenderConstants {

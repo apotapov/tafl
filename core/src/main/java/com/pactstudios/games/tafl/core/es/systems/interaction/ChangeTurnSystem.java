@@ -3,10 +3,10 @@ package com.pactstudios.games.tafl.core.es.systems.interaction;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.DrawReasonEnum;
 import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.enums.PlayerWarningEnum;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.systems.events.AiTurnEvent;
@@ -75,8 +75,8 @@ public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
     }
 
     private boolean checkEndGame(TaflMatch match) {
-        Team winner = match.rulesEngine.checkWinner();
-        if (winner != null) {
+        int winner = match.rulesEngine.checkWinner();
+        if (winner != Constants.BoardConstants.NO_TEAM) {
             LifeCycle lifecycle = LifeCycle.WIN;
             if (match.versusComputer && match.computerTeam == winner) {
                 lifecycle = LifeCycle.LOSS;

@@ -9,7 +9,6 @@ import com.artemis.managers.SingletonComponentManager;
 import com.artemis.systems.PassiveEntitySystem;
 import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.components.render.HighlightComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 
@@ -31,11 +30,11 @@ public class CellHighlightSystem extends PassiveEntitySystem {
         efs = world.getSystem(EntityFactorySystem.class);
     }
 
-    public void highlightTeam(Team team) {
+    public void highlightTeam(int team) {
         clearCellHighlights();
         MatchComponent matchComponent = singletonManager.getSingletonComponent(MatchComponent.class);
 
-        BitSet pieces = matchComponent.match.board.bitBoards[team.bitBoardId];
+        BitSet pieces = matchComponent.match.board.bitBoards[team];
         for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
             if (matchComponent.match.rulesEngine.legalMoves(i).cardinality() > 0) {
                 highlightCell(i);

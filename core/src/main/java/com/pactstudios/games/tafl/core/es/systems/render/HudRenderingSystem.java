@@ -5,7 +5,6 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
 import com.roundtriangles.games.zaria.services.GraphicsService;
@@ -65,7 +64,7 @@ public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
             HudComponent hudComponent) {
         String text;
         if (!hudComponent.match.versusComputer || hudComponent.match.computerTeam != hudComponent.match.turn) {
-            if (hudComponent.match.turn == Team.WHITE) {
+            if (hudComponent.match.turn == Constants.BoardConstants.WHITE_TEAM) {
                 text = localeService.get(LocalizedStrings.Hud.WHITE_TURN_LABEL);
             } else {
                 text = localeService.get(LocalizedStrings.Hud.BLACK_TURN_LABEL);

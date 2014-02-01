@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.render.AnimationComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
@@ -54,7 +53,7 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         String graphic;
         if (cellId == match.board.king) {
             graphic = Assets.Graphics.KING_PIECE;
-        } else if (match.board.getTeam(cellId) == Team.WHITE) {
+        } else if (match.board.getTeam(cellId) == Constants.BoardConstants.WHITE_TEAM) {
             graphic = Assets.Graphics.WHITE_PIECE;
         } else {
             graphic = Assets.Graphics.BLACK_PIECE;

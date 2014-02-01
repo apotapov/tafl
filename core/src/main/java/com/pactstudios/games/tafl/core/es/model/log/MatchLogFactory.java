@@ -3,7 +3,6 @@ package com.pactstudios.games.tafl.core.es.model.log;
 import java.util.Date;
 
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
 
@@ -12,7 +11,7 @@ public class MatchLogFactory {
     public static MatchLogEntry log(TaflMatch match, Move move) {
         MatchLogEntry entry = new MatchLogEntry();
         entry.match = match;
-        entry.team = Team.fromId(move.pieceType);
+        entry.team = move.pieceType;
         entry.source = move.source;
         entry.destination = move.destination;
         entry.updated = new Date();
@@ -27,7 +26,7 @@ public class MatchLogFactory {
     public static Move parseLog(MatchLogEntry entry, TaflMatch match) {
         Move move = new Move();
 
-        move.pieceType = entry.team.bitBoardId;
+        move.pieceType = entry.team;
         move.source = entry.source;
         move.destination = entry.destination;
 

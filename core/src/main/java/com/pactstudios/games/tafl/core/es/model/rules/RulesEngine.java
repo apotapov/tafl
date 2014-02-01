@@ -5,7 +5,6 @@ import java.util.BitSet;
 import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.enums.DrawReasonEnum;
 import com.pactstudios.games.tafl.core.enums.PlayerWarningEnum;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
 
@@ -18,20 +17,16 @@ public abstract class RulesEngine {
     }
 
     public void changeTurn() {
-        if (match.turn == Team.BLACK) {
-            match.turn = Team.WHITE;
-        } else {
-            match.turn = Team.BLACK;
-        }
+        match.turn = (match.turn + 1) % 2;
     }
 
-    public abstract Team getFirstTurn();
-    public abstract Team getSecondTurn();
+    public abstract int getFirstTurn();
+    public abstract int getSecondTurn();
     public abstract PlayerWarningEnum checkPlayerWarning();
 
     public abstract BitSet getCapturedPieces(int destination);
 
-    public abstract Team checkWinner();
+    public abstract int checkWinner();
     public abstract DrawReasonEnum checkDraw();
     public abstract void recordBoardConfiguration(int boardHash);
     public abstract void undoBoardConfiguration();

@@ -5,7 +5,6 @@ import java.util.BitSet;
 import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.PlayerWarningEnum;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
 
@@ -47,7 +46,7 @@ public class OfficialMoveRules {
             BitSet moves = calculateLegalMoves(source);
             for (int dest = moves.nextSetBit(0); dest >= 0; dest = moves.nextSetBit(dest+1)) {
                 Move move = Move.movePool.obtain();
-                move.pieceType = match.turn.bitBoardId;
+                move.pieceType = match.turn;
                 move.source = source;
                 move.destination = dest;
                 allLegalMoves.add(move);
@@ -123,7 +122,7 @@ public class OfficialMoveRules {
     }
 
     public PlayerWarningEnum checkPlayerWarning() {
-        if (match.turn == Team.WHITE) {
+        if (match.turn == Constants.BoardConstants.WHITE_TEAM) {
             return checkKingCaptureWarning();
         } else {
             return checkKingEscapeWarning();

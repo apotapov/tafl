@@ -3,9 +3,9 @@ package com.pactstudios.games.tafl.core.es.model.rules;
 import java.util.BitSet;
 
 import com.badlogic.gdx.utils.Array;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.DrawReasonEnum;
 import com.pactstudios.games.tafl.core.enums.PlayerWarningEnum;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
 
@@ -24,19 +24,19 @@ public class OfficialRulesEngine extends RulesEngine {
     }
 
     @Override
-    public Team getFirstTurn() {
-        return Team.BLACK;
+    public int getFirstTurn() {
+        return Constants.BoardConstants.BLACK_TEAM;
     }
 
     @Override
-    public Team getSecondTurn() {
-        return Team.WHITE;
+    public int getSecondTurn() {
+        return Constants.BoardConstants.WHITE_TEAM;
     }
 
 
 
     @Override
-    public Team checkWinner() {
+    public int checkWinner() {
         return gameEndRules.checkWinner();
     }
 

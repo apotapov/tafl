@@ -5,7 +5,6 @@ import java.util.Date;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 
 @DatabaseTable(tableName = Constants.DbConstants.LOG_TABLE)
@@ -29,7 +28,7 @@ public class MatchLogEntry {
     public TaflMatch match;
 
     @DatabaseField(columnName = TEAM_COLUMN, canBeNull = false)
-    public Team team;
+    public int team;
 
     @DatabaseField(columnName = SOURCE_COLUMN, canBeNull = false)
     public int source;

@@ -4,10 +4,10 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.badlogic.gdx.utils.Array;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.pactstudios.games.tafl.core.enums.DrawReasonEnum;
 import com.pactstudios.games.tafl.core.enums.LifeCycle;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem2;
@@ -87,13 +87,13 @@ public class LifeCycleSystem extends EventProcessingSystem2<LifeCycleEvent, Play
         component.lossDialog.show(component.hubStage);
     }
 
-    private void win(HudRenderingComponent component, Team winner) {
+    private void win(HudRenderingComponent component, int winner) {
         gameWorld.pauseSystems();
 
         gameWorld.match.status = LifeCycle.WIN;
         gameWorld.game.databaseService.updateMatch(gameWorld.match);
 
-        if (winner == Team.WHITE) {
+        if (winner == Constants.BoardConstants.WHITE_TEAM) {
             component.drawText.setText(
                     gameWorld.game.localeService.get(LocalizedStrings.GameMenu.WHITE_WIN_TEXT));
         } else {

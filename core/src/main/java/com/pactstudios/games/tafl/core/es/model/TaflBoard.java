@@ -4,7 +4,6 @@ import java.util.BitSet;
 
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.ZorbistHash;
 import com.pactstudios.games.tafl.core.es.model.board.GameBitBoard;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
@@ -74,13 +73,13 @@ public class TaflBoard extends GameBitBoard {
                 Constants.BoardRenderConstants.BOARD_FRAME_WIDTH * 2;
     }
 
-    public Team getTeam(int cellId) {
+    public int getTeam(int cellId) {
         if (whiteBitBoard().get(cellId)) {
-            return Team.WHITE;
+            return Constants.BoardConstants.WHITE_TEAM;
         } else if (blackBitBoard().get(cellId)) {
-            return Team.BLACK;
+            return Constants.BoardConstants.BLACK_TEAM;
         }
-        return null;
+        return Constants.BoardConstants.NO_TEAM;
     }
 
     public void removePiece(int captor, int capturedPiece) {
@@ -128,11 +127,11 @@ public class TaflBoard extends GameBitBoard {
     }
 
     public BitSet blackBitBoard() {
-        return bitBoards[Constants.BoardConstants.BLACK_TEAM_BIT_BOARD_ID];
+        return bitBoards[Constants.BoardConstants.BLACK_TEAM];
     }
 
     public BitSet whiteBitBoard() {
-        return bitBoards[Constants.BoardConstants.WHITE_TEAM_BIT_BOARD_ID];
+        return bitBoards[Constants.BoardConstants.WHITE_TEAM];
     }
 
     public void applyMove(Move move) {

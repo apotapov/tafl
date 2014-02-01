@@ -5,7 +5,6 @@ import com.badlogic.gdx.utils.IntIntMap;
 import com.badlogic.gdx.utils.IntIntMap.Values;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.DrawReasonEnum;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 
 public class OfficialGameEndRules {
@@ -19,12 +18,12 @@ public class OfficialGameEndRules {
         boardConfiguration = new IntArray();
         configurationCounter = new IntIntMap();
     }
-    public Team checkWinner() {
-        Team winner = null;
+    public int checkWinner() {
+        int winner = Constants.BoardConstants.NO_TEAM;
         if (match.board.king == Constants.BoardConstants.ILLEGAL_CELL) {
-            winner = Team.BLACK;
+            winner = Constants.BoardConstants.BLACK_TEAM;
         } else if (match.board.corners.get(match.board.king)) {
-            winner = Team.WHITE;
+            winner = Constants.BoardConstants.WHITE_TEAM;
         }
         return winner;
     }
@@ -77,7 +76,7 @@ public class OfficialGameEndRules {
         if (match.undoStack.size >= Constants.GameConstants.DRAW_MOVE_THRESHHOLD) {
             return DrawReasonEnum.DRAW_TOO_MANY_TURNS;
         } else if (match.rulesEngine.legalMoves().size == 0){
-            if (match.turn == Team.WHITE) {
+            if (match.turn == Constants.BoardConstants.WHITE_TEAM) {
                 return DrawReasonEnum.DRAW_NO_MOVES_WHITE;
             } else {
                 return DrawReasonEnum.DRAW_NO_MOVES_BLACK;

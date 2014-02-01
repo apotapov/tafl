@@ -14,7 +14,6 @@ import com.pactstudios.games.tafl.core.enums.AiType;
 import com.pactstudios.games.tafl.core.enums.GameBoardType;
 import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.enums.RulesEngineType;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.ai.AiFactory;
 import com.pactstudios.games.tafl.core.es.model.ai.AiStrategy;
 import com.pactstudios.games.tafl.core.es.model.board.GameBitBoard;
@@ -54,7 +53,7 @@ public class TaflMatch {
     public LifeCycle status;
 
     @DatabaseField(columnName = TURN_COLUMN, canBeNull = false)
-    public Team turn;
+    public int turn;
 
     @DatabaseField(columnName = BOARD_TYPE, canBeNull = false)
     public GameBoardType boardType;
@@ -75,7 +74,7 @@ public class TaflMatch {
     public boolean versusComputer;
 
     @DatabaseField(columnName = COMPUTER_TEAM_COLUMN)
-    public Team computerTeam;
+    public int computerTeam = Constants.BoardConstants.NO_TEAM;
 
     @DatabaseField(columnName = AI_TYPE_COLUMN, canBeNull = false)
     public AiType aiType;
@@ -114,8 +113,8 @@ public class TaflMatch {
                 dbService.hashs.get(boardType.dimensions),
                 king);
 
-        board.stringToBitSet(whitePieces, Team.WHITE.bitBoardId);
-        board.stringToBitSet(blackPieces, Team.BLACK.bitBoardId);
+        board.stringToBitSet(whitePieces, Constants.BoardConstants.WHITE_TEAM);
+        board.stringToBitSet(blackPieces, Constants.BoardConstants.BLACK_TEAM);
 
         board.initialize();
 
@@ -124,10 +123,8 @@ public class TaflMatch {
 
         pieceEntities = new Entity[board.numberCells];
 
-        if (turn == null) {
-            turn = rulesEngine.getFirstTurn();
-        }
-        if (computerTeam == null) {
+        turn = rulesEngine.getFirstTurn();
+        if (computerTeam == Constants.BoardConstants.NO_TEAM) {
             computerTeam = computerStarts ? rulesEngine.getFirstTurn() :
                 rulesEngine.getSecondTurn();
         }
@@ -221,7 +218,7 @@ public class TaflMatch {
     }
 
     public BitSet currentBitBoard() {
-        return board.bitBoards[turn.bitBoardId];
+        return board.bitBoards[turn];
     }
 
     public void updateKing(int king) {

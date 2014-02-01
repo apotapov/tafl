@@ -1,17 +1,15 @@
-package com.pactstudios.games.tafl.core.enums;
+package com.pactstudios.games.tafl.core.es.model.rules;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
+import com.pactstudios.games.tafl.core.enums.DrawReasonEnum;
+import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
 
 public abstract class RulesEngine {
 
     public TaflMatch match;
-
-    public enum RulesEngineType {
-        BASIC;
-    }
 
     public RulesEngine(TaflMatch match) {
         this.match = match;
@@ -27,9 +25,13 @@ public abstract class RulesEngine {
 
     public abstract Team getFirstTurn();
     public abstract Team getSecondTurn();
+
     public abstract IntArray getCapturedPieces(int destination);
-    public abstract Team checkWinner(int destination, IntArray capturedPieces);
+
     public abstract Team checkWinner();
+    public abstract DrawReasonEnum checkDraw();
+    public abstract void recordBoardConfiguration(int boardHash);
+    public abstract void undoBoardConfiguration();
 
     public abstract boolean isMoveLegal(int source, int destination);
     public abstract IntArray legalMoves(int source);

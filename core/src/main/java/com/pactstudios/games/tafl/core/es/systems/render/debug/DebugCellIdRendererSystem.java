@@ -46,8 +46,8 @@ public class DebugCellIdRendererSystem extends RenderingSystem<MapRenderingCompo
 
             rendComponent.font.draw(rendComponent.spriteBatch,
                     "" + i,
-                    position.x + Constants.BoardConstants.HALF_TILE_SIZE,
-                    position.y + Constants.BoardConstants.HALF_TILE_SIZE);
+                    position.x + Constants.BoardRenderConstants.HALF_TILE_SIZE,
+                    position.y + Constants.BoardRenderConstants.HALF_TILE_SIZE);
         }
     }
 

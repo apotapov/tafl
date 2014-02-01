@@ -28,7 +28,11 @@ public class LocalizedStrings {
         LOSS_TEXT,
 
         DRAW_TITLE,
-        DRAW_TEXT,
+        DRAW_NO_MOVES_WHITE_TEXT,
+        DRAW_NO_MOVES_BLACK_TEXT,
+        DRAW_KING_TRAPPED_TEXT,
+        DRAW_THREE_PEAT_TEXT,
+        DRAW_TOO_MANY_TURNS_TEXT,
 
         WHITE_WIN_TITLE,
         WHITE_WIN_TEXT,

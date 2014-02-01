@@ -57,7 +57,8 @@ public class EntityFactorySystem extends PassiveEntitySystem {
                 Animation.LOOP,
                 Constants.PieceConstants.FRAME_DURATION);
         e.addComponent(ac);
-        e.addComponent(componentFactory.createScalingComponent(Constants.PieceConstants.SCALING, Constants.PieceConstants.SCALING));
+        e.addComponent(componentFactory.createScalingComponent(
+                Constants.PieceConstants.SCALING, Constants.PieceConstants.SCALING));
 
         e.addToWorld();
         return e;
@@ -66,7 +67,8 @@ public class EntityFactorySystem extends PassiveEntitySystem {
     public Entity createHighlightedCell(int cellId) {
         Entity e = world.createEntity();
 
-        e.addComponent(componentFactory.createHilightComponent(cellId, Constants.BoardConstants.HIGHLIGHT_COLOR));
+        e.addComponent(componentFactory.createHilightComponent(
+                cellId, Constants.BoardRenderConstants.HIGHLIGHT_COLOR));
 
         groupManager.add(e, Constants.GroupConstants.HIGHLIGHTED_CELLS);
 
@@ -94,7 +96,8 @@ public class EntityFactorySystem extends PassiveEntitySystem {
 
     public void movePiece(TaflMatch match, Move move, Vector2 velocity, float distanceRemaining) {
         Entity entity = match.pieceEntities[move.source];
-        entity.addComponent(componentFactory.createVelocityComponent(move, velocity, distanceRemaining));
+        entity.addComponent(componentFactory.createVelocityComponent(
+                move, velocity, distanceRemaining));
     }
 
     public void createAiProcessingPrompt(Entity e, String text) {

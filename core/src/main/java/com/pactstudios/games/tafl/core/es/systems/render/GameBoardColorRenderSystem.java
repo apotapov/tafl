@@ -49,30 +49,33 @@ public class GameBoardColorRenderSystem extends RenderingSystem<MapRenderingComp
     }
 
     private void drawBorder(ShapeRenderer shapeRenderer, float boardSize) {
-        shapeRenderer.setColor(Constants.BoardConstants.BORDER_COLOR);
+        shapeRenderer.setColor(Constants.BoardRenderConstants.BORDER_COLOR);
 
-        shapeRenderer.rect(0, 0, boardSize, Constants.BoardConstants.BOARD_FRAME_WIDTH);
-        shapeRenderer.rect(0, 0, Constants.BoardConstants.BOARD_FRAME_WIDTH, boardSize);
-        shapeRenderer.rect(boardSize - Constants.BoardConstants.BOARD_FRAME_WIDTH, 0,
-                Constants.BoardConstants.BOARD_FRAME_WIDTH, boardSize);
-        shapeRenderer.rect(0, boardSize - Constants.BoardConstants.BOARD_FRAME_WIDTH,
-                boardSize, Constants.BoardConstants.BOARD_FRAME_WIDTH);
+        shapeRenderer.rect(0, 0, boardSize, Constants.BoardRenderConstants.BOARD_FRAME_WIDTH);
+        shapeRenderer.rect(0, 0, Constants.BoardRenderConstants.BOARD_FRAME_WIDTH, boardSize);
+        shapeRenderer.rect(boardSize - Constants.BoardRenderConstants.BOARD_FRAME_WIDTH, 0,
+                Constants.BoardRenderConstants.BOARD_FRAME_WIDTH, boardSize);
+        shapeRenderer.rect(0, boardSize - Constants.BoardRenderConstants.BOARD_FRAME_WIDTH,
+                boardSize, Constants.BoardRenderConstants.BOARD_FRAME_WIDTH);
     }
 
     private void drawSpecialCells(TaflMatch match, ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(Constants.BoardConstants.CORNER_COLOR);
+        shapeRenderer.setColor(Constants.BoardRenderConstants.CORNER_COLOR);
         drawRefugeCell(shapeRenderer, match, match.corners[0]);
         drawRefugeCell(shapeRenderer, match, match.corners[1]);
         drawRefugeCell(shapeRenderer, match, match.corners[2]);
         drawRefugeCell(shapeRenderer, match, match.corners[3]);
 
-        shapeRenderer.setColor(Constants.BoardConstants.CASTLE_COLOR);
+        shapeRenderer.setColor(Constants.BoardRenderConstants.CASTLE_COLOR);
         drawRefugeCell(shapeRenderer, match, match.center);
     }
 
     private void drawRefugeCell(ShapeRenderer shapeRenderer, TaflMatch match, int cellId) {
         Vector2 position = match.getCellPosition(cellId);
-        shapeRenderer.rect(position.x, position.y, Constants.BoardConstants.TILE_SIZE, Constants.BoardConstants.TILE_SIZE);
+        shapeRenderer.rect(position.x,
+                position.y,
+                Constants.BoardRenderConstants.TILE_SIZE,
+                Constants.BoardRenderConstants.TILE_SIZE);
     }
 
 }

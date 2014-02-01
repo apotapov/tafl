@@ -1,7 +1,7 @@
 package com.pactstudios.games.tafl.core.level;
 
 import com.pactstudios.games.tafl.core.enums.GameBoardType;
-import com.pactstudios.games.tafl.core.enums.RulesEngine.RulesEngineType;
+import com.pactstudios.games.tafl.core.enums.RulesEngineType;
 import com.roundtriangles.games.zaria.AbstractLevel;
 
 public class TaflLevel extends AbstractLevel<TaflLevel>{

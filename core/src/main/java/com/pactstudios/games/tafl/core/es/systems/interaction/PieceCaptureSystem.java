@@ -41,13 +41,8 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
 
         MatchComponent component = matchMapper.get(e);
 
-        boolean changeTurn = true;
         for (int i = 0; i < event.move.capturedPieces.size; i++) {
             int capturedPiece = event.move.capturedPieces.items[i];
-
-            if (component.match.king == capturedPiece) {
-                changeTurn = false;
-            }
 
             component.match.removePiece(event.move.pieceType, capturedPiece);
 
@@ -56,9 +51,7 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
             efs.createCaptureAnimation(position);
         }
         component.match.undoStack.peek().capturedPieces.addAll(event.move.capturedPieces);
-        if (changeTurn) {
-            changeTurn(component.match);
-        }
+        changeTurn(component.match);
     }
 
     private void changeTurn(TaflMatch match) {

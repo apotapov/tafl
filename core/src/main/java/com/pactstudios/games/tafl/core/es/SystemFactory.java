@@ -15,7 +15,7 @@ import com.pactstudios.games.tafl.core.es.systems.interaction.UndoSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.ComponentFactorySystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
-import com.pactstudios.games.tafl.core.es.systems.passive.LifecycleSystem;
+import com.pactstudios.games.tafl.core.es.systems.passive.LifeCycleSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.SoundSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.UserInputSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.AiProcessingRendererSystem;
@@ -69,7 +69,7 @@ public class SystemFactory {
         gameWorld.world.setSystem(new UndoSystem(gameWorld.game.databaseService));
         gameWorld.world.setSystem(new PieceMovementSystem(gameWorld.game.databaseService));
         gameWorld.world.setSystem(new PieceCaptureSystem(gameWorld.game.databaseService));
-        gameWorld.world.setSystem(new LifecycleSystem(gameWorld));
+        gameWorld.world.setSystem(new LifeCycleSystem(gameWorld));
         gameWorld.world.setSystem(new ComponentFactorySystem(gameWorld.game.graphicsService));
         gameWorld.world.setSystem(new EntityFactorySystem());
         gameWorld.world.setSystem(new SoundSystem(gameWorld.game.soundService));

@@ -5,24 +5,25 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.utils.Array;
-import com.pactstudios.games.tafl.core.enums.Lifecycle;
+import com.pactstudios.games.tafl.core.enums.DrawReasonEnum;
+import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
-import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
+import com.pactstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 
-public class LifecycleSystem extends EntityProcessingSystem {
+public class LifeCycleSystem extends EntityProcessingSystem {
 
     ComponentMapper<HudRenderingComponent> hudRendMapper;
 
     TaflWorld gameWorld;
-    Array<LifecycleEvent> lifecycleEvents;
+    Array<LifeCycleEvent> lifecycleEvents;
 
     @SuppressWarnings("unchecked")
-    public LifecycleSystem(TaflWorld gameWorld) {
+    public LifeCycleSystem(TaflWorld gameWorld) {
         super(Aspect.getAspectForAll(HudRenderingComponent.class));
         this.gameWorld = gameWorld;
-        lifecycleEvents = new Array<LifecycleEvent>();
+        lifecycleEvents = new Array<LifeCycleEvent>();
     }
 
     @Override
@@ -35,8 +36,8 @@ public class LifecycleSystem extends EntityProcessingSystem {
     protected void process(Entity e) {
         HudRenderingComponent component = hudRendMapper.get(e);
 
-        world.getEvents(this, LifecycleEvent.class, lifecycleEvents);
-        for (LifecycleEvent event : lifecycleEvents) {
+        world.getEvents(this, LifeCycleEvent.class, lifecycleEvents);
+        for (LifeCycleEvent event : lifecycleEvents) {
             gameWorld.lifecycle = event.lifecycle;
             switch (event.lifecycle) {
             case MENU:
@@ -49,7 +50,7 @@ public class LifecycleSystem extends EntityProcessingSystem {
                 loss(component);
                 break;
             case DRAW:
-                draw(component);
+                draw(component, event.drawReason);
                 break;
             case PLAY:
                 play();
@@ -61,8 +62,9 @@ public class LifecycleSystem extends EntityProcessingSystem {
     }
 
     private void displayMenu(HudRenderingComponent component) {
-        if (gameWorld.lifecycle != Lifecycle.WIN &&
-                gameWorld.lifecycle != Lifecycle.LOSS) {
+        if (gameWorld.lifecycle != LifeCycle.WIN &&
+                gameWorld.lifecycle != LifeCycle.LOSS &&
+                gameWorld.lifecycle != LifeCycle.DRAW) {
             gameWorld.pauseSystems();
             component.menu.show(component.hubStage);
         }
@@ -71,7 +73,7 @@ public class LifecycleSystem extends EntityProcessingSystem {
     private void loss(HudRenderingComponent component) {
         gameWorld.pauseSystems();
 
-        gameWorld.match.status = Lifecycle.LOSS;
+        gameWorld.match.status = LifeCycle.LOSS;
         gameWorld.game.databaseService.updateMatch(gameWorld.match);
 
         component.lossDialog.show(component.hubStage);
@@ -80,7 +82,7 @@ public class LifecycleSystem extends EntityProcessingSystem {
     private void win(HudRenderingComponent component, Team winner) {
         gameWorld.pauseSystems();
 
-        gameWorld.match.status = Lifecycle.WIN;
+        gameWorld.match.status = LifeCycle.WIN;
         gameWorld.game.databaseService.updateMatch(gameWorld.match);
 
         if (winner == Team.WHITE) {
@@ -91,12 +93,13 @@ public class LifecycleSystem extends EntityProcessingSystem {
     }
 
 
-    private void draw(HudRenderingComponent component) {
+    private void draw(HudRenderingComponent component, DrawReasonEnum drawReason) {
         gameWorld.pauseSystems();
 
-        gameWorld.match.status = Lifecycle.DRAW;
+        gameWorld.match.status = LifeCycle.DRAW;
         gameWorld.game.databaseService.updateMatch(gameWorld.match);
 
+        component.drawDialogText.setText(gameWorld.game.localeService.get(drawReason.text));
         component.drawDialog.show(component.hubStage);
     }
 

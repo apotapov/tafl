@@ -54,7 +54,7 @@ public final class Constants {
         public static final float FRAME_DURATION = 0.2f;
         public static final float EXPLOSION_FRAME_DURATION = 0.05f;
 
-        public static final float SLOW_DOWN_DISTANCE = BoardConstants.TILE_SIZE;
+        public static final float SLOW_DOWN_DISTANCE = BoardRenderConstants.TILE_SIZE;
         public static final int PIECE_SPEED = 200;
 
         public static final Color PATH_COLOR = new Color(0.4f, 0.25f, .25f, 1f);
@@ -63,6 +63,24 @@ public final class Constants {
 
     public static final class BoardConstants {
         private BoardConstants() {
+        }
+
+        public static final int BOARD_TYPES = 2;
+        public static final int STANDARD_BOARD_DIMENSION = 11;
+        public static final int STANDARD_BOARD_NUMBER_CELLS =
+                STANDARD_BOARD_DIMENSION * STANDARD_BOARD_DIMENSION;
+
+        public static final int SMALL_BOARD_DIMENSION = 9;
+        public static final int SMALL_BOARD_NUMBER_CELLS =
+                SMALL_BOARD_DIMENSION * SMALL_BOARD_DIMENSION;
+
+        public static final int KING_DEAD = -1;
+        public static final int NO_PIECE_SELECTED = -1;
+        public static final int ILLEGAL_CELL = -1;
+    }
+
+    public static final class BoardRenderConstants {
+        private BoardRenderConstants() {
         }
         public static final int TILE_SIZE = 64;
         public static final int HALF_TILE_SIZE = TILE_SIZE / 2;
@@ -81,23 +99,17 @@ public final class Constants {
         public static final float FONT_WEIRDNESS_OFFSET = 2;
 
         public static final float HORIZONTAL_CELL_ID_HORIZONTAL_OFFSET = HALF_TILE_SIZE;
-        public static final float HORIZONTAL_CELL_ID_BOTTOM_OFFSET = -BOARD_FRAME_WIDTH / 2 + FONT_WEIRDNESS_OFFSET;
-        public static final float HORIZONTAL_CELL_ID_TOP_OFFSET = HALF_TILE_SIZE * 3f -
-                BOARD_FRAME_WIDTH / 2 + FONT_WEIRDNESS_OFFSET;
+        public static final float HORIZONTAL_CELL_ID_BOTTOM_OFFSET =
+                -BOARD_FRAME_WIDTH / 2 + FONT_WEIRDNESS_OFFSET;
+        public static final float HORIZONTAL_CELL_ID_TOP_OFFSET =
+                HALF_TILE_SIZE * 3f - BOARD_FRAME_WIDTH / 2 + FONT_WEIRDNESS_OFFSET;
 
-        public static final float VERTICAL_CELL_ID_VERTICAL_OFFSET = HALF_TILE_SIZE + FONT_WEIRDNESS_OFFSET;
-        public static final float VERTICAL_CELL_ID_LEFT_OFFSET = -QUARTER_TILE_SIZE;
-        public static final float VERTICAL_CELL_ID_RIGHT_OFFSET = TILE_SIZE + QUARTER_TILE_SIZE;
-
-        public static final int BOARD_TYPES = 2;
-        public static final int STANDARD_BOARD_DIMENSION = 11;
-        public static final int STANDARD_BOARD_NUMBER_CELLS = STANDARD_BOARD_DIMENSION * STANDARD_BOARD_DIMENSION;
-
-        public static final int SMALL_BOARD_DIMENSION = 9;
-        public static final int SMALL_BOARD_NUMBER_CELLS = SMALL_BOARD_DIMENSION * SMALL_BOARD_DIMENSION;
-
-        public static final int KING_DEAD = -1;
-        public static final int NO_PIECE_SELECTED = -1;
+        public static final float VERTICAL_CELL_ID_VERTICAL_OFFSET =
+                HALF_TILE_SIZE + FONT_WEIRDNESS_OFFSET;
+        public static final float VERTICAL_CELL_ID_LEFT_OFFSET =
+                -QUARTER_TILE_SIZE;
+        public static final float VERTICAL_CELL_ID_RIGHT_OFFSET =
+                TILE_SIZE + QUARTER_TILE_SIZE;
     }
 
     public static final class HudConstants {
@@ -122,6 +134,10 @@ public final class Constants {
         public static final int DEFAULT_LEVEL_INDEX = 0;
         public static final boolean DEFAULT_VERSUS_COMPUTER = true;
         public static final boolean DEFAULT_COMPUTER_STARTS = true;
+
+        public static final int DRAW_MOVE_THRESHHOLD = 100;
+        public static final int DRAW_BOARD_REPETITION_THRESHHOLD = 3;
+        public static final int DRAW_MOVES_TO_CHECK = 4;
     }
 
     public static final class DbConstants {

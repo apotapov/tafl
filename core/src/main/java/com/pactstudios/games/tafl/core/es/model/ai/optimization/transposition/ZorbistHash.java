@@ -6,17 +6,17 @@ import com.badlogic.gdx.utils.ObjectSet;
 
 public class ZorbistHash {
 
-    public int boardSize;
     public int pieceTypes;
+    public int boardSize;
     public int[][] hash;
     public int[][] hashLock;
     public ObjectSet<ZorbistHashEntry> entries;
 
     Random random;
 
-    public ZorbistHash(int boardSize, int pieceTypes) {
-        this.boardSize = boardSize;
+    public ZorbistHash(int pieceTypes, int boardSize) {
         this.pieceTypes = pieceTypes;
+        this.boardSize = boardSize;
         this.hash = new int[pieceTypes][boardSize];
         this.hashLock = new int[pieceTypes][boardSize];
         this.entries = new ObjectSet<ZorbistHashEntry>();

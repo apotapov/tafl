@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.enums;
 
-public enum Lifecycle {
+public enum LifeCycle {
     PLAY,
     MENU,
     QUIT,

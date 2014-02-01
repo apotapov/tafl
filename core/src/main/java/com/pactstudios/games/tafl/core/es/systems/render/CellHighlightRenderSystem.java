@@ -50,12 +50,15 @@ public class CellHighlightRenderSystem extends RenderingSystem<MapRenderingCompo
         HighlightComponent component = mapper.get(e);
         rendComponent.shapeRenderer.setColor(component.color);
 
-        MatchComponent matchComponent = singletonManager.getSingletonComponent(MatchComponent.class);
+        MatchComponent matchComponent =
+                singletonManager.getSingletonComponent(MatchComponent.class);
 
         Vector2 position = matchComponent.match.getCellPosition(component.cellId);
 
-        rendComponent.shapeRenderer.rect(position.x, position.y,
-                Constants.BoardConstants.TILE_SIZE, Constants.BoardConstants.TILE_SIZE);
+        rendComponent.shapeRenderer.rect(position.x,
+                position.y,
+                Constants.BoardRenderConstants.TILE_SIZE,
+                Constants.BoardRenderConstants.TILE_SIZE);
     }
 
 }

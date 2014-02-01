@@ -12,7 +12,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.enums.Lifecycle;
+import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.ZorbistHash;
@@ -65,7 +65,7 @@ public class TaflDatabaseService extends DatabaseService {
     private void initializeQueries() {
         try {
             QueryBuilder<TaflMatch, Integer> qb = matchDao.queryBuilder();
-            qb.where().eq(TaflMatch.STATUS_COLUMN, Lifecycle.PLAY);
+            qb.where().eq(TaflMatch.STATUS_COLUMN, LifeCycle.PLAY);
             qb.orderBy(TaflMatch.CREATED_COLUMN, false);
             loadMatchQuery = qb.prepare();
         } catch (Exception e) {

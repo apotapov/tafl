@@ -12,9 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
-import com.pactstudios.games.tafl.core.enums.Lifecycle;
+import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
-import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
+import com.pactstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.UndoEvent;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
@@ -40,8 +40,8 @@ public class HudFactory {
         ChangeListener restartListener = new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                LifecycleEvent lifecycleEvent = SystemEvent.createEvent(LifecycleEvent.class);
-                lifecycleEvent.lifecycle = Lifecycle.RESTART;
+                LifeCycleEvent lifecycleEvent = SystemEvent.createEvent(LifeCycleEvent.class);
+                lifecycleEvent.lifecycle = LifeCycle.RESTART;
                 world.postEvent(null, lifecycleEvent);
             }
         };
@@ -49,8 +49,8 @@ public class HudFactory {
         ChangeListener quitListener = new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                LifecycleEvent lifecycleEvent = SystemEvent.createEvent(LifecycleEvent.class);
-                lifecycleEvent.lifecycle = Lifecycle.QUIT;
+                LifeCycleEvent lifecycleEvent = SystemEvent.createEvent(LifeCycleEvent.class);
+                lifecycleEvent.lifecycle = LifeCycle.QUIT;
                 world.postEvent(null, lifecycleEvent);
             }
         };
@@ -93,8 +93,8 @@ public class HudFactory {
         component.drawDialog = new Dialog(text, skin);
         component.drawDialog.setSkin(skin);
 
-        text = localeService.get(LocalizedStrings.GameMenu.DRAW_TEXT);
-        component.drawDialog.add(text);
+        component.drawDialogText = new Label("", skin);
+        component.drawDialog.add(component.drawDialogText);
 
         text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
         TextButton restartButton = new TextButton(text, skin);
@@ -170,8 +170,8 @@ public class HudFactory {
         resumeButton.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                LifecycleEvent lifecycleEvent = SystemEvent.createEvent(LifecycleEvent.class);
-                lifecycleEvent.lifecycle = Lifecycle.PLAY;
+                LifeCycleEvent lifecycleEvent = SystemEvent.createEvent(LifeCycleEvent.class);
+                lifecycleEvent.lifecycle = LifeCycle.PLAY;
                 world.postEvent(null, lifecycleEvent);
             }
         });
@@ -251,8 +251,8 @@ public class HudFactory {
         button.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                LifecycleEvent lifecycleEvent = SystemEvent.createEvent(LifecycleEvent.class);
-                lifecycleEvent.lifecycle = Lifecycle.MENU;
+                LifeCycleEvent lifecycleEvent = SystemEvent.createEvent(LifeCycleEvent.class);
+                lifecycleEvent.lifecycle = LifeCycle.MENU;
                 world.postEvent(null, lifecycleEvent);
             }
         });

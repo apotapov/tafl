@@ -50,31 +50,15 @@ public class MotionRenderSystem extends RenderingSystem<MapRenderingComponent> {
         shapeRenderer.setColor(Constants.PieceConstants.PATH_COLOR);
 
         MatchComponent mc = singletonManager.getSingletonComponent(MatchComponent.class);
-
-        //        int startX = velocityComponent.move.source;
-        //        int
-        //        ModelCell end = velocityComponent.move.destination;
-        //        if (start.x - end.x == 0) {
-        //            int y = start.y;
-        //            int direction = (int) Math.signum(end.y - start.y);
-        //            while (y != end.y) {
-        //                drawCell(shapeRenderer, start.x, y);
-        //                y += direction;
-        //            }
-        //        } else {
-        //            int x = start.x;
-        //            int direction = (int) Math.signum(end.x - start.x);
-        //            while (x != end.x) {
-        //                drawCell(shapeRenderer, x, start.y);
-        //                x += direction;
-        //            }
-        //        }
         shapeRenderer.setColor(Constants.PieceConstants.END_COLOR);
         drawCell(shapeRenderer, mc.match, velocityComponent.move.destination);
     }
 
     private void drawCell(ShapeRenderer shapeRenderer, TaflMatch match, int cellId) {
         Vector2 position = match.getCellPosition(cellId);
-        shapeRenderer.rect(position.x, position.y, Constants.BoardConstants.TILE_SIZE, Constants.BoardConstants.TILE_SIZE);
+        shapeRenderer.rect(position.x,
+                position.y,
+                Constants.BoardRenderConstants.TILE_SIZE,
+                Constants.BoardRenderConstants.TILE_SIZE);
     }
 }

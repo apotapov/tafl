@@ -31,7 +31,7 @@ public class GameBoardRenderSystem extends RenderingSystem<MapRenderingComponent
     protected void begin(MapRenderingComponent rendComponent) {
         rendComponent.shapeRenderer.begin(ShapeType.Line);
         rendComponent.shapeRenderer.setProjectionMatrix(rendComponent.camera.combined);
-        rendComponent.shapeRenderer.setColor(Constants.BoardConstants.LINE_COLOR);
+        rendComponent.shapeRenderer.setColor(Constants.BoardRenderConstants.LINE_COLOR);
     }
 
     @Override
@@ -64,12 +64,12 @@ public class GameBoardRenderSystem extends RenderingSystem<MapRenderingComponent
 
         shapeRenderer.line(position.x,
                 position.y,
-                position.x + Constants.BoardConstants.TILE_SIZE,
-                position.y + Constants.BoardConstants.TILE_SIZE);
+                position.x + Constants.BoardRenderConstants.TILE_SIZE,
+                position.y + Constants.BoardRenderConstants.TILE_SIZE);
 
         shapeRenderer.line(position.x,
-                position.y + Constants.BoardConstants.TILE_SIZE,
-                position.x + Constants.BoardConstants.TILE_SIZE,
+                position.y + Constants.BoardRenderConstants.TILE_SIZE,
+                position.x + Constants.BoardRenderConstants.TILE_SIZE,
                 position.y);
     }
 
@@ -83,8 +83,8 @@ public class GameBoardRenderSystem extends RenderingSystem<MapRenderingComponent
     private void drawGrid(GameBitBoard board, ShapeRenderer shapeRenderer,
             float boardSize) {
         for (int i = 0; i <= board.dimensions; i++) {
-            int location = Constants.BoardConstants.TILE_SIZE * i +
-                    Constants.BoardConstants.BOARD_FRAME_WIDTH;
+            int location = Constants.BoardRenderConstants.TILE_SIZE * i +
+                    Constants.BoardRenderConstants.BOARD_FRAME_WIDTH;
             shapeRenderer.line(location, 0, location, boardSize);
             shapeRenderer.line(0, location, boardSize, location);
         }

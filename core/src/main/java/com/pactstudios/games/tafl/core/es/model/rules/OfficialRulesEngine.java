@@ -1,256 +1,24 @@
 package com.pactstudios.games.tafl.core.es.model.rules;
 
-import java.util.BitSet;
-
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
-import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.enums.RulesEngine;
+import com.pactstudios.games.tafl.core.enums.DrawReasonEnum;
 import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
 
 public class OfficialRulesEngine extends RulesEngine {
 
-    Array<Move> allLegalMoves;
-    IntArray legalMoves;
-    IntArray capturedPieces;
+    OfficialMoveRules moveRules;
+    OfficialCaptureRules captureRules;
+    OfficialGameEndRules gameEndRules;
+
 
     public OfficialRulesEngine(TaflMatch match) {
         super(match);
-        allLegalMoves = new Array<Move>();
-        legalMoves = new IntArray();
-        capturedPieces = new IntArray();
-    }
-
-    @Override
-    public Team checkWinner(int destination, IntArray capturedPieces) {
-        Team winner = null;
-        if (checkCaptureKing(capturedPieces)) {
-            winner = Team.BLACK;
-        } else if (checkKingEscaped(destination)) {
-            winner = Team.WHITE;
-        }
-        return winner;
-    }
-
-    @Override
-    public Team checkWinner() {
-        Team winner = null;
-        if (checkCaptureKing()) {
-            winner = Team.BLACK;
-        } else if (checkKingEscaped()) {
-            winner = Team.WHITE;
-        }
-        return winner;
-    }
-
-    private boolean checkCaptureKing() {
-        return match.king != Constants.BoardConstants.KING_DEAD;
-    }
-
-    private boolean checkKingEscaped() {
-        return match.corners[0] == match.king ||
-                match.corners[1] == match.king ||
-                match.corners[2] == match.king ||
-                match.corners[3] == match.king;
-    }
-
-
-
-    private boolean checkCaptureKing(IntArray capturedPieces) {
-        for (int i = 0; i < capturedPieces.size; i++) {
-            if (capturedPieces.items[i] == match.king) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkKingEscaped(int cellId) {
-        return match.isCornerCell(cellId) && cellId == match.king;
-    }
-
-    @Override
-    public IntArray getCapturedPieces(int destination) {
-        capturedPieces.clear();
-
-        checkCaptureUp(destination);
-        checkCaptureDown(destination);
-        checkCaptureRight(destination);
-        checkCaptureLeft(destination);
-
-        return capturedPieces;
-    }
-
-    private void checkCaptureLeft(int destination) {
-        int first = destination - 1;
-        int second = destination - 2;
-        int third = first + match.board.dimensions;
-        int fourth = first - match.board.dimensions;
-        checkCapture(destination, first, second, third, fourth);
-    }
-
-    private void checkCaptureRight(int destination) {
-        int first = destination + 1;
-        int second = destination + 2;
-        int third = first + match.board.dimensions;
-        int fourth = first - match.board.dimensions;
-        checkCapture(destination, first, second, third, fourth);
-    }
-
-    private void checkCaptureDown(int destination) {
-        int first = destination - match.board.dimensions;
-        int second = destination - 2 * match.board.dimensions;
-        int third = first + 1;
-        int fourth = first - 1;
-        checkCapture(destination, first, second, third, fourth);
-    }
-
-    private void checkCaptureUp(int destination) {
-        int first = destination + match.board.dimensions;
-        int second = destination + 2 * match.board.dimensions;
-        int third = first + 1;
-        int fourth = first - 1;
-        checkCapture(destination, first, second, third, fourth);
-    }
-
-    private void checkCapture(int destination, int first, int second, int third, int fourth) {
-        try {
-            int capturingTeam = match.getTeam(destination).bitBoardId();
-            int oppositeTeam = (capturingTeam + 1) % 2;
-            if (match.board.isValid(first) && match.board.bitBoards[oppositeTeam].get(first)) {
-                if (first == match.king) {
-                    if (isKingHostile(capturingTeam, second) &&
-                            isKingHostile(capturingTeam, third) &&
-                            isKingHostile(capturingTeam, fourth)) {
-                        capturedPieces.add(first);
-                    }
-                } else {
-                    if (isHostile(capturingTeam, second)) {
-                        capturedPieces.add(first);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean isHostile(int capturingTeam, int oppositeCell) {
-        return match.board.isValid(oppositeCell) &&
-                (match.board.bitBoards[capturingTeam].get(oppositeCell) ||
-                        (!match.canWalk(oppositeCell) && oppositeCell != match.king));
-    }
-
-    private boolean isKingHostile(int capturingTeam, int oppositeCell) {
-        return match.board.isValid(oppositeCell) &&
-                match.board.bitBoards[capturingTeam].get(oppositeCell);
-    }
-
-    @Override
-    public boolean isMoveLegal(int source, int destination) {
-        IntArray legalMoves = legalMoves(source);
-        for (int i = 0; i < legalMoves.size; i++) {
-            if (legalMoves.items[i] == destination) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public Array<Move> legalMoves() {
-        return allLegalMoves;
-    }
-
-    @Override
-    public void calculateLegalMoves() {
-        Move.movePool.freeAll(allLegalMoves);
-        allLegalMoves.clear();
-        BitSet bitBoard = match.board.bitBoards[match.turn.bitBoardId()];
-        for (int source = bitBoard.nextSetBit(0); source >= 0; source = bitBoard.nextSetBit(source+1)) {
-            IntArray moves = calculateLegalMoves(source);
-            for (int i = 0; i < moves.size; i++) {
-                Move move = Move.movePool.obtain();
-                move.pieceType = match.turn.bitBoardId();
-                move.source = source;
-                move.destination = moves.items[i];
-                allLegalMoves.add(move);
-            }
-        }
-    }
-
-    @Override
-    public IntArray legalMoves(int source) {
-        legalMoves.clear();
-        for (Move move : allLegalMoves) {
-            if (move.source == source) {
-                legalMoves.add(move.destination);
-            }
-        }
-        return legalMoves;
-    }
-
-    private IntArray calculateLegalMoves(int source) {
-        legalMoves.clear();
-
-        legalUp(source);
-        legalDown(source);
-        legalRight(source);
-        legalLeft(source);
-
-        return legalMoves;
-    }
-
-    private void legalUp(int source) {
-        for (int i = source + match.board.dimensions; i < match.board.numberCells; i += match.board.dimensions) {
-            if (!match.board.bitBoards[Team.WHITE.bitBoardId()].get(i) &&
-                    !match.board.bitBoards[Team.BLACK.bitBoardId()].get(i) &&
-                    (match.canWalk(i) || source == match.king)) {
-                legalMoves.add(i);
-            } else {
-                break;
-            }
-        }
-    }
-
-    private void legalDown(int source) {
-        for (int i = source - match.board.dimensions; i >= 0; i -= match.board.dimensions) {
-            if (!match.board.bitBoards[Team.WHITE.bitBoardId()].get(i) &&
-                    !match.board.bitBoards[Team.BLACK.bitBoardId()].get(i) &&
-                    (match.canWalk(i) || source == match.king)) {
-                legalMoves.add(i);
-            } else {
-                break;
-            }
-        }
-    }
-
-    private void legalRight(int source) {
-        int nextRow = ((source + match.board.dimensions) / match.board.dimensions) * match.board.dimensions;
-        for (int i = source + 1; i < nextRow; i++) {
-            if (!match.board.bitBoards[Team.WHITE.bitBoardId()].get(i) &&
-                    !match.board.bitBoards[Team.BLACK.bitBoardId()].get(i) &&
-                    (match.canWalk(i) || source == match.king)) {
-                legalMoves.add(i);
-            } else {
-                break;
-            }
-        }
-    }
-
-    private void legalLeft(int source) {
-        int previousRow = (source / match.board.dimensions) * match.board.dimensions - 1;
-        for (int i = source - 1; i > previousRow; i--) {
-            if (!match.board.bitBoards[Team.WHITE.bitBoardId()].get(i) &&
-                    !match.board.bitBoards[Team.BLACK.bitBoardId()].get(i) &&
-                    (match.canWalk(i) || source == match.king)) {
-                legalMoves.add(i);
-            } else {
-                break;
-            }
-        }
+        moveRules = new OfficialMoveRules(match);
+        captureRules = new OfficialCaptureRules(match);
+        gameEndRules = new OfficialGameEndRules(match);
     }
 
     @Override
@@ -261,5 +29,50 @@ public class OfficialRulesEngine extends RulesEngine {
     @Override
     public Team getSecondTurn() {
         return Team.WHITE;
+    }
+
+    @Override
+    public Team checkWinner() {
+        return gameEndRules.checkWinner();
+    }
+
+    @Override
+    public void recordBoardConfiguration(int boardHash) {
+        gameEndRules.recordBoardConfiguration(boardHash);
+    }
+
+    @Override
+    public void undoBoardConfiguration() {
+        gameEndRules.undoBoardConfiguration();
+    }
+
+    @Override
+    public DrawReasonEnum checkDraw() {
+        return gameEndRules.checkDraw();
+    }
+
+    @Override
+    public IntArray getCapturedPieces(int destination) {
+        return captureRules.getCapturedPieces(destination);
+    }
+
+    @Override
+    public boolean isMoveLegal(int source, int destination) {
+        return moveRules.isMoveLegal(source, destination);
+    }
+
+    @Override
+    public Array<Move> legalMoves() {
+        return moveRules.legalMoves();
+    }
+
+    @Override
+    public void calculateLegalMoves() {
+        moveRules.calculateLegalMoves();
+    }
+
+    @Override
+    public IntArray legalMoves(int source) {
+        return moveRules.legalMoves(source);
     }
 }

@@ -19,10 +19,10 @@ public class PreRenderSystem extends RenderingSystem<MapRenderingComponent> {
     @Override
     protected void begin(MapRenderingComponent rendComponent) {
 
-        Gdx.gl.glClearColor(Constants.BoardConstants.BACKGROUND_COLOR.r,
-                Constants.BoardConstants.BACKGROUND_COLOR.g,
-                Constants.BoardConstants.BACKGROUND_COLOR.b,
-                Constants.BoardConstants.BACKGROUND_COLOR.a);
+        Gdx.gl.glClearColor(Constants.BoardRenderConstants.BACKGROUND_COLOR.r,
+                Constants.BoardRenderConstants.BACKGROUND_COLOR.g,
+                Constants.BoardRenderConstants.BACKGROUND_COLOR.b,
+                Constants.BoardRenderConstants.BACKGROUND_COLOR.a);
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         rendComponent.camera.update();

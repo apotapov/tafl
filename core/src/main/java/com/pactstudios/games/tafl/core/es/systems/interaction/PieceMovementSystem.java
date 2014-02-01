@@ -6,8 +6,6 @@ import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.IntArray;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.enums.Lifecycle;
-import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
@@ -16,7 +14,6 @@ import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogFactory;
 import com.pactstudios.games.tafl.core.es.systems.events.ChangeTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem2;
-import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.MoveFinishedEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceCaptureEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceMoveEvent;
@@ -100,28 +97,8 @@ public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, 
             captureEvent.move = event.move.clone();
             captureEvent.move.capturedPieces.addAll(captured);
             world.postEvent(this, captureEvent);
-        }
-
-        checkEndGame(match, event, captured);
-    }
-
-    private void checkEndGame(TaflMatch match, MoveFinishedEvent event,
-            IntArray capturedPieces) {
-        Team winner =
-                match.rulesEngine.checkWinner(event.move.destination, capturedPieces);
-        if (winner != null) {
-            Lifecycle lifecycle = Lifecycle.WIN;
-            if (match.versusComputer && match.computerTeam == winner) {
-                lifecycle = Lifecycle.LOSS;
-            }
-            LifecycleEvent lce = world.createEvent(LifecycleEvent.class);
-            lce.lifecycle = lifecycle;
-            lce.winner = winner;
-            world.postEvent(this, lce);
         } else {
-            if (capturedPieces.size == 0) {
-                changeTurn(match);
-            }
+            changeTurn(match);
         }
     }
 

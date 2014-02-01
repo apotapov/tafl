@@ -15,11 +15,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.pactstudios.games.tafl.core.TaflGame;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.enums.Lifecycle;
+import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.enums.PieceType;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.systems.events.AiTurnEvent;
-import com.pactstudios.games.tafl.core.es.systems.events.LifecycleEvent;
+import com.pactstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
 import com.pactstudios.games.tafl.core.level.TaflLevel;
@@ -38,7 +38,7 @@ public class TaflWorld implements Disposable {
 
     private Array<EntitySystem> activeSystems;
 
-    public Lifecycle lifecycle;
+    public LifeCycle lifecycle;
 
     public TaflWorld(TaflGame game, Stage stage) {
         this.game = game;
@@ -64,7 +64,7 @@ public class TaflWorld implements Disposable {
 
         createEntities();
 
-        lifecycle = Lifecycle.PLAY;
+        lifecycle = LifeCycle.PLAY;
         world.getSystem(CellHighlightSystem.class).highlightTeam(match.turn);
 
         if (match.versusComputer &&
@@ -100,9 +100,11 @@ public class TaflWorld implements Disposable {
     }
 
     public void pause() {
-        LifecycleEvent event = SystemEvent.createEvent(LifecycleEvent.class);
-        event.lifecycle = Lifecycle.MENU;
-        world.postEvent(null, event);
+        if (lifecycle == LifeCycle.PLAY) {
+            LifeCycleEvent event = SystemEvent.createEvent(LifeCycleEvent.class);
+            event.lifecycle = LifeCycle.MENU;
+            world.postEvent(null, event);
+        }
     }
 
     public void pauseSystems() {
@@ -120,7 +122,7 @@ public class TaflWorld implements Disposable {
     public void restart() {
         dispose();
 
-        match.status = Lifecycle.RESTART;
+        match.status = LifeCycle.RESTART;
         game.databaseService.updateMatch(match);
 
         createNewMatch(match.versusComputer, match.computerTeam == match.rulesEngine.getFirstTurn());

@@ -17,6 +17,8 @@ public class HudRenderingComponent implements RenderingComponent {
     public Dialog lossDialog;
     public Dialog drawDialog;
 
+    public Label drawDialogText;
+
     // upper hud
     public Label turn;
     public Label timer;

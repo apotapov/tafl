@@ -7,7 +7,7 @@ import com.badlogic.gdx.assets.loaders.AsynchronousAssetLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.enums.AiType;
-import com.pactstudios.games.tafl.core.enums.Lifecycle;
+import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.roundtriangles.games.zaria.services.LevelService;
 
@@ -28,7 +28,7 @@ public class TaflLevelService extends LevelService<TaflLevel>{
         match.created = new Date();
         match.updated = new Date();
         match.name = level.name;
-        match.status = Lifecycle.PLAY;
+        match.status = LifeCycle.PLAY;
         match.rulesType = level.rules;
         match.boardType = level.boardType;
         match.versusComputer = versusComputer;

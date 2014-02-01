@@ -49,8 +49,8 @@ public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent>
             float textYoffset = bounds.height / 2;
 
             Vector2 position = match.match.getCellPosition(i).add(
-                    Constants.BoardConstants.HORIZONTAL_CELL_ID_HORIZONTAL_OFFSET - textXoffset,
-                    Constants.BoardConstants.HORIZONTAL_CELL_ID_BOTTOM_OFFSET + textYoffset);
+                    Constants.BoardRenderConstants.HORIZONTAL_CELL_ID_HORIZONTAL_OFFSET - textXoffset,
+                    Constants.BoardRenderConstants.HORIZONTAL_CELL_ID_BOTTOM_OFFSET + textYoffset);
 
             rendComponent.font.draw(rendComponent.spriteBatch,
                     index,
@@ -58,8 +58,8 @@ public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent>
                     position.y);
 
             position = match.match.getCellPosition(board.numberCells - board.dimensions + i).add(
-                    Constants.BoardConstants.HORIZONTAL_CELL_ID_HORIZONTAL_OFFSET - textXoffset,
-                    Constants.BoardConstants.HORIZONTAL_CELL_ID_TOP_OFFSET + textYoffset);
+                    Constants.BoardRenderConstants.HORIZONTAL_CELL_ID_HORIZONTAL_OFFSET - textXoffset,
+                    Constants.BoardRenderConstants.HORIZONTAL_CELL_ID_TOP_OFFSET + textYoffset);
 
             rendComponent.font.draw(rendComponent.spriteBatch,
                     index,
@@ -75,8 +75,8 @@ public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent>
             float textYoffset = bounds.height / 2;
 
             Vector2 position = match.match.getCellPosition(i * board.dimensions).add(
-                    Constants.BoardConstants.VERTICAL_CELL_ID_LEFT_OFFSET - textXoffset,
-                    Constants.BoardConstants.VERTICAL_CELL_ID_VERTICAL_OFFSET + textYoffset);
+                    Constants.BoardRenderConstants.VERTICAL_CELL_ID_LEFT_OFFSET - textXoffset,
+                    Constants.BoardRenderConstants.VERTICAL_CELL_ID_VERTICAL_OFFSET + textYoffset);
 
             rendComponent.font.draw(rendComponent.spriteBatch,
                     index,
@@ -84,8 +84,8 @@ public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent>
                     position.y);
 
             position = match.match.getCellPosition(i * board.dimensions + board.dimensions - 1).add(
-                    Constants.BoardConstants.VERTICAL_CELL_ID_RIGHT_OFFSET - textXoffset,
-                    Constants.BoardConstants.VERTICAL_CELL_ID_VERTICAL_OFFSET + textYoffset);
+                    Constants.BoardRenderConstants.VERTICAL_CELL_ID_RIGHT_OFFSET - textXoffset,
+                    Constants.BoardRenderConstants.VERTICAL_CELL_ID_VERTICAL_OFFSET + textYoffset);
 
             rendComponent.font.draw(rendComponent.spriteBatch,
                     index,

@@ -13,16 +13,16 @@ import com.j256.ormlite.table.DatabaseTable;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.AiType;
 import com.pactstudios.games.tafl.core.enums.GameBoardType;
-import com.pactstudios.games.tafl.core.enums.Lifecycle;
+import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.enums.PieceType;
-import com.pactstudios.games.tafl.core.enums.RulesEngine;
-import com.pactstudios.games.tafl.core.enums.RulesEngine.RulesEngineType;
+import com.pactstudios.games.tafl.core.enums.RulesEngineType;
 import com.pactstudios.games.tafl.core.enums.Team;
 import com.pactstudios.games.tafl.core.es.model.ai.AiFactory;
 import com.pactstudios.games.tafl.core.es.model.ai.AiStrategy;
 import com.pactstudios.games.tafl.core.es.model.board.GameBitBoard;
 import com.pactstudios.games.tafl.core.es.model.board.Move;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
+import com.pactstudios.games.tafl.core.es.model.rules.RulesEngine;
 import com.pactstudios.games.tafl.core.es.model.rules.RulesFactory;
 import com.pactstudios.games.tafl.core.utils.TaflDatabaseService;
 
@@ -65,7 +65,7 @@ public class TaflMatch {
     public String name;
 
     @DatabaseField(columnName = STATUS_COLUMN, canBeNull = false)
-    public Lifecycle status;
+    public LifeCycle status;
 
     @DatabaseField(columnName = TURN_COLUMN, canBeNull = false)
     public Team turn;
@@ -218,6 +218,7 @@ public class TaflMatch {
             pieceEntities[move.source] = null;
             pieceEntities[move.destination] = e;
             undoStack.add(move);
+            rulesEngine.recordBoardConfiguration(board.hashCode());
         }
     }
 
@@ -234,6 +235,7 @@ public class TaflMatch {
             Entity e = pieceEntities[move.destination];
             pieceEntities[move.destination] = null;
             pieceEntities[move.source] = e;
+            rulesEngine.undoBoardConfiguration();
         }
     }
 
@@ -247,8 +249,8 @@ public class TaflMatch {
     }
 
     public float getBoardDimensionWithBorders() {
-        return board.dimensions * Constants.BoardConstants.TILE_SIZE +
-                Constants.BoardConstants.BOARD_FRAME_WIDTH * 2;
+        return board.dimensions * Constants.BoardRenderConstants.TILE_SIZE +
+                Constants.BoardRenderConstants.BOARD_FRAME_WIDTH * 2;
     }
 
     public boolean acceptInput() {
@@ -312,20 +314,26 @@ public class TaflMatch {
 
 
     public Vector2 getCellPosition(int cellId) {
-        position.x = cellId % board.dimensions * Constants.BoardConstants.TILE_SIZE + Constants.BoardConstants.BOARD_FRAME_WIDTH;
-        position.y = cellId / board.dimensions * Constants.BoardConstants.TILE_SIZE + Constants.BoardConstants.BOARD_FRAME_WIDTH;
+        position.x = cellId % board.dimensions * Constants.BoardRenderConstants.TILE_SIZE +
+                Constants.BoardRenderConstants.BOARD_FRAME_WIDTH;
+        position.y = cellId / board.dimensions * Constants.BoardRenderConstants.TILE_SIZE +
+                Constants.BoardRenderConstants.BOARD_FRAME_WIDTH;
         return position;
     }
 
     public Vector2 getCellPositionCenter(int cellId) {
         return getCellPosition(cellId).add(
-                Constants.BoardConstants.HALF_TILE_SIZE,
-                Constants.BoardConstants.HALF_TILE_SIZE);
+                Constants.BoardRenderConstants.HALF_TILE_SIZE,
+                Constants.BoardRenderConstants.HALF_TILE_SIZE);
     }
 
     public int getCellId(Vector2 screenPosition) {
-        int x = (int)((screenPosition.x - Constants.BoardConstants.BOARD_FRAME_WIDTH) / Constants.BoardConstants.TILE_SIZE);
-        int y = (int)((screenPosition.y - Constants.BoardConstants.BOARD_FRAME_WIDTH) / Constants.BoardConstants.TILE_SIZE);
+        int x = (int)((screenPosition.x -
+                Constants.BoardRenderConstants.BOARD_FRAME_WIDTH) /
+                Constants.BoardRenderConstants.TILE_SIZE);
+        int y = (int)((screenPosition.y -
+                Constants.BoardRenderConstants.BOARD_FRAME_WIDTH) /
+                Constants.BoardRenderConstants.TILE_SIZE);
         return y * board.dimensions + x;
     }
 

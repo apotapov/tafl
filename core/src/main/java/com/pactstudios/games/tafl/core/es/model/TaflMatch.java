@@ -124,9 +124,10 @@ public class TaflMatch {
         pieceEntities = new Entity[board.numberCells];
 
         turn = rulesEngine.getFirstTurn();
-        if (computerTeam == Constants.BoardConstants.NO_TEAM) {
-            computerTeam = computerStarts ? rulesEngine.getFirstTurn() :
-                rulesEngine.getSecondTurn();
+        if (versusComputer && computerTeam == Constants.BoardConstants.NO_TEAM) {
+            int firstTurn = rulesEngine.getFirstTurn();
+            int secondTurn = (firstTurn + 1) % 2;
+            computerTeam = computerStarts ? firstTurn : secondTurn;
         }
         if (_id == 0) {
             dbService.createMatch(this);

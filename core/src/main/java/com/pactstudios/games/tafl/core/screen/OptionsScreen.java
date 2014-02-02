@@ -7,8 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.esotericsoftware.tablelayout.BaseTableLayout;
 import com.pactstudios.games.tafl.core.TaflGame;
 import com.pactstudios.games.tafl.core.consts.Assets;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
 
@@ -39,7 +41,7 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(soundEffectsCheckbox).uniform().spaceBottom(10);
+        table.add(soundEffectsCheckbox).align(BaseTableLayout.LEFT).uniform().spaceBottom(10);
         table.row();
 
         text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_MUSIC);
@@ -52,11 +54,11 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(musicCheckbox).uniform().spaceBottom(20);
+        table.add(musicCheckbox).align(BaseTableLayout.LEFT).uniform().spaceBottom(20);
         table.row();
 
         Button mainMenuButton = game.getMainMenuButton();
-        table.add(mainMenuButton).uniform().fill();
+        table.add(mainMenuButton).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT);
         table.row();
 
         stage.addActor(table);

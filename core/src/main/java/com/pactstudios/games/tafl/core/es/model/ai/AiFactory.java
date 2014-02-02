@@ -8,9 +8,9 @@ public class AiFactory {
 
     public static AiStrategy getAiStrategy(AiType type) {
         switch (type) {
-        case RANDOM:
+        case AI_RANDOM:
             return new RandomMoveStrategy();
-        case MINIMAX_PIECE_COUNT:
+        case AI_MINIMAX_PIECE_COUNT:
             return new MiniMaxStrategy(
                     new PieceCountEvaluator(),
                     Constants.AiConstants.MAX_TREE_DEPTH);

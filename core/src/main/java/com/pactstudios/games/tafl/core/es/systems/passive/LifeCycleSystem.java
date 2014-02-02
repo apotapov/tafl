@@ -94,10 +94,10 @@ public class LifeCycleSystem extends EventProcessingSystem2<LifeCycleEvent, Play
         gameWorld.game.databaseService.updateMatch(gameWorld.match);
 
         if (winner == Constants.BoardConstants.WHITE_TEAM) {
-            component.drawText.setText(
+            component.winText.setText(
                     gameWorld.game.localeService.get(LocalizedStrings.GameMenu.WHITE_WIN_TEXT));
         } else {
-            component.drawText.setText(
+            component.winText.setText(
                     gameWorld.game.localeService.get(LocalizedStrings.GameMenu.BLACK_WIN_TEXT));
         }
         component.winDialog.show(component.hubStage);

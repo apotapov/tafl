@@ -2,7 +2,6 @@ package com.pactstudios.games.tafl.core.screen;
 
 import com.pactstudios.games.tafl.core.TaflGame;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
-import com.pactstudios.games.tafl.core.level.TaflLevel;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
 
 public class GamePlayScreen extends AbstractScreen<TaflGame> {
@@ -14,12 +13,8 @@ public class GamePlayScreen extends AbstractScreen<TaflGame> {
         world = new TaflWorld(game, stage);
     }
 
-    public void setLevel(TaflLevel level) {
-        world.setLevel(level);
-    }
-
-    public void createNewMatch(boolean versusComputer, boolean computerStarts) {
-        world.createNewMatch(versusComputer, computerStarts);
+    public void createNewMatch() {
+        world.createNewMatch();
     }
 
     public boolean loadExistingMatch() {

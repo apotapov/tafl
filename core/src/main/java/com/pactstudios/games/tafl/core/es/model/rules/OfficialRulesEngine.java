@@ -29,13 +29,6 @@ public class OfficialRulesEngine extends RulesEngine {
     }
 
     @Override
-    public int getSecondTurn() {
-        return Constants.BoardConstants.WHITE_TEAM;
-    }
-
-
-
-    @Override
     public int checkWinner() {
         return gameEndRules.checkWinner();
     }

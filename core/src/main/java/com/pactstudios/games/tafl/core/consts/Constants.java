@@ -1,6 +1,7 @@
 package com.pactstudios.games.tafl.core.consts;
 
 import com.badlogic.gdx.graphics.Color;
+import com.pactstudios.games.tafl.core.enums.AiType;
 
 
 public final class Constants {
@@ -18,6 +19,7 @@ public final class Constants {
         public static final float LOADING_PROMPT_HEIGHT = 60;
 
         public static final int TABLE_SIZE = 1048576; // 1m
+        public static final AiType DEFAULT_AI_TYPE = AiType.AI_RANDOM;
     }
 
     public static final class ScreenConstants {
@@ -27,8 +29,10 @@ public final class Constants {
         public static final int BUTTON_WIDTH = 300;
         public static final int BUTTON_HEIGHT = 60;
 
-        public static final int LIST_WIDTH = 200;
-        public static final int LIST_HEIGHT = 200;
+        public static final int LIST_WIDTH = 270;
+        public static final int LIST_HEIGHT = 230;
+
+        public static final int SPACING = 30;
 
         public static final float FADE_TIME = 1f;
         public static final float DISPLAY_TIME = 1.75f;
@@ -64,8 +68,6 @@ public final class Constants {
     public static final class BoardConstants {
         private BoardConstants() {
         }
-
-        public static final int BOARD_TYPES = 2;
 
         public static final int STANDARD_BOARD_DIMENSION = 11;
         public static final int STANDARD_BOARD_NUMBER_CELLS =

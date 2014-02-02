@@ -43,10 +43,6 @@ public class TaflWorld implements Disposable {
         this.stage = stage;
     }
 
-    public void setLevel(TaflLevel level) {
-        this.level = level;
-    }
-
     public void initialize() {
         this.world = new World();
         this.camera = new Bounded2DCamera();
@@ -123,7 +119,7 @@ public class TaflWorld implements Disposable {
         match.status = LifeCycle.RESTART;
         game.databaseService.updateMatch(match);
 
-        createNewMatch(match.versusComputer, match.computerTeam == match.rulesEngine.getFirstTurn());
+        createNewMatch();
 
         initialize();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -137,13 +133,13 @@ public class TaflWorld implements Disposable {
         lifecycle = null;
     }
 
-    public boolean createNewMatch(boolean versusComputer, boolean computerStarts) {
+    public boolean createNewMatch() {
         if (level == null && match == null) {
-            game.setScreen(game.levelSelectionScreen);
+            level = game.levelService.getLevel(game.preferenceService.getLevel());
         } else if (level == null) {
             level = game.levelService.getLevel(match.name);
         }
-        match = game.levelService.createNewMatch(level, versusComputer, computerStarts);
+        match = game.levelService.createNewMatch(level);
         return match != null;
     }
 

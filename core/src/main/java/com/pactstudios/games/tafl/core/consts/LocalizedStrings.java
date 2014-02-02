@@ -21,6 +21,7 @@ public class LocalizedStrings {
 
         PLAY_VERSUS_COMPUTER,
         COMPUTER_STARTS,
+        AI_DIFFICULTY,
     }
 
     public enum GameMenu {

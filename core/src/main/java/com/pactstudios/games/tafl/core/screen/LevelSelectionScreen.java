@@ -4,18 +4,20 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.OrderedMap;
+import com.esotericsoftware.tablelayout.BaseTableLayout;
 import com.pactstudios.games.tafl.core.TaflGame;
 import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
+import com.pactstudios.games.tafl.core.enums.AiType;
 import com.pactstudios.games.tafl.core.level.TaflLevel;
-import com.pactstudios.games.tafl.core.level.TaflLevelService;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
 
 public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
@@ -30,39 +32,52 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
 
     @Override
     public void initialize() {
-        TaflLevelService levelService = game.levelService;
-
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
         Table table = new Table(skin);
         table.setFillParent(true);
 
-        table.add(game.localeService.get(LocalizedStrings.LevelSelectionMenu.LEVEL_SELECTION_TITLE)).spaceBottom(20);
+        String text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.LEVEL_SELECTION_TITLE);
+        table.add(text, Assets.Skin.MENU_STYLE_NAME);
         table.row();
 
+        Array<TaflLevel> levels = game.levelService.getLevels();
+        createLevelList(levels, table, skin);
 
-        final OrderedMap<String, TaflLevel> levels = levelService.getLevels();
+        createPlayPreference(skin, table);
+
+        createAiPreference(skin, table);
+
+        createButtons(table, skin);
+
+        stage.addActor(table);
+    }
+
+    private void createLevelList(Array<TaflLevel> levels, Table table, Skin skin) {
         String[] levelNames = new String[levels.size];
         int i = 0;
-        for (String name : levels.keys()) {
-            String localizedName = game.localeService.get(name);
+        for (TaflLevel level : levels) {
+            String localizedName = game.localeService.get(level.name);
             levelNames[i++] = localizedName;
-            localizedMap.put(localizedName, name);
+            localizedMap.put(localizedName, level.name);
         }
 
-        final List list = new List(levelNames, skin, Assets.Skin.MENU_STYLE_NAME);
-        list.setSelectedIndex(game.preferenceService.getDefaultLevel());
-        list.addListener(new ChangeListener() {
+        final List levelList = new List(levelNames, skin, Assets.Skin.MENU_STYLE_NAME);
+        levelList.setSelectedIndex(game.preferenceService.getLevel());
+        levelList.addListener(new ChangeListener() {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.preferenceService.setDefaultLevel(list.getSelectedIndex());
+                game.preferenceService.setLevel(levelList.getSelectedIndex());
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
 
-        table.add(list).size(Constants.ScreenConstants.LIST_WIDTH, Constants.ScreenConstants.LIST_HEIGHT).uniform().spaceBottom(10);
+        table.add(levelList).size(Constants.ScreenConstants.LIST_WIDTH,
+                Constants.ScreenConstants.LIST_HEIGHT).spaceBottom(Constants.ScreenConstants.SPACING);
         table.row();
+    }
 
+    private void createPlayPreference(Skin skin, Table table) {
         String text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.PLAY_VERSUS_COMPUTER);
         final CheckBox versusComputer = new CheckBox(text, skin, Assets.Skin.MENU_STYLE_NAME);
         versusComputer.setChecked(game.preferenceService.getVersusComputer());
@@ -74,7 +89,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(versusComputer);
+        table.add(versusComputer).align(BaseTableLayout.LEFT);
         table.row();
 
         text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.COMPUTER_STARTS);
@@ -88,29 +103,62 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-
-        table.add(computerStarts);
+        table.add(computerStarts).align(BaseTableLayout.LEFT).spaceBottom(Constants.ScreenConstants.SPACING);
         table.row();
+    }
 
-        text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.PLAY_LEVEL_BUTTON);
+    private void createAiPreference(Skin skin, Table table) {
+        AiType[] aiTypes = AiType.values();
+
+        int defaultSelection = 0;
+        String[] types = new String[aiTypes.length - 1];
+        int i = 0;
+        for (AiType type : aiTypes) {
+            if (type == game.preferenceService.getAiType()) {
+                defaultSelection = i;
+            }
+            if (type != AiType.AI_NONE) {
+                String localizedString = game.localeService.get(type);
+                types[i++] = localizedString;
+                localizedMap.put(localizedString, type.toString());
+            }
+        }
+
+        final SelectBox selectBox = new SelectBox(types, skin, Assets.Skin.MENU_STYLE_NAME);
+        selectBox.setSelection(defaultSelection);
+        selectBox.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.preferenceService.setAiType(localizedMap.get(selectBox.getSelection()));
+                game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
+            }
+        });
+
+        String text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.AI_DIFFICULTY);
+        table.add(text, Assets.Skin.MENU_STYLE_NAME);
+        table.row();
+        table.add(selectBox).spaceBottom(Constants.ScreenConstants.SPACING);
+        table.row();
+    }
+
+    private void createButtons(Table table, Skin skin) {
+        String text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.PLAY_LEVEL_BUTTON);
         TextButton button = new TextButton(text, skin, Assets.Skin.MENU_STYLE_NAME);
         button.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
-                game.gamePlayScreen.setLevel(levels.get(localizedMap.get(list.getSelection())));
-                game.gamePlayScreen.createNewMatch(versusComputer.isChecked(), computerStarts.isChecked());
+                game.gamePlayScreen.createNewMatch();
                 game.setScreen(game.gamePlayScreen);
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT).uniform();
+        table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT);
         table.row();
 
         Button mainMenuButton = game.getMainMenuButton();
-        table.add(mainMenuButton).uniform();
+        table.add(mainMenuButton).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT);
         table.row();
-
-        stage.addActor(table);
     }
 }

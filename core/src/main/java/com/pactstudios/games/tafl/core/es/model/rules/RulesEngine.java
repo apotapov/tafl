@@ -21,7 +21,6 @@ public abstract class RulesEngine {
     }
 
     public abstract int getFirstTurn();
-    public abstract int getSecondTurn();
     public abstract PlayerWarningEnum checkPlayerWarning();
 
     public abstract BitSet getCapturedPieces(int destination);

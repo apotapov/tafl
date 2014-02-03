@@ -15,6 +15,7 @@ import com.pactstudios.games.tafl.core.es.systems.interaction.UndoSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.ComponentFactorySystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
+import com.pactstudios.games.tafl.core.es.systems.passive.EntityPieceSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.LifeCycleSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.SoundSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.UserInputSystem;
@@ -74,6 +75,7 @@ public class SystemFactory {
         gameWorld.world.setSystem(new EntityFactorySystem());
         gameWorld.world.setSystem(new SoundSystem(gameWorld.game.soundService));
         gameWorld.world.setSystem(new CellHighlightSystem());
+        gameWorld.world.setSystem(new EntityPieceSystem());
     }
 
     protected static void initRenderingSystems(TaflWorld gameWorld) {

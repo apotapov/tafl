@@ -6,6 +6,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
+import com.pactstudios.games.tafl.core.es.model.TaflMove;
 
 @DatabaseTable(tableName = Constants.DbConstants.LOG_TABLE)
 public class MatchLogEntry {
@@ -62,5 +63,29 @@ public class MatchLogEntry {
     @Override
     public String toString() {
         return Integer.toString(_id);
+    }
+
+    public TaflMove createMove() {
+        TaflMove move = TaflMove.movePool.obtain();
+
+        move.pieceType = this.team;
+        move.source = this.source;
+        move.destination = this.destination;
+
+        move.capturedPieces.set(this.capture1);
+
+        if (this.capture1 != Constants.BoardConstants.ILLEGAL_CELL) {
+            move.capturedPieces.set(this.capture1);
+        }
+
+        if (this.capture2 != Constants.BoardConstants.ILLEGAL_CELL) {
+            move.capturedPieces.set(this.capture2);
+        }
+
+        if (this.capture3 != Constants.BoardConstants.ILLEGAL_CELL) {
+            move.capturedPieces.set(this.capture3);
+        }
+
+        return move;
     }
 }

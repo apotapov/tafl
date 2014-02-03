@@ -1,10 +1,10 @@
 package com.pactstudios.games.tafl.core.es.model.ai;
 
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.Move;
+import com.pactstudios.games.tafl.core.es.model.TaflMove;
 
 public interface AiStrategy {
 
-    public Move search(TaflMatch match);
+    public TaflMove search(TaflMatch match);
 
 }

@@ -1,4 +1,4 @@
-package com.pactstudios.games.tafl.core.es.model.ai.moves;
+package com.pactstudios.games.tafl.core.es.model.ai.optimization.moves;
 
 public class GeneratedMoves {
     /**************************************************************************

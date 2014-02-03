@@ -1,21 +1,26 @@
 package com.pactstudios.games.tafl.core.es.model.rules;
 
+import java.util.BitSet;
+
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.IntIntMap;
 import com.badlogic.gdx.utils.IntIntMap.Values;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.DrawReasonEnum;
+import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
+import com.pactstudios.games.tafl.core.es.model.TaflMatchObserver;
+import com.pactstudios.games.tafl.core.es.model.TaflMove;
 
-public class OfficialGameEndRules {
+public class OfficialGameEndRules implements TaflMatchObserver {
 
     TaflMatch match;
-    IntArray boardConfiguration;
+    IntArray boardConfigHistory;
     IntIntMap configurationCounter;
 
     public OfficialGameEndRules(TaflMatch match) {
         this.match = match;
-        boardConfiguration = new IntArray();
+        boardConfigHistory = new IntArray();
         configurationCounter = new IntIntMap();
     }
     public int checkWinner() {
@@ -26,14 +31,6 @@ public class OfficialGameEndRules {
             winner = Constants.BoardConstants.WHITE_TEAM;
         }
         return winner;
-    }
-
-    public void recordBoardConfiguration(int boardHash) {
-        boardConfiguration.add(boardHash);
-    }
-
-    public void undoBoardConfiguration() {
-        boardConfiguration.pop();
     }
 
     public DrawReasonEnum checkDraw() {
@@ -51,10 +48,10 @@ public class OfficialGameEndRules {
     private DrawReasonEnum checkDrawThreePeat() {
         int boardsToExamine = Constants.GameConstants.DRAW_BOARD_REPETITION_THRESHHOLD *
                 Constants.GameConstants.DRAW_MOVES_TO_CHECK;
-        if (boardConfiguration.size >= boardsToExamine) {
+        if (boardConfigHistory.size >= boardsToExamine) {
             configurationCounter.clear();
-            for (int i = boardConfiguration.size - 1; i >= boardConfiguration.size - boardsToExamine; i--) {
-                configurationCounter.getAndIncrement(boardConfiguration.items[i], 0, 1);
+            for (int i = boardConfigHistory.size - 1; i >= boardConfigHistory.size - boardsToExamine; i--) {
+                configurationCounter.getAndIncrement(boardConfigHistory.items[i], 0, 1);
             }
 
             Values values = configurationCounter.values();
@@ -83,5 +80,32 @@ public class OfficialGameEndRules {
             }
         }
         return null;
+    }
+
+    @Override
+    public void initializeMatch(TaflMatch match) {
+        boardConfigHistory.add(match.board.hashCode());
+    }
+    @Override
+    public void applyMove(TaflMatch match, TaflMove move) {
+        boardConfigHistory.add(match.board.hashCode());
+    }
+    @Override
+    public void undoMove(TaflMatch match, TaflMove move) {
+        boardConfigHistory.pop();
+    }
+    @Override
+    public void addPiece(TaflMatch match, int team, int pieces) {
+        boardConfigHistory.items[boardConfigHistory.size - 1] = match.board.hashCode();
+    }
+    @Override
+    public void removePieces(TaflMatch match, int captor, BitSet capturedPieces) {
+        boardConfigHistory.items[boardConfigHistory.size - 1] = match.board.hashCode();
+    }
+    @Override
+    public void changeTurn(TaflMatch match) {
+    }
+    @Override
+    public void gameOver(TaflMatch match, LifeCycle status) {
     }
 }

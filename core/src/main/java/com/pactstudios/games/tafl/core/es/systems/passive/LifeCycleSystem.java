@@ -81,8 +81,7 @@ public class LifeCycleSystem extends EventProcessingSystem2<LifeCycleEvent, Play
     private void loss(HudRenderingComponent component) {
         gameWorld.pauseSystems();
 
-        gameWorld.match.status = LifeCycle.LOSS;
-        gameWorld.game.databaseService.updateMatch(gameWorld.match);
+        gameWorld.match.gameOver(LifeCycle.LOSS);
 
         component.lossDialog.show(component.hubStage);
     }
@@ -90,8 +89,7 @@ public class LifeCycleSystem extends EventProcessingSystem2<LifeCycleEvent, Play
     private void win(HudRenderingComponent component, int winner) {
         gameWorld.pauseSystems();
 
-        gameWorld.match.status = LifeCycle.WIN;
-        gameWorld.game.databaseService.updateMatch(gameWorld.match);
+        gameWorld.match.gameOver(LifeCycle.WIN);
 
         if (winner == Constants.BoardConstants.WHITE_TEAM) {
             component.winText.setText(
@@ -107,8 +105,7 @@ public class LifeCycleSystem extends EventProcessingSystem2<LifeCycleEvent, Play
     private void draw(HudRenderingComponent component, DrawReasonEnum drawReason) {
         gameWorld.pauseSystems();
 
-        gameWorld.match.status = LifeCycle.DRAW;
-        gameWorld.game.databaseService.updateMatch(gameWorld.match);
+        gameWorld.match.gameOver(LifeCycle.DRAW);
 
         component.drawText.setText(gameWorld.game.localeService.get(drawReason.text));
         component.drawDialog.show(component.hubStage);

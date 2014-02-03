@@ -11,25 +11,28 @@ import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.render.AnimationComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.Move;
+import com.pactstudios.games.tafl.core.es.model.TaflMove;
 
 public class EntityFactorySystem extends PassiveEntitySystem {
 
-    protected ComponentFactorySystem componentFactory;
-    protected SingletonComponentManager singletonManager;
-    protected GroupManager groupManager;
+    ComponentFactorySystem componentFactory;
+    EntityPieceSystem entityPieceSystem;
+
+    SingletonComponentManager singletonManager;
+    GroupManager groupManager;
 
     @Override
     public void initialize() {
         super.initialize();
         componentFactory = world.getSystem(ComponentFactorySystem.class);
+        entityPieceSystem = world.getSystem(EntityPieceSystem.class);
         singletonManager = world.getManager(SingletonComponentManager.class);
         groupManager = world.getManager(GroupManager.class);
     }
 
-    public Entity createBoard(TaflMatch match) {
+    public Entity createMatch(TaflMatch match) {
         return singletonManager.addSingletonComponent(
-                componentFactory.createBoardComponent(match));
+                componentFactory.createMatchComponent(match));
     }
 
     public Entity createHud(TaflMatch match) {
@@ -44,7 +47,7 @@ public class EntityFactorySystem extends PassiveEntitySystem {
                 componentFactory.createHudRenderingComponent(gameWorld));
     }
 
-    public Entity createPiece(TaflMatch match, int cellId) {
+    public Entity createPiece(TaflMatch match, int team, int cellId) {
         Entity e = world.createEntity();
 
         Vector2 position = match.board.getCellPositionCenter(cellId);
@@ -53,7 +56,7 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         String graphic;
         if (cellId == match.board.king) {
             graphic = Assets.Graphics.KING_PIECE;
-        } else if (match.board.getTeam(cellId) == Constants.BoardConstants.WHITE_TEAM) {
+        } else if (team == Constants.BoardConstants.WHITE_TEAM) {
             graphic = Assets.Graphics.WHITE_PIECE;
         } else {
             graphic = Assets.Graphics.BLACK_PIECE;
@@ -102,8 +105,8 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         return e;
     }
 
-    public void movePiece(TaflMatch match, Move move, Vector2 velocity, float distanceRemaining) {
-        Entity entity = match.pieceEntities[move.source];
+    public void movePiece(TaflMatch match, TaflMove move, Vector2 velocity, float distanceRemaining) {
+        Entity entity = entityPieceSystem.get(move.source);
         entity.addComponent(componentFactory.createVelocityComponent(
                 move, velocity, distanceRemaining));
     }

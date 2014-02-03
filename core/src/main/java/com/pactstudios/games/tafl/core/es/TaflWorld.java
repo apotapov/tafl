@@ -1,7 +1,5 @@
 package com.pactstudios.games.tafl.core.es;
 
-import java.util.BitSet;
-
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.SingletonComponentManager;
@@ -20,6 +18,8 @@ import com.pactstudios.games.tafl.core.es.systems.events.AiTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
+import com.pactstudios.games.tafl.core.es.systems.passive.EntityPieceSystem;
+import com.pactstudios.games.tafl.core.es.systems.passive.SoundSystem;
 import com.pactstudios.games.tafl.core.level.TaflLevel;
 import com.roundtriangles.games.zaria.camera.Bounded2DCamera;
 
@@ -54,12 +54,14 @@ public class TaflWorld implements Disposable {
         SystemFactory.initSystems(this, activeSystems);
         world.initialize();
 
-        match.initialize(game.databaseService);
-
         createEntities();
 
+        match.initialize(game.databaseService,
+                world.getSystem(EntityPieceSystem.class),
+                world.getSystem(CellHighlightSystem.class),
+                world.getSystem(SoundSystem.class));
+
         lifecycle = LifeCycle.PLAY;
-        world.getSystem(CellHighlightSystem.class).highlightTeam(match.turn);
 
         if (match.versusComputer &&
                 match.turn == match.computerTeam) {
@@ -116,9 +118,7 @@ public class TaflWorld implements Disposable {
     public void restart() {
         dispose();
 
-        match.status = LifeCycle.RESTART;
-        game.databaseService.updateMatch(match);
-
+        match.gameOver(LifeCycle.RESTART);
         createNewMatch();
 
         initialize();
@@ -154,18 +154,8 @@ public class TaflWorld implements Disposable {
 
     protected void createEntities() {
         EntityFactorySystem efs = world.getSystem(EntityFactorySystem.class);
-        efs.createBoard(match);
+        efs.createMatch(match);
         efs.createHud(match);
         efs.createRenderers(this);
-
-        BitSet pieces = match.board.whiteBitBoard();
-        for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
-            match.pieceEntities[i] = efs.createPiece(match, i);
-        }
-
-        pieces = match.board.blackBitBoard();
-        for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
-            match.pieceEntities[i] = efs.createPiece(match, i);
-        }
     }
 }

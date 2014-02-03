@@ -1,22 +1,23 @@
-package com.pactstudios.games.tafl.core.es.model.board;
+package com.pactstudios.games.tafl.core.es.model;
 
 import com.badlogic.gdx.utils.Pool;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
 
-public class Move extends com.pactstudios.games.tafl.core.es.model.ai.optimization.Move {
+public class TaflMove extends Move {
 
-    public static final Pool<Move> movePool = new Pool<Move>() {
+    public static final Pool<TaflMove> movePool = new Pool<TaflMove>() {
         @Override
-        protected Move newObject() {
-            return new Move();
+        protected TaflMove newObject() {
+            return new TaflMove();
         }
     };
 
     public MatchLogEntry entry;
 
     @Override
-    public Move clone() {
-        Move move = movePool.obtain();
+    public TaflMove clone() {
+        TaflMove move = movePool.obtain();
         move.pieceType = pieceType;
         move.source = source;
         move.destination = destination;

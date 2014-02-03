@@ -1,6 +1,6 @@
-Issues with capturing
-
-
+Move zobrist hash to DB
+minimax
+improve capture heuristic using bitsets and by doing a separate one for king?
 
 
 

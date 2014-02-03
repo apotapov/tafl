@@ -9,8 +9,8 @@ import com.artemis.Entity;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.pactstudios.games.tafl.core.es.components.render.AiProcessingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
+import com.pactstudios.games.tafl.core.es.model.TaflMove;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.Move;
 import com.pactstudios.games.tafl.core.es.systems.events.AiCompleteEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.AiTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem2;
@@ -50,7 +50,7 @@ public class AiSystem extends EventProcessingSystem2<AiTurnEvent, AiCompleteEven
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                Move move = match.aiStrategy.search(match);
+                TaflMove move = match.aiStrategy.search(match);
                 AiCompleteEvent completeEvent = world.createEvent(AiCompleteEvent.class);
                 completeEvent.move = move;
                 world.postEvent(AiSystem.this, completeEvent);

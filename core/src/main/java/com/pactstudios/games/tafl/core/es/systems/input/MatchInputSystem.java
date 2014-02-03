@@ -18,10 +18,10 @@ import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 
 public class MatchInputSystem extends InputProcessingSystem<MapRenderingComponent> {
 
-    protected ComponentMapper<MatchComponent> matchMapper;
-    protected ComponentMapper<PositionComponent> positionMapper;
+    ComponentMapper<MatchComponent> matchMapper;
+    ComponentMapper<PositionComponent> positionMapper;
 
-    protected CellHighlightSystem highlightSystem;
+    CellHighlightSystem highlightSystem;
 
     @SuppressWarnings("unchecked")
     public MatchInputSystem() {
@@ -58,12 +58,8 @@ public class MatchInputSystem extends InputProcessingSystem<MapRenderingComponen
     }
 
     private void movePiece(TaflMatch match, int destination) {
-        Entity pieceEntity = match.pieceEntities[match.board.selectedPiece];
-        PositionComponent position = positionMapper.get(pieceEntity);
-
-        int source = match.board.getCellId(position.position);
-        if (match.rulesEngine.isMoveLegal(source, destination)) {
-            move(match.turn, source, destination);
+        if (match.rulesEngine.isMoveLegal(match.board.selectedPiece, destination)) {
+            move(match.turn, match.board.selectedPiece, destination);
         }
     }
 

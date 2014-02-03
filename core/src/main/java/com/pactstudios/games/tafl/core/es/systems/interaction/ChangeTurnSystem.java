@@ -43,12 +43,11 @@ public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
         MatchComponent matchComponent = matchMapper.get(e);
         TaflMatch match = matchComponent.match;
 
+        //TODO MOVE THIS TO RULES ENGINE???
+
         // Check if the game is over before we do anything.
         if (!checkEndGame(match)) {
-            match.rulesEngine.changeTurn();
-            dbService.updateMatch(match);
-
-            match.rulesEngine.calculateLegalMoves();
+            match.changeTurn();
 
             // Need the turn switched and moves calculated before checking
             // for draw
@@ -59,7 +58,6 @@ public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
                 } else {
                     checkPlayerWarning(match);
                 }
-                highlightSystem.highlightTeam(match.turn);
             }
         }
         matchComponent.animationInProgress = false;

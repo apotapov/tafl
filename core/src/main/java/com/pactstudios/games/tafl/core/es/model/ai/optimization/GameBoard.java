@@ -1,14 +1,12 @@
-package com.pactstudios.games.tafl.core.es.model.board;
+package com.pactstudios.games.tafl.core.es.model.ai.optimization;
 
 import java.util.BitSet;
 
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.ZorbistHash;
 
-public class GameBitBoard {
+public class GameBoard {
 
     public static final int NUMBER_OF_TEAMS = 2;
-
-    private char[] bitSetChars;
 
     public int dimensions;
     public int pieceTypes;
@@ -18,13 +16,11 @@ public class GameBitBoard {
 
     public ZorbistHash zorbistHash;
 
-    public GameBitBoard(int dimensions, int pieceTypes, ZorbistHash zorbistHash) {
+    public GameBoard(int dimensions, int pieceTypes, ZorbistHash zorbistHash) {
         this.dimensions = dimensions;
         this.pieceTypes = pieceTypes;
         this.numberCells = dimensions * dimensions;
         this.zorbistHash = zorbistHash;
-
-        bitSetChars = new char[1024];
 
         bitBoards = new BitSet[pieceTypes];
         for (int i = 0; i < pieceTypes; i++) {
@@ -90,7 +86,7 @@ public class GameBitBoard {
 
     @Override
     public boolean equals(Object other) {
-        if (other != null && other instanceof GameBitBoard) {
+        if (other != null && other instanceof GameBoard) {
             return hashCode() == other.hashCode();
         }
         return false;
@@ -98,19 +94,5 @@ public class GameBitBoard {
 
     public boolean isValid(int cellId) {
         return cellId >= 0 && cellId < numberCells;
-    }
-
-    public void stringToBitSet(String input, int pieceType) {
-        for (int i = 0; i < input.length(); i++) {
-            bitBoards[pieceType].set(i, input.charAt(i) == '1');
-        }
-    }
-
-    public String bitSetToString(int pieceType) {
-        BitSet bitBoard = bitBoards[pieceType];
-        for (int i = 0; i < bitBoard.size(); i++) {
-            bitSetChars[i] = bitBoard.get(i) ? '1' : '0';
-        }
-        return new String(bitSetChars, 0, bitBoard.length());
     }
 }

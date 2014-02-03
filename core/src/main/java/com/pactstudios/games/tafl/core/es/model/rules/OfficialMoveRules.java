@@ -6,12 +6,12 @@ import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.PlayerWarningEnum;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.Move;
+import com.pactstudios.games.tafl.core.es.model.TaflMove;
 
 public class OfficialMoveRules {
 
     TaflMatch match;
-    Array<Move> allLegalMoves;
+    Array<TaflMove> allLegalMoves;
     BitSet legalMoves;
     BitSet allPieces;
 
@@ -21,7 +21,7 @@ public class OfficialMoveRules {
 
     public OfficialMoveRules(TaflMatch match) {
         this.match = match;
-        allLegalMoves = new Array<Move>();
+        allLegalMoves = new Array<TaflMove>();
         legalMoves = new BitSet(Constants.BoardConstants.BIGGEST_BOARD_NUMBER_CELLS);
         allPieces = new BitSet(Constants.BoardConstants.BIGGEST_BOARD_NUMBER_CELLS);
     }
@@ -30,12 +30,12 @@ public class OfficialMoveRules {
         return legalMoves(source).get(destination);
     }
 
-    public Array<Move> legalMoves() {
+    public Array<TaflMove> legalMoves() {
         return allLegalMoves;
     }
 
     public void calculateLegalMoves() {
-        Move.movePool.freeAll(allLegalMoves);
+        TaflMove.movePool.freeAll(allLegalMoves);
         allLegalMoves.clear();
         allPieces.clear();
         allPieces.or(match.board.whiteBitBoard());
@@ -45,7 +45,7 @@ public class OfficialMoveRules {
         for (int source = bitBoard.nextSetBit(0); source >= 0; source = bitBoard.nextSetBit(source+1)) {
             BitSet moves = calculateLegalMoves(source);
             for (int dest = moves.nextSetBit(0); dest >= 0; dest = moves.nextSetBit(dest+1)) {
-                Move move = Move.movePool.obtain();
+                TaflMove move = TaflMove.movePool.obtain();
                 move.pieceType = match.turn;
                 move.source = source;
                 move.destination = dest;
@@ -56,7 +56,7 @@ public class OfficialMoveRules {
 
     public BitSet legalMoves(int source) {
         legalMoves.clear();
-        for (Move move : allLegalMoves) {
+        for (TaflMove move : allLegalMoves) {
             if (move.source == source) {
                 legalMoves.set(move.destination);
             }
@@ -77,8 +77,7 @@ public class OfficialMoveRules {
 
     private void legalUp(int source) {
         for (int i = source + match.board.dimensions; i < match.board.numberCells; i += match.board.dimensions) {
-            if (!allPieces.get(i) &&
-                    (match.board.canWalk(i) || source == match.board.king)) {
+            if (!allPieces.get(i) && match.board.canWalk(source, i)) {
                 legalMoves.set(i);
             } else {
                 break;
@@ -88,8 +87,7 @@ public class OfficialMoveRules {
 
     private void legalDown(int source) {
         for (int i = source - match.board.dimensions; i >= 0; i -= match.board.dimensions) {
-            if (!allPieces.get(i) &&
-                    (match.board.canWalk(i) || source == match.board.king)) {
+            if (!allPieces.get(i) && match.board.canWalk(source, i)) {
                 legalMoves.set(i);
             } else {
                 break;
@@ -100,8 +98,7 @@ public class OfficialMoveRules {
     private void legalRight(int source) {
         int nextRow = ((source + match.board.dimensions) / match.board.dimensions) * match.board.dimensions;
         for (int i = source + 1; i < nextRow; i++) {
-            if (!allPieces.get(i) &&
-                    (match.board.canWalk(i) || source == match.board.king)) {
+            if (!allPieces.get(i) && match.board.canWalk(source, i)) {
                 legalMoves.set(i);
             } else {
                 break;
@@ -112,8 +109,7 @@ public class OfficialMoveRules {
     private void legalLeft(int source) {
         int previousRow = (source / match.board.dimensions) * match.board.dimensions - 1;
         for (int i = source - 1; i > previousRow; i--) {
-            if (!allPieces.get(i) &&
-                    (match.board.canWalk(i) || source == match.board.king)) {
+            if (!allPieces.get(i) && match.board.canWalk(source, i)) {
                 legalMoves.set(i);
             } else {
                 break;

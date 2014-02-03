@@ -8,13 +8,12 @@
  * 27.07.00 Creation
  *****************************************************************************/
 
-package com.pactstudios.games.tafl.core.es.model.ai.moves;
+package com.pactstudios.games.tafl.core.es.model.ai.optimization.moves;
 
 import java.util.BitSet;
 
 import com.badlogic.gdx.utils.Array;
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.Move;
-import com.pactstudios.games.tafl.core.es.model.board.GameBitBoard;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 
 public class MoveListGenerator {
 
@@ -73,7 +72,7 @@ public class MoveListGenerator {
      * @param teamId
      * @return
      */
-    public Array<Move> computeLegalMoves(GameBitBoard board, int pieceType) {
+    public Array<Move> computeLegalMoves(GameBoard board, int pieceType) {
         // First, clean up the old list of moves, if any
         moves.clear();
 
@@ -81,7 +80,7 @@ public class MoveListGenerator {
         return moves;
     }
 
-    private void computeMoves(GameBitBoard board, int pieceType) {
+    private void computeMoves(GameBoard board, int pieceType) {
         // Fetch the bitboard containing positions of these pieces
         BitSet pieces = board.bitBoards[pieceType];
 

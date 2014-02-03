@@ -13,7 +13,6 @@
 
 package com.pactstudios.games.tafl.core.es.model.ai.optimization.moves;
 
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.Move;
 
 
 

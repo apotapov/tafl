@@ -3,7 +3,6 @@ package com.pactstudios.games.tafl.core.es.model.ai.optimization.moves;
 import java.util.Comparator;
 
 import com.badlogic.gdx.utils.Array;
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.Move;
 
 /*************************************************************************
  * HistoryTable - A heuristic used to pick an order of evaluation for moves

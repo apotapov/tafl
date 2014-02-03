@@ -3,7 +3,6 @@ package com.pactstudios.games.tafl.core.es.model;
 import java.util.BitSet;
 import java.util.Date;
 
-import com.artemis.Entity;
 import com.badlogic.gdx.utils.Array;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
@@ -16,12 +15,12 @@ import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.enums.RulesEngineType;
 import com.pactstudios.games.tafl.core.es.model.ai.AiFactory;
 import com.pactstudios.games.tafl.core.es.model.ai.AiStrategy;
-import com.pactstudios.games.tafl.core.es.model.board.GameBitBoard;
-import com.pactstudios.games.tafl.core.es.model.board.Move;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
 import com.pactstudios.games.tafl.core.es.model.rules.RulesEngine;
 import com.pactstudios.games.tafl.core.es.model.rules.RulesFactory;
 import com.pactstudios.games.tafl.core.utils.TaflDatabaseService;
+import com.roundtriangles.games.zaria.utils.ModifiableString;
 
 @DatabaseTable(tableName = Constants.DbConstants.MATCH_TABLE)
 public class TaflMatch {
@@ -53,7 +52,7 @@ public class TaflMatch {
     public LifeCycle status;
 
     @DatabaseField(columnName = TURN_COLUMN, canBeNull = false)
-    public int turn;
+    public int turn = Constants.BoardConstants.NO_TEAM;
 
     @DatabaseField(columnName = BOARD_TYPE, canBeNull = false)
     public GameBoardType boardType;
@@ -95,45 +94,115 @@ public class TaflMatch {
     public TaflBoard board;
     public AiStrategy aiStrategy;
 
-    public Entity[] pieceEntities;
+    public Array<TaflMove> undoStack;
+    public Array<TaflMove> simulatedMoves;
 
-    public Array<Move> undoStack;
-    public Array<Move> simulatedMoves;
+    private ModifiableString whiteModifiableString;
+    private ModifiableString blackModifiableString;
 
     public boolean computerStarts;
 
+    public Array<TaflMatchObserver> observers;
+
     public TaflMatch() {
-        undoStack = new Array<Move>();
-        simulatedMoves = new Array<Move>();
+        undoStack = new Array<TaflMove>();
+        simulatedMoves = new Array<TaflMove>();
+        observers = new Array<TaflMatchObserver>();
     }
 
-    public void initialize(TaflDatabaseService dbService) {
-        board = new TaflBoard(boardType.dimensions,
-                GameBitBoard.NUMBER_OF_TEAMS,
-                dbService.hashs.get(boardType.dimensions),
-                king);
+    public void initialize(TaflDatabaseService dbService, TaflMatchObserver...observers) {
+        initializeComponents(dbService);
+        initializeStrings();
+        intializeTurn();
 
-        board.stringToBitSet(whitePieces, Constants.BoardConstants.WHITE_TEAM);
-        board.stringToBitSet(blackPieces, Constants.BoardConstants.BLACK_TEAM);
+        registerObservers(dbService, observers);
+        initializeMatch();
+    }
 
-        board.initialize();
-
-        rulesEngine = RulesFactory.getRules(rulesType, this);
-        aiStrategy = AiFactory.getAiStrategy(aiType);
-
-        pieceEntities = new Entity[board.numberCells];
-
-        turn = rulesEngine.getFirstTurn();
+    private void intializeTurn() {
+        if (turn == Constants.BoardConstants.NO_TEAM) {
+            turn = rulesEngine.getFirstTurn();
+        }
         if (versusComputer && computerTeam == Constants.BoardConstants.NO_TEAM) {
             int firstTurn = rulesEngine.getFirstTurn();
             int secondTurn = (firstTurn + 1) % 2;
             computerTeam = computerStarts ? firstTurn : secondTurn;
         }
-        if (_id == 0) {
-            dbService.createMatch(this);
+    }
+
+    private void initializeStrings() {
+        StringBuilder builder = new StringBuilder(board.numberCells);
+        for (int i = 0; i < board.numberCells; i++) {
+            builder.append('0');
+        }
+        whiteModifiableString = new ModifiableString(builder.toString());
+        blackModifiableString = new ModifiableString(builder.toString());
+    }
+
+    private void initializeComponents(TaflDatabaseService dbService) {
+        board = new TaflBoard(boardType.dimensions,
+                GameBoard.NUMBER_OF_TEAMS,
+                dbService.hashs.get(boardType.dimensions),
+                king);
+
+        board.initialize();
+
+        rulesEngine = RulesFactory.getRules(rulesType);
+        aiStrategy = AiFactory.getAiStrategy(aiType);
+    }
+
+    private void initializeMatch() {
+        for (TaflMatchObserver observer : observers) {
+            observer.initializeMatch(this);
         }
 
-        rulesEngine.calculateLegalMoves();
+        addPieces();
+
+        for (TaflMatchObserver observer : observers) {
+            observer.changeTurn(this);
+        }
+    }
+
+    private void registerObservers(TaflDatabaseService dbService,
+            TaflMatchObserver... observers) {
+        for (TaflMatchObserver observer : observers) {
+            registerObserver(observer);
+        }
+        registerObserver(rulesEngine);
+        registerObserver(dbService);
+    }
+
+    public void registerObserver(TaflMatchObserver observer) {
+        observers.add(observer);
+    }
+
+    private void addPieces() {
+        for (int i = 0; i < whitePieces.length(); i++) {
+            if (whitePieces.charAt(i) == '1') {
+                addPiece(Constants.BoardConstants.WHITE_TEAM, i);
+            }
+        }
+        for (int i = 0; i < blackPieces.length(); i++) {
+            if (blackPieces.charAt(i) == '1') {
+                addPiece(Constants.BoardConstants.BLACK_TEAM, i);
+            }
+        }
+    }
+
+    public String getWhiteBitSetString() {
+        BitSet bitBoard = board.bitBoards[Constants.BoardConstants.WHITE_TEAM];
+        for (int i = 0; i < board.numberCells; i++) {
+            whiteModifiableString.setChar(i, bitBoard.get(i) ? '1' : '0');
+        }
+        return whiteModifiableString.toString();
+    }
+
+    public String getBlackBitSetString() {
+        BitSet bitBoard = board.bitBoards[Constants.BoardConstants.BLACK_TEAM];
+        for (int i = 0; i < board.numberCells; i++) {
+            blackModifiableString.setChar(i, bitBoard.get(i) ? '1' : '0');
+        }
+        return blackModifiableString.toString();
     }
 
     @Override
@@ -154,21 +223,11 @@ public class TaflMatch {
         return Integer.toString(_id);
     }
 
-    public void removePiece(int captor, int capturedPiece) {
-        board.removePiece(captor, capturedPiece);
-
-        Entity e = pieceEntities[capturedPiece];
-        if (e != null) {
-            e.deleteFromWorld();
-            pieceEntities[capturedPiece] = null;
-        }
-    }
-
-    public void simulateMove(Move move) {
+    public void simulateMove(TaflMove move) {
         if (move != null) {
             applyMove(move, true);
             move.capturedPieces.clear();
-            move.capturedPieces.or(rulesEngine.getCapturedPieces(move.destination));
+            move.capturedPieces.or(rulesEngine.getCapturedPieces(move));
             board.bitBoards[(move.pieceType + 1) % 2].andNot(move.capturedPieces);
             simulatedMoves.add(move);
         }
@@ -176,42 +235,50 @@ public class TaflMatch {
 
     public void rollBackSimulatedMove() {
         if (simulatedMoves.size > 0) {
-            Move move = simulatedMoves.pop();
-            undoMove(move, true);
+            TaflMove move = simulatedMoves.pop();
+            board.undoMove(move);
             board.bitBoards[(move.pieceType + 1) % 2].or(move.capturedPieces);
         }
     }
 
-    public void applyMove(Move move, boolean simulate) {
+    public void applyMove(TaflMove move, boolean simulate) {
         board.applyMove(move);
         if (!simulate) {
-            Entity e = pieceEntities[move.source];
-            pieceEntities[move.source] = null;
-            pieceEntities[move.destination] = e;
-
-            undoStack.add(move.clone());
-            rulesEngine.recordBoardConfiguration(board.hashCode());
+            TaflMove clone = move.clone();
+            undoStack.add(clone);
+            for (TaflMatchObserver observer : observers) {
+                observer.applyMove(this, clone);
+            }
         }
     }
 
-    public void undoMove(Move move, boolean simulate) {
-        board.undoMove(move);
-        if (!simulate) {
-            Entity e = pieceEntities[move.destination];
-            pieceEntities[move.destination] = null;
-            pieceEntities[move.source] = e;
-
-            rulesEngine.undoBoardConfiguration();
-        }
-    }
-
-    public Move undoMove() {
+    public TaflMove undoMove() {
         if (undoStack.size > 0) {
-            Move move = undoStack.pop();
-            undoMove(move, false);
+            TaflMove move = undoStack.pop();
+            board.undoMove(move);
+            for (TaflMatchObserver observer : observers) {
+                observer.undoMove(this, move);
+            }
+            changeTurn();
             return move;
         }
         return null;
+    }
+
+    public void addPiece(int team, int piece) {
+        board.addPiece(team, piece);
+
+        for (TaflMatchObserver observer : observers) {
+            observer.addPiece(this, team, piece);
+        }
+    }
+
+    public void removePieces(int captor, BitSet capturedPieces) {
+        board.removePieces(captor, capturedPieces);
+
+        for (TaflMatchObserver observer : observers) {
+            observer.removePieces(this, captor, capturedPieces);
+        }
     }
 
     public boolean acceptInput() {
@@ -224,5 +291,20 @@ public class TaflMatch {
 
     public void updateKing(int king) {
         this.king = king;
+    }
+
+    public void changeTurn() {
+        turn = (turn + 1) % 2;
+
+        for (TaflMatchObserver observer : observers) {
+            observer.changeTurn(this);
+        }
+    }
+
+    public void gameOver(LifeCycle status) {
+        this.status = status;
+        for (TaflMatchObserver observer : observers) {
+            observer.gameOver(this, status);
+        }
     }
 }

@@ -22,8 +22,8 @@ import com.pactstudios.games.tafl.core.es.components.singleton.HudComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
+import com.pactstudios.games.tafl.core.es.model.TaflMove;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.Move;
 import com.roundtriangles.games.zaria.services.GraphicsService;
 
 public class ComponentFactorySystem extends PassiveEntitySystem {
@@ -50,7 +50,7 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         return component;
     }
 
-    public VelocityComponent createVelocityComponent(Move move, Vector2 velocity, float distanceRemaining) {
+    public VelocityComponent createVelocityComponent(TaflMove move, Vector2 velocity, float distanceRemaining) {
         VelocityComponent component = createComponent(VelocityComponent.class);
         component.move = move;
         component.velocity = velocity;
@@ -86,7 +86,7 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         return component;
     }
 
-    public MatchComponent createBoardComponent(TaflMatch match) {
+    public MatchComponent createMatchComponent(TaflMatch match) {
         MatchComponent component = createComponent(MatchComponent.class);
         component.match = match;
         return component;

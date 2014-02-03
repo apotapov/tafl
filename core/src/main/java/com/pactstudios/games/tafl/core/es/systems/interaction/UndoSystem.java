@@ -3,11 +3,8 @@ package com.pactstudios.games.tafl.core.es.systems.interaction;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
-import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.Move;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.es.systems.events.UndoEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
@@ -39,47 +36,15 @@ public class UndoSystem extends EventProcessingSystem<UndoEvent> {
         highlightSystem = world.getSystem(CellHighlightSystem.class);
     }
 
-    private void changeTurn(TaflMatch match) {
-        match.rulesEngine.changeTurn();
-        dbService.updateMatch(match);
-        highlightSystem.highlightTeam(match.turn);
-    }
-
     @Override
     protected void processEvent(Entity e, UndoEvent event) {
         MatchComponent component = matchMapper.get(e);
 
         if (component.match.versusComputer && component.match.undoStack.size > 1) {
-            undo(component.match);
-            undo(component.match);
+            component.match.undoMove();
+            component.match.undoMove();
         } else {
-            undo(component.match);
-        }
-    }
-
-    private void undo(TaflMatch match) {
-        Move move = match.undoMove();
-        if (move != null) {
-
-            Entity entity = match.pieceEntities[move.source];
-            if (entity != null) {
-                Vector2 newPosition = match.board.getCellPositionCenter(move.source);
-                PositionComponent position = positionMapper.get(entity);
-                position.position.set(newPosition);
-            } else {
-                match.pieceEntities[move.source] = efs.createPiece(match, move.source);
-            }
-
-            for (int i = move.capturedPieces.nextSetBit(0); i >= 0; i = move.capturedPieces.nextSetBit(i+1)) {
-                entity = match.pieceEntities[i];
-                if (entity == null) {
-                    match.pieceEntities[i] =
-                            efs.createPiece(match, i);
-                }
-            }
-            dbService.deleteLogEntry(move.entry);
-
-            changeTurn(match);
+            component.match.undoMove();
         }
     }
 }

@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
-import com.pactstudios.games.tafl.core.es.model.board.GameBitBoard;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 import com.pactstudios.games.tafl.core.es.systems.render.RenderingSystem;
 
 public class DebugCellIdRendererSystem extends RenderingSystem<MapRenderingComponent> {
@@ -39,7 +39,7 @@ public class DebugCellIdRendererSystem extends RenderingSystem<MapRenderingCompo
     @Override
     protected void process(Entity e, MapRenderingComponent rendComponent) {
         MatchComponent match = matchMapper.get(e);
-        GameBitBoard board = match.match.board;
+        GameBoard board = match.match.board;
 
         for (int i = 0; i < board.numberCells; i++) {
             Vector2 position = match.match.board.getCellPosition(i);

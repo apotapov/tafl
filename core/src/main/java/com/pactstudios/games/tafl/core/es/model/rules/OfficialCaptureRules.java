@@ -4,6 +4,7 @@ import java.util.BitSet;
 
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 
 public class OfficialCaptureRules {
 
@@ -15,48 +16,48 @@ public class OfficialCaptureRules {
         capturedPieces = new BitSet(Constants.BoardConstants.BIGGEST_BOARD_NUMBER_CELLS);
     }
 
-    public BitSet getCapturedPieces(int destination) {
+    public BitSet getCapturedPieces(Move move) {
         capturedPieces.clear();
 
-        checkCaptureUp(destination);
-        checkCaptureDown(destination);
-        checkCaptureRight(destination);
-        checkCaptureLeft(destination);
+        checkCaptureUp(move);
+        checkCaptureDown(move);
+        checkCaptureRight(move);
+        checkCaptureLeft(move);
 
         return capturedPieces;
     }
 
-    private void checkCaptureLeft(int destination) {
-        int first = destination - 1;
+    private void checkCaptureLeft(Move move) {
+        int first = move.destination - 1;
         if (first % match.board.dimensions == match.board.dimensions - 1) {
             first = Constants.BoardConstants.ILLEGAL_CELL;
         }
-        int second = destination - 2;
+        int second = move.destination - 2;
         if (second % match.board.dimensions == match.board.dimensions - 1) {
             second = Constants.BoardConstants.ILLEGAL_CELL;
         }
         int third = first + match.board.dimensions;
         int fourth = first - match.board.dimensions;
-        checkCapture(destination, first, second, third, fourth);
+        checkCapture(move, first, second, third, fourth);
     }
 
-    private void checkCaptureRight(int destination) {
-        int first = destination + 1;
+    private void checkCaptureRight(Move move) {
+        int first = move.destination + 1;
         if (first % match.board.dimensions == 0) {
             first = Constants.BoardConstants.ILLEGAL_CELL;
         }
-        int second = destination + 2;
+        int second = move.destination + 2;
         if (second % match.board.dimensions == 0) {
             second = Constants.BoardConstants.ILLEGAL_CELL;
         }
         int third = first + match.board.dimensions;
         int fourth = first - match.board.dimensions;
-        checkCapture(destination, first, second, third, fourth);
+        checkCapture(move, first, second, third, fourth);
     }
 
-    private void checkCaptureDown(int destination) {
-        int first = destination - match.board.dimensions;
-        int second = destination - 2 * match.board.dimensions;
+    private void checkCaptureDown(Move move) {
+        int first = move.destination - match.board.dimensions;
+        int second = move.destination - 2 * match.board.dimensions;
         int third = first + 1;
         if (third % match.board.dimensions == 0) {
             third = Constants.BoardConstants.ILLEGAL_CELL;
@@ -65,12 +66,12 @@ public class OfficialCaptureRules {
         if (fourth % match.board.dimensions == match.board.dimensions - 1) {
             fourth = Constants.BoardConstants.ILLEGAL_CELL;
         }
-        checkCapture(destination, first, second, third, fourth);
+        checkCapture(move, first, second, third, fourth);
     }
 
-    private void checkCaptureUp(int destination) {
-        int first = destination + match.board.dimensions;
-        int second = destination + 2 * match.board.dimensions;
+    private void checkCaptureUp(Move move) {
+        int first = move.destination + match.board.dimensions;
+        int second = move.destination + 2 * match.board.dimensions;
         int third = first + 1;
         if (third % match.board.dimensions == 0) {
             third = Constants.BoardConstants.ILLEGAL_CELL;
@@ -79,11 +80,11 @@ public class OfficialCaptureRules {
         if (fourth % match.board.dimensions == match.board.dimensions - 1) {
             fourth = Constants.BoardConstants.ILLEGAL_CELL;
         }
-        checkCapture(destination, first, second, third, fourth);
+        checkCapture(move, first, second, third, fourth);
     }
 
-    private void checkCapture(int destination, int first, int second, int third, int fourth) {
-        int capturingTeam = match.board.getTeam(destination);
+    private void checkCapture(Move move, int first, int second, int third, int fourth) {
+        int capturingTeam = move.pieceType;
         int oppositeTeam = (capturingTeam + 1) % 2;
         if (match.board.isValid(first) && match.board.bitBoards[oppositeTeam].get(first)) {
             if (first == match.board.king) {
@@ -103,7 +104,7 @@ public class OfficialCaptureRules {
     private boolean isHostile(int capturingTeam, int oppositeCell) {
         return match.board.isValid(oppositeCell) &&
                 (match.board.bitBoards[capturingTeam].get(oppositeCell) ||
-                        (!match.board.canWalk(oppositeCell) && oppositeCell != match.board.king));
+                        (!match.board.canWalk(capturingTeam, oppositeCell) && oppositeCell != match.board.king));
     }
 
     private boolean isKingHostile(int capturingTeam, int oppositeCell) {

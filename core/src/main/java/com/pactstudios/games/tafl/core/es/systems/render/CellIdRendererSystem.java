@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
-import com.pactstudios.games.tafl.core.es.model.board.GameBitBoard;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 
 public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent> {
 
@@ -39,7 +39,7 @@ public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent>
     @Override
     protected void process(Entity e, MapRenderingComponent rendComponent) {
         MatchComponent match = matchMapper.get(e);
-        GameBitBoard board = match.match.board;
+        GameBoard board = match.match.board;
 
         for (int i = 0; i < board.dimensions; i++) {
             String index = match.match.board.getHorizontalCellId(i);

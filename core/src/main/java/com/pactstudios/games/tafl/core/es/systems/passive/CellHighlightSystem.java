@@ -9,10 +9,14 @@ import com.artemis.managers.SingletonComponentManager;
 import com.artemis.systems.PassiveEntitySystem;
 import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.consts.Constants;
+import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.es.components.render.HighlightComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
+import com.pactstudios.games.tafl.core.es.model.TaflMatch;
+import com.pactstudios.games.tafl.core.es.model.TaflMatchObserver;
+import com.pactstudios.games.tafl.core.es.model.TaflMove;
 
-public class CellHighlightSystem extends PassiveEntitySystem {
+public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatchObserver {
 
     ComponentMapper<HighlightComponent> highlightMapper;
 
@@ -30,7 +34,7 @@ public class CellHighlightSystem extends PassiveEntitySystem {
         efs = world.getSystem(EntityFactorySystem.class);
     }
 
-    public void highlightTeam(int team) {
+    private void highlightTeam(int team) {
         clearCellHighlights();
         MatchComponent matchComponent = singletonManager.getSingletonComponent(MatchComponent.class);
 
@@ -67,5 +71,35 @@ public class CellHighlightSystem extends PassiveEntitySystem {
                 e.deleteFromWorld();
             }
         }
+    }
+
+    @Override
+    public void initializeMatch(TaflMatch match) {
+        highlightTeam(match.turn);
+    }
+
+    @Override
+    public void applyMove(TaflMatch match, TaflMove move) {
+    }
+
+    @Override
+    public void undoMove(TaflMatch match, TaflMove move) {
+    }
+
+    @Override
+    public void addPiece(TaflMatch match, int team, int pieces) {
+    }
+
+    @Override
+    public void removePieces(TaflMatch match, int captor, BitSet capturedPieces) {
+    }
+
+    @Override
+    public void changeTurn(TaflMatch match) {
+        highlightTeam(match.turn);
+    }
+
+    @Override
+    public void gameOver(TaflMatch match, LifeCycle status) {
     }
 }

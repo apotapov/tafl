@@ -10,9 +10,7 @@ import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.Move;
-import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
-import com.pactstudios.games.tafl.core.es.model.log.MatchLogFactory;
+import com.pactstudios.games.tafl.core.es.model.TaflMove;
 import com.pactstudios.games.tafl.core.es.systems.events.ChangeTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem2;
 import com.pactstudios.games.tafl.core.es.systems.events.MoveFinishedEvent;
@@ -67,7 +65,7 @@ public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, 
         highlightSystem.clearCellHighlights();
     }
 
-    private Vector2 calculateVelocity(TaflMatch match, Move move) {
+    private Vector2 calculateVelocity(TaflMatch match, TaflMove move) {
         int sourceX = move.source % match.board.dimensions;
         int sourceY = move.source / match.board.dimensions;
         int destinationX = move.destination % match.board.dimensions;
@@ -89,8 +87,7 @@ public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, 
     }
 
     private void processCapturedPieces(TaflMatch match, MoveFinishedEvent event) {
-        BitSet captured =
-                match.rulesEngine.getCapturedPieces(event.move.destination);
+        BitSet captured = match.rulesEngine.getCapturedPieces(event.move);
 
         if (captured.cardinality() > 0) {
             PieceCaptureEvent captureEvent =
@@ -110,22 +107,7 @@ public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, 
     }
 
     private void move(TaflMatch match, MoveFinishedEvent event) {
-        Entity entity = match.pieceEntities[event.move.source];
-        Vector2 newPosition = match.board.getCellPositionCenter(event.move.destination);
-        PositionComponent position = positionMapper.get(entity);
-        position.position.set(newPosition);
-
-        event.move.entry = log(match, event.move);
-
         match.applyMove(event.move, false);
-
-        soundSystem.playMove();
-    }
-
-    private MatchLogEntry log(TaflMatch match, Move move) {
-        MatchLogEntry entry = MatchLogFactory.log(match, move);
-        dbService.createLogEntry(entry);
-        return entry;
     }
 
     @Override

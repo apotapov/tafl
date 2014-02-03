@@ -1,14 +1,16 @@
 package com.pactstudios.games.tafl.core.es.model.log;
 
+import java.util.BitSet;
 import java.util.Date;
 
-import com.pactstudios.games.tafl.core.consts.Constants;
+import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.Move;
+import com.pactstudios.games.tafl.core.es.model.TaflMatchObserver;
+import com.pactstudios.games.tafl.core.es.model.TaflMove;
 
-public class MatchLogFactory {
+public class MatchLogFactory implements TaflMatchObserver {
 
-    public static MatchLogEntry log(TaflMatch match, Move move) {
+    public MatchLogEntry log(TaflMatch match, TaflMove move) {
         MatchLogEntry entry = new MatchLogEntry();
         entry.match = match;
         entry.team = move.pieceType;
@@ -23,27 +25,42 @@ public class MatchLogFactory {
         return entry;
     }
 
-    public static Move parseLog(MatchLogEntry entry, TaflMatch match) {
-        Move move = new Move();
+    @Override
+    public void initializeMatch(TaflMatch match) {
+        // TODO Auto-generated method stub
 
-        move.pieceType = entry.team;
-        move.source = entry.source;
-        move.destination = entry.destination;
+    }
 
-        move.capturedPieces.set(entry.capture1);
+    @Override
+    public void applyMove(TaflMatch match, TaflMove move) {
+        move.entry = log(match, move);
+    }
 
-        if (entry.capture1 != Constants.BoardConstants.ILLEGAL_CELL) {
-            move.capturedPieces.set(entry.capture1);
-        }
+    @Override
+    public void undoMove(TaflMatch match, TaflMove move) {
+    }
 
-        if (entry.capture2 != Constants.BoardConstants.ILLEGAL_CELL) {
-            move.capturedPieces.set(entry.capture2);
-        }
+    @Override
+    public void addPiece(TaflMatch match, int team, int pieces) {
+        // TODO Auto-generated method stub
 
-        if (entry.capture3 != Constants.BoardConstants.ILLEGAL_CELL) {
-            move.capturedPieces.set(entry.capture3);
-        }
+    }
 
-        return move;
+    @Override
+    public void removePieces(TaflMatch match, int captor, BitSet capturedPieces) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void changeTurn(TaflMatch match) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void gameOver(TaflMatch match, LifeCycle status) {
+        // TODO Auto-generated method stub
+
     }
 }

@@ -10,7 +10,7 @@ import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.board.GameBitBoard;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 
 public class GameBoardRenderSystem extends RenderingSystem<MapRenderingComponent> {
 
@@ -80,7 +80,7 @@ public class GameBoardRenderSystem extends RenderingSystem<MapRenderingComponent
         shapeRenderer.line(boardSize, 0, boardSize, boardSize);
     }
 
-    private void drawGrid(GameBitBoard board, ShapeRenderer shapeRenderer,
+    private void drawGrid(GameBoard board, ShapeRenderer shapeRenderer,
             float boardSize) {
         for (int i = 0; i <= board.dimensions; i++) {
             int location = Constants.BoardRenderConstants.TILE_SIZE * i +

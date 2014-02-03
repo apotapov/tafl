@@ -9,7 +9,7 @@ import com.pactstudios.games.tafl.core.es.components.singleton.HudComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
 import com.roundtriangles.games.zaria.services.GraphicsService;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
-import com.roundtriangles.games.zaria.utils.TimeCharSequence;
+import com.roundtriangles.games.zaria.utils.TimeModifiableString;
 
 public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
 
@@ -18,7 +18,7 @@ public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
     LocaleService localeService;
     GraphicsService graphicService;
 
-    TimeCharSequence time;
+    TimeModifiableString time;
 
     @SuppressWarnings("unchecked")
     public HudRenderingSystem(LocaleService localeService, GraphicsService graphicService) {
@@ -26,7 +26,7 @@ public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
         this.localeService = localeService;
         this.graphicService = graphicService;
 
-        time = new TimeCharSequence();
+        time = new TimeModifiableString();
     }
 
     @Override

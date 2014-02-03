@@ -48,8 +48,8 @@ public class Assets extends GameAssetLoader<TaflLevel> {
     public static final class Sounds {
         private Sounds() {
         }
-        public static final String LEVEL_MUSIC = "music/level.ogg";
-        public static final String MENU_MUSIC = "music/menu.ogg";
+        public static final String LEVEL_MUSIC = "music/tafl-music-background-TravisChow-02.mp3";
+        public static final String MENU_MUSIC = "music/tafl-music-background-TravisChow-01.mp3";
         public static final String CLICK_SOUND = "sound/click.wav";
     }
 

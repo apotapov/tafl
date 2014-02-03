@@ -20,7 +20,7 @@ public class SoundSystem extends PassiveEntitySystem implements TaflMatchObserve
 
     @Override
     public void initializeMatch(TaflMatch match) {
-        // TODO play match start
+        soundService.playMusic(Assets.Sounds.LEVEL_MUSIC);
     }
 
     @Override

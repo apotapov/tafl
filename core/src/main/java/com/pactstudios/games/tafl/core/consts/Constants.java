@@ -39,7 +39,7 @@ public final class Constants {
         public static final int LOSS = -WIN;
 
         public static final Color LOADING_PROMP_COLOR = new Color(0f, 0f, 0f, 0.4f);
-        public static final float LOADING_PROMPT_WIDTH = 150;
+        public static final float LOADING_PROMPT_WIDTH = 200;
         public static final float LOADING_PROMPT_HEIGHT = 60;
 
         public static final int TABLE_SIZE = 1048576; // 1m

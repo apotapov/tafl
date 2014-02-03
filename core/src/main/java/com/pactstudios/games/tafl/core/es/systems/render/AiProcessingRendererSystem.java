@@ -9,17 +9,15 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.render.AiProcessingComponent;
-import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 
 public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingComponent> {
 
     ComponentMapper<AiProcessingComponent> promptMapper;
-    ComponentMapper<MatchComponent> matchMapper;
 
     @SuppressWarnings("unchecked")
     public AiProcessingRendererSystem() {
-        super(Aspect.getAspectForAll(AiProcessingComponent.class, MatchComponent.class),
+        super(Aspect.getAspectForAll(AiProcessingComponent.class),
                 MatchRenderingComponent.class);
     }
 
@@ -27,7 +25,6 @@ public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingCo
     public void initialize() {
         super.initialize();
         promptMapper = world.getMapper(AiProcessingComponent.class);
-        matchMapper = world.getMapper(MatchComponent.class);
     }
 
     @Override
@@ -41,7 +38,6 @@ public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingCo
     @Override
     protected void process(Entity e, MatchRenderingComponent rendComponent) {
         AiProcessingComponent component = promptMapper.get(e);
-        MatchComponent matchComponent = matchMapper.get(e);
         float x = - Constants.AiConstants.LOADING_PROMPT_WIDTH / 2;
         float y = 0;
 

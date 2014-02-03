@@ -4,6 +4,7 @@ import java.util.BitSet;
 
 import com.artemis.systems.PassiveEntitySystem;
 import com.pactstudios.games.tafl.core.consts.Assets;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.TaflMatchObserver;
@@ -25,12 +26,16 @@ public class SoundSystem extends PassiveEntitySystem implements TaflMatchObserve
 
     @Override
     public void applyMove(TaflMatch match, TaflMove move) {
-        soundService.playSound(Assets.Sounds.CLICK_SOUND);
+        if (move.pieceType == Constants.BoardConstants.WHITE_TEAM) {
+            soundService.playSound(Assets.Sounds.WHITE_MOVE_SOUND);
+        } else {
+            soundService.playSound(Assets.Sounds.BLACK_MOVE_SOUND);
+        }
     }
 
     @Override
     public void undoMove(TaflMatch match, TaflMove move) {
-        // TODO play roll back time
+        soundService.playSound(Assets.Sounds.UNDO_SOUND);
     }
 
     @Override
@@ -39,7 +44,22 @@ public class SoundSystem extends PassiveEntitySystem implements TaflMatchObserve
 
     @Override
     public void removePieces(TaflMatch match, int captor, BitSet capturedPieces) {
-        // TODO capture sound
+        if (capturedPieces.get(match.board.king)) {
+            soundService.playSound(Assets.Sounds.CAPTURE_KING_SOUND);
+        } else {
+            switch (capturedPieces.cardinality()) {
+            case 1:
+                soundService.playSound(Assets.Sounds.CAPTURE_1_SOUND);
+                break;
+            case 2:
+                soundService.playSound(Assets.Sounds.CAPTURE_2_SOUND);
+                break;
+            case 3:
+                soundService.playSound(Assets.Sounds.CAPTURE_3_SOUND);
+                break;
+            default:
+            }
+        }
     }
 
     @Override

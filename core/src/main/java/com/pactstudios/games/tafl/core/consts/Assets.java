@@ -50,7 +50,15 @@ public class Assets extends GameAssetLoader<TaflLevel> {
         }
         public static final String LEVEL_MUSIC = "music/tafl-music-background-TravisChow-02.mp3";
         public static final String MENU_MUSIC = "music/tafl-music-background-TravisChow-01.mp3";
+
         public static final String CLICK_SOUND = "sound/click.wav";
+        public static final String WHITE_MOVE_SOUND = "sound/tafl-sound-move-01.mp3";
+        public static final String BLACK_MOVE_SOUND = "sound/tafl-sound-move-02.mp3";
+        public static final String UNDO_SOUND = "sound/tafl-sound-undo-01.mp3";
+        public static final String CAPTURE_1_SOUND = "sound/tafl-sound-capture-01.mp3";
+        public static final String CAPTURE_2_SOUND = "sound/tafl-sound-capture-02.mp3";
+        public static final String CAPTURE_3_SOUND = "sound/tafl-sound-capture-03.mp3";
+        public static final String CAPTURE_KING_SOUND = "sound/tafl-sound-capture-04.mp3";
     }
 
     public static final class Locales {
@@ -105,7 +113,14 @@ public class Assets extends GameAssetLoader<TaflLevel> {
     @Override
     public void loadAssets() {
         soundService.loadMusic(Assets.Sounds.MENU_MUSIC, Assets.Sounds.LEVEL_MUSIC);
-        soundService.loadSound(Assets.Sounds.CLICK_SOUND);
+        soundService.loadSound(Assets.Sounds.CLICK_SOUND,
+                Assets.Sounds.WHITE_MOVE_SOUND,
+                Assets.Sounds.BLACK_MOVE_SOUND,
+                Assets.Sounds.UNDO_SOUND,
+                Assets.Sounds.CAPTURE_1_SOUND,
+                Assets.Sounds.CAPTURE_2_SOUND,
+                Assets.Sounds.CAPTURE_3_SOUND,
+                Assets.Sounds.CAPTURE_KING_SOUND);
 
         graphicsService.loadSkins(Assets.Skin.UI_SKIN);
 

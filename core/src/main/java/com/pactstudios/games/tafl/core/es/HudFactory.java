@@ -2,13 +2,17 @@ package com.pactstudios.games.tafl.core.es;
 
 import com.artemis.World;
 import com.artemis.systems.event.SystemEvent;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
@@ -221,6 +225,9 @@ public class HudFactory {
 
         createUndo(component, skin, table, gameWorld);
 
+        table.padTop(Constants.HudConstants.HUD_TABLE_PADDING_TOP);
+        table.padLeft(Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
+        table.padRight(Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
         table.right().top().setFillParent(true);
         component.hubStage.addActor(table);
     }
@@ -242,8 +249,10 @@ public class HudFactory {
 
         final World world = gameWorld.world;
 
-        String text = gameWorld.game.localeService.get(LocalizedStrings.Hud.UNDO_BUTTON);
-        TextButton button = new TextButton(text, skin);
+        TextureRegion textureRegion = new TextureRegion(gameWorld.game.graphicsService.getSprite(Assets.Graphics.PIECE_ATLAS, Assets.Graphics.UNDO_ICON));
+        Drawable imageUp = new TextureRegionDrawable(textureRegion);
+        ImageButton button = new ImageButton(imageUp);
+
         button.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -251,7 +260,7 @@ public class HudFactory {
                 world.postEvent(null, undoEvent);
             }
         });
-        table.add(button).size(Constants.HudConstants.BUTTON_WIDTH, Constants.HudConstants.BUTTON_HEIGHT).uniform();
+        table.add(button).size(Constants.HudConstants.HUD_BUTTON_WIDTH, Constants.HudConstants.HUD_BUTTON_HEIGHT).uniform();
     }
 
     private static void createMenu(HudRenderingComponent component,
@@ -259,8 +268,10 @@ public class HudFactory {
 
         final World world = gameWorld.world;
 
-        String text = gameWorld.game.localeService.get(LocalizedStrings.Hud.MENU_BUTTON);
-        TextButton button = new TextButton(text, skin);
+        TextureRegion textureRegion = new TextureRegion(gameWorld.game.graphicsService.getSprite(Assets.Graphics.PIECE_ATLAS, Assets.Graphics.MENU_ICON));
+        Drawable imageUp = new TextureRegionDrawable(textureRegion);
+        ImageButton button = new ImageButton(imageUp);
+
         button.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -269,6 +280,6 @@ public class HudFactory {
                 world.postEvent(null, lifecycleEvent);
             }
         });
-        table.add(button).size(Constants.HudConstants.BUTTON_WIDTH, Constants.HudConstants.BUTTON_HEIGHT).uniform();
+        table.add(button).size(Constants.HudConstants.HUD_BUTTON_WIDTH, Constants.HudConstants.HUD_BUTTON_HEIGHT).uniform();
     }
 }

@@ -50,16 +50,16 @@ public final class Constants {
         private ScreenConstants() {
         }
 
-        public static final int BUTTON_WIDTH = 300;
-        public static final int BUTTON_HEIGHT = 60;
+        public static final int BUTTON_WIDTH = 250;
+        public static final int BUTTON_HEIGHT = 70;
 
         public static final int LIST_WIDTH = 270;
         public static final int LIST_HEIGHT = 230;
 
-        public static final int SPACING = 30;
-
         public static final float FADE_TIME = 1f;
         public static final float DISPLAY_TIME = 1.75f;
+
+        public static final int SPACING = 30;
     }
 
     public static final class GroupConstants {
@@ -157,8 +157,11 @@ public final class Constants {
         public static final int HUD_HEIGHT = 100;
         public static final Color HUD_BACKGROUND_COLOR = new Color(0, 0, 0, 0.5f);
 
-        public static final int BUTTON_WIDTH = 100;
-        public static final int BUTTON_HEIGHT = 100;
+        public static final int HUD_BUTTON_WIDTH = 30;
+        public static final int HUD_BUTTON_HEIGHT = 30;
+
+        public static final float HUD_TABLE_PADDING_TOP = 10f;
+        public static final float HUD_TABLE_PADDING_SIDES = 20f;
     }
 
     public static final class DbConstants {

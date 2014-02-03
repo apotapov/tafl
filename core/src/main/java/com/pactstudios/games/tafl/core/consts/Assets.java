@@ -29,6 +29,11 @@ public class Assets extends GameAssetLoader<TaflLevel> {
         public static final String KING_PIECE = "tafl-piece-king-01-11x11";
         public static final String BLACK_PIECE = "tafl-piece-dark-01-11x11";
 
+        public static final String MENU_ICON = "tafl-menu-icon-mainmenu";
+        public static final String SETTINGS_ICON = "tafl-menu-icon-settings";
+        public static final String UNDO_ICON = "tafl-menu-icon-undo";
+        public static final String BACK_ICON = "tafl-menu-icon-back";
+
         public static final String EXPLOSION_ATLAS = "image-atlases/explosion.atlas";
         public static final String EXPLOSION = "explosion";
     }
@@ -70,6 +75,7 @@ public class Assets extends GameAssetLoader<TaflLevel> {
         }
         public static final FontDefinition BLOWHOLE_FONT_GAME = new FontDefinition("skin/BlowholeBB.ttf", 32);
         public static final FontDefinition BLOWHOLE_FONT_MENU = new FontDefinition("skin/BlowholeBB.ttf", 44);
+        public static final FontDefinition GOTHAM_MEDIUM_GAME = new FontDefinition("skin/Gotham-Medium.otf", 32);
     }
 
     protected SoundService soundService;
@@ -113,7 +119,8 @@ public class Assets extends GameAssetLoader<TaflLevel> {
                 Assets.Graphics.EXPLOSION_ATLAS);
 
         graphicsService.loadFonts(Assets.Fonts.BLOWHOLE_FONT_GAME,
-                Assets.Fonts.BLOWHOLE_FONT_MENU);
+                Assets.Fonts.BLOWHOLE_FONT_MENU,
+                Assets.Fonts.GOTHAM_MEDIUM_GAME);
 
         localeService.load(
                 Assets.Locales.DEFAULT_LOCALE,

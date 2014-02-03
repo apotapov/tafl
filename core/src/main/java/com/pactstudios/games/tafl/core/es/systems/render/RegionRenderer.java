@@ -8,7 +8,7 @@ import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.render.DrawableComponent;
 import com.pactstudios.games.tafl.core.es.components.render.OffsetComponent;
 import com.pactstudios.games.tafl.core.es.components.render.ScallingComponent;
-import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
+import com.pactstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 
 public class RegionRenderer {
     ComponentMapper<PositionComponent> positionMapper;
@@ -22,7 +22,7 @@ public class RegionRenderer {
         scallingMapper = world.getMapper(ScallingComponent.class);
     }
 
-    public void drawRegion(MapRenderingComponent rendComponent, Entity e, TextureRegion region) {
+    public void drawRegion(MatchRenderingComponent rendComponent, Entity e, TextureRegion region) {
         PositionComponent position = positionMapper.get(e);
         OffsetComponent offset = offsetMapper.get(e);
         ScallingComponent scalling = scallingMapper.get(e);

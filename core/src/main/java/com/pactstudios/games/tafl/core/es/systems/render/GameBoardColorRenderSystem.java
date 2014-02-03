@@ -7,17 +7,17 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
+import com.pactstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 
-public class GameBoardColorRenderSystem extends RenderingSystem<MapRenderingComponent> {
+public class GameBoardColorRenderSystem extends RenderingSystem<MatchRenderingComponent> {
 
     ComponentMapper<MatchComponent> matchMapper;
 
     @SuppressWarnings("unchecked")
     public GameBoardColorRenderSystem() {
-        super(Aspect.getAspectForAll(MatchComponent.class), MapRenderingComponent.class);
+        super(Aspect.getAspectForAll(MatchComponent.class), MatchRenderingComponent.class);
     }
 
     @Override
@@ -27,18 +27,18 @@ public class GameBoardColorRenderSystem extends RenderingSystem<MapRenderingComp
     }
 
     @Override
-    protected void begin(MapRenderingComponent rendComponent) {
+    protected void begin(MatchRenderingComponent rendComponent) {
         rendComponent.shapeRenderer.begin(ShapeType.Filled);
         rendComponent.shapeRenderer.setProjectionMatrix(rendComponent.camera.combined);
     }
 
     @Override
-    protected void end(MapRenderingComponent rendComponent) {
+    protected void end(MatchRenderingComponent rendComponent) {
         rendComponent.shapeRenderer.end();
     }
 
     @Override
-    protected void process(Entity e, MapRenderingComponent rendComponent) {
+    protected void process(Entity e, MatchRenderingComponent rendComponent) {
         MatchComponent matchComponent = matchMapper.get(e);
         ShapeRenderer shapeRenderer = rendComponent.shapeRenderer;
 

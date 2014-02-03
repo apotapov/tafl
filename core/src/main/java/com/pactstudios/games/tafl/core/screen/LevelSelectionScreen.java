@@ -3,6 +3,7 @@ package com.pactstudios.games.tafl.core.screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -32,6 +33,8 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
 
     @Override
     public void initialize() {
+        stage.addActor(new Image(game.graphicsService.getTexture(Assets.Graphics.BACKGROUND_IMAGE)));
+
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
         Table table = new Table(skin);
         table.setFillParent(true);

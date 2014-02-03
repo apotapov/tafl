@@ -5,19 +5,19 @@ import com.artemis.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
+import com.pactstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.RenderingComponent;
 
-public class PreRenderSystem extends RenderingSystem<MapRenderingComponent> {
+public class PreRenderSystem extends RenderingSystem<MatchRenderingComponent> {
 
 
     @SuppressWarnings("unchecked")
     public PreRenderSystem() {
-        super(Aspect.getAspectForAll(RenderingComponent.class), MapRenderingComponent.class);
+        super(Aspect.getAspectForAll(RenderingComponent.class), MatchRenderingComponent.class);
     }
 
     @Override
-    protected void begin(MapRenderingComponent rendComponent) {
+    protected void begin(MatchRenderingComponent rendComponent) {
 
         Gdx.gl.glClearColor(Constants.BoardRenderConstants.BACKGROUND_COLOR.r,
                 Constants.BoardRenderConstants.BACKGROUND_COLOR.g,
@@ -30,11 +30,11 @@ public class PreRenderSystem extends RenderingSystem<MapRenderingComponent> {
     }
 
     @Override
-    protected void end(MapRenderingComponent rendComponent) {
+    protected void end(MatchRenderingComponent rendComponent) {
     }
 
     @Override
-    protected void process(Entity e, MapRenderingComponent rendComponent) {
+    protected void process(Entity e, MatchRenderingComponent rendComponent) {
     }
 
 }

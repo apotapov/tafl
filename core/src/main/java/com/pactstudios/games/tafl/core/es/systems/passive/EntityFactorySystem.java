@@ -10,6 +10,7 @@ import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.render.AnimationComponent;
+import com.pactstudios.games.tafl.core.es.components.render.DrawableComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.TaflMove;
 
@@ -62,14 +63,11 @@ public class EntityFactorySystem extends PassiveEntitySystem {
             graphic = Assets.Graphics.BLACK_PIECE;
         }
 
-        AnimationComponent ac = componentFactory.createAnimationComponent(
-                Assets.Graphics.CREATURE_ATLAS,
-                graphic,
-                Animation.LOOP,
-                Constants.PieceConstants.FRAME_DURATION);
-        e.addComponent(ac);
-        e.addComponent(componentFactory.createScalingComponent(
-                Constants.PieceConstants.SCALING, Constants.PieceConstants.SCALING));
+
+        DrawableComponent dc = componentFactory.createDrawableComponent(Assets.Graphics.PIECE_ATLAS, graphic);
+        e.addComponent(dc);
+        //        e.addComponent(componentFactory.createScalingComponent(
+        //                Constants.PieceConstants.SCALING, Constants.PieceConstants.SCALING));
 
         e.addToWorld();
         return e;

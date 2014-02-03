@@ -6,9 +6,9 @@ import com.artemis.Entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.render.AnimationComponent;
-import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
+import com.pactstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 
-public class AnimationRenderSystem extends RenderingSystem<MapRenderingComponent> {
+public class AnimationRenderSystem extends RenderingSystem<MatchRenderingComponent> {
 
     ComponentMapper<AnimationComponent> animationMapper;
     RegionRenderer renderer;
@@ -18,7 +18,7 @@ public class AnimationRenderSystem extends RenderingSystem<MapRenderingComponent
         super(Aspect.getAspectForAll(
                 AnimationComponent.class,
                 PositionComponent.class),
-                MapRenderingComponent.class);
+                MatchRenderingComponent.class);
     }
 
     @Override
@@ -29,17 +29,17 @@ public class AnimationRenderSystem extends RenderingSystem<MapRenderingComponent
     }
 
     @Override
-    protected void begin(MapRenderingComponent rendComponent) {
+    protected void begin(MatchRenderingComponent rendComponent) {
         rendComponent.spriteBatch.begin();
     }
 
     @Override
-    protected void end(MapRenderingComponent rendComponent) {
+    protected void end(MatchRenderingComponent rendComponent) {
         rendComponent.spriteBatch.end();
     }
 
     @Override
-    protected void process(Entity e, MapRenderingComponent rendComponent) {
+    protected void process(Entity e, MatchRenderingComponent rendComponent) {
         AnimationComponent animationComponent = animationMapper.get(e);
         if (animationComponent.isFinished()) {
             e.deleteFromWorld();

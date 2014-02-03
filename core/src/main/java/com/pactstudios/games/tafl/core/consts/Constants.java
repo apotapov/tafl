@@ -9,6 +9,30 @@ public final class Constants {
     private Constants() {
     }
 
+    public static final class GameConstants {
+        private GameConstants() {
+        }
+        public static final boolean DEBUG = false;
+        public static final int BATCH_SIZE = 100;
+        public static final int GAME_WIDTH = 600;
+        public static final int GAME_HALF_WIDTH = GAME_WIDTH / 2;
+        public static final int GAME_HEIGHT = 1000;
+        public static final int GAME_HALF_HEIGHT = GAME_HEIGHT / 2;
+        public static final boolean USE_GL20 = false;
+
+        public static final int DEFAULT_LEVEL_INDEX = 0;
+        public static final boolean DEFAULT_VERSUS_COMPUTER = true;
+        public static final boolean DEFAULT_COMPUTER_STARTS = true;
+
+        public static final int DRAW_MOVE_THRESHHOLD = 100;
+        public static final int DRAW_BOARD_REPETITION_THRESHHOLD = 3;
+        public static final int DRAW_MOVES_TO_CHECK = 4;
+
+        public static final int KING_CAPTURE_THRESHHOLD = 3;
+        public static final int RAICHI_THRESHHOLD = 1;
+        public static final int TUICHI_THRESHHOLD = 2;
+    }
+
     public static final class AiConstants {
         public static final int MAX_TREE_DEPTH = 4;
         public static final int WIN = 200;
@@ -91,11 +115,11 @@ public final class Constants {
     public static final class BoardRenderConstants {
         private BoardRenderConstants() {
         }
-        public static final int TILE_SIZE = 64;
+        public static final int TILE_SIZE = 51;
         public static final int HALF_TILE_SIZE = TILE_SIZE / 2;
         public static final int QUARTER_TILE_SIZE = HALF_TILE_SIZE / 2;
 
-        public static final int BOARD_FRAME_WIDTH = HALF_TILE_SIZE;
+        public static final int BOARD_FRAME_WIDTH = 20;
 
         public static final Color BACKGROUND_COLOR = new Color(0.5f, .25f, .25f, 1f);
         public static final Color HIGHLIGHT_COLOR = new Color(1f, 1f, 1f, 0.25f);
@@ -119,6 +143,12 @@ public final class Constants {
                 -QUARTER_TILE_SIZE;
         public static final float VERTICAL_CELL_ID_RIGHT_OFFSET =
                 TILE_SIZE + QUARTER_TILE_SIZE;
+
+        public static final int BOARD_HORIZONTAL_OFFSET = BOARD_FRAME_WIDTH -
+                GameConstants.GAME_HALF_WIDTH;
+        public static final int BOARD_VERTICAL_OFFSET = BOARD_FRAME_WIDTH -
+                GameConstants.GAME_HALF_HEIGHT + 201;
+
     }
 
     public static final class HudConstants {
@@ -129,28 +159,6 @@ public final class Constants {
 
         public static final int BUTTON_WIDTH = 100;
         public static final int BUTTON_HEIGHT = 100;
-    }
-
-    public static final class GameConstants {
-        private GameConstants() {
-        }
-        public static final boolean DEBUG = false;
-        public static final int BATCH_SIZE = 100;
-        public static final int GAME_WIDTH = 600;
-        public static final int GAME_HEIGHT = 1000;
-        public static final boolean USE_GL20 = false;
-
-        public static final int DEFAULT_LEVEL_INDEX = 0;
-        public static final boolean DEFAULT_VERSUS_COMPUTER = true;
-        public static final boolean DEFAULT_COMPUTER_STARTS = true;
-
-        public static final int DRAW_MOVE_THRESHHOLD = 100;
-        public static final int DRAW_BOARD_REPETITION_THRESHHOLD = 3;
-        public static final int DRAW_MOVES_TO_CHECK = 4;
-
-        public static final int KING_CAPTURE_THRESHHOLD = 3;
-        public static final int RAICHI_THRESHHOLD = 1;
-        public static final int TUICHI_THRESHHOLD = 2;
     }
 
     public static final class DbConstants {

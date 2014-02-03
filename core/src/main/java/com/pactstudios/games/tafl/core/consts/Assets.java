@@ -20,12 +20,14 @@ public class Assets extends GameAssetLoader<TaflLevel> {
         private Graphics() {
         }
 
-        public static final String SPLASH_IMAGE = "splash.png";
+        public static final String SPLASH_IMAGE = "images/tafl-splash-01.png";
+        public static final String BACKGROUND_IMAGE = "images/tafl-menu-01-background.png";
+        public static final String BOARD_IMAGE = "images/tafl-board-01-02-11x11.png";
 
-        public static final String CREATURE_ATLAS = "image-atlases/creatures.atlas";
-        public static final String WHITE_PIECE = "creature21";
-        public static final String KING_PIECE = "creature23";
-        public static final String BLACK_PIECE = "creature22";
+        public static final String PIECE_ATLAS = "image-atlases/pieces.atlas";
+        public static final String WHITE_PIECE = "tafl-piece-light-01-11x11";
+        public static final String KING_PIECE = "tafl-piece-king-01-11x11";
+        public static final String BLACK_PIECE = "tafl-piece-dark-01-11x11";
 
         public static final String EXPLOSION_ATLAS = "image-atlases/explosion.atlas";
         public static final String EXPLOSION = "explosion";
@@ -100,11 +102,15 @@ public class Assets extends GameAssetLoader<TaflLevel> {
         soundService.loadMusic(Assets.Sounds.MENU_MUSIC, Assets.Sounds.LEVEL_MUSIC);
         soundService.loadSound(Assets.Sounds.CLICK_SOUND);
 
-        graphicsService.loadTextures(Assets.Graphics.SPLASH_IMAGE);
         graphicsService.loadSkins(Assets.Skin.UI_SKIN);
 
+        graphicsService.loadTextures(
+                Assets.Graphics.SPLASH_IMAGE,
+                Assets.Graphics.BACKGROUND_IMAGE,
+                Assets.Graphics.BOARD_IMAGE);
+
         graphicsService.loadTextureAtlases(
-                Assets.Graphics.CREATURE_ATLAS,
+                Assets.Graphics.PIECE_ATLAS,
                 Assets.Graphics.EXPLOSION_ATLAS);
 
         graphicsService.loadFonts(Assets.Fonts.DEFAULT_FONT);

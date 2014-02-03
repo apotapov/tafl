@@ -9,10 +9,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.render.AiProcessingComponent;
-import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
+import com.pactstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 
-public class AiProcessingRendererSystem extends RenderingSystem<MapRenderingComponent> {
+public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingComponent> {
 
     ComponentMapper<AiProcessingComponent> promptMapper;
     ComponentMapper<MatchComponent> matchMapper;
@@ -20,7 +20,7 @@ public class AiProcessingRendererSystem extends RenderingSystem<MapRenderingComp
     @SuppressWarnings("unchecked")
     public AiProcessingRendererSystem() {
         super(Aspect.getAspectForAll(AiProcessingComponent.class, MatchComponent.class),
-                MapRenderingComponent.class);
+                MatchRenderingComponent.class);
     }
 
     @Override
@@ -31,18 +31,19 @@ public class AiProcessingRendererSystem extends RenderingSystem<MapRenderingComp
     }
 
     @Override
-    protected void begin(MapRenderingComponent rendComponent) {
+    protected void begin(MatchRenderingComponent rendComponent) {
     }
 
     @Override
-    protected void end(MapRenderingComponent rendComponent) {
+    protected void end(MatchRenderingComponent rendComponent) {
     }
 
     @Override
-    protected void process(Entity e, MapRenderingComponent rendComponent) {
+    protected void process(Entity e, MatchRenderingComponent rendComponent) {
         AiProcessingComponent component = promptMapper.get(e);
         MatchComponent matchComponent = matchMapper.get(e);
-        float boardSize = matchComponent.match.board.getDimensionWithBorders();
+        float x = - Constants.AiConstants.LOADING_PROMPT_WIDTH / 2;
+        float y = 0;
 
         Gdx.gl.glEnable(GL10.GL_BLEND);
         Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
@@ -51,8 +52,8 @@ public class AiProcessingRendererSystem extends RenderingSystem<MapRenderingComp
 
         rendComponent.shapeRenderer.setColor(Constants.AiConstants.LOADING_PROMP_COLOR);
         rendComponent.shapeRenderer.rect(
-                (boardSize - Constants.AiConstants.LOADING_PROMPT_WIDTH) / 2,
-                boardSize,
+                x,
+                y,
                 Constants.AiConstants.LOADING_PROMPT_WIDTH,
                 Constants.AiConstants.LOADING_PROMPT_HEIGHT);
 
@@ -60,8 +61,8 @@ public class AiProcessingRendererSystem extends RenderingSystem<MapRenderingComp
         Gdx.gl.glDisable(GL10.GL_BLEND);
 
         TextBounds bounds = rendComponent.font.getBounds(component.text);
-        float x = (boardSize - bounds.width) / 2;
-        float y = boardSize + Constants.AiConstants.LOADING_PROMPT_HEIGHT - bounds.height;
+        x = - bounds.width / 2;
+        y = Constants.AiConstants.LOADING_PROMPT_HEIGHT - bounds.height;
 
         rendComponent.spriteBatch.begin();
         rendComponent.font.draw(rendComponent.spriteBatch, component.text, x, y);

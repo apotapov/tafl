@@ -1,0 +1,110 @@
+
+pieces.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+tafl-menu-icon-back
+  rotate: false
+  xy: 483, 76
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+tafl-menu-icon-mainmenu
+  rotate: false
+  xy: 535, 76
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+tafl-menu-icon-settings
+  rotate: false
+  xy: 587, 76
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+tafl-menu-icon-undo
+  rotate: false
+  xy: 639, 76
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+tafl-piece-dark-01-11x11
+  rotate: false
+  xy: 314, 12
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+tafl-piece-dark-01-7x7
+  rotate: false
+  xy: 2, 45
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+tafl-piece-dark-01-9x9
+  rotate: false
+  xy: 251, 65
+  size: 61, 61
+  orig: 61, 61
+  offset: 0, 0
+  index: -1
+tafl-piece-dark-01-icon
+  rotate: false
+  xy: 2, 15
+  size: 28, 28
+  orig: 28, 28
+  offset: 0, 0
+  index: -1
+tafl-piece-king-01-11x11
+  rotate: false
+  xy: 377, 75
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+tafl-piece-king-01-7x7
+  rotate: false
+  xy: 85, 45
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+tafl-piece-king-01-9x9
+  rotate: false
+  xy: 251, 2
+  size: 61, 61
+  orig: 61, 61
+  offset: 0, 0
+  index: -1
+tafl-piece-light-01-11x11
+  rotate: false
+  xy: 430, 75
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+tafl-piece-light-01-7x7
+  rotate: false
+  xy: 168, 45
+  size: 81, 81
+  orig: 81, 81
+  offset: 0, 0
+  index: -1
+tafl-piece-light-01-9x9
+  rotate: false
+  xy: 314, 65
+  size: 61, 61
+  orig: 61, 61
+  offset: 0, 0
+  index: -1
+tafl-piece-light-01-icon
+  rotate: false
+  xy: 691, 99
+  size: 28, 27
+  orig: 28, 27
+  offset: 0, 0
+  index: -1

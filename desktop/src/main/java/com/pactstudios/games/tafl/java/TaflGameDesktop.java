@@ -15,8 +15,9 @@ import com.pactstudios.games.tafl.core.utils.TaflGameConfig;
 public class TaflGameDesktop {
     public static void main (String[] args) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = Constants.GameConstants.GAME_WIDTH;
-        config.height = Constants.GameConstants.GAME_HEIGHT;
+        config.height = 800;
+        config.width = (config.height * Constants.GameConstants.GAME_WIDTH) / Constants.GameConstants.GAME_HEIGHT;
+
         config.useGL20 = true;
         new LwjglApplication(new TaflGame(getGameConfig()), config);
     }

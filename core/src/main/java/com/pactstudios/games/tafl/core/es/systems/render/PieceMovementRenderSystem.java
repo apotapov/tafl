@@ -9,11 +9,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.movement.VelocityComponent;
-import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
+import com.pactstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 
-public class PieceMovementRenderSystem extends RenderingSystem<MapRenderingComponent> {
+public class PieceMovementRenderSystem extends RenderingSystem<MatchRenderingComponent> {
 
     ComponentMapper<VelocityComponent> velocityMapper;
 
@@ -21,7 +21,7 @@ public class PieceMovementRenderSystem extends RenderingSystem<MapRenderingCompo
 
     @SuppressWarnings("unchecked")
     public PieceMovementRenderSystem() {
-        super(Aspect.getAspectForAll(VelocityComponent.class), MapRenderingComponent.class);
+        super(Aspect.getAspectForAll(VelocityComponent.class), MatchRenderingComponent.class);
     }
 
     @Override
@@ -32,18 +32,18 @@ public class PieceMovementRenderSystem extends RenderingSystem<MapRenderingCompo
     }
 
     @Override
-    protected void begin(MapRenderingComponent rendComponent) {
+    protected void begin(MatchRenderingComponent rendComponent) {
         rendComponent.shapeRenderer.begin(ShapeType.Filled);
         rendComponent.shapeRenderer.setProjectionMatrix(rendComponent.camera.combined);
     }
 
     @Override
-    protected void end(MapRenderingComponent rendComponent) {
+    protected void end(MatchRenderingComponent rendComponent) {
         rendComponent.shapeRenderer.end();
     }
 
     @Override
-    protected void process(Entity e, MapRenderingComponent rendComponent) {
+    protected void process(Entity e, MatchRenderingComponent rendComponent) {
         VelocityComponent velocityComponent = velocityMapper.get(e);
         ShapeRenderer shapeRenderer = rendComponent.shapeRenderer;
 

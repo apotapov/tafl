@@ -6,18 +6,18 @@ import com.artemis.Entity;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
+import com.pactstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 
-public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent> {
+public class CellIdRendererSystem extends RenderingSystem<MatchRenderingComponent> {
 
     ComponentMapper<MatchComponent> matchMapper;
 
     @SuppressWarnings("unchecked")
     public CellIdRendererSystem() {
         super(Aspect.getAspectForAll(MatchComponent.class),
-                MapRenderingComponent.class);
+                MatchRenderingComponent.class);
     }
 
     @Override
@@ -27,17 +27,17 @@ public class CellIdRendererSystem extends RenderingSystem<MapRenderingComponent>
     }
 
     @Override
-    protected void begin(MapRenderingComponent rendComponent) {
+    protected void begin(MatchRenderingComponent rendComponent) {
         rendComponent.spriteBatch.begin();
     }
 
     @Override
-    protected void end(MapRenderingComponent rendComponent) {
+    protected void end(MatchRenderingComponent rendComponent) {
         rendComponent.spriteBatch.end();
     }
 
     @Override
-    protected void process(Entity e, MapRenderingComponent rendComponent) {
+    protected void process(Entity e, MatchRenderingComponent rendComponent) {
         MatchComponent match = matchMapper.get(e);
         GameBoard board = match.match.board;
 

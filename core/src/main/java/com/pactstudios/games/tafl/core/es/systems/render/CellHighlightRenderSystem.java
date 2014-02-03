@@ -10,10 +10,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.render.HighlightComponent;
-import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
+import com.pactstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 
-public class CellHighlightRenderSystem extends RenderingSystem<MapRenderingComponent> {
+public class CellHighlightRenderSystem extends RenderingSystem<MatchRenderingComponent> {
 
     ComponentMapper<HighlightComponent> mapper;
 
@@ -21,7 +21,7 @@ public class CellHighlightRenderSystem extends RenderingSystem<MapRenderingCompo
 
     @SuppressWarnings("unchecked")
     public CellHighlightRenderSystem() {
-        super(Aspect.getAspectForAll(HighlightComponent.class), MapRenderingComponent.class);
+        super(Aspect.getAspectForAll(HighlightComponent.class), MatchRenderingComponent.class);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class CellHighlightRenderSystem extends RenderingSystem<MapRenderingCompo
     }
 
     @Override
-    protected void begin(MapRenderingComponent rendComponent) {
+    protected void begin(MatchRenderingComponent rendComponent) {
         Gdx.gl.glEnable(GL10.GL_BLEND);
         Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
         rendComponent.shapeRenderer.begin(ShapeType.Filled);
@@ -40,13 +40,13 @@ public class CellHighlightRenderSystem extends RenderingSystem<MapRenderingCompo
     }
 
     @Override
-    protected void end(MapRenderingComponent rendComponent) {
+    protected void end(MatchRenderingComponent rendComponent) {
         rendComponent.shapeRenderer.end();
         Gdx.gl.glDisable(GL10.GL_BLEND);
     }
 
     @Override
-    protected void process(Entity e, MapRenderingComponent rendComponent) {
+    protected void process(Entity e, MatchRenderingComponent rendComponent) {
         HighlightComponent component = mapper.get(e);
         rendComponent.shapeRenderer.setColor(component.color);
 

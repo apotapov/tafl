@@ -1,6 +1,8 @@
 package com.pactstudios.games.tafl.core.screen;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.pactstudios.games.tafl.core.TaflGame;
+import com.pactstudios.games.tafl.core.consts.Assets;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
 
 public class LoadGameScreen extends AbstractScreen<TaflGame> {
@@ -11,7 +13,7 @@ public class LoadGameScreen extends AbstractScreen<TaflGame> {
 
     @Override
     public void initialize() {
-
+        stage.addActor(new Image(game.graphicsService.getTexture(Assets.Graphics.SPLASH_IMAGE)));
     }
 
     @Override

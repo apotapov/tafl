@@ -20,10 +20,10 @@ import com.pactstudios.games.tafl.core.es.components.render.OffsetComponent;
 import com.pactstudios.games.tafl.core.es.components.render.ScallingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
-import com.pactstudios.games.tafl.core.es.components.singleton.MapRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
-import com.pactstudios.games.tafl.core.es.model.TaflMove;
+import com.pactstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
+import com.pactstudios.games.tafl.core.es.model.TaflMove;
 import com.roundtriangles.games.zaria.services.GraphicsService;
 
 public class ComponentFactorySystem extends PassiveEntitySystem {
@@ -67,7 +67,7 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
 
     public AnimationComponent createAnimationComponent(String atlasName, String animationName, int playType, float duration) {
         AnimationComponent component = createComponent(AnimationComponent.class);
-        component.animation = graphics.getAntimaion(atlasName, animationName, playType, duration);
+        component.animation = graphics.getAnimation(atlasName, animationName, playType, duration);
         component.name = animationName;
         return component;
     }
@@ -98,13 +98,14 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         return component;
     }
 
-    public MapRenderingComponent createMapRenderingComponent(TaflWorld world) {
-        MapRenderingComponent component = createComponent(MapRenderingComponent.class);
+    public MatchRenderingComponent createMapRenderingComponent(TaflWorld world) {
+        MatchRenderingComponent component = createComponent(MatchRenderingComponent.class);
         component.camera = world.camera;
 
         component.spriteBatch = new SpriteBatch(Constants.GameConstants.BATCH_SIZE);
         component.shapeRenderer = new ShapeRenderer();
         component.font = graphics.getFont(Assets.Fonts.BLOWHOLE_FONT_GAME);
+        component.backgroundTexture = graphics.getTexture(Assets.Graphics.BOARD_IMAGE);
 
         return component;
     }

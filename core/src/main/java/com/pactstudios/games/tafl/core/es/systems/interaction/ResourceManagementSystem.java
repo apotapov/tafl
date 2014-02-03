@@ -6,8 +6,6 @@ import com.artemis.Entity;
 import com.artemis.managers.SingletonComponentManager;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Array;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudComponent;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
@@ -18,12 +16,10 @@ public class ResourceManagementSystem extends EntityProcessingSystem {
 
     EntityFactorySystem efs;
     SingletonComponentManager manager;
-    Array<MouseMoveEvent> mouseMoves;
 
     @SuppressWarnings("unchecked")
     public ResourceManagementSystem() {
         super( Aspect.getAspectForAll(HudComponent.class));
-        mouseMoves = new Array<MouseMoveEvent>();
     }
 
     @Override

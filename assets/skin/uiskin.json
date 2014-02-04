@@ -1,6 +1,6 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: { 
-	menu-font: { file: BlowholeBB.ttf, size: 44 },
+	menu-font: { file: Gotham-Medium.otf, size: 30 },
 	default-font: { file: Gotham-Medium.otf, size: 20 } 
 },
 com.badlogic.gdx.graphics.Color: {

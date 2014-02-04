@@ -90,8 +90,6 @@ public class Assets extends GameAssetLoader<TaflLevel> {
     public static final class Fonts {
         private Fonts() {
         }
-        public static final FontDefinition BLOWHOLE_FONT_GAME = new FontDefinition("skin/BlowholeBB.ttf", 32);
-        public static final FontDefinition BLOWHOLE_FONT_MENU = new FontDefinition("skin/BlowholeBB.ttf", 44);
         public static final FontDefinition GOTHAM_MEDIUM_GAME = new FontDefinition("skin/Gotham-Medium.otf", 32);
     }
 
@@ -146,9 +144,7 @@ public class Assets extends GameAssetLoader<TaflLevel> {
                 Assets.Graphics.PIECE_ATLAS,
                 Assets.Graphics.EXPLOSION_ATLAS);
 
-        graphicsService.loadFonts(Assets.Fonts.BLOWHOLE_FONT_GAME,
-                Assets.Fonts.BLOWHOLE_FONT_MENU,
-                Assets.Fonts.GOTHAM_MEDIUM_GAME);
+        graphicsService.loadFonts(Assets.Fonts.GOTHAM_MEDIUM_GAME);
 
         localeService.load(
                 Assets.Locales.DEFAULT_LOCALE,

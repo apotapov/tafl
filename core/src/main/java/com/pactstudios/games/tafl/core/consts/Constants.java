@@ -54,7 +54,7 @@ public final class Constants {
         public static final int BUTTON_HEIGHT = 70;
 
         public static final int LIST_WIDTH = 270;
-        public static final int LIST_HEIGHT = 230;
+        public static final int LIST_HEIGHT = 170;
 
         public static final float FADE_TIME = 1f;
         public static final float DISPLAY_TIME = 1.75f;

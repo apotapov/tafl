@@ -157,7 +157,8 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT);
+        table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH,
+                Constants.ScreenConstants.BUTTON_HEIGHT).spaceBottom(Constants.ScreenConstants.SPACING);
         table.row();
 
         Button mainMenuButton = game.getMainMenuButton();

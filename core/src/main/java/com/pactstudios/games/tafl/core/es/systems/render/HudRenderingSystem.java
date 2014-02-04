@@ -4,7 +4,6 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
 import com.roundtriangles.games.zaria.services.GraphicsService;
@@ -38,13 +37,11 @@ public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
     @Override
     protected void process(Entity e, HudRenderingComponent rendComponent) {
         HudComponent hudComponent = hudMapper.get(e);
-        updateTurn(rendComponent, hudComponent);
         updateTime(rendComponent, hudComponent);
         updateDebugInfo(rendComponent, hudComponent);
 
         rendComponent.hubStage.act(world.getDelta());
         rendComponent.hubStage.draw();
-
     }
 
     private void updateDebugInfo(HudRenderingComponent rendComponent,
@@ -59,22 +56,6 @@ public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
         time.setTime((int) hudComponent.match.timer);
         rendComponent.timer.setText(time);
     }
-
-    private void updateTurn(HudRenderingComponent rendComponent,
-            HudComponent hudComponent) {
-        String text;
-        if (!hudComponent.match.versusComputer || hudComponent.match.computerTeam != hudComponent.match.turn) {
-            if (hudComponent.match.turn == Constants.BoardConstants.WHITE_TEAM) {
-                text = localeService.get(LocalizedStrings.Hud.WHITE_TURN_LABEL);
-            } else {
-                text = localeService.get(LocalizedStrings.Hud.BLACK_TURN_LABEL);
-            }
-        } else {
-            text = localeService.get(LocalizedStrings.Hud.COMPUTER_TURN_LABEL);
-        }
-        rendComponent.turn.setText(text);
-    }
-
 
 
     @Override

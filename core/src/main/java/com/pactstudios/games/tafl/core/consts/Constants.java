@@ -149,6 +149,12 @@ public final class Constants {
         public static final int BOARD_VERTICAL_OFFSET = BOARD_FRAME_WIDTH -
                 GameConstants.GAME_HALF_HEIGHT + 201;
 
+        public static final Color TURN_HIGHLIGHT_COLOR = new Color(0, 0, 0, 0.1f);
+        public static final int TURN_HIGHLIGHT_WIDTH = 170;
+        public static final int TURN_HIGHLIGHT_HEIGHT = 50;
+        public static final int TURN_HIGHLIGHT_BLACK_X = - GameConstants.GAME_WIDTH / 2 + 10;
+        public static final int TURN_HIGHLIGHT_WHITE_X = GameConstants.GAME_WIDTH / 2 - TURN_HIGHLIGHT_WIDTH - 10;
+        public static final int TURN_HIGHLIGHT_Y = 345;
     }
 
     public static final class HudConstants {
@@ -161,7 +167,9 @@ public final class Constants {
         public static final int HUD_BUTTON_HEIGHT = 30;
 
         public static final float HUD_TABLE_PADDING_TOP = 10f;
-        public static final float HUD_TABLE_PADDING_SIDES = 20f;
+        public static final float HUD_TABLE_PADDING_SIDES = 15f;
+
+        public static final float PLAYER_LABEL_PAD_TOP = 50f;
     }
 
     public static final class DbConstants {

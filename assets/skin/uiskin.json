@@ -1,13 +1,12 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: { 
 	menu-font: { file: BlowholeBB.ttf, size: 44 },
-	default-font: { file: Gotham-Medium.otf, size: 16 } 
+	default-font: { file: Gotham-Medium.otf, size: 20 } 
 },
 com.badlogic.gdx.graphics.Color: {
-	green: { a: 1, b: 0, g: 1, r: 0 },
-	white: { a: 1, b: 1, g: 1, r: 1 },
-	red: { a: 1, b: 0, g: 0, r: 1 },
-	black: { a: 1, b: 0, g: 0, r: 0 }
+	white: { r: 0.9453125, g: 0.9453125, b: 0.9453125, a: 1 },
+	game-brown: { r: 0.58203125, g: 0.3671875, b: 0.10546875, a: 0.6 },
+	red: { r: 1, g: 0, b: 0, a: 1 },
 },
 com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	dialogDim: { name: white, color: { r: 0, g: 0, b: 0, a: 0.45 } }
@@ -17,6 +16,11 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	toggle: { down: default-round-down, checked: default-round-down, up: default-round }
 },
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: { down: default-round-down, up: default-round, font: default-font, fontColor: white },
+	menu: { down: default-round-down, up: default-round, font: menu-font, fontColor: white },
+	toggle: { down: default-round-down, up: default-round, checked: default-round-down, font: default-font, fontColor: white, downFontColor: red }
+},
+com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 	default: { down: default-round-down, up: default-round, font: default-font, fontColor: white },
 	menu: { down: default-round-down, up: default-round, font: menu-font, fontColor: white },
 	toggle: { down: default-round-down, up: default-round, checked: default-round-down, font: default-font, fontColor: white, downFontColor: red }
@@ -33,7 +37,7 @@ com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
 	menu: {
 		font: menu-font, fontColor: white, background: default-select,
 		scrollStyle: default,
-		listStyle: { font: default-font, selection: default-select-selection }
+		listStyle: { font: menu-font, selection: default-select-selection }
 	}
 },
 com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle: {
@@ -50,7 +54,8 @@ com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
 },
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: { font: default-font, fontColor: white },
-	menu: { font: menu-font, fontColor: white }
+	menu: { font: menu-font, fontColor: white },
+	game-brown: { font: default-font, fontColor: game-brown }
 },
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: { selection: selection, background: textfield, font: default-font, fontColor: white, cursor: cursor },

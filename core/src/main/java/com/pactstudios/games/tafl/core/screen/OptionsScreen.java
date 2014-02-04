@@ -30,12 +30,12 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
         Table table = new Table(skin);
         table.setFillParent(true);
 
-        Label label = new Label(game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_TITLE), skin, Assets.Skin.MENU_STYLE_NAME);
+        Label label = new Label(game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_TITLE), skin, Assets.Skin.IN_GAME_STYLE_NAME);
         table.add(label).spaceBottom(20);
         table.row();
 
         String text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_SOUND_EFFECTS);
-        final CheckBox soundEffectsCheckbox = new CheckBox(text, skin, Assets.Skin.MENU_STYLE_NAME);
+        final CheckBox soundEffectsCheckbox = new CheckBox(text, skin, Assets.Skin.IN_GAME_STYLE_NAME);
         soundEffectsCheckbox.setChecked(game.preferenceService.isSoundEnabled());
         soundEffectsCheckbox.addListener(new ChangeListener() {
 
@@ -49,7 +49,7 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
         table.row();
 
         text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_MUSIC);
-        final CheckBox musicCheckbox = new CheckBox(text, skin, Assets.Skin.MENU_STYLE_NAME);
+        final CheckBox musicCheckbox = new CheckBox(text, skin, Assets.Skin.IN_GAME_STYLE_NAME);
         musicCheckbox.setChecked(game.preferenceService.isMusicEnabled());
         musicCheckbox.addListener(new ChangeListener() {
             @Override

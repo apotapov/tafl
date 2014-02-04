@@ -26,7 +26,6 @@ public class HudRenderingComponent implements RenderingComponent {
 
 
     // upper hud
-    public Label turn;
     public Label timer;
 
     // debug
@@ -44,7 +43,6 @@ public class HudRenderingComponent implements RenderingComponent {
         drawText = null;
         playerWarningDialog = null;
         playerWarningText = null;
-        turn = null;
         timer = null;
     }
 

@@ -108,7 +108,7 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     public TextButton createSwitchScreenButton(String text, final Screen screen) {
         TextButton button = new TextButton(text,
                 graphicsService.getSkin(Assets.Skin.UI_SKIN),
-                Assets.Skin.MENU_STYLE_NAME);
+                Assets.Skin.IN_GAME_STYLE_NAME);
 
         button.addListener(new ChangeListener() {
 

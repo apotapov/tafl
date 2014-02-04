@@ -33,7 +33,7 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
         table.setFillParent(true);
 
         String labelText = game.localeService.get(LocalizedStrings.MainMenu.GAME_TITLE);
-        Label label = new Label(labelText, skin, Assets.Skin.MENU_STYLE_NAME);
+        Label label = new Label(labelText, skin, Assets.Skin.IN_GAME_STYLE_NAME);
         table.add(label).spaceBottom(20);
         table.row();
 

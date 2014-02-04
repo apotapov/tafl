@@ -5,6 +5,7 @@ import com.artemis.systems.event.SystemEvent;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.esotericsoftware.tablelayout.BaseTableLayout;
 import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
@@ -83,11 +85,11 @@ public class HudFactory {
             ChangeListener quitListener) {
 
         String text = localeService.get(LocalizedStrings.GameMenu.LOSS_TITLE);
-        component.lossDialog = new Dialog(text, skin);
+        component.lossDialog = new Dialog(text, skin, Assets.Skin.DIALOG_STYLE_NAME);
         component.lossDialog.setSkin(skin);
 
         text = localeService.get(LocalizedStrings.GameMenu.LOSS_TEXT);
-        component.lossDialog.add(text);
+        component.lossDialog.text(text);
 
         text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
         TextButton restartButton = new TextButton(text, skin);
@@ -109,11 +111,11 @@ public class HudFactory {
             ChangeListener quitListener) {
 
         String text = localeService.get(LocalizedStrings.GameMenu.DRAW_TITLE);
-        component.drawDialog = new Dialog(text, skin);
+        component.drawDialog = new Dialog(text, skin, Assets.Skin.DIALOG_STYLE_NAME);
         component.drawDialog.setSkin(skin);
 
         component.drawText = new Label("", skin);
-        component.drawDialog.add(component.drawText);
+        component.drawDialog.text(component.drawText);
 
         text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
         TextButton restartButton = new TextButton(text, skin);
@@ -135,11 +137,11 @@ public class HudFactory {
             ChangeListener quitListener) {
 
         String text = localeService.get(LocalizedStrings.GameMenu.WIN_TITLE);
-        component.winDialog = new Dialog(text, skin);
+        component.winDialog = new Dialog(text, skin, Assets.Skin.DIALOG_STYLE_NAME);
         component.winDialog.setSkin(skin);
 
         component.winText = new Label("", skin);
-        component.winDialog.add(component.winText);
+        component.winDialog.text(component.winText);
 
         text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
         TextButton restartButton = new TextButton(text, skin);
@@ -164,7 +166,7 @@ public class HudFactory {
         component.playerWarningDialog.setSkin(skin);
 
         component.playerWarningText = new Label("", skin);
-        component.playerWarningDialog.add(component.playerWarningText);
+        component.playerWarningDialog.text(component.playerWarningText);
 
         text = localeService.get(LocalizedStrings.GameMenu.OK_BUTTON);
         TextButton restartButton = new TextButton(text, skin);
@@ -182,12 +184,12 @@ public class HudFactory {
             ChangeListener quitListener) {
 
         String text = localeService.get(LocalizedStrings.GameMenu.MENU_TITLE);
-        component.menu = new Dialog(text, skin);
+        component.menu = new Dialog(text, skin, Assets.Skin.DIALOG_STYLE_NAME);
 
         component.menu.setSkin(skin);
 
         text = localeService.get(LocalizedStrings.GameMenu.MENU_TEXT);
-        component.menu.add(text);
+        component.menu.text(text);
 
         text = localeService.get(LocalizedStrings.GameMenu.RESUME_BUTTON);
         TextButton resumeButton = new TextButton(text, skin);
@@ -212,11 +214,8 @@ public class HudFactory {
 
         createMenu(component, skin, table, gameWorld);
 
-        component.turn = new Label("", skin);
-        table.add(component.turn).expandX();
-
         component.timer = new Label("", skin);
-        table.add(component.timer).expandX();
+        table.add(component.timer).colspan(2).expandX();
 
         if (Constants.GameConstants.DEBUG) {
             component.fps = new Label("", skin);
@@ -225,11 +224,49 @@ public class HudFactory {
 
         createUndo(component, skin, table, gameWorld);
 
+        table.row().padTop(Constants.HudConstants.PLAYER_LABEL_PAD_TOP);
+
+        createPlayerLabels(skin, table, gameWorld);
+
         table.padTop(Constants.HudConstants.HUD_TABLE_PADDING_TOP);
         table.padLeft(Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
         table.padRight(Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
         table.right().top().setFillParent(true);
         component.hubStage.addActor(table);
+    }
+
+    private static void createPlayerLabels(Skin skin, Table table, TaflWorld gameWorld) {
+        String blackText;
+        String whiteText;
+        if (gameWorld.match.versusComputer) {
+            if (gameWorld.match.computerStarts) {
+                blackText = gameWorld.game.localeService.get(LocalizedStrings.Game.COMPUTER_PLAYER);
+                whiteText = gameWorld.game.localeService.get(LocalizedStrings.Game.HUMAN_PLAYER);
+            } else {
+                blackText = gameWorld.game.localeService.get(LocalizedStrings.Game.HUMAN_PLAYER);
+                whiteText = gameWorld.game.localeService.get(LocalizedStrings.Game.COMPUTER_PLAYER);
+            }
+        } else {
+            blackText = gameWorld.game.localeService.get(LocalizedStrings.Game.PLAYER_1);
+            whiteText = gameWorld.game.localeService.get(LocalizedStrings.Game.PLAYER_2);
+        }
+
+
+        Image blackIcon = new Image(gameWorld.game.graphicsService.getSprite(
+                Assets.Graphics.PIECE_ATLAS, Assets.Graphics.BLACK_ICON));
+
+        Label blackLabel = new Label(blackText, skin, Assets.Skin.IN_GAME_BROWN_STYLE_NAME);
+
+        table.add(blackIcon).padRight(Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
+        table.add(blackLabel).align(BaseTableLayout.LEFT);
+
+        Image whiteIcon = new Image(gameWorld.game.graphicsService.getSprite(
+                Assets.Graphics.PIECE_ATLAS, Assets.Graphics.WHITE_ICON));
+
+        Label whiteLabel = new Label(whiteText, skin, Assets.Skin.IN_GAME_BROWN_STYLE_NAME);
+
+        table.add(whiteLabel).align(BaseTableLayout.RIGHT);
+        table.add(whiteIcon).padLeft(Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
     }
 
     private static void createLowerHud(HudRenderingComponent component, Skin skin, LocaleService localeService) {

@@ -35,18 +35,22 @@ public class OfficialMoveRules {
     }
 
     public void calculateLegalMoves() {
+        calculateLegalMoves(match.turn);
+    }
+
+    public void calculateLegalMoves(int team) {
         TaflMove.movePool.freeAll(allLegalMoves);
         allLegalMoves.clear();
         allPieces.clear();
         allPieces.or(match.board.whiteBitBoard());
         allPieces.or(match.board.blackBitBoard());
 
-        BitSet bitBoard = match.currentBitBoard();
+        BitSet bitBoard = match.board.bitBoards[team];
         for (int source = bitBoard.nextSetBit(0); source >= 0; source = bitBoard.nextSetBit(source+1)) {
-            BitSet moves = calculateLegalMoves(source);
+            BitSet moves = calculateMoves(source);
             for (int dest = moves.nextSetBit(0); dest >= 0; dest = moves.nextSetBit(dest+1)) {
                 TaflMove move = TaflMove.movePool.obtain();
-                move.pieceType = match.turn;
+                move.pieceType = team;
                 move.source = source;
                 move.destination = dest;
                 allLegalMoves.add(move);
@@ -64,7 +68,7 @@ public class OfficialMoveRules {
         return legalMoves;
     }
 
-    private BitSet calculateLegalMoves(int source) {
+    private BitSet calculateMoves(int source) {
         legalMoves.clear();
 
         legalUp(source);
@@ -129,7 +133,7 @@ public class OfficialMoveRules {
         allPieces.clear();
         allPieces.or(match.board.whiteBitBoard());
         allPieces.or(match.board.blackBitBoard());
-        BitSet kingLegalMoves = calculateLegalMoves(match.board.king);
+        BitSet kingLegalMoves = calculateMoves(match.board.king);
 
         int escapeMoveCount = 0;
         boolean certainEscape = false;

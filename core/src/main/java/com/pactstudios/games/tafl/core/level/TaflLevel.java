@@ -1,19 +1,16 @@
 package com.pactstudios.games.tafl.core.level;
 
-import com.pactstudios.games.tafl.core.enums.GameBoardType;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.RulesEngineType;
 import com.roundtriangles.games.zaria.AbstractLevel;
 
 public class TaflLevel extends AbstractLevel<TaflLevel>{
-    public GameBoardType boardType;
     public RulesEngineType rules;
-    public String whitePieces;
-    public String blackPieces;
-    public int king;
+    public String boardRepresentation;
+    int turn = Constants.BoardConstants.NO_TEAM;
 
     @Override
     public void dispose() {
-        boardType = null;
         rules = null;
     }
 }

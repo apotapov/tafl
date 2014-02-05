@@ -3,10 +3,12 @@ package com.pactstudios.games.tafl.core.es.model.ai.optimization.moves;
 import java.util.BitSet;
 
 import com.badlogic.gdx.utils.Pool.Poolable;
-import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.EvaluationType;
 
-public class Move implements Poolable {
+public abstract class Move<T extends Move<?>> implements Poolable {
+
+    private static final int DEFAULT_BOARD_SIZE = 64;
+
     public int pieceType;
 
     public int source;
@@ -16,7 +18,15 @@ public class Move implements Poolable {
     public EvaluationType evalType;
     public int searchDepth;
 
-    public BitSet capturedPieces = new BitSet(Constants.BoardConstants.BIGGEST_BOARD_NUMBER_CELLS);
+    public BitSet capturedPieces;
+
+    public Move() {
+        capturedPieces = new BitSet(DEFAULT_BOARD_SIZE);
+    }
+
+    public Move(int boardSize) {
+        capturedPieces = new BitSet(boardSize);
+    }
 
     @Override
     public void reset() {
@@ -29,13 +39,6 @@ public class Move implements Poolable {
         capturedPieces.clear();
     }
 
-    public void copy(Move move) {
-        pieceType = move.pieceType;
-        source = move.source;
-        destination = move.destination;
-
-        eval = move.eval;
-        evalType = move.evalType;
-        searchDepth = move.searchDepth;
-    }
+    @Override
+    public abstract T clone();
 }

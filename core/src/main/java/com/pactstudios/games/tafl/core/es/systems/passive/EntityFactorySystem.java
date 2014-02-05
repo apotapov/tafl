@@ -4,6 +4,7 @@ import com.artemis.Entity;
 import com.artemis.managers.GroupManager;
 import com.artemis.managers.SingletonComponentManager;
 import com.artemis.systems.PassiveEntitySystem;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Assets;
@@ -73,11 +74,10 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         return e;
     }
 
-    public Entity createHighlightedCell(int cellId) {
+    public Entity createHighlightedCell(int cellId, Color color) {
         Entity e = world.createEntity();
 
-        e.addComponent(componentFactory.createHilightComponent(
-                cellId, Constants.BoardRenderConstants.HIGHLIGHT_COLOR));
+        e.addComponent(componentFactory.createHilightComponent(cellId, color));
 
         groupManager.add(e, Constants.GroupConstants.HIGHLIGHTED_CELLS);
 

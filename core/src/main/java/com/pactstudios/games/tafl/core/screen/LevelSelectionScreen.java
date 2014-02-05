@@ -113,22 +113,16 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
     private void createAiPreference(Skin skin, Table table) {
         AiType[] aiTypes = AiType.values();
 
-        int defaultSelection = 0;
-        String[] types = new String[aiTypes.length - 1];
+        String[] localizedTypes = new String[aiTypes.length];
         int i = 0;
         for (AiType type : aiTypes) {
-            if (type == game.preferenceService.getAiType()) {
-                defaultSelection = i;
-            }
-            if (type != AiType.AI_NONE) {
-                String localizedString = game.localeService.get(type);
-                types[i++] = localizedString;
-                localizedMap.put(localizedString, type.toString());
-            }
+            String localizedString = game.localeService.get(type.toString());
+            localizedTypes[i++] = localizedString;
+            localizedMap.put(localizedString, type.toString());
         }
 
-        final SelectBox selectBox = new SelectBox(types, skin, Assets.Skin.IN_GAME_STYLE_NAME);
-        selectBox.setSelection(defaultSelection);
+        final SelectBox selectBox = new SelectBox(localizedTypes, skin, Assets.Skin.IN_GAME_STYLE_NAME);
+        selectBox.setSelection(game.preferenceService.getAiType().ordinal());
         selectBox.addListener(new ChangeListener() {
 
             @Override

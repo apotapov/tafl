@@ -99,7 +99,7 @@ public class OfficialGameEndRules implements TaflMatchObserver {
         boardConfigHistory.items[boardConfigHistory.size - 1] = match.board.hashCode();
     }
     @Override
-    public void removePieces(TaflMatch match, int captor, BitSet capturedPieces) {
+    public void removePieces(TaflMatch match, int team, BitSet capturedPieces) {
         boardConfigHistory.items[boardConfigHistory.size - 1] = match.board.hashCode();
     }
     @Override

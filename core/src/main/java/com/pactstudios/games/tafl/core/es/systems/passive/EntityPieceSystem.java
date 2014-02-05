@@ -76,7 +76,7 @@ public class EntityPieceSystem extends PassiveEntitySystem implements TaflMatchO
     }
 
     @Override
-    public void removePieces(TaflMatch match, int captor, BitSet capturedPieces) {
+    public void removePieces(TaflMatch match, int team, BitSet capturedPieces) {
         for (int i = capturedPieces.nextSetBit(0); i >= 0; i = capturedPieces.nextSetBit(i+1)) {
             Entity e = pieceEntities[i];
             if (e != null) {

@@ -5,19 +5,20 @@ import java.util.BitSet;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.es.model.TaflMove;
+import com.pactstudios.games.tafl.core.es.model.TaflBoard;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
+import com.pactstudios.games.tafl.core.es.model.TaflMove;
 import com.pactstudios.games.tafl.core.es.model.ai.evaluators.BoardEvaluator;
 
 public class MiniMaxStrategy implements AiStrategy {
 
-    BoardEvaluator boardEvaluator;
+    BoardEvaluator<TaflBoard> boardEvaluator;
     int maxDepth;
 
 
     Pool<Array<TaflMove>> arrayPool;
 
-    public MiniMaxStrategy(BoardEvaluator boardEvaluator, int maxDepth) {
+    public MiniMaxStrategy(BoardEvaluator<TaflBoard> boardEvaluator, int maxDepth) {
         this.boardEvaluator = boardEvaluator;
         this.maxDepth = maxDepth;
         arrayPool = new Pool<Array<TaflMove>>(){
@@ -42,8 +43,8 @@ public class MiniMaxStrategy implements AiStrategy {
         return move;
     }
 
-    protected void evaluate(TaflMatch match, TaflMove move) {
-        move.eval = boardEvaluator.evaluate(match);
+    protected void evaluate(TaflMatch match,  TaflMove move) {
+        move.eval = boardEvaluator.evaluate(match.board, match.turn);
     }
 
     protected TaflMove max(TaflMatch match, TaflMove previousMove, int depth) {
@@ -59,7 +60,7 @@ public class MiniMaxStrategy implements AiStrategy {
         } else {
             evaluate(match, previousMove);
         }
-        match.rollBackSimulatedMove();
+        match.undoSimulatedMove();
 
         return previousMove;
     }
@@ -98,7 +99,7 @@ public class MiniMaxStrategy implements AiStrategy {
         } else {
             evaluate(match, previousMove);
         }
-        match.rollBackSimulatedMove();
+        match.undoSimulatedMove();
     }
 
     private int chooseMin(TaflMatch match, int depth,

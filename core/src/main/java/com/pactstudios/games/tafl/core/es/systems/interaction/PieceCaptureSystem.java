@@ -41,7 +41,7 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
 
         MatchComponent component = matchMapper.get(e);
 
-        component.match.removePieces(event.move.pieceType, event.move.capturedPieces);
+        component.match.removePieces((event.move.pieceType + 1) % 2, event.move.capturedPieces);
 
         for (int i = event.move.capturedPieces.nextSetBit(0); i >= 0; i = event.move.capturedPieces.nextSetBit(i+1)) {
             highlightSystem.clearCellHighlights(i);

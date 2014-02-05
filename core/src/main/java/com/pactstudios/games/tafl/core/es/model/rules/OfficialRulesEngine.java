@@ -7,9 +7,9 @@ import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.DrawReasonEnum;
 import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.enums.PlayerWarningEnum;
+import com.pactstudios.games.tafl.core.es.model.TaflBoard;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.TaflMove;
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 
 public class OfficialRulesEngine extends RulesEngine {
 
@@ -33,7 +33,7 @@ public class OfficialRulesEngine extends RulesEngine {
     }
 
     @Override
-    public BitSet getCapturedPieces(Move move) {
+    public BitSet getCapturedPieces(TaflMove move) {
         return captureRules.getCapturedPieces(move);
     }
 
@@ -47,8 +47,7 @@ public class OfficialRulesEngine extends RulesEngine {
         return moveRules.legalMoves();
     }
 
-    @Override
-    public void calculateLegalMoves() {
+    private void calculateLegalMoves() {
         moveRules.calculateLegalMoves();
     }
 
@@ -88,8 +87,8 @@ public class OfficialRulesEngine extends RulesEngine {
     }
 
     @Override
-    public void removePieces(TaflMatch match, int captor, BitSet capturedPieces) {
-        gameEndRules.removePieces(match, captor, capturedPieces);
+    public void removePieces(TaflMatch match, int team, BitSet capturedPieces) {
+        gameEndRules.removePieces(match, team, capturedPieces);
     }
 
     @Override
@@ -101,5 +100,19 @@ public class OfficialRulesEngine extends RulesEngine {
     @Override
     public void gameOver(TaflMatch match, LifeCycle status) {
         gameEndRules.gameOver(match, status);
+    }
+
+    @Override
+    public Array<TaflMove> generateLegalMoves(TaflBoard board, int pieceType) {
+        moveRules.match.turn = pieceType;
+
+        moveRules.calculateLegalMoves(pieceType);
+        return moveRules.legalMoves();
+    }
+
+    @Override
+    public boolean gameOver() {
+        return gameEndRules.checkWinner() != Constants.BoardConstants.NO_TEAM ||
+                gameEndRules.checkDraw() != null;
     }
 }

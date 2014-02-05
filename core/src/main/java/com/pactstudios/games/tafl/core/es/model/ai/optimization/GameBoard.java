@@ -2,9 +2,11 @@ package com.pactstudios.games.tafl.core.es.model.ai.optimization;
 
 import java.util.BitSet;
 
+import com.badlogic.gdx.utils.Array;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.ZorbistHash;
 
-public class GameBoard {
+public abstract class GameBoard<T extends Move<?>> {
 
     public static final int NUMBER_OF_TEAMS = 2;
 
@@ -16,15 +18,84 @@ public class GameBoard {
 
     public ZorbistHash zorbistHash;
 
+    Array<T> simulatedMoves;
+
+    public int hashCode;
+    public int hashLock;
+
     public GameBoard(int dimensions, int pieceTypes, ZorbistHash zorbistHash) {
         this.dimensions = dimensions;
         this.pieceTypes = pieceTypes;
         this.numberCells = dimensions * dimensions;
         this.zorbistHash = zorbistHash;
 
+        this.simulatedMoves = new Array<T>();
+
         bitBoards = new BitSet[pieceTypes];
         for (int i = 0; i < pieceTypes; i++) {
             bitBoards[i] = new BitSet(numberCells);
+        }
+    }
+
+    public void applyMove(T move) {
+        BitSet bitBoard = bitBoards[move.pieceType];
+        bitBoard.clear(move.source);
+        bitBoard.set(move.destination);
+
+        hashCode ^= zorbistHash.hash[move.pieceType][move.source];
+        hashCode ^= zorbistHash.hash[move.pieceType][move.destination];
+        hashLock ^= zorbistHash.hashLock[move.pieceType][move.source];
+        hashLock ^= zorbistHash.hashLock[move.pieceType][move.destination];
+    }
+
+    public void undoMove(T move) {
+        BitSet bitBoard = bitBoards[move.pieceType];
+        bitBoard.clear(move.destination);
+        bitBoard.set(move.source);
+
+        hashCode ^= zorbistHash.hash[move.pieceType][move.source];
+        hashCode ^= zorbistHash.hash[move.pieceType][move.destination];
+        hashLock ^= zorbistHash.hashLock[move.pieceType][move.source];
+        hashLock ^= zorbistHash.hashLock[move.pieceType][move.destination];
+
+        addPieces((move.pieceType + 1) % 2, move.capturedPieces);
+    }
+
+    public void addPiece(int team, int piece) {
+        bitBoards[team].set(piece);
+
+        hashCode ^= zorbistHash.hash[team][piece];
+        hashLock ^= zorbistHash.hashLock[team][piece];
+    }
+
+    public void addPieces(int team, BitSet pieces) {
+        for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
+            addPiece(team, i);
+        }
+    }
+
+    public void removePieces(int team, BitSet pieces) {
+        for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
+            bitBoards[team].clear(i);
+            hashCode ^= zorbistHash.hash[team][i];
+            hashLock ^= zorbistHash.hashLock[team][i];
+        }
+    }
+
+    public void simulateMove(T move) {
+        applyMove(move);
+        move.capturedPieces.clear();
+        move.capturedPieces.or(getCapturedPieces(move));
+        removePieces((move.pieceType + 1) % 2, move.capturedPieces);
+        simulatedMoves.add(move);
+    }
+
+    protected abstract BitSet getCapturedPieces(T move);
+
+    public void undoSimulatedMove() {
+        if (simulatedMoves.size > 0) {
+            T move = simulatedMoves.pop();
+            undoMove(move);
         }
     }
 

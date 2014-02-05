@@ -3,7 +3,7 @@ package com.pactstudios.games.tafl.core.es.model.ai.evaluators;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflBoard;
 
-public class PieceCountEvaluator implements BoardEvaluator<TaflBoard> {
+public class CompleteEvaluator implements BoardEvaluator<TaflBoard> {
 
     @Override
     public int evaluate(TaflBoard board, int turn) {

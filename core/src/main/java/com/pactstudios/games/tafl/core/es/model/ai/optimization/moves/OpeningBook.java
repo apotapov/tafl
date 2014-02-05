@@ -13,6 +13,8 @@
 
 package com.pactstudios.games.tafl.core.es.model.ai.optimization.moves;
 
+import com.badlogic.gdx.utils.Array;
+
 
 
 
@@ -21,18 +23,18 @@ package com.pactstudios.games.tafl.core.es.model.ai.optimization.moves;
  * for well-known positions
  ****************************************************************************/
 
-public class OpeningBook {
+public class OpeningBook<T extends Move<?>> {
     // The hash table itself
 
     int tableSize;
-    OpeningBookEntry table[];
+    Array<OpeningBookEntry<T>> table;
 
     // Construction
     public OpeningBook(int tableSize) {
         this.tableSize = tableSize;
-        table = new OpeningBookEntry[tableSize];
+        table = new Array<OpeningBookEntry<T>>(tableSize);
         for (int i = 0; i < tableSize; i++) {
-            table[i] = new OpeningBookEntry();
+            table.add(new OpeningBookEntry<T>());
         }
     }
 
@@ -45,30 +47,37 @@ public class OpeningBook {
      * @param teamId
      * @return
      */
-    public Move query(int hashKey, int hashLock, int teamId) {
+    public T query(int hashKey, int hashLock, int teamId) {
         // First, look for a match in the table
         int key = Math.abs(hashKey % tableSize);
 
+        OpeningBookEntry<T> entry = table.get(key);
+
         // If the hash lock doesn't match the one for our position, get out
-        if (table[key].hashLock == hashLock) {
+        if (entry.hashLock == hashLock) {
             // If there is an entry for this board in the table, verify that it
             // contains a move for the current side
-            return table[key].moves[teamId];
+            if (teamId == 0) {
+                return entry.moveTeam1;
+            } else {
+                return entry.moveTeam2;
+            }
         }
         // If we haven't found anything useful, quit
         return null;
     }
 
-    public boolean storeMove(int hashKey, int hashLock, int teamId, Move move) {
+    public boolean storeMove(int hashKey, int hashLock, T moveTeam1, T moveTeam2) {
         // Where should we store this data?
         int key = Math.abs(hashKey % tableSize);
 
+        OpeningBookEntry<T> entry = table.get(key);
+
         // Is there already an entry for a different board position where we
         // want to put this? If so, mark it deleted
-        if (table[key].hashLock != hashLock) {
-            // And store the new move
-            table[key].moves[teamId].copy(move);
-            table[key].moves[(teamId + 1) % 2] = null;
+        if (entry.hashLock != hashLock) {
+            entry.moveTeam1 = moveTeam1;
+            entry.moveTeam2 = moveTeam2;
         }
 
         return true;

@@ -4,7 +4,7 @@ import java.util.BitSet;
 
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
+import com.pactstudios.games.tafl.core.es.model.TaflMove;
 
 public class OfficialCaptureRules {
 
@@ -16,7 +16,7 @@ public class OfficialCaptureRules {
         capturedPieces = new BitSet(Constants.BoardConstants.BIGGEST_BOARD_NUMBER_CELLS);
     }
 
-    public BitSet getCapturedPieces(Move move) {
+    public BitSet getCapturedPieces(TaflMove move) {
         capturedPieces.clear();
 
         checkCaptureUp(move);
@@ -27,7 +27,7 @@ public class OfficialCaptureRules {
         return capturedPieces;
     }
 
-    private void checkCaptureLeft(Move move) {
+    private void checkCaptureLeft(TaflMove move) {
         int first = move.destination - 1;
         if (first % match.board.dimensions == match.board.dimensions - 1) {
             first = Constants.BoardConstants.ILLEGAL_CELL;
@@ -41,7 +41,7 @@ public class OfficialCaptureRules {
         checkCapture(move, first, second, third, fourth);
     }
 
-    private void checkCaptureRight(Move move) {
+    private void checkCaptureRight(TaflMove move) {
         int first = move.destination + 1;
         if (first % match.board.dimensions == 0) {
             first = Constants.BoardConstants.ILLEGAL_CELL;
@@ -55,7 +55,7 @@ public class OfficialCaptureRules {
         checkCapture(move, first, second, third, fourth);
     }
 
-    private void checkCaptureDown(Move move) {
+    private void checkCaptureDown(TaflMove move) {
         int first = move.destination - match.board.dimensions;
         int second = move.destination - 2 * match.board.dimensions;
         int third = first + 1;
@@ -69,7 +69,7 @@ public class OfficialCaptureRules {
         checkCapture(move, first, second, third, fourth);
     }
 
-    private void checkCaptureUp(Move move) {
+    private void checkCaptureUp(TaflMove move) {
         int first = move.destination + match.board.dimensions;
         int second = move.destination + 2 * match.board.dimensions;
         int third = first + 1;
@@ -83,7 +83,7 @@ public class OfficialCaptureRules {
         checkCapture(move, first, second, third, fourth);
     }
 
-    private void checkCapture(Move move, int first, int second, int third, int fourth) {
+    private void checkCapture(TaflMove move, int first, int second, int third, int fourth) {
         int capturingTeam = move.pieceType;
         int oppositeTeam = (capturingTeam + 1) % 2;
         if (match.board.isValid(first) && match.board.bitBoards[oppositeTeam].get(first)) {

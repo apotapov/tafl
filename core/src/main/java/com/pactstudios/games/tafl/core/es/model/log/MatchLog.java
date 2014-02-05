@@ -8,7 +8,7 @@ import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.TaflMatchObserver;
 import com.pactstudios.games.tafl.core.es.model.TaflMove;
 
-public class MatchLogFactory implements TaflMatchObserver {
+public class MatchLog implements TaflMatchObserver {
 
     public MatchLogEntry log(TaflMatch match, TaflMove move) {
         MatchLogEntry entry = new MatchLogEntry();
@@ -27,8 +27,6 @@ public class MatchLogFactory implements TaflMatchObserver {
 
     @Override
     public void initializeMatch(TaflMatch match) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -47,7 +45,7 @@ public class MatchLogFactory implements TaflMatchObserver {
     }
 
     @Override
-    public void removePieces(TaflMatch match, int captor, BitSet capturedPieces) {
+    public void removePieces(TaflMatch match, int team, BitSet capturedPieces) {
         // TODO Auto-generated method stub
 
     }

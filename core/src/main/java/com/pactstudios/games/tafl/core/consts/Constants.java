@@ -34,7 +34,7 @@ public final class Constants {
     }
 
     public static final class AiConstants {
-        public static final int MAX_TREE_DEPTH = 4;
+        public static final int MAX_TREE_DEPTH = 3;
         public static final int WIN = 200;
         public static final int LOSS = -WIN;
 
@@ -84,9 +84,6 @@ public final class Constants {
 
         public static final float SLOW_DOWN_DISTANCE = BoardRenderConstants.TILE_SIZE;
         public static final int PIECE_SPEED = 200;
-
-        public static final Color PATH_COLOR = new Color(0.4f, 0.25f, .25f, 1f);
-        public static final Color END_COLOR = new Color(0.25f, 0.25f, .25f, 1f);
     }
 
     public static final class BoardConstants {
@@ -110,6 +107,10 @@ public final class Constants {
         public static final int WHITE_TEAM = 0;
         public static final int BLACK_TEAM = 1;
         public static final int NO_TEAM = -1;
+
+        public static final char WHITE_PIECE = '1';
+        public static final char BLACK_PIECE = '2';
+        public static final char KING_PIECE = '4';
     }
 
     public static final class BoardRenderConstants {
@@ -121,28 +122,12 @@ public final class Constants {
 
         public static final int BOARD_FRAME_WIDTH = 20;
 
-        public static final Color BACKGROUND_COLOR = new Color(0.5f, .25f, .25f, 1f);
-        public static final Color HIGHLIGHT_COLOR = new Color(1f, 1f, 1f, 0.25f);
-        public static final Color LINE_COLOR = new Color(0, 0, 0, 1f);
+        public static final Color BACKGROUND_COLOR = new Color(0, 0, 0, 1f);
+        public static final Color HIGHLIGHT_COLOR = new Color(1f, 1f, 1f, 0.4f);
+        public static final Color CORNER_HIGHLIGHT_COLOR = new Color(1f, 0f, 0f, 0.4f);
 
-        public static final Color BORDER_COLOR = new Color(0.5f, 0f, 0f, 1f);
-        public static final Color CASTLE_COLOR = new Color(0.4f, 0f, 0f, 1f);
-        public static final Color CORNER_COLOR = new Color(0.4f, 0f, 0f, 1f);
-
-        public static final float FONT_WEIRDNESS_OFFSET = 2;
-
-        public static final float HORIZONTAL_CELL_ID_HORIZONTAL_OFFSET = HALF_TILE_SIZE;
-        public static final float HORIZONTAL_CELL_ID_BOTTOM_OFFSET =
-                -BOARD_FRAME_WIDTH / 2 + FONT_WEIRDNESS_OFFSET;
-        public static final float HORIZONTAL_CELL_ID_TOP_OFFSET =
-                HALF_TILE_SIZE * 3f - BOARD_FRAME_WIDTH / 2 + FONT_WEIRDNESS_OFFSET;
-
-        public static final float VERTICAL_CELL_ID_VERTICAL_OFFSET =
-                HALF_TILE_SIZE + FONT_WEIRDNESS_OFFSET;
-        public static final float VERTICAL_CELL_ID_LEFT_OFFSET =
-                -QUARTER_TILE_SIZE;
-        public static final float VERTICAL_CELL_ID_RIGHT_OFFSET =
-                TILE_SIZE + QUARTER_TILE_SIZE;
+        public static final Color PATH_COLOR = HIGHLIGHT_COLOR;
+        public static final Color END_COLOR = CORNER_HIGHLIGHT_COLOR;
 
         public static final int BOARD_HORIZONTAL_OFFSET = BOARD_FRAME_WIDTH -
                 GameConstants.GAME_HALF_WIDTH;

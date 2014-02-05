@@ -41,7 +41,7 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
         BitSet pieces = matchComponent.match.board.bitBoards[team];
         for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
             if (matchComponent.match.rulesEngine.legalMoves(i).cardinality() > 0) {
-                highlightCell(i);
+                highlightCell(matchComponent.match, i);
             }
         }
     }
@@ -53,13 +53,17 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
         }
     }
 
-    public void highlightCell(int cellId) {
-        efs.createHighlightedCell(cellId);
+    public void highlightCell(TaflMatch match, int cellId) {
+        if (match.board.corners.get(cellId)) {
+            efs.createHighlightedCell(cellId, Constants.BoardRenderConstants.CORNER_HIGHLIGHT_COLOR);
+        } else {
+            efs.createHighlightedCell(cellId, Constants.BoardRenderConstants.HIGHLIGHT_COLOR);
+        }
     }
 
-    public void highlightCells(BitSet cells) {
+    public void highlightCells(TaflMatch match, BitSet cells) {
         for (int i = cells.nextSetBit(0); i >= 0; i = cells.nextSetBit(i+1)) {
-            highlightCell(i);
+            highlightCell(match, i);
         }
     }
 
@@ -75,7 +79,6 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
 
     @Override
     public void initializeMatch(TaflMatch match) {
-        highlightTeam(match.turn);
     }
 
     @Override
@@ -91,7 +94,7 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
     }
 
     @Override
-    public void removePieces(TaflMatch match, int captor, BitSet capturedPieces) {
+    public void removePieces(TaflMatch match, int team, BitSet capturedPieces) {
     }
 
     @Override

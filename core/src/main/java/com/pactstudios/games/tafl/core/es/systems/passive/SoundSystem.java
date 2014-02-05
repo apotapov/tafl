@@ -55,7 +55,7 @@ public class SoundSystem extends PassiveEntitySystem implements TaflMatchObserve
     }
 
     @Override
-    public void removePieces(TaflMatch match, int captor, BitSet capturedPieces) {
+    public void removePieces(TaflMatch match, int team, BitSet capturedPieces) {
         if (match.board.king != Constants.BoardConstants.ILLEGAL_CELL) {
             switch (capturedPieces.cardinality()) {
             case 1:

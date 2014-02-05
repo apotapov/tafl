@@ -9,8 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.InputType;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
-import com.pactstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
+import com.pactstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.systems.events.InputEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceMoveEvent;
@@ -74,9 +74,9 @@ public class MatchInputSystem extends InputProcessingSystem<MatchRenderingCompon
     private void selectPiece(TaflMatch match, int cellId) {
         if (cellId != match.board.selectedPiece) {
             highlightSystem.clearCellHighlights();
-            highlightSystem.highlightCell(cellId);
+            highlightSystem.highlightCell(match, cellId);
             BitSet legalMoves = match.rulesEngine.legalMoves(cellId);
-            highlightSystem.highlightCells(legalMoves);
+            highlightSystem.highlightCells(match, legalMoves);
             match.board.selectedPiece = cellId;
         }
     }

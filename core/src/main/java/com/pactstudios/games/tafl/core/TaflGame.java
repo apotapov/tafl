@@ -48,6 +48,12 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     }
 
     @Override
+    public void create() {
+        super.create();
+        this.fpsLogger = null;
+    }
+
+    @Override
     public void initialize() {
         databaseService = new TaflDatabaseService(config.getConnectionSource());
         levelService = new TaflLevelService(this);

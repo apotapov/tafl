@@ -6,8 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.ZorbistHash;
+import com.pactstudios.games.tafl.core.es.model.rules.RulesEngine;
 
-public class TaflBoard extends GameBoard {
+public class TaflBoard extends GameBoard<TaflMove> {
 
     private static final String[] HORIZONTAL_CELL_ID = new String[] {
         "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
@@ -29,15 +30,27 @@ public class TaflBoard extends GameBoard {
     public int selectedPiece;
 
     public int king;
+    public int capturedKing;
 
-    public TaflBoard(int dimensions, int pieceTypes, ZorbistHash zorbistHash, int king) {
+    public RulesEngine rulesEngine;
+
+    public TaflBoard(int dimensions, int pieceTypes, ZorbistHash zorbistHash, RulesEngine rulesEngine) {
         super(dimensions, pieceTypes, zorbistHash);
-        this.position = new Vector2();
-        this.selectedPiece = Constants.BoardConstants.ILLEGAL_CELL;
-        this.king = king;
+        this.rulesEngine = rulesEngine;
+
+        initialize();
     }
 
-    public void initialize() {
+    private void initialize() {
+        this.position = new Vector2();
+        this.selectedPiece = Constants.BoardConstants.ILLEGAL_CELL;
+
+        this.hashCode = super.hashCode();
+        this.hashLock = super.hashLock();
+
+        king = Constants.BoardConstants.ILLEGAL_CELL;
+        capturedKing = Constants.BoardConstants.ILLEGAL_CELL;
+
         center = (dimensions/2) * dimensions + (dimensions / 2);
 
         nearCenter = new BitSet(dimensions);
@@ -116,43 +129,47 @@ public class TaflBoard extends GameBoard {
         return bitBoards[Constants.BoardConstants.WHITE_TEAM];
     }
 
+    @Override
     public void applyMove(TaflMove move) {
-        BitSet bitBoard = bitBoards[move.pieceType];
-        bitBoard.clear(move.source);
-        bitBoard.set(move.destination);
+        super.applyMove(move);
 
         if (move.source == king) {
-            if (move.source == 25) {
-                System.out.println(25);
-            }
             king = move.destination;
+            System.out.println("King moves from " + move.source + " to: " + move.destination);
         }
     }
 
+    @Override
     public void undoMove(TaflMove move) {
-        BitSet bitBoard = bitBoards[move.pieceType];
-        bitBoard.clear(move.destination);
-        bitBoard.set(move.source);
-
-        bitBoards[(move.pieceType + 1) % 2].or(move.capturedPieces);
-
+        super.undoMove(move);
         if (move.destination == king) {
-            if (move.destination == 25) {
-                System.out.println(25);
-            }
             king = move.source;
+            System.out.println("King undoes from " + move.destination + " to: " + move.source);
         }
     }
 
+    @Override
     public void addPiece(int team, int piece) {
-        bitBoards[team].set(piece);
+        super.addPiece(team, piece);
+
+        if (piece == capturedKing) {
+            king = capturedKing;
+            capturedKing = Constants.BoardConstants.ILLEGAL_CELL;
+        }
     }
 
-    public void removePieces(int captor, BitSet capturedPiece) {
-        bitBoards[(captor + 1) % 2].andNot(capturedPiece);
+    @Override
+    public void removePieces(int team, BitSet pieces) {
+        super.removePieces(team, pieces);
 
-        if (capturedPiece.get(king)) {
+        if (pieces.get(king)) {
             king = Constants.BoardConstants.ILLEGAL_CELL;
+            capturedKing = king;
         }
+    }
+
+    @Override
+    protected BitSet getCapturedPieces(TaflMove move) {
+        return rulesEngine.getCapturedPieces(move);
     }
 }

@@ -5,9 +5,9 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
+import com.pactstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
+import com.pactstudios.games.tafl.core.es.model.TaflBoard;
 import com.pactstudios.games.tafl.core.es.systems.render.RenderingSystem;
 
 public class DebugCellIdRendererSystem extends RenderingSystem<MatchRenderingComponent> {
@@ -39,7 +39,7 @@ public class DebugCellIdRendererSystem extends RenderingSystem<MatchRenderingCom
     @Override
     protected void process(Entity e, MatchRenderingComponent rendComponent) {
         MatchComponent match = matchMapper.get(e);
-        GameBoard board = match.match.board;
+        TaflBoard board = match.match.board;
 
         for (int i = 0; i < board.numberCells; i++) {
             Vector2 position = match.match.board.getCellPosition(i);

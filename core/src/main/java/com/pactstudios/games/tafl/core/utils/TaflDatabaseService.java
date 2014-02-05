@@ -3,7 +3,6 @@ package com.pactstudios.games.tafl.core.utils;
 import java.util.BitSet;
 
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.badlogic.gdx.utils.IntMap;
 import com.j256.ormlite.dao.CloseableIterator;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -19,6 +18,9 @@ import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.TaflMatchObserver;
 import com.pactstudios.games.tafl.core.es.model.TaflMove;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.HistoryTable;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.OpeningBook;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.TranspositionTable;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.ZorbistHash;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
 import com.roundtriangles.games.zaria.services.db.DatabaseService;
@@ -33,15 +35,16 @@ public class TaflDatabaseService extends DatabaseService implements TaflMatchObs
     PreparedQuery<TaflMatch> loadMatchQuery;
     PreparedQuery<TaflMatch> matchLogQuery;
 
-    public IntMap<ZorbistHash> hashs;
+    public ZorbistHash hash;
+    public TranspositionTable transpositionTable;
+    public HistoryTable<TaflMove> historyTable;
+    public OpeningBook<TaflMove> openings;
 
     public TaflDatabaseService(ConnectionSource connectionSource) {
         config = new DatabaseServiceConfig();
         config.connectionSource = connectionSource;
         config.upgradeHistory.currentVersion = Constants.DbConstants.CURRENT_DB_VERSION;
         this.upgradeService = new DatabaseUpgradeService(config);
-
-        this.hashs = new IntMap<ZorbistHash>();
 
         initializeDaos();
         initializeQueries();
@@ -87,14 +90,12 @@ public class TaflDatabaseService extends DatabaseService implements TaflMatchObs
 
     @Override
     protected void loadData() {
-        //FIXME do not hard code these, and get them from the database.
-        ZorbistHash hash = new ZorbistHash(GameBoard.NUMBER_OF_TEAMS, Constants.BoardConstants.SMALL_BOARD_NUMBER_CELLS);
-        hash.generate();
-        hashs.put(Constants.BoardConstants.SMALL_BOARD_DIMENSION, hash);
-
         hash = new ZorbistHash(GameBoard.NUMBER_OF_TEAMS, Constants.BoardConstants.STANDARD_BOARD_NUMBER_CELLS);
         hash.generate();
-        hashs.put(Constants.BoardConstants.STANDARD_BOARD_DIMENSION, hash);
+
+        transpositionTable = new TranspositionTable(Constants.BoardConstants.STANDARD_BOARD_NUMBER_CELLS);
+        historyTable = new HistoryTable<TaflMove>(Constants.BoardConstants.STANDARD_BOARD_NUMBER_CELLS);
+        openings = new OpeningBook<TaflMove>(Constants.BoardConstants.STANDARD_BOARD_NUMBER_CELLS);
     }
 
     public TaflMatch loadMatch() {
@@ -118,7 +119,7 @@ public class TaflDatabaseService extends DatabaseService implements TaflMatchObs
     }
 
     @Override
-    public void removePieces(TaflMatch match, int captor, BitSet capturedPieces) {
+    public void removePieces(TaflMatch match, int team, BitSet capturedPieces) {
         updateMatch(match);
     }
 
@@ -148,10 +149,7 @@ public class TaflDatabaseService extends DatabaseService implements TaflMatchObs
 
     private void updateMatch(TaflMatch match) {
         match.updated.setTime(System.currentTimeMillis());
-
-        match.updateKing(match.board.king);
-        match.whitePieces = match.getWhiteBitSetString();
-        match.blackPieces = match.getBlackBitSetString();
+        match.boardRepresentation = match.getBoardRepresentation();
 
         matchDao.update(match);
     }

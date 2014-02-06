@@ -21,13 +21,13 @@ public class AiFactory {
             return new AlphaBetaMoveStrategy(
                     dbService.transpositionTable,
                     dbService.historyTable,
-                    new CompleteEvaluator(),
+                    new CompleteEvaluator(match.board.boardSize),
                     match.rulesEngine);
         case AI_MTDF:
             return new MtdfMoveStrategy(
                     dbService.transpositionTable,
                     dbService.historyTable,
-                    new CompleteEvaluator(),
+                    new CompleteEvaluator(match.board.boardSize),
                     match.rulesEngine,
                     dbService.openings);
         default:

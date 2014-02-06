@@ -43,24 +43,11 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
     protected BoardEvaluator<U> evaluator;
     protected int fromWhosePerspective;
 
-    // Search node types: MAXNODEs are nodes where the computer player is the
-    // one to move; MINNODEs are positions where the opponent is to move.
-    protected static final boolean MAXNODE = true;
-    protected static final boolean MINNODE = false;
-
     // Alphabeta search boundaries
     protected static final int ALPHABETA_MAXVAL = 30000;
     protected static final int ALPHABETA_MINVAL = -30000;
     protected static final int ALPHABETA_ILLEGAL = -31000;
 
-    // An approximate upper bound on the total value of all positional
-    // terms in the evaluation function
-    protected static final int EVAL_THRESHOLD = 200;
-
-    // A score below which we give up: if Alphabeta ever returns a value lower
-    // than this threshold, then all is lost and we might as well resign. Here,
-    // the value is equivalent to "mated by the opponent in 3 moves or less".
-    protected static final int ALPHABETA_GIVEUP = -29995;
 
     Random random;
 
@@ -129,8 +116,7 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
      * @param beta
      * @return
      */
-    public int alphaBeta(boolean nodeType, U board, int turn, int depth, int alpha, int beta) {
-
+    public int max(U board, int turn, int depth, int alpha, int beta) {
         // Count the number of nodes visited in the full-width search
         numRegularNodes++;
 
@@ -140,21 +126,11 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
         // in the transposition table, which might save us from having to search
         // anything at all
         if (entry != null && (entry.depth >= depth)) {
-            if (nodeType == MAXNODE) {
-                if ((entry.evalType == EvaluationType.ACCURATE)
-                        || (entry.evalType == EvaluationType.LOWERBOUND)) {
-                    if (entry.eval >= beta) {
-                        numRegularTTHits++;
-                        return entry.eval;
-                    }
-                }
-            } else {
-                if ((entry.evalType == EvaluationType.ACCURATE)
-                        || (entry.evalType == EvaluationType.UPPERBOUND)) {
-                    if (entry.eval <= alpha) {
-                        numRegularTTHits++;
-                        return entry.eval;
-                    }
+            if ((entry.evalType == EvaluationType.ACCURATE)
+                    || (entry.evalType == EvaluationType.LOWERBOUND)) {
+                if (entry.eval >= beta) {
+                    numRegularTTHits++;
+                    return entry.eval;
                 }
             }
         }
@@ -174,7 +150,7 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
         // the
         // more plies left, the better. On the other hand, if you are losing, it
         // really doesn't matter how fast...
-        if (rulesChecker.gameOver()) {
+        if (rulesChecker.isGameOver(turn)) {
             return ALPHABETA_ILLEGAL;
         }
 
@@ -186,12 +162,7 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
         // OK, now, get ready to search
 
         // Case #1: We are searching a Max Node
-        int bestSoFar;
-        if (nodeType == AISearchAgent.MAXNODE) {
-            bestSoFar = max(nodeType, board, turn, depth, alpha, beta, legalMoves);
-        } else {
-            bestSoFar = min(nodeType, board, turn, depth, alpha, beta, legalMoves);
-        }
+        int bestSoFar = doMax(board, turn, depth, alpha, beta, legalMoves);
 
         transTable.storeBoard(board.hashCode(), board.hashLock(), bestSoFar, EvaluationType.ACCURATE,
                 depth, moveCounter);
@@ -200,7 +171,63 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
         return bestSoFar;
     }
 
-    private int min(boolean nodeType, U board, int turn, int depth, int alpha,
+    public int min(U board, int turn, int depth, int alpha, int beta) {
+        // Count the number of nodes visited in the full-width search
+        numRegularNodes++;
+
+        TranspositionTableEntry entry = transTable.lookupBoard(board.hashCode(), board.hashLock());
+
+        // First things first: let's see if there is already something useful
+        // in the transposition table, which might save us from having to search
+        // anything at all
+        if (entry != null && (entry.depth >= depth)) {
+            if ((entry.evalType == EvaluationType.ACCURATE)
+                    || (entry.evalType == EvaluationType.UPPERBOUND)) {
+                if (entry.eval <= alpha) {
+                    numRegularTTHits++;
+                    return entry.eval;
+                }
+            }
+        }
+
+        // If we have reached the maximum depth of the search, stop recursion
+        // and begin quiescence search
+        if (depth == 0) {
+            return evaluator.evaluate(board, fromWhosePerspective);
+        }
+
+        // Otherwise, generate successors and search them in turn
+        // If ComputeLegalMoves returns false, then the current position is
+        // illegal
+        // because one or more moves could capture a king!
+        // In order to slant the computer's strategy in favor of quick mates, we
+        // give a bonus to king captures which occur at shallow depths, i.e.,
+        // the
+        // more plies left, the better. On the other hand, if you are losing, it
+        // really doesn't matter how fast...
+        if (rulesChecker.isGameOver(turn)) {
+            return ALPHABETA_ILLEGAL;
+        }
+
+        Array<T> legalMoves = getLegalMoves(board, turn);
+
+        // Sort the moves according to History heuristic values
+        historyTable.sortMoveList(legalMoves, turn);
+
+        // OK, now, get ready to search
+
+        // Case #1: We are searching a Max Node
+        int bestSoFar = doMin(board, turn, depth, alpha, beta, legalMoves);
+
+        transTable.storeBoard(board.hashCode(), board.hashLock(), bestSoFar, EvaluationType.ACCURATE,
+                depth, moveCounter);
+        arrayPool.free(legalMoves);
+
+        return bestSoFar;
+    }
+
+
+    private int doMin(U board, int turn, int depth, int alpha,
             int beta, Array<T> legalMoves) {
         // Case #2: Min Node
         int bestSoFar = ALPHABETA_MAXVAL;
@@ -209,7 +236,7 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
         for (T move : legalMoves) {
             board.simulateMove(move);
 
-            int movScore = alphaBeta(!nodeType, board, (turn + 1) % 2, depth - 1, alpha, currentBeta);
+            int movScore = max(board, turn, depth - 1, alpha, currentBeta);
             if (movScore != ALPHABETA_ILLEGAL) {
 
                 currentBeta = Math.min(currentBeta, movScore);
@@ -231,7 +258,7 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
         return bestSoFar;
     }
 
-    private int max(boolean nodeType, U board, int turn, int depth, int alpha,
+    private int doMax(U board, int turn, int depth, int alpha,
             int beta, Array<T> legalMoves) {
         int bestSoFar = ALPHABETA_MINVAL;
         int currentAlpha = alpha;
@@ -242,7 +269,7 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
             board.simulateMove(move);
 
             // And search it in turn
-            int movScore = alphaBeta(!nodeType, board, (turn + 1) % 2, depth - 1, currentAlpha, beta);
+            int movScore = min(board, turn, depth - 1, currentAlpha, beta);
             // Ignore illegal moves in the alphabeta evaluation
             if (movScore != ALPHABETA_ILLEGAL) {
 
@@ -272,8 +299,9 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
         return bestSoFar;
     }
 
+    @SuppressWarnings("unchecked")
     protected Array<T> getLegalMoves(U board, int turn) {
-        Array<T> generatedMoves = rulesChecker.generateLegalMoves(board, turn);
+        Array<T> generatedMoves = rulesChecker.allLegalMoves(turn);
         Array<T> legalMoves = arrayPool.obtain();
         for (T move : generatedMoves) {
             legalMoves.add((T) move.clone());

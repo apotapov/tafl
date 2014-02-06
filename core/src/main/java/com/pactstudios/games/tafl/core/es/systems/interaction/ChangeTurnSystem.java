@@ -64,7 +64,7 @@ public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
     }
 
     private void checkPlayerWarning(TaflMatch match) {
-        PlayerWarningEnum playerWarning = match.rulesEngine.checkPlayerWarning();
+        PlayerWarningEnum playerWarning = match.rulesEngine.checkPlayerWarning(match.turn);
         if (playerWarning != null) {
             PlayerWarningEvent event = world.createEvent(PlayerWarningEvent.class);
             event.playerWarning = playerWarning;
@@ -89,7 +89,7 @@ public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
     }
 
     private boolean checkDraw(TaflMatch match) {
-        DrawReasonEnum drawReason = match.rulesEngine.checkDraw();
+        DrawReasonEnum drawReason = match.rulesEngine.checkDraw(match.turn);
         if (drawReason != null) {
             LifeCycleEvent event = world.createEvent(LifeCycleEvent.class);
             event.lifecycle = LifeCycle.DRAW;

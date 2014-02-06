@@ -34,8 +34,8 @@ public final class Constants {
     }
 
     public static final class AiConstants {
-        public static final int MAX_TREE_DEPTH = 4;
-        public static final int WIN = 1000;
+        public static final int MAX_TREE_DEPTH = 3;
+        public static final int WIN = 100000;
         public static final int LOSS = -WIN;
 
         public static final Color LOADING_PROMP_COLOR = new Color(0f, 0f, 0f, 0.4f);
@@ -44,6 +44,9 @@ public final class Constants {
 
         public static final int TABLE_SIZE = 1048576; // 1m
         public static final AiType DEFAULT_AI_TYPE = AiType.AI_RANDOM;
+
+        public static final int TRANSPOSITION_TABLE_SIZE = 1048576;
+        public static final int OPENING_BOOK_SIZE = 1024;
     }
 
     public static final class ScreenConstants {

@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.utils;
 
-import java.util.BitSet;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.j256.ormlite.dao.CloseableIterator;
@@ -93,9 +93,9 @@ public class TaflDatabaseService extends DatabaseService implements TaflMatchObs
         hash = new ZorbistHash(GameBoard.NUMBER_OF_TEAMS, Constants.BoardConstants.STANDARD_BOARD_NUMBER_CELLS);
         hash.generate();
 
-        transpositionTable = new TranspositionTable(Constants.BoardConstants.STANDARD_BOARD_NUMBER_CELLS);
+        transpositionTable = new TranspositionTable(Constants.AiConstants.TRANSPOSITION_TABLE_SIZE);
         historyTable = new HistoryTable<TaflMove>(Constants.BoardConstants.STANDARD_BOARD_NUMBER_CELLS);
-        openings = new OpeningBook<TaflMove>(Constants.BoardConstants.STANDARD_BOARD_NUMBER_CELLS);
+        openings = new OpeningBook<TaflMove>(Constants.AiConstants.OPENING_BOOK_SIZE);
     }
 
     public TaflMatch loadMatch() {
@@ -119,7 +119,7 @@ public class TaflDatabaseService extends DatabaseService implements TaflMatchObs
     }
 
     @Override
-    public void removePieces(TaflMatch match, int team, BitSet capturedPieces) {
+    public void removePieces(TaflMatch match, int team, BitBoard capturedPieces) {
         updateMatch(match);
     }
 
@@ -131,7 +131,7 @@ public class TaflDatabaseService extends DatabaseService implements TaflMatchObs
             CloseableIterator<MatchLogEntry> it =
                     match.persistedLog.closeableIterator();
             while (it.hasNext()) {
-                match.undoStack.add(it.next().createMove());
+                match.board.undoStack.add(it.next().createMove());
             }
             it.closeQuietly();
         }

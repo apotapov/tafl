@@ -17,8 +17,8 @@ import com.pactstudios.games.tafl.core.es.model.ai.evaluators.BoardEvaluator;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.HistoryTable;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.RulesChecker;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.OpeningBook;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.RulesChecker;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.TranspositionTable;
 
 
@@ -145,7 +145,7 @@ public class AISearchAgentMTDF<T extends Move<?>, U extends GameBoard<T>> extend
     private T unrolledAlphabeta(U board, int turn, int depth, int alpha,
             int beta) {
 
-        Array<T> legalMoves = rulesChecker.generateLegalMoves(board, turn);
+        Array<T> legalMoves = rulesChecker.allLegalMoves(turn);
         historyTable.sortMoveList(legalMoves, turn);
 
         int bestSoFar = ALPHABETA_MINVAL;
@@ -158,8 +158,7 @@ public class AISearchAgentMTDF<T extends Move<?>, U extends GameBoard<T>> extend
             board.simulateMove(move);
 
             // And search it in turn
-            int movScore = alphaBeta(MINNODE, board, turn, depth - 1,
-                    currentAlpha, beta);
+            int movScore = min(board, turn, depth - 1, currentAlpha, beta);
 
             // Ignore illegal moves in the alphabeta evaluation
             if (movScore == ALPHABETA_ILLEGAL) {

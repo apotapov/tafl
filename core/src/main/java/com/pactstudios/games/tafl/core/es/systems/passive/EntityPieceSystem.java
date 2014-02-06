@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.passive;
 
-import java.util.BitSet;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -72,11 +72,11 @@ public class EntityPieceSystem extends PassiveEntitySystem implements TaflMatchO
 
     @Override
     public void initializeMatch(TaflMatch match) {
-        pieceEntities = new Entity[match.board.numberCells];
+        pieceEntities = new Entity[match.board.boardSize];
     }
 
     @Override
-    public void removePieces(TaflMatch match, int team, BitSet capturedPieces) {
+    public void removePieces(TaflMatch match, int team, BitBoard capturedPieces) {
         for (int i = capturedPieces.nextSetBit(0); i >= 0; i = capturedPieces.nextSetBit(i+1)) {
             Entity e = pieceEntities[i];
             if (e != null) {

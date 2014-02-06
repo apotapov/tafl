@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.model.log;
 
-import java.util.BitSet;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import java.util.Date;
 
 import com.pactstudios.games.tafl.core.enums.LifeCycle;
@@ -45,7 +45,7 @@ public class MatchLog implements TaflMatchObserver {
     }
 
     @Override
-    public void removePieces(TaflMatch match, int team, BitSet capturedPieces) {
+    public void removePieces(TaflMatch match, int team, BitBoard capturedPieces) {
         // TODO Auto-generated method stub
 
     }

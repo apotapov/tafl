@@ -66,7 +66,7 @@ public class AISearchAgentAlphabeta<T extends Move<?>, U extends GameBoard<T>> e
         // Loop on all pseudo-legal moves
         for (T move : legalMoves) {
             board.simulateMove(move);
-            int movScore = alphaBeta(MINNODE, board, turn, depth, currentAlpha,
+            int movScore = min(board, turn, depth - 1, currentAlpha,
                     ALPHABETA_MAXVAL);
             if (movScore != ALPHABETA_ILLEGAL) {
 

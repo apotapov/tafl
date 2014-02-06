@@ -1,7 +1,5 @@
 package com.pactstudios.games.tafl.core.es.systems.interaction;
 
-import java.util.BitSet;
-
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -11,6 +9,7 @@ import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.TaflMove;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.pactstudios.games.tafl.core.es.systems.events.ChangeTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem2;
 import com.pactstudios.games.tafl.core.es.systems.events.MoveFinishedEvent;
@@ -87,14 +86,13 @@ public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, 
     }
 
     private void processCapturedPieces(TaflMatch match, MoveFinishedEvent event) {
-        BitSet captured = match.rulesEngine.getCapturedPieces(event.move);
+        BitBoard captured = match.rulesEngine.getCapturedPieces(event.move);
 
         if (captured.cardinality() > 0) {
             PieceCaptureEvent captureEvent =
                     world.createEvent(PieceCaptureEvent.class);
             captureEvent.move = event.move.clone();
-            captureEvent.move.capturedPieces.clear();
-            captureEvent.move.capturedPieces.or(captured);
+            captureEvent.move.capturedPieces.set(captured);
             world.postEvent(this, captureEvent);
         } else {
             changeTurn(match);

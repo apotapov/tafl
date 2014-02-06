@@ -1,9 +1,8 @@
 package com.pactstudios.games.tafl.core.es.model;
 
-import java.util.BitSet;
-
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.ZorbistHash;
 import com.pactstudios.games.tafl.core.es.model.rules.RulesEngine;
@@ -20,10 +19,10 @@ public class TaflBoard extends GameBoard<TaflMove> {
         "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
         "21", "22", "23", "24", "25", "26" };
 
-    public BitSet corners;
-    public BitSet nearCorners;
+    public BitBoard corners;
+    public BitBoard nearCorners;
     public int center;
-    public BitSet nearCenter;
+    public BitBoard nearCenter;
 
     private Vector2 position;
 
@@ -53,19 +52,19 @@ public class TaflBoard extends GameBoard<TaflMove> {
 
         center = (dimensions/2) * dimensions + (dimensions / 2);
 
-        nearCenter = new BitSet(dimensions);
+        nearCenter = new BitBoard(boardSize);
         nearCenter.set(center + 1);
         nearCenter.set(center - 1);
         nearCenter.set(center + dimensions);
         nearCenter.set(center - dimensions);
 
-        corners = new BitSet(dimensions);
+        corners = new BitBoard(boardSize);
         corners.set(0);
         corners.set(dimensions - 1);
         corners.set(dimensions * dimensions - dimensions);
         corners.set(dimensions * dimensions - 1);
 
-        nearCorners = new BitSet(dimensions);
+        nearCorners = new BitBoard(boardSize);
         nearCorners.set(1);
         nearCorners.set(dimensions);
         nearCorners.set(dimensions - 2);
@@ -121,31 +120,30 @@ public class TaflBoard extends GameBoard<TaflMove> {
         return HORIZONTAL_CELL_ID[x] + VERTICAL_CELL_ID[y];
     }
 
-    public BitSet blackBitBoard() {
+    public BitBoard blackBitBoard() {
         return bitBoards[Constants.BoardConstants.BLACK_TEAM];
     }
 
-    public BitSet whiteBitBoard() {
+    public BitBoard whiteBitBoard() {
         return bitBoards[Constants.BoardConstants.WHITE_TEAM];
     }
 
     @Override
-    public void applyMove(TaflMove move) {
-        super.applyMove(move);
+    public void applyMove(TaflMove move, boolean simulate) {
+        super.applyMove(move, simulate);
 
         if (move.source == king) {
             king = move.destination;
-            System.out.println("King moves from " + move.source + " to: " + move.destination);
         }
     }
 
     @Override
-    public void undoMove(TaflMove move) {
-        super.undoMove(move);
-        if (move.destination == king) {
+    public TaflMove undoMove() {
+        TaflMove move = super.undoMove();
+        if (move != null && move.destination == king) {
             king = move.source;
-            System.out.println("King undoes from " + move.destination + " to: " + move.source);
         }
+        return move;
     }
 
     @Override
@@ -159,17 +157,17 @@ public class TaflBoard extends GameBoard<TaflMove> {
     }
 
     @Override
-    public void removePieces(int team, BitSet pieces) {
+    public void removePieces(int team, BitBoard pieces) {
         super.removePieces(team, pieces);
 
-        if (pieces.get(king)) {
+        if (king != Constants.BoardConstants.ILLEGAL_CELL && pieces.get(king)) {
             king = Constants.BoardConstants.ILLEGAL_CELL;
             capturedKing = king;
         }
     }
 
     @Override
-    protected BitSet getCapturedPieces(TaflMove move) {
+    protected BitBoard getCapturedPieces(TaflMove move) {
         return rulesEngine.getCapturedPieces(move);
     }
 }

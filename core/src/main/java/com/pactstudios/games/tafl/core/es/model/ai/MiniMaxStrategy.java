@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.model.ai;
 
-import java.util.BitSet;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
@@ -129,9 +129,9 @@ public class MiniMaxStrategy implements AiStrategy {
     private Array<TaflMove> getLegalMoves(TaflMatch match) {
         Array<TaflMove> legalMoves = arrayPool.obtain();
 
-        BitSet bitBoard = match.currentBitBoard();
+        BitBoard bitBoard = match.currentBitBoard();
         for (int source = bitBoard.nextSetBit(0); source >= 0; source = bitBoard.nextSetBit(source+1)) {
-            BitSet moves = match.rulesEngine.legalMoves(source);
+            BitBoard moves = match.rulesEngine.getLegalMoves(match.turn, source);
             for (int dest = moves.nextSetBit(0); dest >= 0; dest = moves.nextSetBit(dest+1)) {
                 TaflMove move = TaflMove.movePool.obtain();
                 move.pieceType = match.turn;

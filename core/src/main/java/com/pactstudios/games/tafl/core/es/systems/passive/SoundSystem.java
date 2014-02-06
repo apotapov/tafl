@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.passive;
 
-import java.util.BitSet;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import java.util.Random;
 
 import com.artemis.systems.PassiveEntitySystem;
@@ -55,7 +55,7 @@ public class SoundSystem extends PassiveEntitySystem implements TaflMatchObserve
     }
 
     @Override
-    public void removePieces(TaflMatch match, int team, BitSet capturedPieces) {
+    public void removePieces(TaflMatch match, int team, BitBoard capturedPieces) {
         if (match.board.king != Constants.BoardConstants.ILLEGAL_CELL) {
             switch (capturedPieces.cardinality()) {
             case 1:

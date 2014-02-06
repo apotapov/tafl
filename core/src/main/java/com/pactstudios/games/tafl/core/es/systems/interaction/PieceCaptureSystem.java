@@ -48,8 +48,7 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
             Vector2 position = component.match.board.getCellPositionCenter(i);
             efs.createCaptureAnimation(position);
         }
-        component.match.undoStack.peek().capturedPieces.clear();
-        component.match.undoStack.peek().capturedPieces.or(event.move.capturedPieces);
+        component.match.board.undoStack.peek().capturedPieces.set(event.move.capturedPieces);
         changeTurn(component.match);
     }
 

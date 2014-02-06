@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.model.ai.optimization.moves;
 
-import java.util.BitSet;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.pactstudios.games.tafl.core.enums.EvaluationType;
@@ -18,14 +18,14 @@ public abstract class Move<T extends Move<?>> implements Poolable {
     public EvaluationType evalType;
     public int searchDepth;
 
-    public BitSet capturedPieces;
+    public BitBoard capturedPieces;
 
     public Move() {
-        capturedPieces = new BitSet(DEFAULT_BOARD_SIZE);
+        capturedPieces = new BitBoard(DEFAULT_BOARD_SIZE);
     }
 
     public Move(int boardSize) {
-        capturedPieces = new BitSet(boardSize);
+        capturedPieces = new BitBoard(boardSize);
     }
 
     @Override

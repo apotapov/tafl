@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.passive;
 
-import java.util.BitSet;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -37,10 +37,11 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
     private void highlightTeam(int team) {
         clearCellHighlights();
         MatchComponent matchComponent = singletonManager.getSingletonComponent(MatchComponent.class);
+        TaflMatch match = matchComponent.match;
 
-        BitSet pieces = matchComponent.match.board.bitBoards[team];
+        BitBoard pieces = match.board.bitBoards[team];
         for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
-            if (matchComponent.match.rulesEngine.legalMoves(i).cardinality() > 0) {
+            if (match.rulesEngine.getLegalMoves(match.turn, i).cardinality() > 0) {
                 highlightCell(matchComponent.match, i);
             }
         }
@@ -61,7 +62,7 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
         }
     }
 
-    public void highlightCells(TaflMatch match, BitSet cells) {
+    public void highlightCells(TaflMatch match, BitBoard cells) {
         for (int i = cells.nextSetBit(0); i >= 0; i = cells.nextSetBit(i+1)) {
             highlightCell(match, i);
         }
@@ -94,7 +95,7 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
     }
 
     @Override
-    public void removePieces(TaflMatch match, int team, BitSet capturedPieces) {
+    public void removePieces(TaflMatch match, int team, BitBoard capturedPieces) {
     }
 
     @Override

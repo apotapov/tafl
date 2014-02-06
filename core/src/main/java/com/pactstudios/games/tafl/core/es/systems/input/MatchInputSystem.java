@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.input;
 
-import java.util.BitSet;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -45,7 +45,7 @@ public class MatchInputSystem extends InputProcessingSystem<MatchRenderingCompon
             if (matchComponent.acceptInput()) {
                 if (!matchComponent.animationInProgress) {
                     int cellId = match.board.getCellId(gameTouchPoint);
-                    if (cellId >= 0 && cellId < match.board.numberCells) {
+                    if (cellId >= 0 && cellId < match.board.boardSize) {
                         if (match.board.bitBoards[match.turn].get(cellId)) {
                             selectPiece(match, cellId);
                         } else if (match.board.selectedPiece != Constants.BoardConstants.ILLEGAL_CELL) {
@@ -58,7 +58,7 @@ public class MatchInputSystem extends InputProcessingSystem<MatchRenderingCompon
     }
 
     private void movePiece(TaflMatch match, int destination) {
-        if (match.rulesEngine.isMoveLegal(match.board.selectedPiece, destination)) {
+        if (match.rulesEngine.isMoveLegal(match.turn, match.board.selectedPiece, destination)) {
             move(match.turn, match.board.selectedPiece, destination);
         }
     }
@@ -75,7 +75,7 @@ public class MatchInputSystem extends InputProcessingSystem<MatchRenderingCompon
         if (cellId != match.board.selectedPiece) {
             highlightSystem.clearCellHighlights();
             highlightSystem.highlightCell(match, cellId);
-            BitSet legalMoves = match.rulesEngine.legalMoves(cellId);
+            BitBoard legalMoves = match.rulesEngine.getLegalMoves(match.turn, cellId);
             highlightSystem.highlightCells(match, legalMoves);
             match.board.selectedPiece = cellId;
         }

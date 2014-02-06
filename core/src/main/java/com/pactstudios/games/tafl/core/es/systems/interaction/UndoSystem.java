@@ -40,7 +40,7 @@ public class UndoSystem extends EventProcessingSystem<UndoEvent> {
     protected void processEvent(Entity e, UndoEvent event) {
         MatchComponent component = matchMapper.get(e);
 
-        if (component.match.versusComputer && component.match.undoStack.size > 1) {
+        if (component.match.versusComputer && component.match.board.undoStack.size > 1) {
             component.match.undoMove();
             component.match.undoMove();
         } else {

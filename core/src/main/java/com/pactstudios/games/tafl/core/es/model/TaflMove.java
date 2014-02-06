@@ -38,4 +38,9 @@ public class TaflMove extends Move<TaflMove> {
         super.reset();
         entry = null;
     }
+
+    @Override
+    public String toString() {
+        return pieceType + ": " + source + " -> " + destination;
+    }
 }

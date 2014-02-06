@@ -1,6 +1,5 @@
 package com.pactstudios.games.tafl.core.es.model;
 
-import java.util.BitSet;
 import java.util.Date;
 
 import com.badlogic.gdx.utils.Array;
@@ -14,6 +13,7 @@ import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.enums.RulesEngineType;
 import com.pactstudios.games.tafl.core.es.model.ai.AiFactory;
 import com.pactstudios.games.tafl.core.es.model.ai.AiStrategy;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.log.MatchLogEntry;
 import com.pactstudios.games.tafl.core.es.model.rules.RulesEngine;
@@ -82,8 +82,6 @@ public class TaflMatch {
     public TaflBoard board;
     public AiStrategy aiStrategy;
 
-    public Array<TaflMove> undoStack;
-
     private ModifiableString boardString;
 
     public boolean computerStarts;
@@ -91,7 +89,6 @@ public class TaflMatch {
     public Array<TaflMatchObserver> observers;
 
     public TaflMatch() {
-        undoStack = new Array<TaflMove>();
         observers = new Array<TaflMatchObserver>();
     }
 
@@ -116,8 +113,8 @@ public class TaflMatch {
     }
 
     private void initializeStrings() {
-        StringBuilder builder = new StringBuilder(board.numberCells);
-        for (int i = 0; i < board.numberCells; i++) {
+        StringBuilder builder = new StringBuilder(board.boardSize);
+        for (int i = 0; i < board.boardSize; i++) {
             builder.append('0');
         }
 
@@ -125,14 +122,12 @@ public class TaflMatch {
     }
 
     private void initializeComponents(TaflDatabaseService dbService) {
-
         rulesEngine = RulesFactory.getRules(rulesType);
-        aiStrategy = AiFactory.getAiStrategy(aiType, this, dbService);
-
         board = new TaflBoard((int)Math.sqrt(boardRepresentation.length()),
                 GameBoard.NUMBER_OF_TEAMS,
                 dbService.hash,
                 rulesEngine);
+        aiStrategy = AiFactory.getAiStrategy(aiType, this, dbService);
     }
 
     private void initializeMatch() {
@@ -176,11 +171,7 @@ public class TaflMatch {
 
     public String getBoardRepresentation() {
 
-        if (board.king != Constants.BoardConstants.ILLEGAL_CELL) {
-            boardString.setChar(board.king, Constants.BoardConstants.KING_PIECE);
-        }
-
-        BitSet bitBoard = board.bitBoards[Constants.BoardConstants.WHITE_TEAM];
+        BitBoard bitBoard = board.bitBoards[Constants.BoardConstants.WHITE_TEAM];
         for (int i = bitBoard.nextSetBit(0); i >= 0; i = bitBoard.nextSetBit(i+1)) {
             boardString.setChar(i, Constants.BoardConstants.WHITE_PIECE);
         }
@@ -188,6 +179,10 @@ public class TaflMatch {
         bitBoard = board.bitBoards[Constants.BoardConstants.BLACK_TEAM];
         for (int i = bitBoard.nextSetBit(0); i >= 0; i = bitBoard.nextSetBit(i+1)) {
             boardString.setChar(i, Constants.BoardConstants.BLACK_PIECE);
+        }
+
+        if (board.king != Constants.BoardConstants.ILLEGAL_CELL) {
+            boardString.setChar(board.king, Constants.BoardConstants.KING_PIECE);
         }
 
         return boardString.toString();
@@ -220,20 +215,17 @@ public class TaflMatch {
     }
 
     public void applyMove(TaflMove move, boolean simulate) {
-        board.applyMove(move);
+        board.applyMove(move, simulate);
         if (!simulate) {
-            TaflMove clone = move.clone();
-            undoStack.add(clone);
             for (TaflMatchObserver observer : observers) {
-                observer.applyMove(this, clone);
+                observer.applyMove(this, move);
             }
         }
     }
 
     public TaflMove undoMove() {
-        if (undoStack.size > 0) {
-            TaflMove move = undoStack.pop();
-            board.undoMove(move);
+        TaflMove move = board.undoMove();
+        if (move != null) {
             for (TaflMatchObserver observer : observers) {
                 observer.undoMove(this, move);
             }
@@ -251,7 +243,7 @@ public class TaflMatch {
         }
     }
 
-    public void removePieces(int team, BitSet capturedPieces) {
+    public void removePieces(int team, BitBoard capturedPieces) {
         board.removePieces(team, capturedPieces);
 
         for (TaflMatchObserver observer : observers) {
@@ -263,7 +255,7 @@ public class TaflMatch {
         return !versusComputer || turn != computerTeam;
     }
 
-    public BitSet currentBitBoard() {
+    public BitBoard currentBitBoard() {
         return board.bitBoards[turn];
     }
 

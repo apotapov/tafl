@@ -41,7 +41,7 @@ public class DebugCellIdRendererSystem extends RenderingSystem<MatchRenderingCom
         MatchComponent match = matchMapper.get(e);
         TaflBoard board = match.match.board;
 
-        for (int i = 0; i < board.numberCells; i++) {
+        for (int i = 0; i < board.boardSize; i++) {
             Vector2 position = match.match.board.getCellPosition(i);
 
             rendComponent.font.draw(rendComponent.spriteBatch,

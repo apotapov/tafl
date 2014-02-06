@@ -13,6 +13,7 @@ public class MatchRenderingComponent implements RenderingComponent {
     public SpriteBatch spriteBatch;
     public ShapeRenderer shapeRenderer;
     public BitmapFont font;
+    public BitmapFont debugFont;
     public Texture backgroundTexture;
 
     @Override
@@ -23,6 +24,7 @@ public class MatchRenderingComponent implements RenderingComponent {
         shapeRenderer.dispose();
         shapeRenderer = null;
         font = null;
+        debugFont = null;
         backgroundTexture = null;
     }
 

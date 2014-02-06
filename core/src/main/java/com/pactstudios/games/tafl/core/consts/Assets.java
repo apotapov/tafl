@@ -91,6 +91,7 @@ public class Assets extends GameAssetLoader<TaflLevel> {
         private Fonts() {
         }
         public static final FontDefinition GOTHAM_MEDIUM_GAME = new FontDefinition("skin/Gotham-Medium.otf", 32);
+        public static final FontDefinition GOTHAM_MEDIUM_SMALL = new FontDefinition("skin/Gotham-Medium.otf", 16);
     }
 
     protected SoundService soundService;
@@ -144,7 +145,8 @@ public class Assets extends GameAssetLoader<TaflLevel> {
                 Assets.Graphics.PIECE_ATLAS,
                 Assets.Graphics.EXPLOSION_ATLAS);
 
-        graphicsService.loadFonts(Assets.Fonts.GOTHAM_MEDIUM_GAME);
+        graphicsService.loadFonts(Assets.Fonts.GOTHAM_MEDIUM_GAME,
+                Assets.Fonts.GOTHAM_MEDIUM_SMALL);
 
         localeService.load(
                 Assets.Locales.DEFAULT_LOCALE,

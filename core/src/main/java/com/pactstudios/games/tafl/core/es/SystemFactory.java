@@ -27,6 +27,7 @@ import com.pactstudios.games.tafl.core.es.systems.render.HudRenderingSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.PieceMovementRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.PreRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.SpriteRenderSystem;
+import com.pactstudios.games.tafl.core.es.systems.render.debug.DebugCellIdRendererSystem;
 
 
 public class SystemFactory {
@@ -90,7 +91,7 @@ public class SystemFactory {
 
     protected static void initDebugRenderingSystems(TaflWorld gameWorld) {
         //        gameWorld.world.setSystem(new DebugRenderSystem());
-        //        gameWorld.world.setSystem(new DebugCellIdRendererSystem());
+        gameWorld.world.setSystem(new DebugCellIdRendererSystem());
     }
 
     protected static void initHudRenderingSystems(TaflWorld gameWorld) {

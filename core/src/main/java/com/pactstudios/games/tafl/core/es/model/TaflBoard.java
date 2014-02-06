@@ -31,11 +31,11 @@ public class TaflBoard extends GameBoard<TaflMove> {
     public int king;
     public int capturedKing;
 
-    public RulesEngine rulesEngine;
+    public RulesEngine rules;
 
     public TaflBoard(int dimensions, int pieceTypes, ZorbistHash zorbistHash, RulesEngine rulesEngine) {
         super(dimensions, pieceTypes, zorbistHash);
-        this.rulesEngine = rulesEngine;
+        this.rules = rulesEngine;
 
         initialize();
     }
@@ -168,6 +168,6 @@ public class TaflBoard extends GameBoard<TaflMove> {
 
     @Override
     protected BitBoard getCapturedPieces(TaflMove move) {
-        return rulesEngine.getCapturedPieces(move);
+        return rules.getCapturedPieces(move);
     }
 }

@@ -292,7 +292,7 @@ public class OfficialRulesEngine extends RulesEngine {
         if (board.isValid(cellBelow) && isHostile(oppositeTeam, cellAbove)) {
             tempBitBoard.set(board.getRow(cellBelow)).and(oppositeBoard);
             for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
-                if (board.rulesEngine.isMoveLegal(oppositeTeam, i, cellId)) {
+                if (board.rules.isMoveLegal(oppositeTeam, i, cellId)) {
                     return true;
                 }
             }
@@ -302,7 +302,7 @@ public class OfficialRulesEngine extends RulesEngine {
         if (board.isValid(cellAbove) && isHostile(oppositeTeam, cellBelow)) {
             tempBitBoard.set(board.getRow(cellAbove)).and(oppositeBoard);
             for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
-                if (board.rulesEngine.isMoveLegal(oppositeTeam, i, cellId)) {
+                if (board.rules.isMoveLegal(oppositeTeam, i, cellId)) {
                     return true;
                 }
             }
@@ -315,7 +315,7 @@ public class OfficialRulesEngine extends RulesEngine {
                 && isHostile(oppositeTeam, cellLeft)) {
             tempBitBoard.set(board.getColumn(cellRight)).and(oppositeBoard);
             for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
-                if (board.rulesEngine.isMoveLegal(oppositeTeam, i, cellId)) {
+                if (board.rules.isMoveLegal(oppositeTeam, i, cellId)) {
                     return true;
                 }
             }
@@ -328,12 +328,23 @@ public class OfficialRulesEngine extends RulesEngine {
                 && isHostile(oppositeTeam, cellRight)) {
             tempBitBoard.set(board.getColumn(cellLeft)).and(oppositeBoard);
             for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
-                if (board.rulesEngine.isMoveLegal(oppositeTeam, i, cellId)) {
+                if (board.rules.isMoveLegal(oppositeTeam, i, cellId)) {
                     return true;
                 }
             }
         }
 
+        return false;
+    }
+
+    @Override
+    public boolean teamCanMoveToLocation(int team, int cellId) {
+        tempBitBoard.set(board.getRow(cellId)).or(board.getColumn(cellId)).and(board.bitBoards[team]);
+        for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
+            if (board.rules.isMoveLegal(team, i, cellId)) {
+                return true;
+            }
+        }
         return false;
     }
 

@@ -9,7 +9,7 @@ public class PieceCountEvaluator implements BoardEvaluator<TaflBoard> {
     public int evaluate(TaflBoard board, int turn) {
         int value = 0;
 
-        int winner = board.rulesEngine.checkWinner();
+        int winner = board.rules.checkWinner();
         if (winner != Constants.BoardConstants.NO_TEAM) {
             value = winner == turn ? Constants.AiConstants.WIN : Constants.AiConstants.LOSS;
         } else {

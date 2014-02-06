@@ -44,7 +44,7 @@ public class DebugCellIdRendererSystem extends RenderingSystem<MatchRenderingCom
         for (int i = 0; i < board.boardSize; i++) {
             Vector2 position = match.match.board.getCellPosition(i);
 
-            rendComponent.font.draw(rendComponent.spriteBatch,
+            rendComponent.debugFont.draw(rendComponent.spriteBatch,
                     "" + i,
                     position.x + Constants.BoardRenderConstants.HALF_TILE_SIZE,
                     position.y + Constants.BoardRenderConstants.HALF_TILE_SIZE);

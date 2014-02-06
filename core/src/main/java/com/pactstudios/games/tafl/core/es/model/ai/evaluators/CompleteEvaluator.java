@@ -79,7 +79,9 @@ public class CompleteEvaluator implements BoardEvaluator<TaflBoard> {
         }
 
         if (piecesBelow == 0) {
-            // Field[2][0] == 22
+
+            // Not sure what the hell this logic does.
+            // Why are locations [2][0] == 22 and [size-3][0] == 88 significant???
             if ((kingColumn == 1) && allPiecesBoard.get(22)) {
                 if (turn == Constants.BoardConstants.WHITE_TEAM) {
                     value += 90;
@@ -107,11 +109,15 @@ public class CompleteEvaluator implements BoardEvaluator<TaflBoard> {
             }
 
 
+            // Not sure what the hell this logic does.
+            // Why are locations [2][0] == 22 and [size-3][0] == 88 significant???
             if ((kingColumn != 1 ||
                     !board.rules.teamCanMoveToLocation(Constants.BoardConstants.BLACK_TEAM, 22)) &&
                     (kingColumn != board.dimensions - 2 ||
                     !board.rules.teamCanMoveToLocation(Constants.BoardConstants.BLACK_TEAM, 88))) {
 
+                // WTF how can you move from square 0?
+                // if(CanMoveFromTo(0,0,Size-2,0,depth)) value+=90-curColor*85;
                 if (board.rules.isMoveLegal(turn, 0, 88)
                         || board.rules.isMoveLegal(oppColor, 0, 88)) {
 

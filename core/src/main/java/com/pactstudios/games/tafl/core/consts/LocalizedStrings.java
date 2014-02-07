@@ -28,6 +28,9 @@ public class LocalizedStrings {
         LOSS_TITLE,
         LOSS_TEXT,
 
+        SURRENDER_TITLE,
+        SURRENDER_TEXT,
+
         DRAW_TITLE,
         DRAW_NO_MOVES_WHITE_TEXT,
         DRAW_NO_MOVES_BLACK_TEXT,

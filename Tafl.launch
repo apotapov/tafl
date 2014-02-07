@@ -45,5 +45,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.pactstudios.games.tafl.java.TaflGameDesktop"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="tafl"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.library.path=target/natives"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.library.path=target/natives -Xms256m -Xmx256m"/>
 </launchConfiguration>

@@ -75,6 +75,7 @@ public class HudFactory {
         createLossDialog(component, world, skin, localeService, restartListener, quitListener);
         createDrawDialog(component, world, skin, localeService, restartListener, quitListener);
         createPlayerWarningDialog(component, world, skin, localeService, resumeListener);
+        createSurrenderDialog(component, world, skin, localeService, restartListener, quitListener);
     }
 
     private static void createLossDialog(HudRenderingComponent component,
@@ -101,6 +102,32 @@ public class HudFactory {
 
         component.lossDialog.button(restartButton);
         component.lossDialog.button(quitButton);
+    }
+
+    private static void createSurrenderDialog(HudRenderingComponent component,
+            World world,
+            Skin skin,
+            LocaleService localeService,
+            ChangeListener restartListener,
+            ChangeListener quitListener) {
+
+        String text = localeService.get(LocalizedStrings.GameMenu.SURRENDER_TITLE);
+        component.surrenderDialog = new Dialog(text, skin, Assets.Skin.DIALOG_STYLE_NAME);
+        component.surrenderDialog.setSkin(skin);
+
+        text = localeService.get(LocalizedStrings.GameMenu.SURRENDER_TEXT);
+        component.surrenderDialog.text(text);
+
+        text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
+        TextButton restartButton = new TextButton(text, skin);
+        restartButton.addListener(restartListener);
+
+        text = localeService.get(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON);
+        TextButton quitButton = new TextButton(text, skin);
+        quitButton.addListener(quitListener);
+
+        component.surrenderDialog.button(restartButton);
+        component.surrenderDialog.button(quitButton);
     }
 
     private static void createDrawDialog(HudRenderingComponent component,

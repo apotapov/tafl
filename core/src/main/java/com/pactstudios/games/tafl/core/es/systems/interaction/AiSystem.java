@@ -7,6 +7,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
+import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.es.components.render.AiProcessingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
@@ -14,6 +15,7 @@ import com.pactstudios.games.tafl.core.es.model.TaflMove;
 import com.pactstudios.games.tafl.core.es.systems.events.AiCompleteEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.AiTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem2;
+import com.pactstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceMoveEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
@@ -52,11 +54,21 @@ public class AiSystem extends EventProcessingSystem2<AiTurnEvent, AiCompleteEven
             public void run() {
                 try {
                     TaflMove move = match.aiStrategy.search(match);
-                    AiCompleteEvent completeEvent = world.createEvent(AiCompleteEvent.class);
-                    completeEvent.move = move;
-                    world.postEvent(AiSystem.this, completeEvent);
+                    if (move != null) {
+                        AiCompleteEvent completeEvent = world.createEvent(AiCompleteEvent.class);
+                        completeEvent.move = move;
+                        world.postEvent(AiSystem.this, completeEvent);
+                    } else {
+                        LifeCycleEvent lce = world.createEvent(LifeCycleEvent.class);
+                        lce.lifecycle = LifeCycle.SURRENDER;
+                        world.postEvent(AiSystem.this, lce);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
+
+                    LifeCycleEvent lce = world.createEvent(LifeCycleEvent.class);
+                    lce.lifecycle = LifeCycle.SURRENDER;
+                    world.postEvent(AiSystem.this, lce);
                 }
             }
         });

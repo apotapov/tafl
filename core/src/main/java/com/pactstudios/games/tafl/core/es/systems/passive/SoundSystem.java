@@ -1,6 +1,5 @@
 package com.pactstudios.games.tafl.core.es.systems.passive;
 
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import java.util.Random;
 
 import com.artemis.systems.PassiveEntitySystem;
@@ -10,6 +9,7 @@ import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.TaflMatchObserver;
 import com.pactstudios.games.tafl.core.es.model.TaflMove;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.roundtriangles.games.zaria.services.SoundService;
 
 public class SoundSystem extends PassiveEntitySystem implements TaflMatchObserver {
@@ -83,6 +83,7 @@ public class SoundSystem extends PassiveEntitySystem implements TaflMatchObserve
         switch (status) {
         case WIN:
         case DRAW:
+        case SURRENDER:
             soundService.playSound(Assets.Sounds.KING_WIN_SOUND);
             break;
         case LOSS:

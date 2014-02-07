@@ -85,6 +85,7 @@ public class AISearchAgentAlphabeta<T extends Move<?>, U extends GameBoard<T>> e
         System.out.println(numRegularTTHits + " of " + numRegularNodes);
         System.out.println("  --> Number of cutoffs for regular nodes: "
                 + numRegularCutoffs);
+        System.out.println("  --> Best move: " + bestMove);
 
         return bestMove;
     }

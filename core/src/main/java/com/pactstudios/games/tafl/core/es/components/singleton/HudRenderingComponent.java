@@ -24,6 +24,8 @@ public class HudRenderingComponent implements RenderingComponent {
     public Dialog playerWarningDialog;
     public Label playerWarningText;
 
+    public Dialog surrenderDialog;
+
 
     // upper hud
     public Label timer;
@@ -43,6 +45,7 @@ public class HudRenderingComponent implements RenderingComponent {
         drawText = null;
         playerWarningDialog = null;
         playerWarningText = null;
+        surrenderDialog = null;
         timer = null;
     }
 

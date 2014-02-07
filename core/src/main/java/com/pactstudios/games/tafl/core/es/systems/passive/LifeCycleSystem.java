@@ -49,48 +49,46 @@ public class LifeCycleSystem extends EventProcessingSystem2<LifeCycleEvent, Play
     protected void processEvent(Entity e, LifeCycleEvent event) {
         HudRenderingComponent component = hudRendMapper.get(e);
         gameWorld.lifecycle = event.lifecycle;
-        switch (event.lifecycle) {
-        case MENU:
-            displayMenu(component);
-            break;
-        case WIN:
-            win(component, event.winner);
-            break;
-        case LOSS:
-            loss(component);
-            break;
-        case DRAW:
-            draw(component, event.drawReason);
-            break;
-        case PLAY:
-            play();
-            break;
-        default:
+
+        if (event.lifecycle == LifeCycle.PLAY) {
+            gameWorld.resumeSystems();
+        } else {
+            gameWorld.pauseSystems();
+            if (event.lifecycle == LifeCycle.MENU) {
+                displayMenu(component);
+            } else {
+                gameWorld.match.gameOver(event.lifecycle);
+
+                switch (event.lifecycle) {
+                case WIN:
+                    win(component, event.winner);
+                    break;
+                case LOSS:
+                    loss(component);
+                    break;
+                case DRAW:
+                    draw(component, event.drawReason);
+                    break;
+                case SURRENDER:
+                    surrender(component);
+                    break;
+                default:
+                }
+            }
         }
     }
 
     private void displayMenu(HudRenderingComponent component) {
-        if (gameWorld.lifecycle != LifeCycle.WIN &&
-                gameWorld.lifecycle != LifeCycle.LOSS &&
-                gameWorld.lifecycle != LifeCycle.DRAW) {
-            gameWorld.pauseSystems();
+        if (!LifeCycle.GAME_OVER.contains(gameWorld.lifecycle)) {
             component.menu.show(component.hubStage);
         }
     }
 
     private void loss(HudRenderingComponent component) {
-        gameWorld.pauseSystems();
-
-        gameWorld.match.gameOver(LifeCycle.LOSS);
-
         component.lossDialog.show(component.hubStage);
     }
 
     private void win(HudRenderingComponent component, int winner) {
-        gameWorld.pauseSystems();
-
-        gameWorld.match.gameOver(LifeCycle.WIN);
-
         if (winner == Constants.BoardConstants.WHITE_TEAM) {
             component.winText.setText(
                     gameWorld.game.localeService.get(LocalizedStrings.GameMenu.WHITE_WIN_TEXT));
@@ -103,15 +101,12 @@ public class LifeCycleSystem extends EventProcessingSystem2<LifeCycleEvent, Play
 
 
     private void draw(HudRenderingComponent component, DrawReasonEnum drawReason) {
-        gameWorld.pauseSystems();
-
-        gameWorld.match.gameOver(LifeCycle.DRAW);
-
         component.drawText.setText(gameWorld.game.localeService.get(drawReason.text));
         component.drawDialog.show(component.hubStage);
     }
 
-    private void play() {
-        gameWorld.resumeSystems();
+    private void surrender(HudRenderingComponent component) {
+        component.surrenderDialog.show(component.hubStage);
     }
+
 }

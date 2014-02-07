@@ -128,7 +128,6 @@ public class CompleteEvaluator implements BoardEvaluator<TaflBoard> {
                     }
                 }
             }
-
         }
 
 
@@ -236,11 +235,6 @@ public class CompleteEvaluator implements BoardEvaluator<TaflBoard> {
         //        }
 
         return value;
-    }
-
-    private boolean CanMoveFromTo(int i, int j, int k, int l, int depth) {
-        // TODO Auto-generated method stub
-        return false;
     }
 
     private int checkIfKingOnEdge(TaflBoard board, int turn) {
@@ -459,6 +453,11 @@ public class CompleteEvaluator implements BoardEvaluator<TaflBoard> {
     private int moveRepetition(TaflBoard board, int turn) {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    private boolean CanMoveFromTo(int i, int j, int k, int l, int depth) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
     private boolean CanMoveToColor(int i, int j, int k, int depth) {

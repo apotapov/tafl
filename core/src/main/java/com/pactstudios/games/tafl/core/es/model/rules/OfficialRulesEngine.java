@@ -15,6 +15,8 @@ import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 
 public class OfficialRulesEngine extends RulesEngine {
 
+    private static final Array<TaflMove> NO_MOVES = new Array<TaflMove>();
+
     Array<TaflMove> blackLegalMoves;
     Array<TaflMove> whiteLegalMoves;
 
@@ -190,7 +192,9 @@ public class OfficialRulesEngine extends RulesEngine {
         // CAPTURE LEFT
         beingCaptured = capturer - 1;
         teammate = capturer - 2;
-        if (board.inRow(capturer, beingCaptured) && board.bitBoards[oppositeTeam].get(beingCaptured)) {
+        if (board.isValid(beingCaptured) &&
+                board.inRow(capturer, beingCaptured) &&
+                board.bitBoards[oppositeTeam].get(beingCaptured)) {
             if (beingCaptured == board.king) {
                 int teammate2 = beingCaptured + board.dimensions;
                 int teammate3 = beingCaptured - board.dimensions;
@@ -209,7 +213,9 @@ public class OfficialRulesEngine extends RulesEngine {
         // CAPTURE RIGHT
         beingCaptured = move.destination + 1;
         teammate = move.destination + 2;
-        if (board.inRow(move.destination, beingCaptured) && board.bitBoards[oppositeTeam].get(beingCaptured)) {
+        if (board.isValid(beingCaptured) &&
+                board.inRow(move.destination, beingCaptured) &&
+                board.bitBoards[oppositeTeam].get(beingCaptured)) {
             if (beingCaptured == board.king) {
                 int teammate2 = beingCaptured + board.dimensions;
                 int teammate3 = beingCaptured - board.dimensions;
@@ -257,8 +263,16 @@ public class OfficialRulesEngine extends RulesEngine {
 
     @Override
     public Array<TaflMove> allLegalMoves(int team) {
+        if (isGameOver(team)) {
+            return NO_MOVES;
+        }
+        return retrieveLegalMoves(team);
+    }
+
+    private Array<TaflMove> retrieveLegalMoves(int team) {
         Array<TaflMove> allLegalMoves =
                 (team == Constants.BoardConstants.WHITE_TEAM) ? whiteLegalMoves : blackLegalMoves;
+
         if (allLegalMoves.size == 0) {
             calculateLegalMoves(team);
         }
@@ -411,7 +425,7 @@ public class OfficialRulesEngine extends RulesEngine {
     private DrawReasonEnum checkDrawMoves(int team) {
         if (board.undoStack.size >= Constants.GameConstants.DRAW_MOVE_THRESHHOLD) {
             return DrawReasonEnum.DRAW_TOO_MANY_TURNS;
-        } else if (allLegalMoves(team).size == 0){
+        } else if (retrieveLegalMoves(team).size == 0){
             if (team == Constants.BoardConstants.WHITE_TEAM) {
                 return DrawReasonEnum.DRAW_NO_MOVES_WHITE;
             } else {

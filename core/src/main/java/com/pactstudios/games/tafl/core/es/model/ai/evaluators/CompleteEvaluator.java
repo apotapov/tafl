@@ -66,18 +66,6 @@ public class CompleteEvaluator implements BoardEvaluator<TaflBoard> {
             value += materialBallance(board, turn);
             value += checkRankAndFiles(board, turn);
             value += checkKingRanksAndFiles(board, turn);
-
-            //
-            //            value += checkIfKingOnEdge(board, turn);
-            //            value += checkKingRisk(board, turn);
-            //
-            //            if (turn == Constants.BoardConstants.BLACK_TEAM) {
-            //                value *= KING_ON_EDGE_ATTACKER_ADJUSTMENT;
-            //            }
-            //
-            //
-            //            value += checkRankAndFiles(board, turn);
-            //            value += moveRepetition(board, turn);
         }
 
         return value;

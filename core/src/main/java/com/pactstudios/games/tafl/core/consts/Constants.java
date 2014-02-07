@@ -44,7 +44,7 @@ public final class Constants {
         public static final int TABLE_SIZE = 1048576; // 1m
         public static final AiType DEFAULT_AI_TYPE = AiType.AI_BEGINNER;
 
-        public static final int TRANSPOSITION_TABLE_SIZE = 4194304; //1048576;
+        public static final int TRANSPOSITION_TABLE_SIZE = 1048576;
         public static final int OPENING_BOOK_SIZE = 1024;
 
         public static final int WIN = 100000;

@@ -61,6 +61,10 @@ public class TaflPreferenceService extends PreferenceService {
     }
 
     public AiType getAiType() {
-        return AiType.valueOf(getString(PREF_AI_TYPE, Constants.AiConstants.DEFAULT_AI_TYPE.toString()));
+        try {
+            return AiType.valueOf(getString(PREF_AI_TYPE, Constants.AiConstants.DEFAULT_AI_TYPE.toString()));
+        } catch (IllegalArgumentException e) {
+            return Constants.AiConstants.DEFAULT_AI_TYPE;
+        }
     }
 }

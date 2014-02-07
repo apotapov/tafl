@@ -116,7 +116,12 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
      * @param beta
      * @return
      */
-    public int max(U board, int turn, int depth, int alpha, int beta) {
+    public int max(U board, int turn, int depth, int alpha, int beta) throws InterruptedException {
+
+        if (Thread.interrupted()) {
+            throw new InterruptedException();
+        }
+
         // Count the number of nodes visited in the full-width search
         numRegularNodes++;
 
@@ -141,20 +146,11 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
             return evaluator.evaluate(board, fromWhosePerspective);
         }
 
-        // Otherwise, generate successors and search them in turn
-        // If ComputeLegalMoves returns false, then the current position is
-        // illegal
-        // because one or more moves could capture a king!
-        // In order to slant the computer's strategy in favor of quick mates, we
-        // give a bonus to king captures which occur at shallow depths, i.e.,
-        // the
-        // more plies left, the better. On the other hand, if you are losing, it
-        // really doesn't matter how fast...
-        if (rulesChecker.isGameOver(turn)) {
-            return ALPHABETA_ILLEGAL;
-        }
-
         Array<T> legalMoves = getLegalMoves(board, turn);
+
+        if (legalMoves.size == 0) {
+            return evaluator.evaluate(board, fromWhosePerspective);
+        }
 
         // Sort the moves according to History heuristic values
         historyTable.sortMoveList(legalMoves, turn);
@@ -166,12 +162,18 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
 
         transTable.storeBoard(board.hashCode(), board.hashLock(), bestSoFar, EvaluationType.ACCURATE,
                 depth, moveCounter);
-        arrayPool.free(legalMoves);
+
+        clearLegalMoves(legalMoves);
 
         return bestSoFar;
     }
 
-    public int min(U board, int turn, int depth, int alpha, int beta) {
+    public int min(U board, int turn, int depth, int alpha, int beta) throws InterruptedException {
+
+        if (Thread.interrupted()) {
+            throw new InterruptedException();
+        }
+
         // Count the number of nodes visited in the full-width search
         numRegularNodes++;
 
@@ -196,20 +198,11 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
             return evaluator.evaluate(board, fromWhosePerspective);
         }
 
-        // Otherwise, generate successors and search them in turn
-        // If ComputeLegalMoves returns false, then the current position is
-        // illegal
-        // because one or more moves could capture a king!
-        // In order to slant the computer's strategy in favor of quick mates, we
-        // give a bonus to king captures which occur at shallow depths, i.e.,
-        // the
-        // more plies left, the better. On the other hand, if you are losing, it
-        // really doesn't matter how fast...
-        if (rulesChecker.isGameOver(turn)) {
-            return ALPHABETA_ILLEGAL;
-        }
-
         Array<T> legalMoves = getLegalMoves(board, turn);
+
+        if (legalMoves.size == 0) {
+            return evaluator.evaluate(board, fromWhosePerspective);
+        }
 
         // Sort the moves according to History heuristic values
         historyTable.sortMoveList(legalMoves, turn);
@@ -221,22 +214,21 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
 
         transTable.storeBoard(board.hashCode(), board.hashLock(), bestSoFar, EvaluationType.ACCURATE,
                 depth, moveCounter);
-        arrayPool.free(legalMoves);
+
+        clearLegalMoves(legalMoves);
 
         return bestSoFar;
     }
 
 
     private int doMin(U board, int turn, int depth, int alpha,
-            int beta, Array<T> legalMoves) {
-        // Case #2: Min Node
+            int beta, Array<T> legalMoves) throws InterruptedException {
+
         int bestSoFar = ALPHABETA_MAXVAL;
         int currentBeta = beta;
 
         for (T move : legalMoves) {
-            board.simulateMove(move);
-
-            int movScore = max(board, turn, depth - 1, alpha, currentBeta);
+            int movScore = max(board, (turn + 1) % 2, depth - 1, alpha, currentBeta);
             if (movScore != ALPHABETA_ILLEGAL) {
 
                 currentBeta = Math.min(currentBeta, movScore);
@@ -245,21 +237,21 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
                     // Cutoff?
                     if (bestSoFar <= alpha) {
                         transTable.storeBoard(board.hashCode(), board.hashLock(), bestSoFar,
-                                EvaluationType.UPPERBOUND, depth, moveCounter);
+                                EvaluationType.LOWERBOUND, depth, moveCounter);
                         historyTable.addCount(move, turn);
                         numRegularCutoffs++;
-                        board.undoSimulatedMove();
+                        board.undoSimulatedMove(move);
                         return bestSoFar;
                     }
                 }
             }
-            board.undoSimulatedMove();
+            board.undoSimulatedMove(move);
         }
         return bestSoFar;
     }
 
     private int doMax(U board, int turn, int depth, int alpha,
-            int beta, Array<T> legalMoves) {
+            int beta, Array<T> legalMoves) throws InterruptedException {
         int bestSoFar = ALPHABETA_MINVAL;
         int currentAlpha = alpha;
 
@@ -269,10 +261,9 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
             board.simulateMove(move);
 
             // And search it in turn
-            int movScore = min(board, turn, depth - 1, currentAlpha, beta);
+            int movScore = min(board, (turn + 1) % 2, depth - 1, currentAlpha, beta);
             // Ignore illegal moves in the alphabeta evaluation
             if (movScore != ALPHABETA_ILLEGAL) {
-
 
                 currentAlpha = Math.max(currentAlpha, movScore);
 
@@ -288,12 +279,12 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
                         // Add this move's efficiency in the HistoryTable
                         historyTable.addCount(move, turn);
                         numRegularCutoffs++;
-                        board.undoSimulatedMove();
+                        board.undoSimulatedMove(move);
                         return bestSoFar;
                     }
                 }
-                board.undoSimulatedMove();
             }
+            board.undoSimulatedMove(move);
         }
 
         return bestSoFar;
@@ -301,7 +292,7 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
 
     @SuppressWarnings("unchecked")
     protected Array<T> getLegalMoves(U board, int turn) {
-        Array<T> generatedMoves = rulesChecker.allLegalMoves(turn);
+        Array<T> generatedMoves = rulesChecker.generateLegalMoves(turn);
         Array<T> legalMoves = arrayPool.obtain();
         for (T move : generatedMoves) {
             legalMoves.add((T) move.clone());
@@ -309,10 +300,15 @@ public abstract class AISearchAgent<T extends Move<?>, U extends GameBoard<T>> {
         return legalMoves;
     }
 
+    protected void clearLegalMoves(Array<T> moves) {
+        rulesChecker.freeMoves(moves);
+        arrayPool.free(moves);
+    }
+
     /**
      * Each agent class needs some way of picking a move!
      * @param theBoard
      * @return
      */
-    public abstract T pickBestMove(U board, int turn);
+    public abstract T pickBestMove(U board, int turn) throws InterruptedException;
 }

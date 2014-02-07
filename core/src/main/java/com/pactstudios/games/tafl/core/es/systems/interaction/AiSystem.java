@@ -7,17 +7,14 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
-import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.es.components.render.AiProcessingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
-import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.TaflMove;
 import com.pactstudios.games.tafl.core.es.systems.events.AiCompleteEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.AiTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem2;
-import com.pactstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceMoveEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
+import com.pactstudios.games.tafl.core.utils.AiThread;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
 public class AiSystem extends EventProcessingSystem2<AiTurnEvent, AiCompleteEvent> {
@@ -28,6 +25,8 @@ public class AiSystem extends EventProcessingSystem2<AiTurnEvent, AiCompleteEven
     ExecutorService executor;
 
     EntityFactorySystem efs;
+
+    public AiThread aiThread;
 
     @SuppressWarnings("unchecked")
     public AiSystem(LocaleService localeService) {
@@ -42,36 +41,16 @@ public class AiSystem extends EventProcessingSystem2<AiTurnEvent, AiCompleteEven
         super.initialize();
         matchMapper = world.getMapper(MatchComponent.class);
         efs = world.getSystem(EntityFactorySystem.class);
+
+        this.aiThread = new AiThread(world, this);
     }
 
     @Override
     protected void processEvent(Entity e, AiTurnEvent event) {
         MatchComponent component = matchMapper.get(e);
-        final TaflMatch match = component.match;
 
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    TaflMove move = match.aiStrategy.search(match);
-                    if (move != null) {
-                        AiCompleteEvent completeEvent = world.createEvent(AiCompleteEvent.class);
-                        completeEvent.move = move;
-                        world.postEvent(AiSystem.this, completeEvent);
-                    } else {
-                        LifeCycleEvent lce = world.createEvent(LifeCycleEvent.class);
-                        lce.lifecycle = LifeCycle.SURRENDER;
-                        world.postEvent(AiSystem.this, lce);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                    LifeCycleEvent lce = world.createEvent(LifeCycleEvent.class);
-                    lce.lifecycle = LifeCycle.SURRENDER;
-                    world.postEvent(AiSystem.this, lce);
-                }
-            }
-        });
+        aiThread.match = component.match;
+        executor.execute(aiThread);
 
         String text = localeService.get(LocalizedStrings.Game.AI_PROCESSING);
         efs.createAiProcessingPrompt(e, text);
@@ -86,6 +65,20 @@ public class AiSystem extends EventProcessingSystem2<AiTurnEvent, AiCompleteEven
         moveEvent.move.source = event.move.source;
         moveEvent.move.destination = event.move.destination;
         world.postEvent(this, moveEvent);
+    }
+
+    public void stopThread() {
+        aiThread.interrupt();
+    }
+
+    @SuppressWarnings("deprecation")
+    public void pauseThread() {
+        aiThread.suspend();
+    }
+
+    @SuppressWarnings("deprecation")
+    public void resumeThread() {
+        aiThread.resume();
     }
 
 }

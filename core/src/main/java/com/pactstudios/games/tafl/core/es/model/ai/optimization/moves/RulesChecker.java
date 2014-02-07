@@ -16,7 +16,8 @@ import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 
 public interface RulesChecker<T extends Move<?>, U extends GameBoard<T>> {
 
-    public Array<T> allLegalMoves(int pieceType);
+    public Array<T> generateLegalMoves(int pieceType);
+    public void freeMoves(Array<T> moves);
 
     public boolean isGameOver(int team);
 

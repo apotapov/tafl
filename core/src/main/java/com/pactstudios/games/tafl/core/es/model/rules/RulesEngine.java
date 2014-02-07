@@ -21,7 +21,6 @@ public abstract class RulesEngine implements TaflMatchObserver, RulesChecker<Taf
 
     public abstract boolean isMoveLegal(int team, int source, int destination);
     public abstract BitBoard getLegalMoves(int team, int source);
-    @Override
     public abstract Array<TaflMove> allLegalMoves(int team);
 
     public abstract boolean isHostile(int capturingTeam, int oppositeCell);

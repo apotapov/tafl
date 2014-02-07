@@ -34,14 +34,15 @@ public final class Constants {
     }
 
     public static final class AiConstants {
-        public static final int MAX_TREE_DEPTH = 5;
+        public static final int INT_TREE_DEPTH = 1;
+        public static final int ADV_TREE_DEPTH = 4;
 
         public static final Color LOADING_PROMP_COLOR = new Color(0f, 0f, 0f, 0.4f);
         public static final float LOADING_PROMPT_WIDTH = 200;
         public static final float LOADING_PROMPT_HEIGHT = 60;
 
         public static final int TABLE_SIZE = 1048576; // 1m
-        public static final AiType DEFAULT_AI_TYPE = AiType.AI_RANDOM;
+        public static final AiType DEFAULT_AI_TYPE = AiType.AI_BEGINNER;
 
         public static final int TRANSPOSITION_TABLE_SIZE = 4194304; //1048576;
         public static final int OPENING_BOOK_SIZE = 1024;

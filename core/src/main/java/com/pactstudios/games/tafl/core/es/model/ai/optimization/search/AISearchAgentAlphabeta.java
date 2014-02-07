@@ -36,7 +36,7 @@ public class AISearchAgentAlphabeta<T extends Move<?>, U extends GameBoard<T>> e
     // Implementation of the abstract method defined in the superclass
     @SuppressWarnings("unchecked")
     @Override
-    public T pickBestMove(U board, int turn) {
+    public T pickBestMove(U board, int turn) throws InterruptedException {
         // Store the identity of the moving side, so that we can tell Evaluator
         // from whose perspective we need to evaluate positions
         fromWhosePerspective = turn;
@@ -66,7 +66,7 @@ public class AISearchAgentAlphabeta<T extends Move<?>, U extends GameBoard<T>> e
         // Loop on all pseudo-legal moves
         for (T move : legalMoves) {
             board.simulateMove(move);
-            int movScore = min(board, turn, depth - 1, currentAlpha,
+            int movScore = min(board, (turn + 1) % 2, depth - 1, currentAlpha,
                     ALPHABETA_MAXVAL);
             if (movScore != ALPHABETA_ILLEGAL) {
 
@@ -74,18 +74,21 @@ public class AISearchAgentAlphabeta<T extends Move<?>, U extends GameBoard<T>> e
 
                 if (movScore > bestSoFar) {
                     bestMove = (T) move.clone();
+                    bestMove.eval = movScore;
                     bestSoFar = movScore;
                 }
             }
-            board.undoSimulatedMove();
+            board.undoSimulatedMove(move);
         }
+
+        clearLegalMoves(legalMoves);
 
         System.out.println("  --> Number of nodes: " + numRegularNodes);
         System.out.print("  --> Transposition Table hits for regular nodes: ");
         System.out.println(numRegularTTHits + " of " + numRegularNodes);
         System.out.println("  --> Number of cutoffs for regular nodes: "
                 + numRegularCutoffs);
-        System.out.println("  --> Best move: " + bestMove);
+        System.out.println("  --> Best move: " + bestMove + " value: " + bestMove.eval);
 
         return bestMove;
     }

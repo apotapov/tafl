@@ -138,12 +138,11 @@ public class TaflBoard extends GameBoard<TaflMove> {
     }
 
     @Override
-    public TaflMove undoMove() {
-        TaflMove move = super.undoMove();
-        if (move != null && move.destination == king) {
+    protected void undoMove(TaflMove move) {
+        super.undoMove(move);
+        if (move.destination == king) {
             king = move.source;
         }
-        return move;
     }
 
     @Override

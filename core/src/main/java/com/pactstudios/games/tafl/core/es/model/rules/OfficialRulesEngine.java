@@ -323,10 +323,10 @@ public class OfficialRulesEngine extends RulesEngine {
         }
 
         // LEFT
-        if (board.isValid(cellRight)
-                && board.inRow(cellId, cellRight)
-                && board.inRow(cellId, cellLeft)
-                && isHostile(oppositeTeam, cellLeft)) {
+        if (board.isValid(cellRight) &&
+                isHostile(oppositeTeam, cellLeft) &&
+                board.inRow(cellId, cellRight) &&
+                board.inRow(cellId, cellLeft)) {
             tempBitBoard.set(board.getColumn(cellRight)).and(oppositeBoard);
             for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
                 if (board.rules.isMoveLegal(oppositeTeam, i, cellId)) {
@@ -336,10 +336,10 @@ public class OfficialRulesEngine extends RulesEngine {
         }
 
         // RIGHT
-        if (board.isValid(cellLeft)
-                && board.inRow(cellId, cellLeft)
-                && board.inRow(cellId, cellRight)
-                && isHostile(oppositeTeam, cellRight)) {
+        if (board.isValid(cellLeft) &&
+                isHostile(oppositeTeam, cellRight) &&
+                board.inRow(cellId, cellLeft) &&
+                board.inRow(cellId, cellRight)) {
             tempBitBoard.set(board.getColumn(cellLeft)).and(oppositeBoard);
             for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
                 if (board.rules.isMoveLegal(oppositeTeam, i, cellId)) {
@@ -521,5 +521,16 @@ public class OfficialRulesEngine extends RulesEngine {
             kingEscapePosition = Constants.BoardConstants.ILLEGAL_CELL;
         }
         return null;
+    }
+
+    @Override
+    public void freeMoves(Array<TaflMove> moves) {
+        TaflMove.movePool.freeAll(moves);
+    }
+
+    @Override
+    public Array<TaflMove> generateLegalMoves(int pieceType) {
+        calculateLegalMoves(pieceType);
+        return allLegalMoves(pieceType);
     }
 }

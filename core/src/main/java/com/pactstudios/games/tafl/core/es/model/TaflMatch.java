@@ -206,14 +206,6 @@ public class TaflMatch {
         return Integer.toString(_id);
     }
 
-    public void simulateMove(TaflMove move) {
-        board.simulateMove(move);
-    }
-
-    public void undoSimulatedMove() {
-        board.undoSimulatedMove();
-    }
-
     public void applyMove(TaflMove move, boolean simulate) {
         board.applyMove(move, simulate);
         if (!simulate) {

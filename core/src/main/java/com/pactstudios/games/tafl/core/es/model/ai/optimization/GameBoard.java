@@ -19,7 +19,6 @@ public abstract class GameBoard<T extends Move<?>> {
 
     public ZorbistHash zorbistHash;
 
-    Array<T> simulatedMoves;
     public Array<T> undoStack;
 
     public int hashCode;
@@ -34,7 +33,6 @@ public abstract class GameBoard<T extends Move<?>> {
         this.boardSize = dimensions * dimensions;
         this.zorbistHash = zorbistHash;
 
-        this.simulatedMoves = new Array<T>();
         this.undoStack = new Array<T>();
 
         bitBoards = new BitBoard[pieceTypes];
@@ -82,7 +80,7 @@ public abstract class GameBoard<T extends Move<?>> {
         return null;
     }
 
-    private void undoMove(T move) {
+    protected void undoMove(T move) {
         BitBoard bitBoard = bitBoards[move.pieceType];
         bitBoard.clear(move.destination);
         bitBoard.set(move.source);
@@ -123,16 +121,12 @@ public abstract class GameBoard<T extends Move<?>> {
         applyMove(move, true);
         move.capturedPieces.set(getCapturedPieces(move));
         removePieces((move.pieceType + 1) % 2, move.capturedPieces);
-        simulatedMoves.add(move);
     }
 
     protected abstract BitBoard getCapturedPieces(T move);
 
-    public void undoSimulatedMove() {
-        if (simulatedMoves.size > 0) {
-            T move = simulatedMoves.pop();
-            undoMove(move);
-        }
+    public void undoSimulatedMove(T move) {
+        undoMove(move);
     }
 
     public void reset() {

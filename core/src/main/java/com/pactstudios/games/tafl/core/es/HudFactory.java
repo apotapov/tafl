@@ -4,6 +4,7 @@ import com.artemis.World;
 import com.artemis.systems.event.SystemEvent;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -22,6 +23,7 @@ import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.UndoEvent;
+import com.pactstudios.games.tafl.core.es.systems.interaction.AiSystem;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
 
@@ -55,6 +57,7 @@ public class HudFactory {
         ChangeListener restartListener = new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                world.getSystem(AiSystem.class).stopThread();
                 LifeCycleEvent lifecycleEvent = SystemEvent.createEvent(LifeCycleEvent.class);
                 lifecycleEvent.lifecycle = LifeCycle.RESTART;
                 world.postEvent(null, lifecycleEvent);
@@ -64,6 +67,7 @@ public class HudFactory {
         ChangeListener quitListener = new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                world.getSystem(AiSystem.class).stopThread();
                 LifeCycleEvent lifecycleEvent = SystemEvent.createEvent(LifeCycleEvent.class);
                 lifecycleEvent.lifecycle = LifeCycle.QUIT;
                 world.postEvent(null, lifecycleEvent);
@@ -203,7 +207,7 @@ public class HudFactory {
     }
 
     private static void createMenuDialog(HudRenderingComponent component,
-            World world,
+            final World world,
             Skin skin,
             LocaleService localeService,
             ChangeListener resumeListener,
@@ -211,7 +215,23 @@ public class HudFactory {
             ChangeListener quitListener) {
 
         String text = localeService.get(LocalizedStrings.GameMenu.MENU_TITLE);
-        component.menu = new Dialog(text, skin, Assets.Skin.DIALOG_STYLE_NAME);
+        component.menu = new Dialog(text, skin, Assets.Skin.DIALOG_STYLE_NAME) {
+
+            @Override
+            public Dialog show (Stage stage) {
+                world.getSystem(AiSystem.class).pauseThread();
+                return super.show(stage);
+            }
+
+            @Override
+            public void hide () {
+                AiSystem aiSystem = world.getSystem(AiSystem.class);
+                if (!aiSystem.aiThread.isInterrupted()) {
+                    aiSystem.resumeThread();
+                }
+                super.hide();
+            }
+        };
 
         component.menu.setSkin(skin);
 
@@ -320,6 +340,7 @@ public class HudFactory {
         button.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
+                world.getSystem(AiSystem.class).stopThread();
                 UndoEvent undoEvent = SystemEvent.createEvent(UndoEvent.class);
                 world.postEvent(null, undoEvent);
             }

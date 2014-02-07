@@ -34,8 +34,8 @@ public final class Constants {
     }
 
     public static final class AiConstants {
-        public static final int INT_TREE_DEPTH = 1;
-        public static final int ADV_TREE_DEPTH = 4;
+        public static final int INT_TREE_DEPTH = 2;
+        public static final int ADV_TREE_DEPTH = 5;
 
         public static final Color LOADING_PROMP_COLOR = new Color(0f, 0f, 0f, 0.4f);
         public static final float LOADING_PROMPT_WIDTH = 200;

@@ -56,7 +56,7 @@ public class TaflWorld implements Disposable {
 
         createEntities();
 
-        match.initialize(game.databaseService,
+        match.initialize(game.preferenceService,
                 world.getSystem(EntityPieceSystem.class),
                 world.getSystem(CellHighlightSystem.class),
                 world.getSystem(SoundSystem.class));
@@ -131,17 +131,13 @@ public class TaflWorld implements Disposable {
     }
 
     public boolean createNewMatch() {
-        if (level == null && match == null) {
-            level = game.levelService.getLevel(game.preferenceService.getLevel());
-        } else if (level == null) {
-            level = game.levelService.getLevel(match.name);
-        }
+        level = game.levelService.getLevel(game.preferenceService.getLevel());
         match = game.levelService.createNewMatch(level);
         return match != null;
     }
 
     public boolean loadExistingMatch() {
-        TaflMatch match = game.databaseService.loadMatch();
+        TaflMatch match = game.preferenceService.loadMatch();
         if (match != null) {
             this.match = match;
             return true;

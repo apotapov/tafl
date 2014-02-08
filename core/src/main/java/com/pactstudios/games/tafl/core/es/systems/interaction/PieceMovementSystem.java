@@ -8,8 +8,8 @@ import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.TaflMove;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.pactstudios.games.tafl.core.es.systems.events.ChangeTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem2;
 import com.pactstudios.games.tafl.core.es.systems.events.MoveFinishedEvent;
@@ -18,7 +18,6 @@ import com.pactstudios.games.tafl.core.es.systems.events.PieceMoveEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.SoundSystem;
-import com.pactstudios.games.tafl.core.utils.TaflDatabaseService;
 
 public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, MoveFinishedEvent> {
 
@@ -29,14 +28,11 @@ public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, 
     EntityFactorySystem efs;
     CellHighlightSystem highlightSystem;
 
-    TaflDatabaseService dbService;
-
     Vector2 velocity;
 
     @SuppressWarnings("unchecked")
-    public PieceMovementSystem(TaflDatabaseService dbService) {
+    public PieceMovementSystem() {
         super(Aspect.getAspectForAll(MatchComponent.class), PieceMoveEvent.class, MoveFinishedEvent.class);
-        this.dbService = dbService;
         velocity = new Vector2();
     }
 
@@ -64,7 +60,7 @@ public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, 
         highlightSystem.clearCellHighlights();
     }
 
-    private Vector2 calculateVelocity(TaflMatch match, TaflMove move) {
+    private Vector2 calculateVelocity(TaflMatch match, Move move) {
         int sourceX = move.source % match.board.dimensions;
         int sourceY = move.source / match.board.dimensions;
         int destinationX = move.destination % match.board.dimensions;
@@ -86,7 +82,7 @@ public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, 
     }
 
     private void processCapturedPieces(TaflMatch match, MoveFinishedEvent event) {
-        BitBoard captured = match.rulesEngine.getCapturedPieces(event.move);
+        BitBoard captured = match.board.rules.getCapturedPieces(event.move);
 
         if (captured.cardinality() > 0) {
             PieceCaptureEvent captureEvent =

@@ -1,18 +1,45 @@
 package com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import com.pactstudios.games.tafl.core.enums.EvaluationType;
 
 public class TranspositionTable {
 
-    int size;
-    TranspositionTableEntry table[];
+    private class LruCache extends LinkedHashMap<TranspositionTableEntry, TranspositionTableEntry> {
+
+        private static final long serialVersionUID = -7590996424683869190L;
+
+        private final int maxEntries;
+
+        TranspositionTableEntry evictedKey;
+        TranspositionTableEntry evictedValue;
+
+        public LruCache(final int maxEntries) {
+            super(maxEntries + 1, 1.0f, true);
+            this.maxEntries = maxEntries;
+        }
+
+        @Override
+        protected boolean removeEldestEntry(final Map.Entry<TranspositionTableEntry, TranspositionTableEntry> eldest) {
+            if (super.size() > maxEntries) {
+                evictedKey = eldest.getKey();
+                evictedValue = eldest.getValue();
+                return true;
+            }
+            return false;
+        }
+    }
+
+    LruCache lruCache;
+    TranspositionTableEntry lookUp;
+    TranspositionTableEntry recycledKey;
+    TranspositionTableEntry recycledValue;
 
     public TranspositionTable(int size) {
-        this.size = size;
-        table = new TranspositionTableEntry[size];
-        for (int i = 0; i < size; i++) {
-            table[i] = new TranspositionTableEntry();
-        }
+        lruCache = new LruCache(size);
+        lookUp = new TranspositionTableEntry();
     }
 
     /**
@@ -20,37 +47,34 @@ public class TranspositionTable {
      * If so, return TRUE and copy the appropriate values into the
      * output parameter
      */
-    public TranspositionTableEntry lookupBoard(int hashCode, int hashLock) {
-        // Find the board's hash position in Table
-        int key = Math.abs(hashCode % size);
-        TranspositionTableEntry entry = table[key];
-
-        if (entry.evalType != null && entry.hashLock == hashLock) {
-            return entry;
-        }
-
-        return null;
+    public TranspositionTableEntry lookupBoard(int hash) {
+        lookUp.hash = hash;
+        return lruCache.get(lookUp);
     }
 
     /** Store a good evaluation found through alphabeta for a certain board
      *  position
      */
-    public boolean storeBoard(int hashCode, int hashLock, int eval, EvaluationType evalType,
-            int depth, int timeStamp) {
-        int key = Math.abs(hashCode % size);
+    public boolean storeBoard(int hash, int eval, EvaluationType evalType) {
 
-        // Would we erase a more useful (i.e., higher) position if we stored
-        // this one? If so, don't bother!
-        if (table[key].evalType == null
-                || table[key].depth <= depth
-                || table[key].timeStamp < timeStamp) {
+        TranspositionTableEntry key = recycledKey;
+        TranspositionTableEntry value = recycledValue;
+        if (key == null) {
+            key = new TranspositionTableEntry();
+            value = new TranspositionTableEntry();
+        }
+        key.hash = hash;
+        value.hash = hash;
+        value.eval = eval;
+        value.evalType = evalType;
 
-            table[key].hashLock = hashCode;
-            table[key].hashLock = hashLock;
-            table[key].eval = eval;
-            table[key].depth = depth;
-            table[key].evalType = evalType;
-            table[key].timeStamp = timeStamp;
+        lruCache.put(key, value);
+
+        if (lruCache.evictedKey != null) {
+            recycledKey = lruCache.evictedKey;
+            recycledValue = lruCache.evictedValue;
+            lruCache.evictedKey = null;
+            lruCache.evictedValue = null;
         }
         return true;
     }

@@ -1,11 +1,13 @@
 package com.pactstudios.games.tafl.core.es.model.ai.optimization.moves;
 
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
-
+import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pool.Poolable;
 import com.pactstudios.games.tafl.core.enums.EvaluationType;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 
-public abstract class Move<T extends Move<?>> implements Poolable {
+public class Move implements Poolable {
+
+    public static Pool<Move> movePool;
 
     private static final int DEFAULT_BOARD_SIZE = 64;
 
@@ -40,5 +42,19 @@ public abstract class Move<T extends Move<?>> implements Poolable {
     }
 
     @Override
-    public abstract T clone();
+    public Move clone() {
+        Move move = movePool.obtain();
+        move.pieceType = pieceType;
+        move.source = source;
+        move.destination = destination;
+        move.eval = eval;
+        move.evalType = evalType;
+        move.searchDepth = searchDepth;
+        return move;
+    }
+
+    @Override
+    public String toString() {
+        return pieceType + ": " + source + " -> " + destination;
+    }
 }

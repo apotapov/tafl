@@ -18,29 +18,23 @@ import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.RulesChecker;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.TranspositionTable;
 
-public class AISearchAgentAlphabeta<T extends Move<?>, U extends GameBoard<T>> extends AISearchAgent<T, U> {
-
-    int depth;
+public class AISearchAgentAlphabeta<U extends GameBoard> extends AISearchAgent<U> {
 
     // Construction
     public AISearchAgentAlphabeta(TranspositionTable transpositionTable,
-            HistoryTable<T> historyTable,
+            HistoryTable historyTable,
             BoardEvaluator<U> evaluator,
-            RulesChecker<T, U> rulesChecker,
+            RulesChecker rulesChecker,
             int depth) {
-        super(transpositionTable, historyTable, evaluator, rulesChecker);
-        this.depth = depth;
+        super(transpositionTable, historyTable, evaluator, rulesChecker, depth);
     }
 
-    // jcMove PickBestMove
     // Implementation of the abstract method defined in the superclass
-    @SuppressWarnings("unchecked")
     @Override
-    public T pickBestMove(U board, int turn) throws InterruptedException {
+    public Move pickBestMove(U board, int turn) throws InterruptedException {
         // Store the identity of the moving side, so that we can tell Evaluator
         // from whose perspective we need to evaluate positions
         fromWhosePerspective = turn;
-        moveCounter++;
 
         // Should we erase the history table?
         if ((random.nextInt() % 4) == 2) {
@@ -52,44 +46,57 @@ public class AISearchAgentAlphabeta<T extends Move<?>, U extends GameBoard<T>> e
         numRegularTTHits = 0;
         numEvaluationTTHits = 0;
 
-        // Find the moves
-        Array<T> legalMoves = getLegalMoves(board, turn);
-        historyTable.sortMoveList(legalMoves, turn);
+        Move bestMove = null;
 
-        // The following code blocks look a lot like the MAX node case from
-        // jcAISearchAgent.Alphabeta, with an added twist: we need to store the
-        // actual best move, and not only pass around its minimax value
-        int bestSoFar = ALPHABETA_MINVAL;
-        T bestMove = null;
-        int currentAlpha = ALPHABETA_MINVAL;
+        for (int i = 0; i < depth; i++) {
+            depthCounters.get(i).reset();
+        }
 
-        // Loop on all pseudo-legal moves
-        for (T move : legalMoves) {
-            board.simulateMove(move);
-            int movScore = min(board, (turn + 1) % 2, depth - 1, currentAlpha,
-                    ALPHABETA_MAXVAL);
-            if (movScore != ALPHABETA_ILLEGAL) {
+        long start = System.nanoTime();
+        try {
+
+            // Find the moves
+            Array<Move> legalMoves = getLegalMoves(board, turn);
+            historyTable.sortMoveList(legalMoves, turn);
+
+            // The following code blocks look a lot like the MAX node case from
+            // jcAISearchAgent.Alphabeta, with an added twist: we need to store the
+            // actual best move, and not only pass around its minimax value
+            int bestSoFar = ALPHABETA_MINVAL;
+            int currentAlpha = ALPHABETA_MINVAL;
+
+            // Loop on all pseudo-legal moves
+            for (Move move : legalMoves) {
+                board.simulateMove(move);
+                int movScore = min(board, (turn + 1) % 2, depth - 1, currentAlpha,
+                        ALPHABETA_MAXVAL);
 
                 currentAlpha = Math.max(currentAlpha, movScore);
 
                 if (movScore > bestSoFar) {
-                    bestMove = (T) move.clone();
+                    bestMove = move.clone();
                     bestMove.eval = movScore;
                     bestSoFar = movScore;
                 }
+                board.undoSimulatedMove(move);
             }
-            board.undoSimulatedMove(move);
+
+            clearLegalMoves(legalMoves);
+
+        } finally {
+            depthCounters.get(depth-1).put((System.nanoTime() - start) / NANOS_IN_SECOND);
+            for (int i = 0; i < depth; i++) {
+                System.out.println("  --> Performance at depth " + i + ": " + depthCounters.get(i));
+            }
+            System.out.println("  --> Number of nodes: " + numRegularNodes);
+            System.out.print("  --> Transposition Table hits for regular nodes: ");
+            System.out.println(numRegularTTHits + " of " + numRegularNodes);
+            System.out.println("  --> Number of cutoffs for regular nodes: "
+                    + numRegularCutoffs);
+            if (bestMove != null) {
+                System.out.println("  --> Best move: " + bestMove + " value: " + bestMove.eval);
+            }
         }
-
-        clearLegalMoves(legalMoves);
-
-        System.out.println("  --> Number of nodes: " + numRegularNodes);
-        System.out.print("  --> Transposition Table hits for regular nodes: ");
-        System.out.println(numRegularTTHits + " of " + numRegularNodes);
-        System.out.println("  --> Number of cutoffs for regular nodes: "
-                + numRegularCutoffs);
-        System.out.println("  --> Best move: " + bestMove + " value: " + bestMove.eval);
-
         return bestMove;
     }
 }

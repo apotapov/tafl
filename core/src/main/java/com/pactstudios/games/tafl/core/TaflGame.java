@@ -15,8 +15,6 @@ import com.pactstudios.games.tafl.core.screen.LevelSelectionScreen;
 import com.pactstudios.games.tafl.core.screen.LoadGameScreen;
 import com.pactstudios.games.tafl.core.screen.MainMenuScreen;
 import com.pactstudios.games.tafl.core.screen.OptionsScreen;
-import com.pactstudios.games.tafl.core.utils.TaflDatabaseService;
-import com.pactstudios.games.tafl.core.utils.TaflGameConfig;
 import com.pactstudios.games.tafl.core.utils.TaflPreferenceService;
 import com.roundtriangles.games.zaria.AbstractGame;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
@@ -24,8 +22,6 @@ import com.roundtriangles.games.zaria.screen.LoadingScreen;
 import com.roundtriangles.games.zaria.services.IAssetBasedService;
 
 public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedService {
-
-    public TaflGameConfig config;
 
     public AbstractScreen<?> currentScreen;
 
@@ -38,14 +34,9 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
 
     public Assets assets;
     public TaflLevelService levelService;
-    public TaflDatabaseService databaseService;
     public TaflPreferenceService preferenceService;
 
     private boolean disposing;
-
-    public TaflGame(TaflGameConfig config) {
-        this.config = config;
-    }
 
     @Override
     public void create() {
@@ -55,11 +46,10 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
 
     @Override
     public void initialize() {
-        databaseService = new TaflDatabaseService(config.getConnectionSource());
         levelService = new TaflLevelService(this);
         preferenceService = new TaflPreferenceService(getClass().getSimpleName(), soundService);
 
-        assets = new Assets(this, soundService, graphicsService, localeService, levelService, databaseService);
+        assets = new Assets(this, soundService, graphicsService, localeService, levelService);
     }
 
     @Override

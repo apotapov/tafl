@@ -4,10 +4,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.ZorbistHash;
 import com.pactstudios.games.tafl.core.es.model.rules.RulesEngine;
+import com.roundtriangles.games.zaria.utils.ModifiableString;
 
-public class TaflBoard extends GameBoard<TaflMove> {
+public class TaflBoard extends GameBoard {
 
     private static final String[] HORIZONTAL_CELL_ID = new String[] {
         "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
@@ -33,6 +35,8 @@ public class TaflBoard extends GameBoard<TaflMove> {
 
     public RulesEngine rules;
 
+    public ModifiableString boardString;
+
     public TaflBoard(int dimensions, int pieceTypes, ZorbistHash zorbistHash, RulesEngine rulesEngine) {
         super(dimensions, pieceTypes, zorbistHash);
         this.rules = rulesEngine;
@@ -40,12 +44,22 @@ public class TaflBoard extends GameBoard<TaflMove> {
         initialize();
     }
 
+    private void initializeStrings() {
+        StringBuilder builder = new StringBuilder(boardSize);
+        for (int i = 0; i < boardSize; i++) {
+            builder.append('0');
+        }
+
+        boardString = new ModifiableString(builder.toString());
+    }
+
     private void initialize() {
+        initializeStrings();
+
         this.position = new Vector2();
         this.selectedPiece = Constants.BoardConstants.ILLEGAL_CELL;
 
         this.hashCode = super.hashCode();
-        this.hashLock = super.hashLock();
 
         king = Constants.BoardConstants.ILLEGAL_CELL;
         capturedKing = Constants.BoardConstants.ILLEGAL_CELL;
@@ -129,7 +143,7 @@ public class TaflBoard extends GameBoard<TaflMove> {
     }
 
     @Override
-    public void applyMove(TaflMove move, boolean simulate) {
+    public void applyMove(Move move, boolean simulate) {
         super.applyMove(move, simulate);
 
         if (move.source == king) {
@@ -138,7 +152,7 @@ public class TaflBoard extends GameBoard<TaflMove> {
     }
 
     @Override
-    protected void undoMove(TaflMove move) {
+    protected void undoMove(Move move) {
         super.undoMove(move);
         if (move.destination == king) {
             king = move.source;
@@ -159,14 +173,33 @@ public class TaflBoard extends GameBoard<TaflMove> {
     public void removePieces(int team, BitBoard pieces) {
         super.removePieces(team, pieces);
 
-        if (king != Constants.BoardConstants.ILLEGAL_CELL && pieces.get(king)) {
-            king = Constants.BoardConstants.ILLEGAL_CELL;
+        if (pieces.get(king)) {
             capturedKing = king;
+            king = Constants.BoardConstants.ILLEGAL_CELL;
         }
     }
 
     @Override
-    protected BitBoard getCapturedPieces(TaflMove move) {
+    protected BitBoard getCapturedPieces(Move move) {
         return rules.getCapturedPieces(move);
+    }
+
+    @Override
+    public String toString() {
+        BitBoard bitBoard = bitBoards[Constants.BoardConstants.WHITE_TEAM];
+        for (int i = bitBoard.nextSetBit(0); i >= 0; i = bitBoard.nextSetBit(i+1)) {
+            boardString.setChar(i, Constants.BoardConstants.WHITE_PIECE);
+        }
+
+        bitBoard = bitBoards[Constants.BoardConstants.BLACK_TEAM];
+        for (int i = bitBoard.nextSetBit(0); i >= 0; i = bitBoard.nextSetBit(i+1)) {
+            boardString.setChar(i, Constants.BoardConstants.BLACK_PIECE);
+        }
+
+        if (king != Constants.BoardConstants.ILLEGAL_CELL) {
+            boardString.setChar(king, Constants.BoardConstants.KING_PIECE);
+        }
+
+        return boardString.toString();
     }
 }

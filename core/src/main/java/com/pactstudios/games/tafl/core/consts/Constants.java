@@ -24,7 +24,7 @@ public final class Constants {
         public static final boolean DEFAULT_VERSUS_COMPUTER = true;
         public static final boolean DEFAULT_COMPUTER_STARTS = true;
 
-        public static final int DRAW_MOVE_THRESHHOLD = 100;
+        public static final int DRAW_MOVE_THRESHHOLD = 300;
         public static final int DRAW_BOARD_REPETITION_THRESHHOLD = 3;
         public static final int DRAW_MOVES_TO_CHECK = 4;
 
@@ -41,7 +41,7 @@ public final class Constants {
         public static final float LOADING_PROMPT_WIDTH = 200;
         public static final float LOADING_PROMPT_HEIGHT = 60;
 
-        public static final int TABLE_SIZE = 1048576; // 1m
+        public static final int TABLE_SIZE = 1048576; //4194304; //2097152; //1048576; // 1m
         public static final AiType DEFAULT_AI_TYPE = AiType.AI_BEGINNER;
 
         public static final int TRANSPOSITION_TABLE_SIZE = 1048576;
@@ -102,10 +102,6 @@ public final class Constants {
         public static final int SMALL_BOARD_DIMENSION = 9;
         public static final int SMALL_BOARD_NUMBER_CELLS =
                 SMALL_BOARD_DIMENSION * SMALL_BOARD_DIMENSION;
-
-        public static final int BIGGEST_BOARD_DIMENSION = STANDARD_BOARD_DIMENSION;
-        public static final int BIGGEST_BOARD_NUMBER_CELLS =
-                BIGGEST_BOARD_DIMENSION * BIGGEST_BOARD_DIMENSION;
 
         public static final int ILLEGAL_CELL = -1;
 

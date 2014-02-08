@@ -3,7 +3,7 @@ package com.pactstudios.games.tafl.core.utils;
 import com.artemis.World;
 import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.TaflMove;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.pactstudios.games.tafl.core.es.systems.events.AiCompleteEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.interaction.AiSystem;
@@ -23,7 +23,7 @@ public class AiThread extends Thread {
     @Override
     public void run() {
         try {
-            TaflMove move = match.aiStrategy.search(match);
+            Move move = match.aiStrategy.search(match);
             if (move != null) {
                 AiCompleteEvent completeEvent = world.createEvent(AiCompleteEvent.class);
                 completeEvent.move = move;

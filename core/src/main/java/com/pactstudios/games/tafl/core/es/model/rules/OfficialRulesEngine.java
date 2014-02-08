@@ -10,15 +10,15 @@ import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.enums.PlayerWarningEnum;
 import com.pactstudios.games.tafl.core.es.model.TaflBoard;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.TaflMove;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 
 public class OfficialRulesEngine extends RulesEngine {
 
-    private static final Array<TaflMove> NO_MOVES = new Array<TaflMove>();
+    private static final Array<Move> NO_MOVES = new Array<Move>();
 
-    Array<TaflMove> blackLegalMoves;
-    Array<TaflMove> whiteLegalMoves;
+    Array<Move> blackLegalMoves;
+    Array<Move> whiteLegalMoves;
 
     BitBoard legalMoves;
     BitBoard allPieces;
@@ -34,6 +34,13 @@ public class OfficialRulesEngine extends RulesEngine {
 
     TaflBoard board;
 
+    public OfficialRulesEngine() {
+        blackLegalMoves = new Array<Move>();
+        whiteLegalMoves = new Array<Move>();
+        boardConfigHistory = new IntArray();
+        configurationCounter = new IntIntMap();
+    }
+
     @Override
     public boolean isGameOver(int team) {
         return checkWinner() != Constants.BoardConstants.NO_TEAM ||
@@ -44,24 +51,13 @@ public class OfficialRulesEngine extends RulesEngine {
     public void initializeMatch(TaflMatch match) {
         board = match.board;
 
-        blackLegalMoves = new Array<TaflMove>();
-        whiteLegalMoves = new Array<TaflMove>();
+        legalMoves = new BitBoard(match.board.boardSize);
+        allPieces = new BitBoard(match.board.boardSize);
 
-        legalMoves = new BitBoard(Constants.BoardConstants.BIGGEST_BOARD_NUMBER_CELLS);
-        allPieces = new BitBoard(Constants.BoardConstants.BIGGEST_BOARD_NUMBER_CELLS);
-
-        tempBitBoard = new BitBoard(Constants.BoardConstants.BIGGEST_BOARD_NUMBER_CELLS);
-
-        boardConfigHistory = new IntArray();
-        configurationCounter = new IntIntMap();
+        tempBitBoard = new BitBoard(match.board.boardSize);
 
         calculateLegalMoves(match.turn);
         boardConfigHistory.add(match.board.hashCode());
-    }
-
-    @Override
-    public void addPiece(TaflMatch match, int team, int pieces) {
-        boardConfigHistory.items[boardConfigHistory.size - 1] = match.board.hashCode();
     }
 
     @Override
@@ -70,13 +66,15 @@ public class OfficialRulesEngine extends RulesEngine {
     }
 
     @Override
-    public void applyMove(TaflMatch match, TaflMove move) {
+    public void applyMove(TaflMatch match, Move move) {
         boardConfigHistory.add(match.board.hashCode());
     }
 
     @Override
-    public void undoMove(TaflMatch match, TaflMove move) {
-        boardConfigHistory.pop();
+    public void undoMove(TaflMatch match, Move move) {
+        if (boardConfigHistory.size > 0) {
+            boardConfigHistory.pop();
+        }
     }
 
     @Override
@@ -89,10 +87,10 @@ public class OfficialRulesEngine extends RulesEngine {
     }
 
     public void calculateLegalMoves(int team) {
-        Array<TaflMove> allLegalMoves =
+        Array<Move> allLegalMoves =
                 (team == Constants.BoardConstants.WHITE_TEAM) ? whiteLegalMoves : blackLegalMoves;
 
-        TaflMove.movePool.freeAll(allLegalMoves);
+        Move.movePool.freeAll(allLegalMoves);
         allLegalMoves.clear();
         allPieces.set(board.whiteBitBoard()).or(board.blackBitBoard());
 
@@ -100,7 +98,7 @@ public class OfficialRulesEngine extends RulesEngine {
         for (int source = bitBoard.nextSetBit(0); source >= 0; source = bitBoard.nextSetBit(source+1)) {
             BitBoard moves = calculateMoves(source);
             for (int dest = moves.nextSetBit(0); dest >= 0; dest = moves.nextSetBit(dest+1)) {
-                TaflMove move = TaflMove.movePool.obtain();
+                Move move = Move.movePool.obtain();
                 move.pieceType = team;
                 move.source = source;
                 move.destination = dest;
@@ -144,7 +142,7 @@ public class OfficialRulesEngine extends RulesEngine {
     }
 
     @Override
-    public BitBoard getCapturedPieces(TaflMove move) {
+    public BitBoard getCapturedPieces(Move move) {
         tempBitBoard.clear();
 
         int capturer = move.destination;
@@ -262,15 +260,15 @@ public class OfficialRulesEngine extends RulesEngine {
     }
 
     @Override
-    public Array<TaflMove> allLegalMoves(int team) {
+    public Array<Move> allLegalMoves(int team) {
         if (isGameOver(team)) {
             return NO_MOVES;
         }
         return retrieveLegalMoves(team);
     }
 
-    private Array<TaflMove> retrieveLegalMoves(int team) {
-        Array<TaflMove> allLegalMoves =
+    private Array<Move> retrieveLegalMoves(int team) {
+        Array<Move> allLegalMoves =
                 (team == Constants.BoardConstants.WHITE_TEAM) ? whiteLegalMoves : blackLegalMoves;
 
         if (allLegalMoves.size == 0) {
@@ -281,10 +279,10 @@ public class OfficialRulesEngine extends RulesEngine {
 
     @Override
     public BitBoard getLegalMoves(int team, int source) {
-        Array<TaflMove> allLegalMoves =
+        Array<Move> allLegalMoves =
                 (team == Constants.BoardConstants.WHITE_TEAM) ? whiteLegalMoves : blackLegalMoves;
         legalMoves.clear();
-        for (TaflMove move : allLegalMoves) {
+        for (Move move : allLegalMoves) {
             if (move.source == source) {
                 legalMoves.set(move.destination);
             }
@@ -524,12 +522,12 @@ public class OfficialRulesEngine extends RulesEngine {
     }
 
     @Override
-    public void freeMoves(Array<TaflMove> moves) {
-        TaflMove.movePool.freeAll(moves);
+    public void freeMoves(Array<Move> moves) {
+        Move.movePool.freeAll(moves);
     }
 
     @Override
-    public Array<TaflMove> generateLegalMoves(int pieceType) {
+    public Array<Move> generateLegalMoves(int pieceType) {
         calculateLegalMoves(pieceType);
         return allLegalMoves(pieceType);
     }

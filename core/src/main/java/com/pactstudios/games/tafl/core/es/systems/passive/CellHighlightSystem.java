@@ -1,7 +1,5 @@
 package com.pactstudios.games.tafl.core.es.systems.passive;
 
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
-
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.managers.GroupManager;
@@ -14,7 +12,8 @@ import com.pactstudios.games.tafl.core.es.components.render.HighlightComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.TaflMatchObserver;
-import com.pactstudios.games.tafl.core.es.model.TaflMove;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 
 public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatchObserver {
 
@@ -41,7 +40,7 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
 
         BitBoard pieces = match.board.bitBoards[team];
         for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
-            if (match.rulesEngine.getLegalMoves(match.turn, i).cardinality() > 0) {
+            if (match.board.rules.getLegalMoves(match.turn, i).cardinality() > 0) {
                 highlightCell(matchComponent.match, i);
             }
         }
@@ -80,18 +79,15 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
 
     @Override
     public void initializeMatch(TaflMatch match) {
+        highlightTeam(match.turn);
     }
 
     @Override
-    public void applyMove(TaflMatch match, TaflMove move) {
+    public void applyMove(TaflMatch match, Move move) {
     }
 
     @Override
-    public void undoMove(TaflMatch match, TaflMove move) {
-    }
-
-    @Override
-    public void addPiece(TaflMatch match, int team, int pieces) {
+    public void undoMove(TaflMatch match, Move move) {
     }
 
     @Override

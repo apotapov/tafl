@@ -171,6 +171,13 @@ public class BitBoard implements Cloneable {
     protected int wlen; // number of words (elements) used in the array
 
     /**
+     * For serialization only.
+     */
+    @SuppressWarnings("unused")
+    private BitBoard() {
+    }
+
+    /**
      * Constructs an BitBoard large enough to hold <code>numBits</code>.
      */
     public BitBoard(int numBits) {

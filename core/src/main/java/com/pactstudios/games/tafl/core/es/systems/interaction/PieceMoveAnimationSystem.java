@@ -7,7 +7,7 @@ import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.movement.VelocityComponent;
-import com.pactstudios.games.tafl.core.es.model.TaflMove;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.pactstudios.games.tafl.core.es.systems.events.MoveFinishedEvent;
 
 public class PieceMoveAnimationSystem extends EntityProcessingSystem {
@@ -32,7 +32,7 @@ public class PieceMoveAnimationSystem extends EntityProcessingSystem {
         PositionComponent position = positionMapper.get(e);
         VelocityComponent velocityComponent = velocityMapper.get(e);
 
-        TaflMove move = velocityComponent.move;
+        Move move = velocityComponent.move;
 
         if (velocityComponent.distanceRemaining > 0) {
             move(velocityComponent, position.position);
@@ -46,7 +46,7 @@ public class PieceMoveAnimationSystem extends EntityProcessingSystem {
         vc.distanceRemaining -= Math.abs(vc.velocity.x + vc.velocity.y) * world.getDelta();
     }
 
-    private void animationFinished(Entity e, TaflMove move) {
+    private void animationFinished(Entity e, Move move) {
         e.removeComponent(VelocityComponent.class);
         MoveFinishedEvent event = world.createEvent(MoveFinishedEvent.class);
         event.move = move;

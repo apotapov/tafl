@@ -11,13 +11,12 @@
 package com.pactstudios.games.tafl.core.es.model.ai.optimization.moves;
 
 import com.badlogic.gdx.utils.Array;
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 
 
-public interface RulesChecker<T extends Move<?>, U extends GameBoard<T>> {
+public interface RulesChecker {
 
-    public Array<T> generateLegalMoves(int pieceType);
-    public void freeMoves(Array<T> moves);
+    public Array<Move> generateLegalMoves(int pieceType);
+    public void freeMoves(Array<Move> moves);
 
     public boolean isGameOver(int team);
 

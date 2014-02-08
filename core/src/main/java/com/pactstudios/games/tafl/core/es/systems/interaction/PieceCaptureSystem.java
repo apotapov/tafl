@@ -11,21 +11,17 @@ import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceCaptureEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
-import com.pactstudios.games.tafl.core.utils.TaflDatabaseService;
 
 public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent> {
 
     ComponentMapper<MatchComponent> matchMapper;
 
-    TaflDatabaseService dbService;
-
     CellHighlightSystem highlightSystem;
     EntityFactorySystem efs;
 
     @SuppressWarnings("unchecked")
-    public PieceCaptureSystem(TaflDatabaseService dbService) {
+    public PieceCaptureSystem() {
         super(Aspect.getAspectForAll(MatchComponent.class), PieceCaptureEvent.class);
-        this.dbService = dbService;
     }
 
     @Override

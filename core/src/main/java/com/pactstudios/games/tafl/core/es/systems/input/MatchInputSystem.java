@@ -1,7 +1,5 @@
 package com.pactstudios.games.tafl.core.es.systems.input;
 
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
-
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -12,6 +10,8 @@ import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.pactstudios.games.tafl.core.es.systems.events.InputEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceMoveEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
@@ -58,13 +58,14 @@ public class MatchInputSystem extends InputProcessingSystem<MatchRenderingCompon
     }
 
     private void movePiece(TaflMatch match, int destination) {
-        if (match.rulesEngine.isMoveLegal(match.turn, match.board.selectedPiece, destination)) {
+        if (match.board.rules.isMoveLegal(match.turn, match.board.selectedPiece, destination)) {
             move(match.turn, match.board.selectedPiece, destination);
         }
     }
 
     private void move(int pieceType, int source, int destination) {
         PieceMoveEvent event = world.createEvent(PieceMoveEvent.class);
+        event.move = Move.movePool.obtain();
         event.move.pieceType = pieceType;
         event.move.source = source;
         event.move.destination = destination;
@@ -75,7 +76,7 @@ public class MatchInputSystem extends InputProcessingSystem<MatchRenderingCompon
         if (cellId != match.board.selectedPiece) {
             highlightSystem.clearCellHighlights();
             highlightSystem.highlightCell(match, cellId);
-            BitBoard legalMoves = match.rulesEngine.getLegalMoves(match.turn, cellId);
+            BitBoard legalMoves = match.board.rules.getLegalMoves(match.turn, cellId);
             highlightSystem.highlightCells(match, legalMoves);
             match.board.selectedPiece = cellId;
         }

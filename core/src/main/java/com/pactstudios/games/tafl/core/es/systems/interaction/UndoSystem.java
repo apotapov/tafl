@@ -9,7 +9,6 @@ import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.es.systems.events.UndoEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
-import com.pactstudios.games.tafl.core.utils.TaflDatabaseService;
 
 public class UndoSystem extends EventProcessingSystem<UndoEvent> {
 
@@ -19,12 +18,9 @@ public class UndoSystem extends EventProcessingSystem<UndoEvent> {
     EntityFactorySystem efs;
     CellHighlightSystem highlightSystem;
 
-    TaflDatabaseService dbService;
-
     @SuppressWarnings("unchecked")
-    public UndoSystem(TaflDatabaseService dbService) {
+    public UndoSystem() {
         super(Aspect.getAspectForAll(MatchComponent.class), UndoEvent.class);
-        this.dbService = dbService;
     }
 
     @Override

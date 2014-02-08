@@ -8,8 +8,8 @@ import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.TaflMatchObserver;
-import com.pactstudios.games.tafl.core.es.model.TaflMove;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.roundtriangles.games.zaria.services.SoundService;
 
 public class SoundSystem extends PassiveEntitySystem implements TaflMatchObserver {
@@ -28,7 +28,7 @@ public class SoundSystem extends PassiveEntitySystem implements TaflMatchObserve
     }
 
     @Override
-    public void applyMove(TaflMatch match, TaflMove move) {
+    public void applyMove(TaflMatch match, Move move) {
         int rnd = random.nextInt(2);
         if (move.pieceType == Constants.BoardConstants.WHITE_TEAM) {
             if (rnd == 0) {
@@ -46,12 +46,8 @@ public class SoundSystem extends PassiveEntitySystem implements TaflMatchObserve
     }
 
     @Override
-    public void undoMove(TaflMatch match, TaflMove move) {
+    public void undoMove(TaflMatch match, Move move) {
         soundService.playSound(Assets.Sounds.UNDO_SOUND);
-    }
-
-    @Override
-    public void addPiece(TaflMatch match, int team, int pieces) {
     }
 
     @Override

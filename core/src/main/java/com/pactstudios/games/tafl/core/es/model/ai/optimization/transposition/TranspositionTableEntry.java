@@ -19,20 +19,15 @@ public class TranspositionTableEntry {
     public EvaluationType evalType;
     public int eval;
 
-    // This value was obtained through a search to what depth? 0 means that
-    // it was obtained during quiescence search (which is always effectively
-    // of infinite depth but only within the quiescence domain; full-width
-    // search of depth 1 is still more valuable than whatever Qsearch result)
-    public int depth;
+    public int hash;
 
-    public long hash;
-    // Board position signature, used to detect collisions
-    public long hashLock;
+    @Override
+    public int hashCode() {
+        return hash;
+    }
 
-    // What this entry stored so long ago that it may no longer be useful?
-    // Without this, the table will slowly become clogged with old, deep search
-    // results for positions with no chance of happening again, and new
-    // positions (specifically the 0-depth quiescence search positions) will
-    // never be stored!
-    public int timeStamp;
+    @Override
+    public boolean equals(Object o) {
+        return o != null && o instanceof TranspositionTableEntry && ((TranspositionTableEntry)o).hash == hash;
+    }
 }

@@ -8,7 +8,6 @@ import com.pactstudios.games.tafl.core.level.TaflLevel;
 import com.pactstudios.games.tafl.core.level.TaflLevelService;
 import com.roundtriangles.games.zaria.services.GraphicsService;
 import com.roundtriangles.games.zaria.services.SoundService;
-import com.roundtriangles.games.zaria.services.db.DatabaseService;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
 import com.roundtriangles.games.zaria.services.utils.FontDefinition;
 import com.roundtriangles.games.zaria.services.utils.GameAssetLoader;
@@ -98,21 +97,18 @@ public class Assets extends GameAssetLoader<TaflLevel> {
     protected LocaleService localeService;
     protected GraphicsService graphicsService;
     protected TaflLevelService levelService;
-    protected DatabaseService databaseService;
 
     public Assets(TaflGame taflGame,
             SoundService soundService,
             GraphicsService graphicsService,
             LocaleService localeService,
-            TaflLevelService levelService,
-            DatabaseService databaseService) {
-        super(taflGame, soundService, graphicsService, localeService, levelService, databaseService);
+            TaflLevelService levelService) {
+        super(taflGame, soundService, graphicsService, localeService, levelService);
 
         this.soundService = soundService;
         this.graphicsService = graphicsService;
         this.localeService = localeService;
         this.levelService = levelService;
-        this.databaseService = databaseService;
 
         assetManager.setLoader(com.badlogic.gdx.scenes.scene2d.ui.Skin.class,
                 new CustomSkinLoader(new InternalFileHandleResolver()));
@@ -153,7 +149,5 @@ public class Assets extends GameAssetLoader<TaflLevel> {
                 Assets.Locales.ADDITIONAL_LOCALES);
 
         levelService.load();
-
-        databaseService.load();
     }
 }

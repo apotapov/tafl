@@ -15,7 +15,6 @@ import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.PlayerWarningEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
-import com.pactstudios.games.tafl.core.utils.TaflDatabaseService;
 
 public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
 
@@ -23,12 +22,9 @@ public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
 
     CellHighlightSystem highlightSystem;
 
-    TaflDatabaseService dbService;
-
     @SuppressWarnings("unchecked")
-    public ChangeTurnSystem(TaflDatabaseService dbService) {
+    public ChangeTurnSystem() {
         super(Aspect.getAspectForAll(MatchComponent.class), ChangeTurnEvent.class);
-        this.dbService = dbService;
     }
 
     @Override
@@ -64,7 +60,7 @@ public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
     }
 
     private void checkPlayerWarning(TaflMatch match) {
-        PlayerWarningEnum playerWarning = match.rulesEngine.checkPlayerWarning(match.turn);
+        PlayerWarningEnum playerWarning = match.board.rules.checkPlayerWarning(match.turn);
         if (playerWarning != null) {
             PlayerWarningEvent event = world.createEvent(PlayerWarningEvent.class);
             event.playerWarning = playerWarning;
@@ -73,7 +69,7 @@ public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
     }
 
     private boolean checkEndGame(TaflMatch match) {
-        int winner = match.rulesEngine.checkWinner();
+        int winner = match.board.rules.checkWinner();
         if (winner != Constants.BoardConstants.NO_TEAM) {
             LifeCycle lifecycle = LifeCycle.WIN;
             if (match.versusComputer && match.computerTeam == winner) {
@@ -89,7 +85,7 @@ public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
     }
 
     private boolean checkDraw(TaflMatch match) {
-        DrawReasonEnum drawReason = match.rulesEngine.checkDraw(match.turn);
+        DrawReasonEnum drawReason = match.board.rules.checkDraw(match.turn);
         if (drawReason != null) {
             LifeCycleEvent event = world.createEvent(LifeCycleEvent.class);
             event.lifecycle = LifeCycle.DRAW;

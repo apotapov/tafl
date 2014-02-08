@@ -22,14 +22,14 @@ import com.badlogic.gdx.utils.Array;
  * hope that, on average, it will still be more efficient overall.
  *
  ************************************************************************/
-public class HistoryTable<T extends Move<?>> {
+public class HistoryTable {
 
-    private class MoveComparator implements Comparator<T> {
+    private class MoveComparator implements Comparator<Move> {
 
         public int currentHistory[][];
 
         @Override
-        public int compare(T mov1, T mov2) {
+        public int compare(Move mov1, Move mov2) {
             int mov1Value = currentHistory[mov1.source][mov1.destination];
             int mov2Value = currentHistory[mov2.source][mov2.destination];
             if (mov1Value == mov2Value) {
@@ -59,7 +59,7 @@ public class HistoryTable<T extends Move<?>> {
         moveComparator = new MoveComparator();
     }
 
-    public boolean sortMoveList(Array<T> moves, int teamId) {
+    public boolean sortMoveList(Array<Move> moves, int teamId) {
         // Which history will we use?
         moveComparator.currentHistory = history[teamId];
         moves.sort(moveComparator);
@@ -67,7 +67,7 @@ public class HistoryTable<T extends Move<?>> {
     }
 
     // History table compilation
-    public boolean addCount(T move, int teamId) {
+    public boolean addCount(Move move, int teamId) {
         history[teamId][move.source][move.destination]++;
         return true;
     }

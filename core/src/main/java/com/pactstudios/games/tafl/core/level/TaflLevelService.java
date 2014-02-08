@@ -1,7 +1,5 @@
 package com.pactstudios.games.tafl.core.level;
 
-import java.util.Date;
-
 import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.loaders.AsynchronousAssetLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -28,8 +26,8 @@ public class TaflLevelService extends LevelService<TaflLevel>{
     public TaflMatch createNewMatch(TaflLevel level) {
 
         TaflMatch match = new TaflMatch();
-        match.created = new Date();
-        match.updated = new Date();
+        match.created = System.currentTimeMillis();
+        match.updated = match.created;
         match.name = level.name;
         match.status = LifeCycle.PLAY;
         match.rulesType = level.rules;

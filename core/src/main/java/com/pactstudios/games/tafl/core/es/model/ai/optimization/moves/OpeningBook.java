@@ -23,18 +23,18 @@ import com.badlogic.gdx.utils.Array;
  * for well-known positions
  ****************************************************************************/
 
-public class OpeningBook<T extends Move<?>> {
+public class OpeningBook {
     // The hash table itself
 
     int tableSize;
-    Array<OpeningBookEntry<T>> table;
+    Array<OpeningBookEntry> table;
 
     // Construction
     public OpeningBook(int tableSize) {
         this.tableSize = tableSize;
-        table = new Array<OpeningBookEntry<T>>(tableSize);
+        table = new Array<OpeningBookEntry>(tableSize);
         for (int i = 0; i < tableSize; i++) {
-            table.add(new OpeningBookEntry<T>());
+            table.add(new OpeningBookEntry());
         }
     }
 
@@ -47,11 +47,11 @@ public class OpeningBook<T extends Move<?>> {
      * @param teamId
      * @return
      */
-    public T query(int hashKey, int hashLock, int teamId) {
+    public Move query(int hashKey, int hashLock, int teamId) {
         // First, look for a match in the table
         int key = Math.abs(hashKey % tableSize);
 
-        OpeningBookEntry<T> entry = table.get(key);
+        OpeningBookEntry entry = table.get(key);
 
         // If the hash lock doesn't match the one for our position, get out
         if (entry.hashLock == hashLock) {
@@ -67,11 +67,11 @@ public class OpeningBook<T extends Move<?>> {
         return null;
     }
 
-    public boolean storeMove(int hashKey, int hashLock, T moveTeam1, T moveTeam2) {
+    public boolean storeMove(int hashKey, int hashLock, Move moveTeam1, Move moveTeam2) {
         // Where should we store this data?
         int key = Math.abs(hashKey % tableSize);
 
-        OpeningBookEntry<T> entry = table.get(key);
+        OpeningBookEntry entry = table.get(key);
 
         // Is there already an entry for a different board position where we
         // want to put this? If so, mark it deleted

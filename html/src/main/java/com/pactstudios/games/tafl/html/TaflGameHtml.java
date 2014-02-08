@@ -5,17 +5,11 @@ import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import com.pactstudios.games.tafl.core.TaflGame;
 import com.pactstudios.games.tafl.core.consts.Constants;
-import com.pactstudios.games.tafl.core.utils.TaflGameConfig;
 
 public class TaflGameHtml extends GwtApplication {
     @Override
     public ApplicationListener getApplicationListener () {
-        return new TaflGame(getGameConfig());
-    }
-
-    private TaflGameConfig getGameConfig() {
-        // TODO Auto-generated method stub
-        return null;
+        return new TaflGame();
     }
 
     @Override

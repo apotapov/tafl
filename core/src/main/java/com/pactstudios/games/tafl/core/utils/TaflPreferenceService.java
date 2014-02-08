@@ -1,22 +1,40 @@
 package com.pactstudios.games.tafl.core.utils;
 
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.AiType;
+import com.pactstudios.games.tafl.core.enums.LifeCycle;
+import com.pactstudios.games.tafl.core.es.model.TaflMatch;
+import com.pactstudios.games.tafl.core.es.model.TaflMatchObserver;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.roundtriangles.games.zaria.services.PreferenceService;
 
-public class TaflPreferenceService extends PreferenceService {
+public class TaflPreferenceService extends PreferenceService implements TaflMatchObserver {
 
     public static final String PREF_DEFAULT_LEVEL = "match.level";
     public static final String PREF_VERSUS_COMPUTER = "match.versus";
     public static final String PREF_COMPUTER_STARTS = "match.computerStarts";
     public static final String PREF_AI_TYPE = "match.aiType";
+    public static final String PREF_SAVED_MATCH = "match.savedMatch";
+
+    protected Json json;
 
     public TaflPreferenceService(String preferencesName) {
         super(preferencesName);
+        initializeJson();
     }
 
     public TaflPreferenceService(String preferencesName, PreferenceChangeListener...listeners) {
         super(preferencesName, listeners);
+        initializeJson();
+    }
+
+    private void initializeJson() {
+        json = new Json();
+        json.setSerializer(TaflMatch.class, new TaflMatchSerializer());
+        json.setOutputType(OutputType.minimal);
     }
 
     @Override
@@ -66,5 +84,62 @@ public class TaflPreferenceService extends PreferenceService {
         } catch (IllegalArgumentException e) {
             return Constants.AiConstants.DEFAULT_AI_TYPE;
         }
+    }
+
+    public TaflMatch loadMatch() {
+        String match = getString(PREF_SAVED_MATCH, null);
+        if (match != null) {
+            try {
+                return json.fromJson(TaflMatch.class, match);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void initializeMatch(TaflMatch match) {
+        updateMatch(match);
+    }
+
+    @Override
+    public void applyMove(TaflMatch match, Move move) {
+        updateMatch(match);
+    }
+
+    @Override
+    public void undoMove(TaflMatch match, Move move) {
+        updateMatch(match);
+    }
+
+    @Override
+    public void removePieces(TaflMatch match, int captor,
+            BitBoard capturedPieces) {
+        updateMatch(match);
+    }
+
+    @Override
+    public void changeTurn(TaflMatch match) {
+        updateMatch(match);
+    }
+
+    @Override
+    public void gameOver(TaflMatch match, LifeCycle status) {
+        if (status != LifeCycle.QUIT) {
+            setString(PREF_SAVED_MATCH, "");
+        }
+    }
+
+    private void updateMatch(TaflMatch match) {
+        try {
+            setString(PREF_SAVED_MATCH, json.toJson(match));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean hasSavedMatch() {
+        return getString(PREF_SAVED_MATCH, null) != null;
     }
 }

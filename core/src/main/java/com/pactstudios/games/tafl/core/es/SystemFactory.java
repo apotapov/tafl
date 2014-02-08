@@ -63,11 +63,11 @@ public class SystemFactory {
     }
 
     protected static void initPassiveSystems(TaflWorld gameWorld) {
-        gameWorld.world.setSystem(new ChangeTurnSystem(gameWorld.game.databaseService));
+        gameWorld.world.setSystem(new ChangeTurnSystem());
         gameWorld.world.setSystem(new AiSystem(gameWorld.game.localeService));
-        gameWorld.world.setSystem(new UndoSystem(gameWorld.game.databaseService));
-        gameWorld.world.setSystem(new PieceMovementSystem(gameWorld.game.databaseService));
-        gameWorld.world.setSystem(new PieceCaptureSystem(gameWorld.game.databaseService));
+        gameWorld.world.setSystem(new UndoSystem());
+        gameWorld.world.setSystem(new PieceMovementSystem());
+        gameWorld.world.setSystem(new PieceCaptureSystem());
         gameWorld.world.setSystem(new LifeCycleSystem(gameWorld));
         gameWorld.world.setSystem(new ComponentFactorySystem(gameWorld.game.graphicsService));
         gameWorld.world.setSystem(new EntityFactorySystem());

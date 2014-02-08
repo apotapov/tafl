@@ -1,16 +1,16 @@
 package com.pactstudios.games.tafl.core.es.systems.passive;
 
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
-
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.systems.PassiveEntitySystem;
 import com.badlogic.gdx.math.Vector2;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.TaflMatchObserver;
-import com.pactstudios.games.tafl.core.es.model.TaflMove;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 
 public class EntityPieceSystem extends PassiveEntitySystem implements TaflMatchObserver {
 
@@ -30,7 +30,7 @@ public class EntityPieceSystem extends PassiveEntitySystem implements TaflMatchO
     }
 
     @Override
-    public void applyMove(TaflMatch match, TaflMove move) {
+    public void applyMove(TaflMatch match, Move move) {
         Entity e = pieceEntities[move.source];
         pieceEntities[move.source] = null;
         pieceEntities[move.destination] = e;
@@ -42,7 +42,7 @@ public class EntityPieceSystem extends PassiveEntitySystem implements TaflMatchO
     }
 
     @Override
-    public void undoMove(TaflMatch match, TaflMove move) {
+    public void undoMove(TaflMatch match, Move move) {
         Entity e = pieceEntities[move.destination];
         pieceEntities[move.destination] = null;
         pieceEntities[move.source] = e;
@@ -66,13 +66,18 @@ public class EntityPieceSystem extends PassiveEntitySystem implements TaflMatchO
     }
 
     @Override
-    public void addPiece(TaflMatch match, int team, int piece) {
-        pieceEntities[piece] = efs.createPiece(match, team, piece);
-    }
-
-    @Override
     public void initializeMatch(TaflMatch match) {
         pieceEntities = new Entity[match.board.boardSize];
+
+        BitBoard board = match.board.bitBoards[Constants.BoardConstants.WHITE_TEAM];
+        for (int i = board.nextSetBit(0); i >= 0; i = board.nextSetBit(i+1)) {
+            pieceEntities[i] = efs.createPiece(match, Constants.BoardConstants.WHITE_TEAM, i);
+        }
+
+        board = match.board.bitBoards[Constants.BoardConstants.BLACK_TEAM];
+        for (int i = board.nextSetBit(0); i >= 0; i = board.nextSetBit(i+1)) {
+            pieceEntities[i] = efs.createPiece(match, Constants.BoardConstants.BLACK_TEAM, i);
+        }
     }
 
     @Override

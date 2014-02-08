@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.ZorbistHash;
 
-public abstract class GameBoard<T extends Move<?>> {
+public abstract class GameBoard {
 
     public static final int NUMBER_OF_TEAMS = 2;
 
@@ -19,10 +19,9 @@ public abstract class GameBoard<T extends Move<?>> {
 
     public ZorbistHash zorbistHash;
 
-    public Array<T> undoStack;
+    public Array<Move> undoStack;
 
     public int hashCode;
-    public int hashLock;
 
     int applyCount = 0;
     int undoCount = 0;
@@ -33,12 +32,14 @@ public abstract class GameBoard<T extends Move<?>> {
         this.boardSize = dimensions * dimensions;
         this.zorbistHash = zorbistHash;
 
-        this.undoStack = new Array<T>();
+        this.undoStack = new Array<Move>();
 
         bitBoards = new BitBoard[pieceTypes];
         for (int i = 0; i < pieceTypes; i++) {
             bitBoards[i] = new BitBoard(boardSize);
         }
+
+        this.hashCode = calculateHashCode();
 
         rows = new BitBoard[dimensions];
         for (int i = 0; i < dimensions; i++) {
@@ -54,41 +55,36 @@ public abstract class GameBoard<T extends Move<?>> {
         }
     }
 
-    public void applyMove(T move, boolean simulate) {
+    public void applyMove(Move move, boolean simulate) {
         BitBoard bitBoard = bitBoards[move.pieceType];
         bitBoard.clear(move.source);
         bitBoard.set(move.destination);
 
         hashCode ^= zorbistHash.hash[move.pieceType][move.source];
         hashCode ^= zorbistHash.hash[move.pieceType][move.destination];
-        hashLock ^= zorbistHash.hashLock[move.pieceType][move.source];
-        hashLock ^= zorbistHash.hashLock[move.pieceType][move.destination];
 
         if (!simulate) {
-            @SuppressWarnings("unchecked")
-            T clone = (T) move.clone();
+            Move clone = move.clone();
             undoStack.add(clone);
         }
     }
 
-    public T undoMove() {
+    public Move undoMove() {
         if (undoStack.size > 0) {
-            T move = undoStack.pop();
+            Move move = undoStack.pop();
             undoMove(move);
             return move;
         }
         return null;
     }
 
-    protected void undoMove(T move) {
+    protected void undoMove(Move move) {
         BitBoard bitBoard = bitBoards[move.pieceType];
         bitBoard.clear(move.destination);
         bitBoard.set(move.source);
 
         hashCode ^= zorbistHash.hash[move.pieceType][move.source];
         hashCode ^= zorbistHash.hash[move.pieceType][move.destination];
-        hashLock ^= zorbistHash.hashLock[move.pieceType][move.source];
-        hashLock ^= zorbistHash.hashLock[move.pieceType][move.destination];
 
         addPieces((move.pieceType + 1) % 2, move.capturedPieces);
     }
@@ -97,15 +93,11 @@ public abstract class GameBoard<T extends Move<?>> {
         bitBoards[team].set(piece);
 
         hashCode ^= zorbistHash.hash[team][piece];
-        hashLock ^= zorbistHash.hashLock[team][piece];
     }
 
     public void addPieces(int team, BitBoard pieces) {
         for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
-            bitBoards[team].set(i);
-
-            hashCode ^= zorbistHash.hash[team][i];
-            hashLock ^= zorbistHash.hashLock[team][i];
+            addPiece(team, i);
         }
     }
 
@@ -113,19 +105,18 @@ public abstract class GameBoard<T extends Move<?>> {
         for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
             bitBoards[team].clear(i);
             hashCode ^= zorbistHash.hash[team][i];
-            hashLock ^= zorbistHash.hashLock[team][i];
         }
     }
 
-    public void simulateMove(T move) {
+    public void simulateMove(Move move) {
         applyMove(move, true);
         move.capturedPieces.set(getCapturedPieces(move));
         removePieces((move.pieceType + 1) % 2, move.capturedPieces);
     }
 
-    protected abstract BitBoard getCapturedPieces(T move);
+    protected abstract BitBoard getCapturedPieces(Move move);
 
-    public void undoSimulatedMove(T move) {
+    public void undoSimulatedMove(Move move) {
         undoMove(move);
     }
 
@@ -140,6 +131,10 @@ public abstract class GameBoard<T extends Move<?>> {
      */
     @Override
     public int hashCode() {
+        return hashCode;
+    }
+
+    private int calculateHashCode() {
         int hash = 0;
         // Look at all pieces, one at a time
         for (int currPiece = 0; currPiece < pieceTypes; currPiece++) {
@@ -158,27 +153,6 @@ public abstract class GameBoard<T extends Move<?>> {
                 // we accumulate the related HashKeyComponent.
                 if (board.get(currCell)) {
                     hash ^= zorbistHash.hash[currPiece][currCell];
-                }
-            }
-        }
-        return hash;
-    }
-
-    /**
-     * Compute a second 32-bit hash key, using an entirely different set
-     * piece/cell components.
-     * This is required to be able to detect hashing collisions without
-     * storing an entire board in each slot of the TranspositionTable,
-     * which would gobble up inordinate amounts of memory
-     * @return
-     */
-    public int hashLock() {
-        int hash = 0;
-        for (int currPiece = 0; currPiece < pieceTypes; currPiece++) {
-            BitBoard board = bitBoards[currPiece];
-            for (int currCell = 0; currCell < boardSize; currCell++) {
-                if (board.get(currCell)) {
-                    hash ^= zorbistHash.hashLock[currPiece][currCell];
                 }
             }
         }

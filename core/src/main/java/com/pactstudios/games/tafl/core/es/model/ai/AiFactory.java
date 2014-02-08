@@ -2,29 +2,35 @@ package com.pactstudios.games.tafl.core.es.model.ai;
 
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.AiType;
-import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.ai.evaluators.CompleteEvaluator;
-import com.pactstudios.games.tafl.core.utils.TaflDatabaseService;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.HistoryTable;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.RulesChecker;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.TranspositionTable;
 
 public class AiFactory {
 
-    public static AiStrategy getAiStrategy(AiType type, TaflMatch match, TaflDatabaseService dbService) {
+    public static AiStrategy getAiStrategy(AiType type, RulesChecker rules, int boardSize) {
+
+        TranspositionTable transpositionTable =
+                new TranspositionTable(Constants.AiConstants.TRANSPOSITION_TABLE_SIZE);
+        HistoryTable historyTable = new HistoryTable(boardSize);
+
         switch (type) {
         case AI_BEGINNER:
             return new RandomMoveStrategy();
         case AI_INTERMEDIATE:
             return new AlphaBetaMoveStrategy(
-                    dbService.transpositionTable,
-                    dbService.historyTable,
-                    new CompleteEvaluator(match.board.boardSize),
-                    match.rulesEngine,
+                    transpositionTable,
+                    historyTable,
+                    new CompleteEvaluator(boardSize),
+                    rules,
                     Constants.AiConstants.INT_TREE_DEPTH);
         case AI_ADVANCED:
             return new AlphaBetaMoveStrategy(
-                    dbService.transpositionTable,
-                    dbService.historyTable,
-                    new CompleteEvaluator(match.board.boardSize),
-                    match.rulesEngine,
+                    transpositionTable,
+                    historyTable,
+                    new CompleteEvaluator(boardSize),
+                    rules,
                     Constants.AiConstants.ADV_TREE_DEPTH);
         default:
             return null;

@@ -1,10 +1,10 @@
 package com.pactstudios.games.tafl.core.es.systems.events;
 
 import com.artemis.systems.event.SystemEvent;
-import com.pactstudios.games.tafl.core.es.model.TaflMove;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 
 public class MoveFinishedEvent extends SystemEvent {
-    public TaflMove move;
+    public Move move;
 
     @Override
     protected void resetForPooling() {

@@ -13,7 +13,7 @@ import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.render.AnimationComponent;
 import com.pactstudios.games.tafl.core.es.components.render.DrawableComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
-import com.pactstudios.games.tafl.core.es.model.TaflMove;
+import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 
 public class EntityFactorySystem extends PassiveEntitySystem {
 
@@ -103,7 +103,7 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         return e;
     }
 
-    public void movePiece(TaflMatch match, TaflMove move, Vector2 velocity, float distanceRemaining) {
+    public void movePiece(TaflMatch match, Move move, Vector2 velocity, float distanceRemaining) {
         Entity entity = entityPieceSystem.get(move.source);
         entity.addComponent(componentFactory.createVelocityComponent(
                 move, velocity, distanceRemaining));

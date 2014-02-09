@@ -56,10 +56,11 @@ public class TaflWorld implements Disposable {
 
         createEntities();
 
-        match.initialize(game.preferenceService,
+        match.initialize(
                 world.getSystem(EntityPieceSystem.class),
                 world.getSystem(CellHighlightSystem.class),
-                world.getSystem(SoundSystem.class));
+                world.getSystem(SoundSystem.class),
+                game.preferenceService);
 
         lifecycle = LifeCycle.PLAY;
 

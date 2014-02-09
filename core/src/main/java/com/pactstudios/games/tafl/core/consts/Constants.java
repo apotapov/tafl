@@ -41,7 +41,7 @@ public final class Constants {
         public static final float LOADING_PROMPT_WIDTH = 200;
         public static final float LOADING_PROMPT_HEIGHT = 60;
 
-        public static final int TABLE_SIZE = 1048576; //4194304; //2097152; //1048576; // 1m
+        public static final int TABLE_SIZE = 2097152; //4194304; //2097152; //1048576; // 1m
         public static final AiType DEFAULT_AI_TYPE = AiType.AI_BEGINNER;
 
         public static final int TRANSPOSITION_TABLE_SIZE = 1048576;
@@ -109,9 +109,10 @@ public final class Constants {
         public static final int BLACK_TEAM = 1;
         public static final int NO_TEAM = -1;
 
-        public static final char WHITE_PIECE = '1';
-        public static final char BLACK_PIECE = '2';
-        public static final char KING_PIECE = '4';
+        public static final char EMPTY_CELL = '.';
+        public static final char WHITE_PIECE = 'W';
+        public static final char BLACK_PIECE = 'B';
+        public static final char KING_PIECE = 'K';
     }
 
     public static final class BoardRenderConstants {

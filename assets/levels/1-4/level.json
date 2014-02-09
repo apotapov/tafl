@@ -2,6 +2,6 @@
 	class: "com.pactstudios.games.tafl.core.level.TaflLevel",
     name: "LEVEL_1_4",
     rules: "OFFICIAL",
-    boardRepresentation: "0000222001000000000000000100000000000000000020000000002200000000022000000000200000000100000011000000000010000400002220000",
+    boardRepresentation: "....BBB..W...............W..................B.........BB.........BB.........B........W......WW..........W....K....BBB....",
     turn: 1,
 }

@@ -13,7 +13,6 @@ import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.ZorbistHash;
 import com.pactstudios.games.tafl.core.es.model.rules.RulesFactory;
-import com.pactstudios.games.tafl.core.utils.TaflPreferenceService;
 
 public class TaflMatch {
 
@@ -44,11 +43,11 @@ public class TaflMatch {
         observers = new Array<TaflMatchObserver>();
     }
 
-    public void initialize(TaflPreferenceService preferenceService, TaflMatchObserver...observers) {
+    public void initialize(TaflMatchObserver...observers) {
         initializeComponents();
         intializeTurn();
 
-        registerObservers(preferenceService, observers);
+        registerObservers(observers);
         initializeMatch();
     }
 
@@ -97,13 +96,11 @@ public class TaflMatch {
         }
     }
 
-    private void registerObservers(TaflPreferenceService preferenceService,
-            TaflMatchObserver... observers) {
+    private void registerObservers(TaflMatchObserver... observers) {
         registerObserver(board.rules);
         for (TaflMatchObserver observer : observers) {
             registerObserver(observer);
         }
-        registerObserver(preferenceService);
     }
 
     public void registerObserver(TaflMatchObserver observer) {

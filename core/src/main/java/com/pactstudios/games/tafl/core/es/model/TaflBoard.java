@@ -47,7 +47,7 @@ public class TaflBoard extends GameBoard {
     private void initializeStrings() {
         StringBuilder builder = new StringBuilder(boardSize);
         for (int i = 0; i < boardSize; i++) {
-            builder.append('0');
+            builder.append(Constants.BoardConstants.EMPTY_CELL);
         }
 
         boardString = new ModifiableString(builder.toString());

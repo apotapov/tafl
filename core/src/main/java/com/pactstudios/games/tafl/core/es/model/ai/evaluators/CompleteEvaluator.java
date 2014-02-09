@@ -16,9 +16,13 @@ public class CompleteEvaluator implements BoardEvaluator<TaflBoard> {
     private static final int WIN = 100000;
     private static final int LOSS = -WIN;
 
-    private static final int PIECE_VALUE = 10;
-    private static final int PIECE_VULNERABILITY_VALUE = 3;
-    private static final int OPPOSITE_VULNERABILITY_VALUE = 1;
+    private static final int WHITE_PIECE_VALUE = 5;
+    private static final int BLACK_PIECE_VALUE = 10;
+    private static final int WHITE_PIECE_VULNERABILITY_VALUE = 3;
+    private static final int BLACK_PIECE_VULNERABILITY_VALUE = 5;
+    private static final int WHITE_OPPOSITE_PIECE_VULNERABILITY_VALUE = 4;
+    private static final int BLACK_OPPOSITE_PIECE_VULNERABILITY_VALUE = 2;
+
 
     private static final int KING_MOBILITY = 5;
     private static final int KING_EMPTY_RANK_2 = 90;
@@ -124,15 +128,26 @@ public class CompleteEvaluator implements BoardEvaluator<TaflBoard> {
 
         board.whiteBitBoard().clear(board.king);
 
+        int pieceValue = WHITE_PIECE_VALUE;
+        int pieceVulnerability = WHITE_PIECE_VULNERABILITY_VALUE;
+        int oppositeVulnerability = WHITE_OPPOSITE_PIECE_VULNERABILITY_VALUE;
+        if (turn == Constants.BoardConstants.BLACK_TEAM) {
+            pieceValue = BLACK_PIECE_VALUE;
+            pieceVulnerability = BLACK_PIECE_VULNERABILITY_VALUE;
+            oppositeVulnerability = BLACK_OPPOSITE_PIECE_VULNERABILITY_VALUE;
+        }
+
+
+
         for (int i = turnBoard.nextSetBit(0); i >= 0; i = turnBoard.nextSetBit(i + 1)) {
-            value += PIECE_VALUE
-                    - (board.rules.isVulnerable(turn, i) ? PIECE_VULNERABILITY_VALUE
+            value += pieceValue
+                    - (board.rules.isVulnerable(turn, i) ? pieceVulnerability
                             : 0);
         }
 
         for (int i = oppositeBoard.nextSetBit(0); i >= 0; i = oppositeBoard.nextSetBit(i + 1)) {
-            value -= PIECE_VALUE
-                    - (board.rules.isVulnerable(oppositTeam, i) ? OPPOSITE_VULNERABILITY_VALUE
+            value -= pieceValue
+                    - (board.rules.isVulnerable(oppositTeam, i) ? oppositeVulnerability
                             : 0);
         }
 

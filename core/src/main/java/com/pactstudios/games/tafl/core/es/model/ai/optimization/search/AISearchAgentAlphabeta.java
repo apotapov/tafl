@@ -11,6 +11,7 @@
 package com.pactstudios.games.tafl.core.es.model.ai.optimization.search;
 
 import com.badlogic.gdx.utils.Array;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.ai.evaluators.BoardEvaluator;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.HistoryTable;
@@ -85,16 +86,18 @@ public class AISearchAgentAlphabeta<U extends GameBoard> extends AISearchAgent<U
 
         } finally {
             depthCounters.get(depth-1).put((System.nanoTime() - start) / NANOS_IN_SECOND);
-            for (int i = 0; i < depth; i++) {
-                System.out.println("  --> Performance at depth " + i + ": " + depthCounters.get(i));
-            }
-            System.out.println("  --> Number of nodes: " + numRegularNodes);
-            System.out.print("  --> Transposition Table hits for regular nodes: ");
-            System.out.println(numRegularTTHits + " of " + numRegularNodes);
-            System.out.println("  --> Number of cutoffs for regular nodes: "
-                    + numRegularCutoffs);
-            if (bestMove != null) {
-                System.out.println("  --> Best move: " + bestMove + " value: " + bestMove.eval);
+            if (Constants.GameConstants.DEBUG) {
+                for (int i = 0; i < depth; i++) {
+                    System.out.println("  --> Performance at depth " + i + ": " + depthCounters.get(i));
+                }
+                System.out.println("  --> Number of nodes: " + numRegularNodes);
+                System.out.print("  --> Transposition Table hits for regular nodes: ");
+                System.out.println(numRegularTTHits + " of " + numRegularNodes);
+                System.out.println("  --> Number of cutoffs for regular nodes: "
+                        + numRegularCutoffs);
+                if (bestMove != null) {
+                    System.out.println("  --> Best move: " + bestMove + " value: " + bestMove.eval);
+                }
             }
         }
         return bestMove;

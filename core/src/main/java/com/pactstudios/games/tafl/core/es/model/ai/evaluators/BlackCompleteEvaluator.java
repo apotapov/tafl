@@ -1,16 +1,18 @@
 package com.pactstudios.games.tafl.core.es.model.ai.evaluators;
 
+import com.badlogic.gdx.utils.IntArray;
+import com.badlogic.gdx.utils.IntSet;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.model.TaflBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 
 public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
 
-    private static final int[] CORNER_PROTECTION_CELLS = {
-        2, 12, 22,
-        8, 20, 32,
-        88, 100, 112,
-        98, 108, 118
+    private static final int[] CORNER_VALUE_CELLS = {
+        2, 22, 12,
+        8, 32, 20,
+        88, 112, 100,
+        98, 118, 108,
     };
 
     private static final int WIN = 100000;
@@ -24,14 +26,16 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
     private static final int BLACK_OPPOSITE_PIECE_VULNERABILITY_VALUE = 2;
 
 
-    private static final int KING_MOBILITY = 5;
+    private static final int KING_MOBILITY = 2;
     private static final int KING_EMPTY_RANK_2 = 90;
     private static final int KING_EMPTY_RANK_3 = 45;
     private static final int KING_EMPTY_FILE_2 = 90;
     private static final int KING_EMPTY_FILE_3 = 70;
 
-    private static final int CORNER_PROTECTION_BONUS = 20;
+    private static final int CORNER_PROTECTION_BONUS = 10;
+    private static final int WHITE_CORNER_PROTECTION_BONUS = 30;
     private static final int DANGER_SQUARE_BONUS = -2;
+    private static final int FULL_BARRICADE_BONUS = 25;
 
     public int[][][] Field = new int[11][11][1];
 
@@ -40,14 +44,46 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
 
     public BitBoard cornerProtection;
 
+    public BitBoard north;
+    public BitBoard south;
+    public BitBoard east;
+    public BitBoard west;
+
+    public IntArray barricadeStack;
+    public IntSet barricadeSet;
+
     public BlackCompleteEvaluator(int boardSize) {
         tempBitBoard = new BitBoard(boardSize);
         allPiecesBoard = new BitBoard(boardSize);
 
         cornerProtection = new BitBoard(boardSize);
-        for (int element : CORNER_PROTECTION_CELLS) {
+        for (int element : CORNER_VALUE_CELLS) {
             cornerProtection.set(element);
         }
+
+        int dimension = (int)Math.sqrt(boardSize);
+        int half = dimension / 2;
+        north = new BitBoard(boardSize);
+        south = new BitBoard(boardSize);
+        east = new BitBoard(boardSize);
+        west = new BitBoard(boardSize);
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                if (i < half) {
+                    south.set(i * dimension + j);
+                } else if (i > half) {
+                    north.set(i * dimension + j);
+                }
+                if (j < half) {
+                    west.set(i * dimension + j);
+                } else if (j > half) {
+                    east.set(i * dimension + j);
+                }
+            }
+        }
+
+        barricadeStack = new IntArray();
+        barricadeSet = new IntSet();
     }
 
     @Override
@@ -65,14 +101,120 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
             }
         } else {
 
+            value += detectBarricade(board, turn);
             value += kingMobility(board, turn);
             value += squareWeight(board, turn);
             value += materialBallance(board, turn);
             value += checkRankAndFiles(board, turn);
             value += checkKingRanksAndFiles(board, turn);
+
         }
 
         return value;
+    }
+
+    private int detectBarricade(TaflBoard board, int turn) {
+        int value = 0;
+
+        BitBoard blackBoard = board.blackBitBoard();
+        BitBoard whiteBoard = board.whiteBitBoard();
+
+        if (checkBarricade(board, 0, blackBoard, whiteBoard, 1, board.dimensions) > 0) {
+            if (south.get(board.king)) {
+                value += FULL_BARRICADE_BONUS;
+            }
+            if (west.get(board.king)) {
+                value += FULL_BARRICADE_BONUS;
+            }
+        }
+
+        if (checkBarricade(board, 10, blackBoard, whiteBoard, -1, board.dimensions) > 0) {
+            if (south.get(board.king)) {
+                value += FULL_BARRICADE_BONUS;
+            }
+            if (east.get(board.king)) {
+                value += FULL_BARRICADE_BONUS;
+            }
+        }
+
+        if (checkBarricade(board, 110, blackBoard, whiteBoard, 1, -board.dimensions) > 0) {
+            if (north.get(board.king)) {
+                value += FULL_BARRICADE_BONUS;
+            }
+            if (west.get(board.king)) {
+                value += FULL_BARRICADE_BONUS;
+            }
+        }
+
+        if (checkBarricade(board, 120, blackBoard, whiteBoard, -1, -board.dimensions) > 0) {
+            if (north.get(board.king)) {
+                value += FULL_BARRICADE_BONUS;
+            }
+            if (east.get(board.king)) {
+                value += FULL_BARRICADE_BONUS;
+            }
+        }
+
+        return value;
+    }
+
+    private int checkBarricade(TaflBoard board, int start,
+            BitBoard blackBoard, BitBoard whiteBoard,
+            int xDirection, int yDirection) {
+
+        int baseCornerCellx = start + xDirection * 2;
+        int baseCornerCelly = start + yDirection * 2;
+        int baseCornerCellxy = start + xDirection + yDirection;
+
+        int dangerCornerCellx = start + xDirection;
+        int dangerCornerCelly = start + yDirection;
+
+        if (blackBoard.get(baseCornerCellx) &&
+                blackBoard.get(baseCornerCelly) &&
+                blackBoard.get(baseCornerCellxy) &&
+                !whiteBoard.get(dangerCornerCellx) &&
+                !whiteBoard.get(dangerCornerCelly)) {
+            return 3;
+        } else if (whiteBoard.get(dangerCornerCellx) ||
+                whiteBoard.get(dangerCornerCelly)) {
+            return -1;
+        } else {
+
+            barricadeSet.clear();
+            barricadeStack.clear();
+
+            barricadeSet.add(baseCornerCellx);
+            barricadeSet.add(baseCornerCelly);
+            barricadeSet.add(baseCornerCellxy);
+            barricadeStack.add(baseCornerCellx);
+            barricadeStack.add(baseCornerCelly);
+            barricadeStack.add(baseCornerCellxy);
+
+            int barricadeCount = 2;
+            while (barricadeStack.size > 0) {
+                int current = barricadeStack.pop();
+                if (whiteBoard.get(current)) {
+                    return -1;
+                }
+
+                if (blackBoard.get(current)) {
+                    barricadeCount++;
+                } else {
+                    int nextX = current + xDirection;
+                    if (board.isValid(nextX) && board.inRow(current, nextX) && !barricadeSet.contains(nextX)) {
+                        barricadeStack.add(nextX);
+                        barricadeSet.add(nextX);
+                    }
+
+                    int nextY = current + yDirection;
+                    if (board.isValid(nextY) && !barricadeSet.contains(nextY)) {
+                        barricadeStack.add(nextY);
+                        barricadeSet.add(nextY);
+                    }
+                }
+            }
+            return barricadeCount;
+        }
     }
 
     private int kingMobility(TaflBoard board, int turn) {
@@ -89,14 +231,36 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
 
     private int squareWeight(TaflBoard board, int turn) {
         int value = 0;
-        int oppositTeam = (turn + 1) % 2;
 
-        BitBoard turnBoard = board.bitBoards[turn];
-        BitBoard oppositeBoard = board.bitBoards[oppositTeam];
+        BitBoard whiteBoard = board.whiteBitBoard();
+        BitBoard blackBoard = board.blackBitBoard();
 
-        for (int i = turnBoard.nextSetBit(0); i >= 0; i = turnBoard.nextSetBit(i + 1)) {
+        BitBoard yHemisphere = null;
+        if (north.get(board.king)) {
+            yHemisphere = north;
+        } else if (south.get(board.king)) {
+            yHemisphere = south;
+        }
+
+        BitBoard xHemisphere = null;
+        if (west.get(board.king)) {
+            xHemisphere = west;
+        } else if (east.get(board.king)) {
+            xHemisphere = east;
+        }
+
+        for (int i = blackBoard.nextSetBit(0); i >= 0; i = blackBoard.nextSetBit(i + 1)) {
             if (cornerProtection.get(i)) {
-                value += CORNER_PROTECTION_BONUS;
+                if (board.king == board.center) {
+                    value += CORNER_PROTECTION_BONUS;
+                } else {
+                    if (yHemisphere != null && yHemisphere.get(i)) {
+                        value += CORNER_PROTECTION_BONUS * 2;
+                    }
+                    if (xHemisphere != null && xHemisphere.get(i)) {
+                        value += CORNER_PROTECTION_BONUS * 2;
+                    }
+                }
             } else if (board.nearCorners.get(i)) {
                 value += DANGER_SQUARE_BONUS;
             } else if (board.nearCenter.get(i)) {
@@ -104,9 +268,9 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
             }
         }
 
-        for (int i = oppositeBoard.nextSetBit(0); i >= 0; i = oppositeBoard.nextSetBit(i + 1)) {
+        for (int i = whiteBoard.nextSetBit(0); i >= 0; i = whiteBoard.nextSetBit(i + 1)) {
             if (cornerProtection.get(i)) {
-                value -= CORNER_PROTECTION_BONUS;
+                value -= WHITE_CORNER_PROTECTION_BONUS;
             } else if (board.nearCorners.get(i)) {
                 value -= DANGER_SQUARE_BONUS;
             } else if (board.nearCenter.get(i)) {
@@ -114,8 +278,10 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
             }
         }
 
+        if (turn == Constants.BoardConstants.WHITE_TEAM) {
+            value *= -1;
+        }
 
-        // TODO Auto-generated method stub
         return value;
     }
 

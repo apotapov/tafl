@@ -186,6 +186,8 @@ public class TaflBoard extends GameBoard {
 
     @Override
     public String toString() {
+        boardString.reset();
+
         BitBoard bitBoard = bitBoards[Constants.BoardConstants.WHITE_TEAM];
         for (int i = bitBoard.nextSetBit(0); i >= 0; i = bitBoard.nextSetBit(i+1)) {
             boardString.setChar(i, Constants.BoardConstants.WHITE_PIECE);

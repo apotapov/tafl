@@ -24,13 +24,13 @@ public class WhiteCompleteEvaluator implements BoardEvaluator<TaflBoard> {
     private static final int BLACK_OPPOSITE_PIECE_VULNERABILITY_VALUE = 2;
 
 
-    private static final int KING_MOBILITY = 5;
+    private static final int KING_MOBILITY = 10;
     private static final int KING_EMPTY_RANK_2 = 90;
     private static final int KING_EMPTY_RANK_3 = 45;
     private static final int KING_EMPTY_FILE_2 = 90;
     private static final int KING_EMPTY_FILE_3 = 70;
 
-    private static final int CORNER_PROTECTION_BONUS = 20;
+    private static final int CORNER_PROTECTION_BONUS = 15;
     private static final int DANGER_SQUARE_BONUS = -2;
 
     public int[][][] Field = new int[11][11][1];

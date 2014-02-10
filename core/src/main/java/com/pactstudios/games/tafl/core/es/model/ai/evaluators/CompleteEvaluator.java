@@ -28,10 +28,10 @@ public class CompleteEvaluator implements BoardEvaluator<TaflBoard> {
     private static final int KING_EMPTY_RANK_2 = 90;
     private static final int KING_EMPTY_RANK_3 = 45;
     private static final int KING_EMPTY_FILE_2 = 90;
-    private static final int KING_EMPTY_FILE_3 = 45;
+    private static final int KING_EMPTY_FILE_3 = 70;
 
-    private static final int CORNER_PROTECTION_BONUS = 5;
-    private static final int DANGER_SQUARE_BONUS = -1;
+    private static final int CORNER_PROTECTION_BONUS = 20;
+    private static final int DANGER_SQUARE_BONUS = -2;
 
     public int[][][] Field = new int[11][11][1];
 
@@ -136,8 +136,6 @@ public class CompleteEvaluator implements BoardEvaluator<TaflBoard> {
             pieceVulnerability = BLACK_PIECE_VULNERABILITY_VALUE;
             oppositeVulnerability = BLACK_OPPOSITE_PIECE_VULNERABILITY_VALUE;
         }
-
-
 
         for (int i = turnBoard.nextSetBit(0); i >= 0; i = turnBoard.nextSetBit(i + 1)) {
             value += pieceValue

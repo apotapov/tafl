@@ -87,7 +87,9 @@ public class TaflGameSimulation {
                         System.out.println("King: " + match.board.king);
                     }
                 } else {
-                    surrender = true;
+                    if (match.board.rules.checkWinner() == -1) {
+                        surrender = true;
+                    }
                     break;
                 }
             }

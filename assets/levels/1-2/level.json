@@ -2,5 +2,5 @@
 	class: "com.pactstudios.games.tafl.core.level.TaflLevel",
     name: "LEVEL_1_2",
     rules: "OFFICIAL",
-    boardRepresentation: "...BBB.......B........W....B...W...BBBWWKWWBBB...W...B....W........B.......BBB...",
+    boardRepresentation: "..B..BB.B...BW......W.B.B.......BB...............WW...B....W.WW.BB......W...B...K.......B.........B.B...B...B...B.B...W..",
 }

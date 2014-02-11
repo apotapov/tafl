@@ -8,8 +8,8 @@ public class CompleteEvaluator implements BoardEvaluator<TaflBoard> {
     BlackCompleteEvaluator blackEval;
     WhiteCompleteEvaluator whiteEval;
 
-    public CompleteEvaluator(int boardSize) {
-        blackEval = new BlackCompleteEvaluator(boardSize);
+    public CompleteEvaluator(int boardSize, int dimensions) {
+        blackEval = new BlackCompleteEvaluator(boardSize, dimensions);
         whiteEval = new WhiteCompleteEvaluator(boardSize);
     }
 

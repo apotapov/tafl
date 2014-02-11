@@ -6,7 +6,6 @@ import java.io.PrintStream;
 
 import com.badlogic.gdx.math.FloatCounter;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.IntArray;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.AiType;
 import com.pactstudios.games.tafl.core.enums.DrawReasonEnum;
@@ -17,6 +16,8 @@ import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 
 public class TaflGameSimulation {
+
+    private static final int NUMBER_OF_GAMES = 20;
 
     public static void main(String[] args) throws InterruptedException, FileNotFoundException {
 
@@ -40,10 +41,9 @@ public class TaflGameSimulation {
         FloatCounter blackWhitePieceCounter = new FloatCounter(0);
         FloatCounter blackBlackPieceCounter = new FloatCounter(0);
 
-        IntArray kingPositions = new IntArray();
         FloatCounter kingMoves = new FloatCounter(0);
 
-        for (int game = 0; game < 100; game++) {
+        for (int game = 0; game < NUMBER_OF_GAMES; game++) {
             long start = System.currentTimeMillis();
 
             TaflMatch match = new TaflMatch();
@@ -110,33 +110,30 @@ public class TaflGameSimulation {
                 winner = match.board.rules.checkWinner();
             }
 
+            System.out.println("Game #" + (game + 1));
+            System.out.println("Game lasted: " + time);
+            System.out.println("Number of moves: " + match.board.undoStack.size);
+
+
             if (winner == 0) {
+                System.out.println("Winner is: white");
                 whiteWin++;
                 whiteTimeCounter.put(time);
                 whiteMoveCounter.put(match.board.undoStack.size);
                 whiteWhitePieceCounter.put(match.board.whiteBitBoard().cardinality());
                 whiteBlackPieceCounter.put(match.board.blackBitBoard().cardinality());
             } else if (winner == 1) {
+                System.out.println("Winner is: black");
                 blackWin++;
                 blackTimeCounter.put(time);
                 blackMoveCounter.put(match.board.undoStack.size);
                 blackWhitePieceCounter.put(match.board.whiteBitBoard().cardinality());
                 blackBlackPieceCounter.put(match.board.blackBitBoard().cardinality());
             } else {
+                DrawReasonEnum reason = match.board.rules.checkDraw((match.turn + 1) % 2);
+                System.out.println("Draw: " + reason);
                 draw++;
-                drawReasons.add(match.board.rules.checkDraw(match.turn));
-            }
-
-            System.out.println("Game #" + (game + 1));
-            System.out.println("Game lasted: " + time);
-            System.out.println("Number of moves: " + match.board.undoStack.size);
-
-            if (winner == 0) {
-                System.out.println("Winner is: white");
-            } else if (winner == 1) {
-                System.out.println("Winner is: black");
-            } else {
-                System.out.println("Draw: " + match.board.rules.checkDraw((match.turn + 1) % 2));
+                drawReasons.add(reason);
             }
 
             System.out.println("King moves: " + toString(kingMoves));
@@ -145,8 +142,6 @@ public class TaflGameSimulation {
             if (winner == 1 && match.board.king == -1) {
                 match.board.king = match.board.capturedKing;
             }
-
-            kingPositions.add(match.board.king);
 
             String boardString = match.board.toString();
 
@@ -171,7 +166,6 @@ public class TaflGameSimulation {
         System.out.println("Black win, white pieces left: " + toString(blackWhitePieceCounter));
         System.out.println("Black win, black pieces left: " + toString(blackBlackPieceCounter));
         System.out.println();
-        System.out.println("King positions: " + kingPositions);
     }
 
     private static String toString(FloatCounter counter) {

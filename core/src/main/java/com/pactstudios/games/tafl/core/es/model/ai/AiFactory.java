@@ -2,18 +2,18 @@ package com.pactstudios.games.tafl.core.es.model.ai;
 
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.AiType;
+import com.pactstudios.games.tafl.core.es.model.TaflBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.evaluators.CompleteEvaluator;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.HistoryTable;
-import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.RulesChecker;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.transposition.TranspositionTable;
 
 public class AiFactory {
 
-    public static AiStrategy getAiStrategy(AiType type, RulesChecker rules, int boardSize) {
+    public static AiStrategy getAiStrategy(AiType type, TaflBoard board) {
 
         TranspositionTable transpositionTable =
                 new TranspositionTable(Constants.AiConstants.TRANSPOSITION_TABLE_SIZE);
-        HistoryTable historyTable = new HistoryTable(boardSize);
+        HistoryTable historyTable = new HistoryTable(board.boardSize);
 
         switch (type) {
         case AI_BEGINNER:
@@ -22,15 +22,15 @@ public class AiFactory {
             return new AlphaBetaMoveStrategy(
                     transpositionTable,
                     historyTable,
-                    new CompleteEvaluator(boardSize),
-                    rules,
+                    new CompleteEvaluator(board.boardSize, board.dimensions),
+                    board.rules,
                     Constants.AiConstants.INT_TREE_DEPTH);
         case AI_ADVANCED:
             return new AlphaBetaMoveStrategy(
                     transpositionTable,
                     historyTable,
-                    new CompleteEvaluator(boardSize),
-                    rules,
+                    new CompleteEvaluator(board.boardSize, board.dimensions),
+                    board.rules,
                     Constants.AiConstants.ADV_TREE_DEPTH);
         default:
             return null;

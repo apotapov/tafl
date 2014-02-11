@@ -33,8 +33,6 @@ public class WhiteCompleteEvaluator implements BoardEvaluator<TaflBoard> {
     private static final int CORNER_PROTECTION_BONUS = 15;
     private static final int DANGER_SQUARE_BONUS = -2;
 
-    public int[][][] Field = new int[11][11][1];
-
     public BitBoard tempBitBoard;
     public BitBoard allPiecesBoard;
 

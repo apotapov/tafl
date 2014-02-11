@@ -85,8 +85,7 @@ public class TaflMatch {
             initialUndoStack.clear();
         }
 
-        aiStrategy = AiFactory.getAiStrategy(aiType,
-                board.rules, boardSize);
+        aiStrategy = AiFactory.getAiStrategy(aiType, board);
     }
 
     private void initializeMatch() {

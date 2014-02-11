@@ -786,6 +786,21 @@ public class BitBoard implements Cloneable {
                 b.append(", ").append(i);
             }
         }
+
+        b.append('\n');
+        b.append('\n');
+
+        for (i = 10; i >= 0; i--) {
+            for (int j = 0; j < 11; j++) {
+                if (get(i * 11 + j)) {
+                    b.append('0');
+                } else {
+                    b.append('.');
+                }
+            }
+            b.append('\n');
+        }
+
         return b.toString();
     }
 }

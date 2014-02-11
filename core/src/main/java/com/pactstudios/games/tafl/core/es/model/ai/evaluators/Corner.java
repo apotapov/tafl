@@ -9,17 +9,32 @@ public class Corner {
     public static final int NORTH_EAST_CORNER = 120;
 
 
-    private static final int[] SOUTH_WEST_CORNER_VALUES = {
-        2, 22, 12,
+    private static final int[] SOUTH_WEST_BARRICADE = {
+        2, 12, 22
     };
-    private static final int[] SOUTH_EAST_CORNER_VALUES = {
-        8, 32, 20,
+    private static final int[] SOUTH_WEST_SECONDARY = {
+        3, 13, 23, 33
     };
-    private static final int[] NORTH_WEST_CORNER_VALUES = {
-        88, 112, 100,
+
+    private static final int[] SOUTH_EAST_BARRICADE = {
+        8, 20, 32,
     };
-    private static final int[] NORTH_EAST_CORNER_VALUES = {
-        98, 118, 108,
+    private static final int[] SOUTH_EAST_SECONDARY = {
+        7, 19, 31, 43
+    };
+
+    private static final int[] NORTH_WEST_BARRICADE = {
+        112, 100, 88,
+    };
+    private static final int[] NORTH_WEST_SECONDARY = {
+        77, 89, 101, 113
+    };
+
+    private static final int[] NORTH_EAST_BARRICADE = {
+        118, 108, 98,
+    };
+    private static final int[] NORTH_EAST_SECONDARY = {
+        87, 97, 107, 117
     };
 
     public static BitBoard north;
@@ -27,13 +42,16 @@ public class Corner {
     public static BitBoard east;
     public static BitBoard west;
 
-
-
     public int corner;
-    public BitBoard protection;
+
+    public int xBarricade;
+    public int diagBarricade;
+    public int yBarricade;
+
+    public BitBoard secondary;
+
     public int xDirection;
     public int yDirection;
-    public boolean isBarricaded;
 
     public int xNearCorner;
     public int yNearCorner;
@@ -41,13 +59,20 @@ public class Corner {
     public BitBoard xHemisphere;
     public BitBoard yHemisphere;
 
+    public boolean isBarricaded;
+
 
     public static Corner getSouthWestCorner(int boardSize, int dimensions) {
         Corner corner = new Corner();
         corner.corner = SOUTH_WEST_CORNER;
-        corner.protection = new BitBoard(boardSize);
-        for (int element : SOUTH_WEST_CORNER_VALUES) {
-            corner.protection.set(element);
+
+        corner.xBarricade = SOUTH_WEST_BARRICADE[0];
+        corner.diagBarricade = SOUTH_WEST_BARRICADE[1];
+        corner.yBarricade = SOUTH_WEST_BARRICADE[2];
+
+        corner.secondary = new BitBoard(boardSize);
+        for (int i : SOUTH_WEST_SECONDARY) {
+            corner.secondary.set(i);
         }
 
         corner.xNearCorner = 1;
@@ -59,8 +84,8 @@ public class Corner {
         if (north == null) {
             createHemispheres(boardSize, dimensions);
         }
-        corner.xHemisphere = south;
-        corner.yHemisphere = west;
+        corner.xHemisphere = west;
+        corner.yHemisphere = south;
 
         return corner;
     }
@@ -69,9 +94,14 @@ public class Corner {
         Corner corner = new Corner();
 
         corner.corner = SOUTH_EAST_CORNER;
-        corner.protection = new BitBoard(boardSize);
-        for (int element : SOUTH_EAST_CORNER_VALUES) {
-            corner.protection.set(element);
+
+        corner.xBarricade = SOUTH_EAST_BARRICADE[0];
+        corner.diagBarricade = SOUTH_EAST_BARRICADE[1];
+        corner.yBarricade = SOUTH_EAST_BARRICADE[2];
+
+        corner.secondary = new BitBoard(boardSize);
+        for (int i : SOUTH_EAST_SECONDARY) {
+            corner.secondary.set(i);
         }
 
         corner.xNearCorner = dimensions - 2;
@@ -92,9 +122,14 @@ public class Corner {
         Corner corner = new Corner();
 
         corner.corner = NORTH_WEST_CORNER;
-        corner.protection = new BitBoard(boardSize);
-        for (int element : NORTH_WEST_CORNER_VALUES) {
-            corner.protection.set(element);
+
+        corner.xBarricade = NORTH_WEST_BARRICADE[0];
+        corner.diagBarricade = NORTH_WEST_BARRICADE[1];
+        corner.yBarricade = NORTH_WEST_BARRICADE[2];
+
+        corner.secondary = new BitBoard(boardSize);
+        for (int i : NORTH_WEST_SECONDARY) {
+            corner.secondary.set(i);
         }
 
         corner.xNearCorner = dimensions * dimensions - dimensions + 1;
@@ -115,9 +150,14 @@ public class Corner {
         Corner corner = new Corner();
 
         corner.corner = NORTH_EAST_CORNER;
-        corner.protection = new BitBoard(boardSize);
-        for (int element : NORTH_EAST_CORNER_VALUES) {
-            corner.protection.set(element);
+
+        corner.xBarricade = NORTH_EAST_BARRICADE[0];
+        corner.diagBarricade = NORTH_EAST_BARRICADE[1];
+        corner.yBarricade = NORTH_EAST_BARRICADE[2];
+
+        corner.secondary = new BitBoard(boardSize);
+        for (int i : NORTH_EAST_SECONDARY) {
+            corner.secondary.set(i);
         }
 
         corner.xNearCorner = dimensions * dimensions - 2;

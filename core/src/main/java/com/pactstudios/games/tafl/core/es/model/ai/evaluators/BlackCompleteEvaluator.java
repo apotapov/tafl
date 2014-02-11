@@ -52,7 +52,7 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
     public IntArray barricadeStack;
     public IntSet barricadeSet;
 
-    public BlackCompleteEvaluator(int boardSize) {
+    public BlackCompleteEvaluator(int boardSize, int dimensions) {
         tempBitBoard = new BitBoard(boardSize);
         allPiecesBoard = new BitBoard(boardSize);
 
@@ -61,23 +61,22 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
             cornerProtection.set(element);
         }
 
-        int dimension = (int)Math.sqrt(boardSize);
-        int half = dimension / 2;
+        int half = dimensions / 2;
         north = new BitBoard(boardSize);
         south = new BitBoard(boardSize);
         east = new BitBoard(boardSize);
         west = new BitBoard(boardSize);
-        for (int i = 0; i < dimension; i++) {
-            for (int j = 0; j < dimension; j++) {
+        for (int i = 0; i < dimensions; i++) {
+            for (int j = 0; j < dimensions; j++) {
                 if (i < half) {
-                    south.set(i * dimension + j);
+                    south.set(i * dimensions + j);
                 } else if (i > half) {
-                    north.set(i * dimension + j);
+                    north.set(i * dimensions + j);
                 }
                 if (j < half) {
-                    west.set(i * dimension + j);
+                    west.set(i * dimensions + j);
                 } else if (j > half) {
-                    east.set(i * dimension + j);
+                    east.set(i * dimensions + j);
                 }
             }
         }

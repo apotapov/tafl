@@ -10,12 +10,11 @@ import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.TaflMatchObserver;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
-import com.pactstudios.games.tafl.core.es.systems.interaction.ChangeTurnSystem;
 import com.roundtriangles.games.zaria.services.PreferenceService;
 
 public class TaflPreferenceService extends PreferenceService implements TaflMatchObserver {
 
-    private static final String LOG_TAG = ChangeTurnSystem.class.toString();
+    private static final String LOG_TAG = TaflPreferenceService.class.toString();
 
     public static final String PREF_DEFAULT_LEVEL = "match.level";
     public static final String PREF_VERSUS_COMPUTER = "match.versus";

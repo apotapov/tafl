@@ -1,5 +1,6 @@
 package com.pactstudios.games.tafl.core.utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.pactstudios.games.tafl.core.consts.Constants;
@@ -9,9 +10,12 @@ import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.TaflMatchObserver;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
+import com.pactstudios.games.tafl.core.es.systems.interaction.ChangeTurnSystem;
 import com.roundtriangles.games.zaria.services.PreferenceService;
 
 public class TaflPreferenceService extends PreferenceService implements TaflMatchObserver {
+
+    private static final String LOG_TAG = ChangeTurnSystem.class.toString();
 
     public static final String PREF_DEFAULT_LEVEL = "match.level";
     public static final String PREF_VERSUS_COMPUTER = "match.versus";
@@ -134,8 +138,9 @@ public class TaflPreferenceService extends PreferenceService implements TaflMatc
     private void updateMatch(TaflMatch match) {
         try {
             setString(PREF_SAVED_MATCH, json.toJson(match));
+            Gdx.app.log(LOG_TAG, match.board.toString());
         } catch (Exception e) {
-            e.printStackTrace();
+            Gdx.app.error(LOG_TAG, "Could not save the game.", e);
         }
     }
 

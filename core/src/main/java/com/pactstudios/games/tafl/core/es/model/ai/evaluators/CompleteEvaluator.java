@@ -15,6 +15,8 @@ public class CompleteEvaluator implements BoardEvaluator<TaflBoard> {
 
     @Override
     public int evaluate(TaflBoard board, int turn) {
+        board.rules.generateLegalMoves(Constants.BoardConstants.WHITE_TEAM);
+        board.rules.generateLegalMoves(Constants.BoardConstants.BLACK_TEAM);
         return turn == Constants.BoardConstants.WHITE_TEAM ?
                 whiteEval.evaluate(board, turn) :
                     blackEval.evaluate(board, turn);

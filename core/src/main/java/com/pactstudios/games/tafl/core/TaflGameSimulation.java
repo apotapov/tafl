@@ -179,6 +179,7 @@ public class TaflGameSimulation {
         bw.write("\nBlack win, black pieces left: " + toString(blackBlackPieceCounter));
         bw.write("\n");
         bw.flush();
+        bw.close();
     }
 
     private static String toString(FloatCounter counter) {

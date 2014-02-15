@@ -1,7 +1,7 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: { 
-	menu-font: { file: Gotham-Medium.otf, size: 30 },
-	default-font: { file: Gotham-Medium.otf, size: 20 } 
+	menu-font: { file: Gotham-Medium.otf, size: 128 },
+	default-font: { file: Gotham-Medium.otf, size: 128 } 
 },
 com.badlogic.gdx.graphics.Color: {
 	white: { r: 0.9453125, g: 0.9453125, b: 0.9453125, a: 1 },

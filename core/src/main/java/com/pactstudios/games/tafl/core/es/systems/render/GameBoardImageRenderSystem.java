@@ -36,7 +36,7 @@ public class GameBoardImageRenderSystem extends RenderingSystem<MatchRenderingCo
     protected void process(Entity e, MatchRenderingComponent rendComponent) {
         rendComponent.spriteBatch.draw(
                 rendComponent.backgroundTexture,
-                - Constants.GameConstants.GAME_WIDTH / 2,
-                - Constants.GameConstants.GAME_HEIGHT / 2);
+                Constants.BoardRenderConstants.BOARD_RENDER_POSITION_X,
+                Constants.BoardRenderConstants.BOARD_RENDER_POSITION_Y);
     }
 }

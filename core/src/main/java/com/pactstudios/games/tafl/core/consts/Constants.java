@@ -142,6 +142,9 @@ public final class Constants {
         public static final int TURN_HIGHLIGHT_BLACK_X = - GameConstants.GAME_WIDTH / 2 + 10;
         public static final int TURN_HIGHLIGHT_WHITE_X = GameConstants.GAME_WIDTH / 2 - TURN_HIGHLIGHT_WIDTH - 10;
         public static final int TURN_HIGHLIGHT_Y = 345;
+
+        public static final float BOARD_RENDER_POSITION_X = - Constants.GameConstants.GAME_WIDTH / 2 - 2;
+        public static final float BOARD_RENDER_POSITION_Y = - Constants.GameConstants.GAME_HEIGHT / 2 - 20;
     }
 
     public static final class HudConstants {

@@ -24,7 +24,10 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
     @Override
     public void initialize() {
 
-        stage.addActor(new Image(game.graphicsService.getTexture(Assets.Graphics.BACKGROUND_IMAGE)));
+        Image background = new Image(game.graphicsService.getSprite(
+                Assets.Graphics.MENU_ATLAS, Assets.Graphics.MENU));
+        background.setFillParent(true);
+        stage.addActor(background);
 
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
         Table table = new Table(skin);

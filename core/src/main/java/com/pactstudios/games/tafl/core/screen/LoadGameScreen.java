@@ -13,7 +13,7 @@ public class LoadGameScreen extends AbstractScreen<TaflGame> {
 
     @Override
     public void initialize() {
-        stage.addActor(new Image(game.graphicsService.getTexture(Assets.Graphics.SPLASH_IMAGE)));
+        stage.addActor(new Image(game.graphicsService.getSprite(Assets.Graphics.SPLASH_ATLAS, Assets.Graphics.SPLASH)));
     }
 
     @Override

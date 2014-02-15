@@ -57,7 +57,8 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
         if (splashScreen == null) {
             splashScreen = new LoadingScreen<TaflGame>(this,
                     assets,
-                    Assets.Graphics.SPLASH_IMAGE,
+                    Assets.Graphics.SPLASH_ATLAS,
+                    Assets.Graphics.SPLASH,
                     Constants.ScreenConstants.DISPLAY_TIME,
                     Constants.ScreenConstants.FADE_TIME);
             splashScreen.initialize();

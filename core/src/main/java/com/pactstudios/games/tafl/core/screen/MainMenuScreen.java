@@ -36,7 +36,10 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
     @Override
     public void initialize() {
 
-        stage.addActor(new Image(game.graphicsService.getTexture(Assets.Graphics.BACKGROUND_IMAGE)));
+        Image background = new Image(game.graphicsService.getSprite(
+                Assets.Graphics.MENU_ATLAS, Assets.Graphics.MENU));
+        background.setFillParent(true);
+        stage.addActor(background);
 
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
         Table table = new Table(skin);
@@ -44,12 +47,12 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
 
         String labelText = game.localeService.get(LocalizedStrings.MainMenu.GAME_TITLE);
         Label label = new Label(labelText, skin, Assets.Skin.IN_GAME_STYLE_NAME);
-        table.add(label).spaceBottom(20);
+        table.add(label);
         table.row();
 
         String buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_START);
         Button button = game.createSwitchScreenButton(buttonText, game.levelSelectionScreen);
-        table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT).uniform().spaceBottom(10);
+        table.add(button).uniform();
         table.row();
 
         buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_RESUME);
@@ -59,8 +62,7 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
 
         buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_OPTIONS);
         button = game.createSwitchScreenButton(buttonText, game.optionsScreen);
-        table.add(button).size(Constants.ScreenConstants.BUTTON_WIDTH, Constants.ScreenConstants.BUTTON_HEIGHT).uniform().spaceBottom(10);
-        table.row();
+        table.add(button).uniform();
 
         stage.addActor(table);
     }

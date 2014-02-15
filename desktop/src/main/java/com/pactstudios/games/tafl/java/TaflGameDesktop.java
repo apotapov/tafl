@@ -8,7 +8,7 @@ import com.pactstudios.games.tafl.core.consts.Constants;
 public class TaflGameDesktop {
     public static void main (String[] args) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.height = 800;
+        config.height = 900;
         config.width = (config.height * Constants.GameConstants.GAME_WIDTH) / Constants.GameConstants.GAME_HEIGHT;
 
         config.useGL20 = true;

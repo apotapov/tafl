@@ -19,9 +19,14 @@ public class Assets extends GameAssetLoader<TaflLevel> {
         private Graphics() {
         }
 
-        public static final String SPLASH_IMAGE = "images/tafl-splash-01.png";
-        public static final String BACKGROUND_IMAGE = "images/tafl-menu-01-background.png";
-        public static final String BOARD_IMAGE = "images/tafl-board-01-02-11x11.png";
+        public static final String BOARD_ATLAS = "image-atlases/board.atlas";
+        public static final String BOARD = "board";
+
+        public static final String SPLASH_ATLAS = "image-atlases/splash.atlas";
+        public static final String SPLASH = "tafl-splash-01";
+
+        public static final String MENU_ATLAS = "image-atlases/menu.atlas";
+        public static final String MENU = "tafl-menu-01-background";
 
         public static final String PIECE_ATLAS = "image-atlases/pieces.atlas";
         public static final String WHITE_PIECE = "tafl-piece-light-01-11x11";
@@ -91,6 +96,9 @@ public class Assets extends GameAssetLoader<TaflLevel> {
         }
         public static final FontDefinition GOTHAM_MEDIUM_GAME = new FontDefinition("skin/Gotham-Medium.otf", 32);
         public static final FontDefinition GOTHAM_MEDIUM_SMALL = new FontDefinition("skin/Gotham-Medium.otf", 16);
+
+        public static final FontDefinition GOTHAM_MEDIUM_X_LARGE = new FontDefinition("skin/Gotham-Medium.otf", 128);
+        public static final FontDefinition GOTHAM_MEDIUM_LARGE = new FontDefinition("skin/Gotham-Medium.otf", 64);
     }
 
     protected SoundService soundService;
@@ -132,17 +140,18 @@ public class Assets extends GameAssetLoader<TaflLevel> {
 
         graphicsService.loadSkins(Assets.Skin.UI_SKIN);
 
-        graphicsService.loadTextures(
-                Assets.Graphics.SPLASH_IMAGE,
-                Assets.Graphics.BACKGROUND_IMAGE,
-                Assets.Graphics.BOARD_IMAGE);
-
         graphicsService.loadTextureAtlases(
                 Assets.Graphics.PIECE_ATLAS,
-                Assets.Graphics.EXPLOSION_ATLAS);
+                Assets.Graphics.EXPLOSION_ATLAS,
+                Assets.Graphics.BOARD_ATLAS,
+                Assets.Graphics.SPLASH_ATLAS,
+                Assets.Graphics.MENU_ATLAS);
+
 
         graphicsService.loadFonts(Assets.Fonts.GOTHAM_MEDIUM_GAME,
-                Assets.Fonts.GOTHAM_MEDIUM_SMALL);
+                Assets.Fonts.GOTHAM_MEDIUM_SMALL,
+                Assets.Fonts.GOTHAM_MEDIUM_LARGE,
+                Assets.Fonts.GOTHAM_MEDIUM_X_LARGE);
 
         localeService.load(
                 Assets.Locales.DEFAULT_LOCALE,

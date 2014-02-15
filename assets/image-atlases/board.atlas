@@ -1,0 +1,12 @@
+
+board.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+board
+  rotate: false
+  xy: 2, 2
+  size: 600, 1001
+  orig: 600, 1001
+  offset: 0, 0
+  index: -1

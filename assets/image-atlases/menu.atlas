@@ -1,0 +1,12 @@
+
+menu.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+tafl-menu-01-background
+  rotate: false
+  xy: 2, 2
+  size: 600, 1001
+  orig: 600, 1001
+  offset: 0, 0
+  index: -1

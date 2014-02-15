@@ -59,7 +59,7 @@ public class Corner {
     public BitBoard xHemisphere;
     public BitBoard yHemisphere;
 
-    public boolean isBarricaded;
+    public int barricadeSize;
 
 
     public static Corner getSouthWestCorner(int boardSize, int dimensions) {

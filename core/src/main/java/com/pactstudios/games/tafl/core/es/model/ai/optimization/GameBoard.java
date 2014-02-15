@@ -20,6 +20,7 @@ public abstract class GameBoard {
     public ZorbistHash zorbistHash;
 
     public Array<Move> undoStack;
+    public Array<Move> simulatedStack;
 
     public int hashCode;
 
@@ -33,6 +34,7 @@ public abstract class GameBoard {
         this.zorbistHash = zorbistHash;
 
         this.undoStack = new Array<Move>();
+        this.simulatedStack = new Array<Move>();
 
         bitBoards = new BitBoard[pieceTypes];
         for (int i = 0; i < pieceTypes; i++) {
@@ -66,6 +68,8 @@ public abstract class GameBoard {
         if (!simulate) {
             Move clone = move.clone();
             undoStack.add(clone);
+        } else {
+            simulatedStack.add(move);
         }
     }
 
@@ -118,6 +122,7 @@ public abstract class GameBoard {
 
     public void undoSimulatedMove(Move move) {
         undoMove(move);
+        simulatedStack.pop();
     }
 
     public void reset() {

@@ -1,8 +1,8 @@
 package com.pactstudios.games.tafl.core;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import com.badlogic.gdx.math.FloatCounter;
 import com.badlogic.gdx.utils.Array;
@@ -19,17 +19,20 @@ public class TaflGameSimulation {
 
     private static final int NUMBER_OF_GAMES = 20;
 
-    public static void main(String[] args) throws InterruptedException, FileNotFoundException {
+    public static void main(String[] args) throws InterruptedException, IOException {
 
-
-        PrintStream out = new PrintStream(new FileOutputStream("/Users/apotapov/tafl_output.txt"));
-        System.setOut(out);
+        BufferedWriter bw = new BufferedWriter(new FileWriter("/Users/apotapov/tafl_output.txt"));
 
         int whiteWin = 0;
         int blackWin = 0;
         int draw = 0;
 
         Array<DrawReasonEnum> drawReasons = new Array<DrawReasonEnum>();
+
+        FloatCounter drawTimeCounter = new FloatCounter(0);
+        FloatCounter drawMoveCounter = new FloatCounter(0);
+        FloatCounter drawWhitePieceCounter = new FloatCounter(0);
+        FloatCounter drawBlackPieceCounter = new FloatCounter(0);
 
         FloatCounter whiteTimeCounter = new FloatCounter(0);
         FloatCounter whiteMoveCounter = new FloatCounter(0);
@@ -78,22 +81,23 @@ public class TaflGameSimulation {
                     }
                     match.changeTurn();
                     if (Constants.GameConstants.DEBUG) {
-                        System.out.println("Move #: " + count++);
-                        System.out.println("Move: " + move);
-                        System.out.println("White pieces: " + match.board.bitBoards[0].cardinality());
-                        System.out.println("Black pieces: " + match.board.bitBoards[1].cardinality());
-                        System.out.println("King: " + match.board.king);
+                        bw.write("\nMove #: " + count++);
+                        bw.write("\nMove: " + move);
+                        bw.write("\nWhite pieces: " + match.board.bitBoards[0].cardinality());
+                        bw.write("\nBlack pieces: " + match.board.bitBoards[1].cardinality());
+                        bw.write("\nKing: " + match.board.king);
                         String boardString = match.board.toString();
 
                         for (int i = 0; i < match.board.dimensions; i++) {
-                            System.out.println(boardString.substring(i * match.board.dimensions, i * match.board.dimensions + match.board.dimensions));
+                            bw.write(boardString.substring(i * match.board.dimensions, i * match.board.dimensions + match.board.dimensions));
                         }
-                        System.out.println();
+                        bw.write("\n\n");
                     }
                 } else {
                     noMoves = true;
                     break;
                 }
+                bw.flush();
             }
 
             float time = ((System.currentTimeMillis() - start) / 1000.0f);
@@ -110,20 +114,20 @@ public class TaflGameSimulation {
                 winner = match.board.rules.checkWinner();
             }
 
-            System.out.println("Game #" + (game + 1));
-            System.out.println("Game lasted: " + time);
-            System.out.println("Number of moves: " + match.board.undoStack.size);
+            bw.write("\nGame #" + (game + 1));
+            bw.write("\nGame lasted: " + time);
+            bw.write("\nNumber of moves: " + match.board.undoStack.size);
 
 
             if (winner == 0) {
-                System.out.println("Winner is: white");
+                bw.write("\nWinner is: white");
                 whiteWin++;
                 whiteTimeCounter.put(time);
                 whiteMoveCounter.put(match.board.undoStack.size);
                 whiteWhitePieceCounter.put(match.board.whiteBitBoard().cardinality());
                 whiteBlackPieceCounter.put(match.board.blackBitBoard().cardinality());
             } else if (winner == 1) {
-                System.out.println("Winner is: black");
+                bw.write("\nWinner is: black");
                 blackWin++;
                 blackTimeCounter.put(time);
                 blackMoveCounter.put(match.board.undoStack.size);
@@ -131,12 +135,16 @@ public class TaflGameSimulation {
                 blackBlackPieceCounter.put(match.board.blackBitBoard().cardinality());
             } else {
                 DrawReasonEnum reason = match.board.rules.checkDraw((match.turn + 1) % 2);
-                System.out.println("Draw: " + reason);
+                bw.write("\nDraw: " + reason);
                 draw++;
                 drawReasons.add(reason);
+                drawTimeCounter.put(time);
+                drawMoveCounter.put(match.board.undoStack.size);
+                drawWhitePieceCounter.put(match.board.whiteBitBoard().cardinality());
+                drawBlackPieceCounter.put(match.board.blackBitBoard().cardinality());
             }
 
-            System.out.println("King moves: " + toString(kingMoves));
+            bw.write("\nKing moves: " + toString(kingMoves));
             kingMoves.reset();
 
             if (winner == 1 && match.board.king == -1) {
@@ -146,26 +154,31 @@ public class TaflGameSimulation {
             String boardString = match.board.toString();
 
             for (int i = 0; i < match.board.dimensions; i++) {
-                System.out.println(boardString.substring(i * match.board.dimensions, i * match.board.dimensions + match.board.dimensions));
+                bw.write("\n" + boardString.substring(i * match.board.dimensions, i * match.board.dimensions + match.board.dimensions));
             }
-            System.out.println();
+            bw.write("\n");
         }
 
-        System.out.println("Draw: " + draw);
-        System.out.println("Draw reasons: " + drawReasons);
-        System.out.println();
-        System.out.println("White wins: " + whiteWin);
-        System.out.println("White wins time: " + toString(whiteTimeCounter));
-        System.out.println("White moves counter: " + toString(whiteMoveCounter));
-        System.out.println("White win, white pieces left: " + toString(whiteWhitePieceCounter));
-        System.out.println("White win, black pieces left: " + toString(whiteBlackPieceCounter));
-        System.out.println();
-        System.out.println("Black wins: " + blackWin);
-        System.out.println("Black wins time: " + toString(blackTimeCounter));
-        System.out.println("Black moves counter: " + toString(blackMoveCounter));
-        System.out.println("Black win, white pieces left: " + toString(blackWhitePieceCounter));
-        System.out.println("Black win, black pieces left: " + toString(blackBlackPieceCounter));
-        System.out.println();
+        bw.write("\nDraw: " + draw);
+        bw.write("\nDraw reasons: " + drawReasons);
+        bw.write("\nDraw wins time: " + toString(drawTimeCounter));
+        bw.write("\nDraw moves counter: " + toString(drawMoveCounter));
+        bw.write("\nDraw win, white pieces left: " + toString(drawWhitePieceCounter));
+        bw.write("\nDraw win, black pieces left: " + toString(drawBlackPieceCounter));
+        bw.write("\n");
+        bw.write("\nWhite wins: " + whiteWin);
+        bw.write("\nWhite wins time: " + toString(whiteTimeCounter));
+        bw.write("\nWhite moves counter: " + toString(whiteMoveCounter));
+        bw.write("\nWhite win, white pieces left: " + toString(whiteWhitePieceCounter));
+        bw.write("\nWhite win, black pieces left: " + toString(whiteBlackPieceCounter));
+        bw.write("\n");
+        bw.write("\nBlack wins: " + blackWin);
+        bw.write("\nBlack wins time: " + toString(blackTimeCounter));
+        bw.write("\nBlack moves counter: " + toString(blackMoveCounter));
+        bw.write("\nBlack win, white pieces left: " + toString(blackWhitePieceCounter));
+        bw.write("\nBlack win, black pieces left: " + toString(blackBlackPieceCounter));
+        bw.write("\n");
+        bw.flush();
     }
 
     private static String toString(FloatCounter counter) {

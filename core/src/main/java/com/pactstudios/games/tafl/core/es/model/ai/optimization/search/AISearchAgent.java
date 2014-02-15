@@ -237,29 +237,30 @@ public abstract class AISearchAgent<U extends GameBoard> {
 
         for (Move move : legalMoves) {
             board.simulateMove(move);
-
-            // And search it in turn
-            int movScore = 0;
-            long start = System.nanoTime();
             try {
-                movScore = max(board, (turn + 1) % 2, depth - 1, alpha, currentBeta);
-            } finally {
-                depthCounters.get(depth-1).put((System.nanoTime() - start) / NANOS_IN_SECOND);
-            }
-
-            currentBeta = Math.min(currentBeta, movScore);
-            if (movScore < bestSoFar) {
-                bestSoFar = movScore;
-                // Cutoff?
-                if (bestSoFar <= alpha) {
-                    transTable.storeBoard(board.hashCode(), bestSoFar, EvaluationType.LOWERBOUND);
-                    historyTable.addCount(move, turn);
-                    numRegularCutoffs++;
-                    board.undoSimulatedMove(move);
-                    return bestSoFar;
+                // And search it in turn
+                int movScore = 0;
+                long start = System.nanoTime();
+                try {
+                    movScore = max(board, (turn + 1) % 2, depth - 1, alpha, currentBeta);
+                } finally {
+                    depthCounters.get(depth-1).put((System.nanoTime() - start) / NANOS_IN_SECOND);
                 }
+
+                currentBeta = Math.min(currentBeta, movScore);
+                if (movScore < bestSoFar) {
+                    bestSoFar = movScore;
+                    // Cutoff?
+                    if (bestSoFar <= alpha) {
+                        transTable.storeBoard(board.hashCode(), bestSoFar, EvaluationType.LOWERBOUND);
+                        historyTable.addCount(move, turn);
+                        numRegularCutoffs++;
+                        return bestSoFar;
+                    }
+                }
+            } finally {
+                board.undoSimulatedMove(move);
             }
-            board.undoSimulatedMove(move);
         }
         return bestSoFar;
     }
@@ -272,34 +273,35 @@ public abstract class AISearchAgent<U extends GameBoard> {
 
         for (Move move : legalMoves) {
             board.simulateMove(move);
-
-            // And search it in turn
-            int movScore = 0;
-            long start = System.nanoTime();
             try {
-                movScore = min(board, (turn + 1) % 2, depth - 1, currentAlpha, beta);
-            } finally {
-                depthCounters.get(depth-1).put((System.nanoTime() - start) / NANOS_IN_SECOND);
-            }
-
-            currentAlpha = Math.max(currentAlpha, movScore);
-
-            // Is the current successor better than the previous best?
-            if (movScore > bestSoFar) {
-                bestSoFar = movScore;
-                // Can we cutoff now?
-                if (bestSoFar >= beta) {
-                    // Store this best move in the TransTable
-                    transTable.storeBoard(board.hashCode(), bestSoFar, EvaluationType.UPPERBOUND);
-
-                    // Add this move's efficiency in the HistoryTable
-                    historyTable.addCount(move, turn);
-                    numRegularCutoffs++;
-                    board.undoSimulatedMove(move);
-                    return bestSoFar;
+                // And search it in turn
+                int movScore = 0;
+                long start = System.nanoTime();
+                try {
+                    movScore = min(board, (turn + 1) % 2, depth - 1, currentAlpha, beta);
+                } finally {
+                    depthCounters.get(depth-1).put((System.nanoTime() - start) / NANOS_IN_SECOND);
                 }
+
+                currentAlpha = Math.max(currentAlpha, movScore);
+
+                // Is the current successor better than the previous best?
+                if (movScore > bestSoFar) {
+                    bestSoFar = movScore;
+                    // Can we cutoff now?
+                    if (bestSoFar >= beta) {
+                        // Store this best move in the TransTable
+                        transTable.storeBoard(board.hashCode(), bestSoFar, EvaluationType.UPPERBOUND);
+
+                        // Add this move's efficiency in the HistoryTable
+                        historyTable.addCount(move, turn);
+                        numRegularCutoffs++;
+                        return bestSoFar;
+                    }
+                }
+            } finally {
+                board.undoSimulatedMove(move);
             }
-            board.undoSimulatedMove(move);
         }
 
         return bestSoFar;

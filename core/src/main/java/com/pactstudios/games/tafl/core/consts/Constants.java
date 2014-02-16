@@ -31,6 +31,14 @@ public final class Constants {
         public static final int KING_CAPTURE_THRESHHOLD = 3;
         public static final int RAICHI_THRESHHOLD = 1;
         public static final int TUICHI_THRESHHOLD = 2;
+
+        public static final int DESKTOP_MIN_RESOLUTION = 0;
+        public static final int PHONE_MIN_RESOLUTION = 0;
+        public static final int TABLET_MIN_RESOLUTION = 1000000; // about 1280 x 800
+
+        public static final int GAME_DESKTOP_HEIGHT = 800;
+        public static final int GAME_DESKTOP_WIDTH = GAME_DESKTOP_HEIGHT *
+                GAME_WIDTH / Constants.GameConstants.GAME_HEIGHT;
     }
 
     public static final class AiConstants {
@@ -55,16 +63,20 @@ public final class Constants {
         private ScreenConstants() {
         }
 
-        public static final int BUTTON_WIDTH = 250;
-        public static final int BUTTON_HEIGHT = 70;
-
-        public static final int LIST_WIDTH = 270;
-        public static final int LIST_HEIGHT = 170;
-
         public static final float FADE_TIME = 1f;
         public static final float DISPLAY_TIME = 1.75f;
 
-        public static final int SPACING = 30;
+        public static final int PHONE_LIST_WIDTH = 270;
+        public static final int PHONE_LIST_HEIGHT = 170;
+        public static final int PHONE_BUTTON_WIDTH = 250;
+        public static final int PHONE_BUTTON_HEIGHT = 70;
+        public static final int PHONE_SPACING = 30;
+
+        public static final int TABLET_LIST_WIDTH = 540;
+        public static final int TABLET_LIST_HEIGHT = 340;
+        public static final int TABLET_BUTTON_WIDTH = 500;
+        public static final int TABLET_BUTTON_HEIGHT = 140;
+        public static final int TABLET_SPACING = 60;
     }
 
     public static final class GroupConstants {

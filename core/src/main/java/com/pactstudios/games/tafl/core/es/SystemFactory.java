@@ -3,6 +3,7 @@ package com.pactstudios.games.tafl.core.es;
 import com.artemis.systems.EntitySystem;
 import com.artemis.systems.event.BasicEventSystem;
 import com.badlogic.gdx.utils.Array;
+import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.pactstudios.games.tafl.core.es.systems.input.HudInputSystem;
 import com.pactstudios.games.tafl.core.es.systems.input.MatchInputSystem;
 import com.pactstudios.games.tafl.core.es.systems.interaction.AiSystem;
@@ -27,7 +28,6 @@ import com.pactstudios.games.tafl.core.es.systems.render.HudRenderingSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.PieceMovementRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.PreRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.SpriteRenderSystem;
-import com.pactstudios.games.tafl.core.es.systems.render.debug.DebugCellIdRendererSystem;
 
 
 public class SystemFactory {
@@ -64,7 +64,10 @@ public class SystemFactory {
 
     protected static void initPassiveSystems(TaflWorld gameWorld) {
         gameWorld.world.setSystem(new ChangeTurnSystem());
-        gameWorld.world.setSystem(new AiSystem(gameWorld.game.localeService));
+
+        String text = gameWorld.game.localeService.get(LocalizedStrings.Game.AI_PROCESSING);
+
+        gameWorld.world.setSystem(new AiSystem(text));
         gameWorld.world.setSystem(new UndoSystem());
         gameWorld.world.setSystem(new PieceMovementSystem());
         gameWorld.world.setSystem(new PieceCaptureSystem());
@@ -91,12 +94,11 @@ public class SystemFactory {
 
     protected static void initDebugRenderingSystems(TaflWorld gameWorld) {
         //        gameWorld.world.setSystem(new DebugRenderSystem());
-        gameWorld.world.setSystem(new DebugCellIdRendererSystem());
+        //        gameWorld.world.setSystem(new DebugCellIdRendererSystem());
     }
 
     protected static void initHudRenderingSystems(TaflWorld gameWorld) {
-        gameWorld.world.setSystem(new HudRenderingSystem(gameWorld.game.localeService,
-                gameWorld.game.graphicsService));
+        gameWorld.world.setSystem(new HudRenderingSystem());
     }
 
 }

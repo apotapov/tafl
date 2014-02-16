@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.pactstudios.games.tafl.core.TaflGame;
-import com.pactstudios.games.tafl.core.level.TaflLevel;
 import com.pactstudios.games.tafl.core.level.TaflLevelService;
 import com.roundtriangles.games.zaria.services.GraphicsService;
 import com.roundtriangles.games.zaria.services.SoundService;
@@ -13,7 +12,7 @@ import com.roundtriangles.games.zaria.services.utils.FontDefinition;
 import com.roundtriangles.games.zaria.services.utils.GameAssetLoader;
 import com.roundtriangles.games.zaria.utils.CustomSkinLoader;
 
-public class Assets extends GameAssetLoader<TaflLevel> {
+public class Assets extends GameAssetLoader {
 
     public static final class Graphics {
         private Graphics() {
@@ -49,9 +48,17 @@ public class Assets extends GameAssetLoader<TaflLevel> {
         private Skin() {
         }
         public static final String UI_SKIN = "skin/uiskin.json";
-        public static final String IN_GAME_STYLE_NAME = "menu";
-        public static final String IN_GAME_BROWN_STYLE_NAME = "game-brown";
-        public static final String DIALOG_STYLE_NAME = "dialog";
+
+
+        public static final String SKIN_STYLE_PHONE_DEFAULT = "default";
+        public static final String SKIN_STYLE_PHONE_MENU = "menu";
+        public static final String SKIN_STYLE_PHONE_DIALOG = "dialog";
+        public static final String SKIN_STYLE_PHONE_PLAYER = "player-tag";
+
+        public static final String SKIN_STYLE_TABLET_DEFAULT = "tablet-default";
+        public static final String SKIN_STYLE_TABLET_MENU = "tablet-menu";
+        public static final String SKIN_STYLE_TABLET_DIALOG = "tablet-dialog";
+        public static final String SKIN_STYLE_TABLET_PLAYER = "tablet-player-tag";
     }
 
     public static final class Sounds {
@@ -94,11 +101,8 @@ public class Assets extends GameAssetLoader<TaflLevel> {
     public static final class Fonts {
         private Fonts() {
         }
-        public static final FontDefinition GOTHAM_MEDIUM_GAME = new FontDefinition("skin/Gotham-Medium.otf", 32);
-        public static final FontDefinition GOTHAM_MEDIUM_SMALL = new FontDefinition("skin/Gotham-Medium.otf", 16);
-
-        public static final FontDefinition GOTHAM_MEDIUM_X_LARGE = new FontDefinition("skin/Gotham-Medium.otf", 128);
-        public static final FontDefinition GOTHAM_MEDIUM_LARGE = new FontDefinition("skin/Gotham-Medium.otf", 64);
+        public static final FontDefinition GOTHAM_MEDIUM_PHONE = new FontDefinition("skin/Gotham-Medium.otf", 32);
+        public static final FontDefinition GOTHAM_MEDIUM_TABLET = new FontDefinition("skin/Gotham-Medium.otf", 64);
     }
 
     protected SoundService soundService;
@@ -148,10 +152,8 @@ public class Assets extends GameAssetLoader<TaflLevel> {
                 Assets.Graphics.MENU_ATLAS);
 
 
-        graphicsService.loadFonts(Assets.Fonts.GOTHAM_MEDIUM_GAME,
-                Assets.Fonts.GOTHAM_MEDIUM_SMALL,
-                Assets.Fonts.GOTHAM_MEDIUM_LARGE,
-                Assets.Fonts.GOTHAM_MEDIUM_X_LARGE);
+        graphicsService.loadFonts(Assets.Fonts.GOTHAM_MEDIUM_PHONE,
+                Assets.Fonts.GOTHAM_MEDIUM_TABLET);
 
         localeService.load(
                 Assets.Locales.DEFAULT_LOCALE,

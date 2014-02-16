@@ -43,7 +43,6 @@ public class GamePlayScreen extends AbstractScreen<TaflGame> {
 
     @Override
     public void resume() {
-
     }
 
     @Override

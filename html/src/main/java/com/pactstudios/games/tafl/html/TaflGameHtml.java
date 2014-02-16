@@ -9,7 +9,7 @@ import com.pactstudios.games.tafl.core.consts.Constants;
 public class TaflGameHtml extends GwtApplication {
     @Override
     public ApplicationListener getApplicationListener () {
-        return new TaflGame();
+        return new TaflGame(null);
     }
 
     @Override

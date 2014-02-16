@@ -4,7 +4,6 @@ import com.artemis.World;
 import com.artemis.systems.event.SystemEvent;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -40,68 +39,72 @@ public class HudFactory {
         createUpperHud(component, skin, gameWorld);
         createLowerHud(component, skin, gameWorld.game.localeService);
 
-        createDialogs(component, gameWorld.world, skin, gameWorld.game.localeService);
+        createDialogs(component, gameWorld, skin, gameWorld.game.localeService);
     }
 
-    private static void createDialogs(final HudRenderingComponent component, final World world, Skin skin, LocaleService localeService) {
+    private static void createDialogs(final HudRenderingComponent component, final TaflWorld gameWorld, Skin skin, LocaleService localeService) {
 
         ChangeListener resumeListener = new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 LifeCycleEvent lifecycleEvent = SystemEvent.createEvent(LifeCycleEvent.class);
                 lifecycleEvent.lifecycle = LifeCycle.PLAY;
-                world.postEvent(null, lifecycleEvent);
+                gameWorld.world.postEvent(null, lifecycleEvent);
+                gameWorld.game.soundService.play();
             }
         };
 
         ChangeListener restartListener = new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                world.getSystem(AiSystem.class).stopThread();
+                gameWorld.world.getSystem(AiSystem.class).stopThread();
                 LifeCycleEvent lifecycleEvent = SystemEvent.createEvent(LifeCycleEvent.class);
                 lifecycleEvent.lifecycle = LifeCycle.RESTART;
-                world.postEvent(null, lifecycleEvent);
+                gameWorld.world.postEvent(null, lifecycleEvent);
+                gameWorld.game.soundService.play();
             }
         };
 
         ChangeListener quitListener = new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                world.getSystem(AiSystem.class).stopThread();
+                gameWorld.world.getSystem(AiSystem.class).stopThread();
                 LifeCycleEvent lifecycleEvent = SystemEvent.createEvent(LifeCycleEvent.class);
                 lifecycleEvent.lifecycle = LifeCycle.QUIT;
-                world.postEvent(null, lifecycleEvent);
+                gameWorld.world.postEvent(null, lifecycleEvent);
+                gameWorld.game.soundService.play();
             }
         };
 
-        createMenuDialog(component, world, skin, localeService, resumeListener, restartListener, quitListener);
-        createWinDialog(component, world, skin, localeService, restartListener, quitListener);
-        createLossDialog(component, world, skin, localeService, restartListener, quitListener);
-        createDrawDialog(component, world, skin, localeService, restartListener, quitListener);
-        createPlayerWarningDialog(component, world, skin, localeService, resumeListener);
-        createSurrenderDialog(component, world, skin, localeService, restartListener, quitListener);
+        createMenuDialog(component, gameWorld, skin, localeService, resumeListener, restartListener, quitListener);
+        createWinDialog(component, gameWorld, skin, localeService, restartListener, quitListener);
+        createLossDialog(component, gameWorld, skin, localeService, restartListener, quitListener);
+        createDrawDialog(component, gameWorld, skin, localeService, restartListener, quitListener);
+        createPlayerWarningDialog(component, gameWorld, skin, localeService, resumeListener);
+        createSurrenderDialog(component, gameWorld, skin, localeService, restartListener, quitListener);
     }
 
     private static void createLossDialog(HudRenderingComponent component,
-            World world,
+            TaflWorld gameWorld,
             Skin skin,
             LocaleService localeService,
             ChangeListener restartListener,
             ChangeListener quitListener) {
 
         String text = localeService.get(LocalizedStrings.GameMenu.LOSS_TITLE);
-        component.lossDialog = new Dialog(text, skin, Assets.Skin.DIALOG_STYLE_NAME);
+        component.lossDialog = new Dialog(text, skin, gameWorld.game.deviceType.dialogStyle);
         component.lossDialog.setSkin(skin);
 
         text = localeService.get(LocalizedStrings.GameMenu.LOSS_TEXT);
-        component.lossDialog.text(text);
+        Label label = new Label(text, skin, gameWorld.game.deviceType.defaultStyle);
+        component.lossDialog.text(label);
 
         text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
-        TextButton restartButton = new TextButton(text, skin);
+        TextButton restartButton = new TextButton(text, skin, gameWorld.game.deviceType.defaultStyle);
         restartButton.addListener(restartListener);
 
         text = localeService.get(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON);
-        TextButton quitButton = new TextButton(text, skin);
+        TextButton quitButton = new TextButton(text, skin, gameWorld.game.deviceType.defaultStyle);
         quitButton.addListener(quitListener);
 
         component.lossDialog.button(restartButton);
@@ -109,25 +112,26 @@ public class HudFactory {
     }
 
     private static void createSurrenderDialog(HudRenderingComponent component,
-            World world,
+            TaflWorld gameWorld,
             Skin skin,
             LocaleService localeService,
             ChangeListener restartListener,
             ChangeListener quitListener) {
 
         String text = localeService.get(LocalizedStrings.GameMenu.SURRENDER_TITLE);
-        component.surrenderDialog = new Dialog(text, skin, Assets.Skin.DIALOG_STYLE_NAME);
+        component.surrenderDialog = new Dialog(text, skin, gameWorld.game.deviceType.dialogStyle);
         component.surrenderDialog.setSkin(skin);
 
         text = localeService.get(LocalizedStrings.GameMenu.SURRENDER_TEXT);
-        component.surrenderDialog.text(text);
+        Label label = new Label(text, skin, gameWorld.game.deviceType.defaultStyle);
+        component.surrenderDialog.text(label);
 
         text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
-        TextButton restartButton = new TextButton(text, skin);
+        TextButton restartButton = new TextButton(text, skin, gameWorld.game.deviceType.defaultStyle);
         restartButton.addListener(restartListener);
 
         text = localeService.get(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON);
-        TextButton quitButton = new TextButton(text, skin);
+        TextButton quitButton = new TextButton(text, skin, gameWorld.game.deviceType.defaultStyle);
         quitButton.addListener(quitListener);
 
         component.surrenderDialog.button(restartButton);
@@ -135,25 +139,25 @@ public class HudFactory {
     }
 
     private static void createDrawDialog(HudRenderingComponent component,
-            World world,
+            TaflWorld gameWorld,
             Skin skin,
             LocaleService localeService,
             ChangeListener restartListener,
             ChangeListener quitListener) {
 
         String text = localeService.get(LocalizedStrings.GameMenu.DRAW_TITLE);
-        component.drawDialog = new Dialog(text, skin, Assets.Skin.DIALOG_STYLE_NAME);
+        component.drawDialog = new Dialog(text, skin, gameWorld.game.deviceType.dialogStyle);
         component.drawDialog.setSkin(skin);
 
-        component.drawText = new Label("", skin);
+        component.drawText = new Label("", skin, gameWorld.game.deviceType.defaultStyle);
         component.drawDialog.text(component.drawText);
 
         text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
-        TextButton restartButton = new TextButton(text, skin);
+        TextButton restartButton = new TextButton(text, skin, gameWorld.game.deviceType.defaultStyle);
         restartButton.addListener(restartListener);
 
         text = localeService.get(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON);
-        TextButton quitButton = new TextButton(text, skin);
+        TextButton quitButton = new TextButton(text, skin, gameWorld.game.deviceType.defaultStyle);
         quitButton.addListener(quitListener);
 
         component.drawDialog.button(restartButton);
@@ -161,25 +165,25 @@ public class HudFactory {
     }
 
     private static void createWinDialog(HudRenderingComponent component,
-            World world,
+            TaflWorld gameWorld,
             Skin skin,
             LocaleService localeService,
             ChangeListener restartListener,
             ChangeListener quitListener) {
 
         String text = localeService.get(LocalizedStrings.GameMenu.WIN_TITLE);
-        component.winDialog = new Dialog(text, skin, Assets.Skin.DIALOG_STYLE_NAME);
+        component.winDialog = new Dialog(text, skin, gameWorld.game.deviceType.dialogStyle);
         component.winDialog.setSkin(skin);
 
-        component.winText = new Label("", skin);
+        component.winText = new Label("", skin, gameWorld.game.deviceType.defaultStyle);
         component.winDialog.text(component.winText);
 
         text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
-        TextButton restartButton = new TextButton(text, skin);
+        TextButton restartButton = new TextButton(text, skin, gameWorld.game.deviceType.defaultStyle);
         restartButton.addListener(restartListener);
 
         text = localeService.get(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON);
-        TextButton quitButton = new TextButton(text, skin);
+        TextButton quitButton = new TextButton(text, skin, gameWorld.game.deviceType.defaultStyle);
         quitButton.addListener(quitListener);
 
         component.winDialog.button(restartButton);
@@ -187,27 +191,27 @@ public class HudFactory {
     }
 
     private static void createPlayerWarningDialog(HudRenderingComponent component,
-            World world,
+            TaflWorld gameWorld,
             Skin skin,
             LocaleService localeService,
             ChangeListener resumeListener) {
 
         String text = localeService.get(LocalizedStrings.GameMenu.PLAYER_WARNING_TITLE);
-        component.playerWarningDialog = new Dialog(text, skin);
+        component.playerWarningDialog = new Dialog(text, skin, gameWorld.game.deviceType.dialogStyle);
         component.playerWarningDialog.setSkin(skin);
 
-        component.playerWarningText = new Label("", skin);
+        component.playerWarningText = new Label("", skin, gameWorld.game.deviceType.defaultStyle);
         component.playerWarningDialog.text(component.playerWarningText);
 
         text = localeService.get(LocalizedStrings.GameMenu.OK_BUTTON);
-        TextButton restartButton = new TextButton(text, skin);
+        TextButton restartButton = new TextButton(text, skin, gameWorld.game.deviceType.defaultStyle);
         restartButton.addListener(resumeListener);
 
         component.playerWarningDialog.button(restartButton);
     }
 
     private static void createMenuDialog(HudRenderingComponent component,
-            final World world,
+            final TaflWorld gameWorld,
             Skin skin,
             LocaleService localeService,
             ChangeListener resumeListener,
@@ -215,40 +219,25 @@ public class HudFactory {
             ChangeListener quitListener) {
 
         String text = localeService.get(LocalizedStrings.GameMenu.MENU_TITLE);
-        component.menu = new Dialog(text, skin, Assets.Skin.DIALOG_STYLE_NAME) {
-
-            @Override
-            public Dialog show (Stage stage) {
-                world.getSystem(AiSystem.class).pauseThread();
-                return super.show(stage);
-            }
-
-            @Override
-            public void hide () {
-                AiSystem aiSystem = world.getSystem(AiSystem.class);
-                if (!aiSystem.aiThread.isInterrupted()) {
-                    aiSystem.resumeThread();
-                }
-                super.hide();
-            }
-        };
+        component.menu = new Dialog(text, skin, gameWorld.game.deviceType.dialogStyle);
 
         component.menu.setSkin(skin);
 
         text = localeService.get(LocalizedStrings.GameMenu.MENU_TEXT);
-        component.menu.text(text);
+        Label label = new Label(text, skin, gameWorld.game.deviceType.defaultStyle);
+        component.menu.text(label);
 
         text = localeService.get(LocalizedStrings.GameMenu.RESUME_BUTTON);
-        TextButton resumeButton = new TextButton(text, skin);
+        TextButton resumeButton = new TextButton(text, skin, gameWorld.game.deviceType.defaultStyle);
         resumeButton.addListener(resumeListener);
         component.menu.button(resumeButton);
 
         text = localeService.get(LocalizedStrings.GameMenu.RESTART_BUTTON);
-        TextButton restartButton = new TextButton(text, skin);
+        TextButton restartButton = new TextButton(text, skin, gameWorld.game.deviceType.defaultStyle);
         restartButton.addListener(restartListener);
 
         text = localeService.get(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON);
-        TextButton quitButton = new TextButton(text, skin);
+        TextButton quitButton = new TextButton(text, skin, gameWorld.game.deviceType.defaultStyle);
         quitButton.addListener(quitListener);
 
         component.menu.button(restartButton);
@@ -261,11 +250,11 @@ public class HudFactory {
 
         createMenu(component, skin, table, gameWorld);
 
-        component.timer = new Label("", skin);
+        component.timer = new Label("", skin, gameWorld.game.deviceType.defaultStyle);
         table.add(component.timer).colspan(2).expandX();
 
         if (Constants.GameConstants.DEBUG) {
-            component.fps = new Label("", skin);
+            component.fps = new Label("", skin, gameWorld.game.deviceType.defaultStyle);
             table.add(component.fps).expandX();
         }
 
@@ -302,7 +291,7 @@ public class HudFactory {
         Image blackIcon = new Image(gameWorld.game.graphicsService.getSprite(
                 Assets.Graphics.PIECE_ATLAS, Assets.Graphics.BLACK_ICON));
 
-        Label blackLabel = new Label(blackText, skin, Assets.Skin.IN_GAME_BROWN_STYLE_NAME);
+        Label blackLabel = new Label(blackText, skin, gameWorld.game.deviceType.playerTagStyle);
 
         table.add(blackIcon).padRight(Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
         table.add(blackLabel).align(BaseTableLayout.LEFT);
@@ -310,7 +299,7 @@ public class HudFactory {
         Image whiteIcon = new Image(gameWorld.game.graphicsService.getSprite(
                 Assets.Graphics.PIECE_ATLAS, Assets.Graphics.WHITE_ICON));
 
-        Label whiteLabel = new Label(whiteText, skin, Assets.Skin.IN_GAME_BROWN_STYLE_NAME);
+        Label whiteLabel = new Label(whiteText, skin, gameWorld.game.deviceType.playerTagStyle);
 
         table.add(whiteLabel).align(BaseTableLayout.RIGHT);
         table.add(whiteIcon).padLeft(Constants.HudConstants.HUD_TABLE_PADDING_SIDES);

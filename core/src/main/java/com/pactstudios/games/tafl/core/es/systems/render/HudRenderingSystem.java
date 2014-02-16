@@ -6,24 +6,17 @@ import com.artemis.Entity;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
-import com.roundtriangles.games.zaria.services.GraphicsService;
-import com.roundtriangles.games.zaria.services.resources.LocaleService;
 import com.roundtriangles.games.zaria.utils.TimeModifiableString;
 
 public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
 
     ComponentMapper<HudComponent> hudMapper;
 
-    LocaleService localeService;
-    GraphicsService graphicService;
-
     TimeModifiableString time;
 
     @SuppressWarnings("unchecked")
-    public HudRenderingSystem(LocaleService localeService, GraphicsService graphicService) {
+    public HudRenderingSystem() {
         super(Aspect.getAspectForAll(HudComponent.class), HudRenderingComponent.class);
-        this.localeService = localeService;
-        this.graphicService = graphicService;
 
         time = new TimeModifiableString();
     }

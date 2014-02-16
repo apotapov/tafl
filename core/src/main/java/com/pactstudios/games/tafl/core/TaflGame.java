@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
+import com.pactstudios.games.tafl.core.consts.DeviceType;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.pactstudios.games.tafl.core.level.TaflLevelService;
 import com.pactstudios.games.tafl.core.screen.GamePlayScreen;
@@ -15,6 +16,7 @@ import com.pactstudios.games.tafl.core.screen.LevelSelectionScreen;
 import com.pactstudios.games.tafl.core.screen.LoadGameScreen;
 import com.pactstudios.games.tafl.core.screen.MainMenuScreen;
 import com.pactstudios.games.tafl.core.screen.OptionsScreen;
+import com.pactstudios.games.tafl.core.utils.TaflGameConfig;
 import com.pactstudios.games.tafl.core.utils.TaflPreferenceService;
 import com.roundtriangles.games.zaria.AbstractGame;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
@@ -36,7 +38,13 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     public TaflLevelService levelService;
     public TaflPreferenceService preferenceService;
 
+    public DeviceType deviceType;
+
     private boolean disposing;
+
+    public TaflGame(TaflGameConfig config) {
+        this.deviceType = config.deviceType;
+    }
 
     @Override
     public void create() {
@@ -105,7 +113,7 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     public TextButton createSwitchScreenButton(String text, final Screen screen) {
         TextButton button = new TextButton(text,
                 graphicsService.getSkin(Assets.Skin.UI_SKIN),
-                Assets.Skin.IN_GAME_STYLE_NAME);
+                deviceType.menuStyle);
 
         button.addListener(new ChangeListener() {
 

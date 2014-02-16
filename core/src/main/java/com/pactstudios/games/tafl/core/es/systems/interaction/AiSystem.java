@@ -6,7 +6,6 @@ import java.util.concurrent.Executors;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.pactstudios.games.tafl.core.es.components.render.AiProcessingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
@@ -16,24 +15,23 @@ import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem2;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceMoveEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
 import com.pactstudios.games.tafl.core.utils.AiThread;
-import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
 public class AiSystem extends EventProcessingSystem2<AiTurnEvent, AiCompleteEvent> {
 
     ComponentMapper<MatchComponent> matchMapper;
 
-    LocaleService localeService;
     ExecutorService executor;
+    public AiThread aiThread;
 
     EntityFactorySystem efs;
 
-    public AiThread aiThread;
+    String thinking;
 
     @SuppressWarnings("unchecked")
-    public AiSystem(LocaleService localeService) {
+    public AiSystem(String thinking) {
         super(Aspect.getAspectForAll(MatchComponent.class), AiTurnEvent.class, AiCompleteEvent.class);
 
-        this.localeService = localeService;
+        this.thinking = thinking;
         this.executor = Executors.newSingleThreadExecutor();
     }
 
@@ -53,8 +51,7 @@ public class AiSystem extends EventProcessingSystem2<AiTurnEvent, AiCompleteEven
         aiThread.match = component.match;
         executor.execute(aiThread);
 
-        String text = localeService.get(LocalizedStrings.Game.AI_PROCESSING);
-        efs.createAiProcessingPrompt(e, text);
+        efs.createAiProcessingPrompt(e, thinking);
     }
 
     @Override
@@ -72,15 +69,4 @@ public class AiSystem extends EventProcessingSystem2<AiTurnEvent, AiCompleteEven
     public void stopThread() {
         aiThread.interrupt();
     }
-
-    @SuppressWarnings("deprecation")
-    public void pauseThread() {
-        aiThread.suspend();
-    }
-
-    @SuppressWarnings("deprecation")
-    public void resumeThread() {
-        aiThread.resume();
-    }
-
 }

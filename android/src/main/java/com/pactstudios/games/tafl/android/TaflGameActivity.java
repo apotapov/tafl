@@ -28,7 +28,6 @@ public class TaflGameActivity extends AndroidApplication {
         gameConfig.deviceType = DeviceType.getDeviceType(size.x, size.y);
         gameConfig.deviceType = DeviceType.TABLET;
 
-
         initialize(new TaflGame(gameConfig), config);
     }
 }

@@ -32,7 +32,7 @@ public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
         HudComponent hudComponent = hudMapper.get(e);
 
         time.setTime((int) hudComponent.match.timer);
-        rendComponent.timer.setText(time);
+        rendComponent.timer.setText(time.toString());
 
         if (Constants.GameConstants.DEBUG) {
             rendComponent.fps.setText("FPS: " + hudComponent.fps);

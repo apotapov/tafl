@@ -44,17 +44,8 @@ public class TaflBoard extends GameBoard {
         initialize();
     }
 
-    private void initializeStrings() {
-        StringBuilder builder = new StringBuilder(boardSize);
-        for (int i = 0; i < boardSize; i++) {
-            builder.append(Constants.BoardConstants.EMPTY_CELL);
-        }
-
-        boardString = new ModifiableString(builder.toString());
-    }
-
     private void initialize() {
-        initializeStrings();
+        boardString = new ModifiableString(boardSize);
 
         this.position = new Vector2();
         this.selectedPiece = Constants.BoardConstants.ILLEGAL_CELL;
@@ -75,18 +66,18 @@ public class TaflBoard extends GameBoard {
         corners = new BitBoard(boardSize);
         corners.set(0);
         corners.set(dimensions - 1);
-        corners.set(dimensions * dimensions - dimensions);
-        corners.set(dimensions * dimensions - 1);
+        corners.set(boardSize - dimensions);
+        corners.set(boardSize - 1);
 
         nearCorners = new BitBoard(boardSize);
         nearCorners.set(1);
         nearCorners.set(dimensions);
         nearCorners.set(dimensions - 2);
         nearCorners.set(dimensions * 2 - 1);
-        nearCorners.set(dimensions * dimensions - dimensions + 1);
-        nearCorners.set(dimensions * dimensions - dimensions * 2);
-        nearCorners.set(dimensions * dimensions - 2);
-        nearCorners.set(dimensions * dimensions - dimensions - 1);
+        nearCorners.set(boardSize - dimensions + 1);
+        nearCorners.set(boardSize - dimensions * 2);
+        nearCorners.set(boardSize - 2);
+        nearCorners.set(boardSize - dimensions - 1);
     }
 
     public boolean canWalk(int piece, int cellId) {
@@ -186,7 +177,9 @@ public class TaflBoard extends GameBoard {
 
     @Override
     public String toString() {
-        boardString.reset();
+        for (int i = 0; i < boardSize; i++) {
+            boardString.setChar(i, Constants.BoardConstants.EMPTY_CELL);
+        }
 
         BitBoard bitBoard = bitBoards[Constants.BoardConstants.WHITE_TEAM];
         for (int i = bitBoard.nextSetBit(0); i >= 0; i = bitBoard.nextSetBit(i+1)) {

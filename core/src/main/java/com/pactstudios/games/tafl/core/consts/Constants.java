@@ -67,13 +67,13 @@ public final class Constants {
         public static final float DISPLAY_TIME = 1.75f;
 
         public static final int PHONE_LIST_WIDTH = 270;
-        public static final int PHONE_LIST_HEIGHT = 170;
+        public static final int PHONE_LIST_HEIGHT = 140;
         public static final int PHONE_BUTTON_WIDTH = 250;
         public static final int PHONE_BUTTON_HEIGHT = 70;
         public static final int PHONE_SPACING = 30;
 
         public static final int TABLET_LIST_WIDTH = 540;
-        public static final int TABLET_LIST_HEIGHT = 340;
+        public static final int TABLET_LIST_HEIGHT = 280;
         public static final int TABLET_BUTTON_WIDTH = 500;
         public static final int TABLET_BUTTON_HEIGHT = 140;
         public static final int TABLET_SPACING = 60;

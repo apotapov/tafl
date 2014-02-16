@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.esotericsoftware.tablelayout.BaseTableLayout;
 import com.pactstudios.games.tafl.core.TaflGame;
 import com.pactstudios.games.tafl.core.consts.Assets;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
 
@@ -67,6 +68,9 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
         table.add(mainMenuButton).size(game.deviceType.menuButtonWidth, game.deviceType.menuButtonHeight);
         table.row();
 
+        if (Constants.GameConstants.DEBUG) {
+            table.debug();
+        }
         stage.addActor(table);
     }
 }

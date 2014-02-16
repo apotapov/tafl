@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.pactstudios.games.tafl.core.TaflGame;
 import com.pactstudios.games.tafl.core.consts.Assets;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
 
@@ -57,6 +58,9 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
         table.add(button).size(game.deviceType.menuButtonWidth,
                 game.deviceType.menuButtonHeight).uniform();
 
+        if (Constants.GameConstants.DEBUG) {
+            table.debug();
+        }
         stage.addActor(table);
     }
 }

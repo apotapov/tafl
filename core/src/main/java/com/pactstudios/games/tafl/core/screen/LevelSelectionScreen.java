@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.ObjectMap;
 import com.esotericsoftware.tablelayout.BaseTableLayout;
 import com.pactstudios.games.tafl.core.TaflGame;
 import com.pactstudios.games.tafl.core.consts.Assets;
+import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.pactstudios.games.tafl.core.enums.AiType;
 import com.pactstudios.games.tafl.core.level.TaflLevel;
@@ -54,6 +55,9 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
 
         createButtons(table, skin);
 
+        if (Constants.GameConstants.DEBUG) {
+            table.debug();
+        }
         stage.addActor(table);
     }
 
@@ -77,8 +81,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
             }
         });
 
-        table.add(levelList).size(game.deviceType.menuListWidth,
-                game.deviceType.menuListHeight).spaceBottom(game.deviceType.menuSpacing);
+        table.add(levelList).spaceBottom(game.deviceType.menuSpacing);
         table.row();
     }
 
@@ -160,5 +163,10 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         Button mainMenuButton = game.getMainMenuButton();
         table.add(mainMenuButton).size(game.deviceType.menuButtonWidth, game.deviceType.menuButtonHeight);
         table.row();
+    }
+
+    @Override
+    public void render(float delta) {
+        super.render(delta);
     }
 }

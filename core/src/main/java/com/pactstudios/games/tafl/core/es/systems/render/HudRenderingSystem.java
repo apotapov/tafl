@@ -30,24 +30,16 @@ public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
     @Override
     protected void process(Entity e, HudRenderingComponent rendComponent) {
         HudComponent hudComponent = hudMapper.get(e);
-        updateTime(rendComponent, hudComponent);
-        updateDebugInfo(rendComponent, hudComponent);
 
-        rendComponent.hubStage.act(world.getDelta());
-        rendComponent.hubStage.draw();
-    }
+        time.setTime((int) hudComponent.match.timer);
+        rendComponent.timer.setText(time);
 
-    private void updateDebugInfo(HudRenderingComponent rendComponent,
-            HudComponent hudComponent) {
         if (Constants.GameConstants.DEBUG) {
             rendComponent.fps.setText("FPS: " + hudComponent.fps);
         }
-    }
 
-    private void updateTime(HudRenderingComponent rendComponent,
-            HudComponent hudComponent) {
-        time.setTime((int) hudComponent.match.timer);
-        rendComponent.timer.setText(time);
+        rendComponent.hubStage.act(world.getDelta());
+        rendComponent.hubStage.draw();
     }
 
 

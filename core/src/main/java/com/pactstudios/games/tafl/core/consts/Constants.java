@@ -136,12 +136,11 @@ public final class Constants {
 
         public static final int BOARD_FRAME_WIDTH = 20;
 
-        public static final Color BACKGROUND_COLOR = new Color(0, 0, 0, 1f);
-        public static final Color HIGHLIGHT_COLOR = new Color(1f, 1f, 1f, 0.4f);
-        public static final Color CORNER_HIGHLIGHT_COLOR = new Color(1f, 0f, 0f, 0.4f);
+        public static final Color HIGHLIGHT_COLOR = new Color(0.58203125f, 0.3671875f, 0.10546875f, 0.6f);
+        public static final Color SPECIAL_HIGHLIGHT_COLOR = new Color(1f, 0f, 0f, 0.4f);
 
         public static final Color PATH_COLOR = HIGHLIGHT_COLOR;
-        public static final Color END_COLOR = CORNER_HIGHLIGHT_COLOR;
+        public static final Color END_COLOR = new Color(1f, 1f, 1f, 0.6f);
 
         public static final int BOARD_HORIZONTAL_OFFSET = BOARD_FRAME_WIDTH -
                 GameConstants.GAME_HALF_WIDTH;
@@ -157,14 +156,14 @@ public final class Constants {
 
         public static final float BOARD_RENDER_POSITION_X = - Constants.GameConstants.GAME_WIDTH / 2 - 2;
         public static final float BOARD_RENDER_POSITION_Y = - Constants.GameConstants.GAME_HEIGHT / 2 - 20;
+
+        public static final float GRID_RENDER_POSITION_X = -Constants.GameConstants.GAME_WIDTH / 2 + 18.5f;
+        public static final float GRID_RENDER_POSITION_Y = -280.5f;
     }
 
     public static final class HudConstants {
         private HudConstants() {
         }
-        public static final int HUD_HEIGHT = 100;
-        public static final Color HUD_BACKGROUND_COLOR = new Color(0, 0, 0, 0.5f);
-
         public static final int HUD_BUTTON_WIDTH = 30;
         public static final int HUD_BUTTON_HEIGHT = 30;
 

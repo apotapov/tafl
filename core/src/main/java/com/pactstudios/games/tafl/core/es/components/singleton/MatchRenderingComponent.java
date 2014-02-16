@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -15,6 +16,7 @@ public class MatchRenderingComponent implements RenderingComponent {
     public BitmapFont font;
     public BitmapFont debugFont;
     public Texture backgroundTexture;
+    public Sprite gridTexture;
 
     @Override
     public void reset() {
@@ -26,6 +28,7 @@ public class MatchRenderingComponent implements RenderingComponent {
         font = null;
         debugFont = null;
         backgroundTexture = null;
+        gridTexture = null;
     }
 
     @Override

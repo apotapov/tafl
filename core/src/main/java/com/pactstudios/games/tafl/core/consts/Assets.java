@@ -40,6 +40,8 @@ public class Assets extends GameAssetLoader {
         public static final String UNDO_ICON = "tafl-menu-icon-undo";
         public static final String BACK_ICON = "tafl-menu-icon-back";
 
+        public static final String GRID = "tafl-board-01-02-11x11-grid";
+
         public static final String EXPLOSION_ATLAS = "image-atlases/explosion.atlas";
         public static final String EXPLOSION = "explosion";
     }

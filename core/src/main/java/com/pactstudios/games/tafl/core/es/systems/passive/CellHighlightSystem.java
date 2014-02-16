@@ -38,6 +38,16 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
         MatchComponent matchComponent = singletonManager.getSingletonComponent(MatchComponent.class);
         TaflMatch match = matchComponent.match;
 
+        if (matchComponent.match.board.undoStack.size > 0) {
+            Move lastMove = matchComponent.match.board.undoStack.peek();
+            efs.createHighlightedCell(lastMove.source, Constants.BoardRenderConstants.END_COLOR);
+            efs.createHighlightedCell(lastMove.destination,
+                    Constants.BoardRenderConstants.END_COLOR);
+            for (int i = lastMove.capturedPieces.nextSetBit(0); i >= 0; i = lastMove.capturedPieces.nextSetBit(i+1)) {
+                efs.createHighlightedCell(i, Constants.BoardRenderConstants.SPECIAL_HIGHLIGHT_COLOR);
+            }
+        }
+
         BitBoard pieces = match.board.bitBoards[team];
         for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
             if (match.board.rules.getLegalMoves(match.turn, i).cardinality() > 0) {
@@ -55,7 +65,7 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
 
     public void highlightCell(TaflMatch match, int cellId) {
         if (match.board.corners.get(cellId)) {
-            efs.createHighlightedCell(cellId, Constants.BoardRenderConstants.CORNER_HIGHLIGHT_COLOR);
+            efs.createHighlightedCell(cellId, Constants.BoardRenderConstants.SPECIAL_HIGHLIGHT_COLOR);
         } else {
             efs.createHighlightedCell(cellId, Constants.BoardRenderConstants.HIGHLIGHT_COLOR);
         }

@@ -53,24 +53,25 @@ public class PieceMovementRenderSystem extends RenderingSystem<MatchRenderingCom
         VelocityComponent velocityComponent = velocityMapper.get(e);
         ShapeRenderer shapeRenderer = rendComponent.shapeRenderer;
 
-        shapeRenderer.setColor(Constants.BoardRenderConstants.PATH_COLOR);
-
         int source = velocityComponent.move.source;
         int destination = velocityComponent.move.destination;
 
+        shapeRenderer.setColor(Constants.BoardRenderConstants.PATH_COLOR);
+
         if (Math.abs(destination - source) < mc.match.board.dimensions) {
             int direction = (int) Math.signum(destination - source);
-            for (int i = source; i != destination; i += direction) {
+            for (int i = source + direction; i != destination; i += direction) {
                 drawCell(shapeRenderer, mc.match, i);
             }
         } else {
-            int direction = (int) Math.signum(destination - source);
-            for (int i = source; i != destination; i += mc.match.board.dimensions * direction) {
+            int direction = mc.match.board.dimensions * (int) Math.signum(destination - source);
+            for (int i = source + direction; i != destination; i += direction) {
                 drawCell(shapeRenderer, mc.match, i);
             }
         }
 
         shapeRenderer.setColor(Constants.BoardRenderConstants.END_COLOR);
+        drawCell(shapeRenderer, mc.match, velocityComponent.move.source);
         drawCell(shapeRenderer, mc.match, velocityComponent.move.destination);
     }
 

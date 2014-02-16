@@ -24,6 +24,7 @@ import com.pactstudios.games.tafl.core.es.systems.render.AiProcessingRendererSys
 import com.pactstudios.games.tafl.core.es.systems.render.AnimationRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.CellHighlightRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.GameBoardImageRenderSystem;
+import com.pactstudios.games.tafl.core.es.systems.render.GridRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.HudRenderingSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.PieceMovementRenderSystem;
 import com.pactstudios.games.tafl.core.es.systems.render.PreRenderSystem;
@@ -82,11 +83,9 @@ public class SystemFactory {
     protected static void initRenderingSystems(TaflWorld gameWorld) {
         gameWorld.world.setSystem(new PreRenderSystem());
         gameWorld.world.setSystem(new GameBoardImageRenderSystem());
-        //        gameWorld.world.setSystem(new GameBoardRenderSystem());
-        //        gameWorld.world.setSystem(new GameBoardColorRenderSystem());
-        //        gameWorld.world.setSystem(new CellIdRendererSystem());
         gameWorld.world.setSystem(new PieceMovementRenderSystem());
         gameWorld.world.setSystem(new CellHighlightRenderSystem());
+        gameWorld.world.setSystem(new GridRenderSystem());
         gameWorld.world.setSystem(new SpriteRenderSystem());
         gameWorld.world.setSystem(new AnimationRenderSystem());
         gameWorld.world.setSystem(new AiProcessingRendererSystem());

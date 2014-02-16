@@ -108,6 +108,7 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         component.debugFont = graphics.getFont(world.game.deviceType.font);
 
         component.backgroundTexture = graphics.getTexture(Assets.Graphics.BOARD_ATLAS, Assets.Graphics.BOARD);
+        component.gridTexture = graphics.getSprite(Assets.Graphics.PIECE_ATLAS, Assets.Graphics.GRID);
 
         return component;
     }

@@ -11,15 +11,17 @@ import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.pactstudios.games.tafl.core.es.systems.events.ChangeTurnEvent;
-import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem2;
+import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem3;
 import com.pactstudios.games.tafl.core.es.systems.events.MoveFinishedEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceCaptureEvent;
+import com.pactstudios.games.tafl.core.es.systems.events.PieceDragEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceMoveEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
+import com.pactstudios.games.tafl.core.es.systems.passive.EntityPieceSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.SoundSystem;
 
-public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, MoveFinishedEvent> {
+public class PieceMovementSystem extends EventProcessingSystem3<PieceMoveEvent, MoveFinishedEvent, PieceDragEvent> {
 
     ComponentMapper<MatchComponent> matchMapper;
     ComponentMapper<PositionComponent> positionMapper;
@@ -27,12 +29,13 @@ public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, 
     SoundSystem soundSystem;
     EntityFactorySystem efs;
     CellHighlightSystem highlightSystem;
+    EntityPieceSystem entityPieceSystem;
 
     Vector2 velocity;
 
     @SuppressWarnings("unchecked")
     public PieceMovementSystem() {
-        super(Aspect.getAspectForAll(MatchComponent.class), PieceMoveEvent.class, MoveFinishedEvent.class);
+        super(Aspect.getAspectForAll(MatchComponent.class), PieceMoveEvent.class, MoveFinishedEvent.class, PieceDragEvent.class);
         velocity = new Vector2();
     }
 
@@ -45,6 +48,7 @@ public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, 
         soundSystem = world.getSystem(SoundSystem.class);
         efs = world.getSystem(EntityFactorySystem.class);
         highlightSystem = world.getSystem(CellHighlightSystem.class);
+        entityPieceSystem = world.getSystem(EntityPieceSystem.class);
     }
 
     @Override
@@ -111,5 +115,21 @@ public class PieceMovementSystem extends EventProcessingSystem2<PieceMoveEvent, 
 
         move(match, event);
         processCapturedPieces(match, event);
+    }
+
+    @Override
+    protected void processEvent3(Entity e, PieceDragEvent event) {
+        MatchComponent matchComponent = matchMapper.get(e);
+
+        if (matchComponent.match.board.selectedPiece != Constants.BoardConstants.ILLEGAL_CELL) {
+            Entity entity = entityPieceSystem.get(matchComponent.match.board.selectedPiece);
+            if (entity != null) {
+                PositionComponent position = positionMapper.get(entity);
+                position.position.set(event.touchPoint);
+
+                int over = matchComponent.match.board.getCellId(position.position);
+                highlightSystem.highlightDragCell(matchComponent.match, over);
+            }
+        }
     }
 }

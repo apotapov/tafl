@@ -47,7 +47,7 @@ public class SystemFactory {
     protected static void initInputSystems(TaflWorld gameWorld) {
         gameWorld.world.setSystem(new UserInputSystem());
         gameWorld.world.setSystem(new HudInputSystem());
-        gameWorld.world.setSystem(new MatchInputSystem());
+        gameWorld.world.setSystem(new MatchInputSystem(gameWorld.game));
     }
 
     protected static void initEventSystem(TaflWorld gameWorld) {

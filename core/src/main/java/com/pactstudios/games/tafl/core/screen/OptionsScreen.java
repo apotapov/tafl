@@ -48,7 +48,7 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(soundEffectsCheckbox).align(BaseTableLayout.LEFT).uniform().spaceBottom(game.deviceType.menuSpacing);
+        table.add(soundEffectsCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceType.menuSpacing);
         table.row();
 
         text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_MUSIC);
@@ -61,7 +61,20 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(musicCheckbox).align(BaseTableLayout.LEFT).uniform().spaceBottom(game.deviceType.menuSpacing);
+        table.add(musicCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceType.menuSpacing);
+        table.row();
+
+        text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_VIBRATE);
+        final CheckBox vibrationCheckbox = new CheckBox(text, skin, game.deviceType.menuStyle);
+        vibrationCheckbox.setChecked(game.preferenceService.isVibrateEnabled());
+        vibrationCheckbox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.preferenceService.setVibrateEnabled(vibrationCheckbox.isChecked());
+                game.soundService.vibrate(Constants.GameConstants.VIBRATION_LENGTH);
+            }
+        });
+        table.add(vibrationCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceType.menuSpacing);
         table.row();
 
         Button mainMenuButton = game.getMainMenuButton();

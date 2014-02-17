@@ -71,6 +71,19 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
         }
     }
 
+
+    public void highlightDragCell(TaflMatch match, int cellId) {
+        Array<Entity> highlights = groupManager.getEntities(Constants.GroupConstants.DRAG_CELLS);
+        if (highlights.size > 0) {
+            for (Entity e : highlights) {
+                HighlightComponent c = highlightMapper.get(e);
+                c.cellId = cellId;
+            }
+        } else {
+            efs.createDragHighlightedCell(cellId, Constants.BoardRenderConstants.END_COLOR);
+        }
+    }
+
     public void highlightCells(TaflMatch match, BitBoard cells) {
         for (int i = cells.nextSetBit(0); i >= 0; i = cells.nextSetBit(i+1)) {
             highlightCell(match, i);

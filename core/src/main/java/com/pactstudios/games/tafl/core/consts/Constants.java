@@ -1,6 +1,7 @@
 package com.pactstudios.games.tafl.core.consts;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.enums.AiType;
 
 
@@ -39,6 +40,12 @@ public final class Constants {
         public static final int GAME_DESKTOP_HEIGHT = 800;
         public static final int GAME_DESKTOP_WIDTH = GAME_DESKTOP_HEIGHT *
                 GAME_WIDTH / Constants.GameConstants.GAME_HEIGHT;
+
+        public static final int VIBRATION_LENGTH = 500;
+
+        public static final Vector2 DESKTOP_DRAG_POSITION_OFFSET = new Vector2();
+        public static final Vector2 MOBILE_DRAG_POSITION_OFFSET = new Vector2(0, 50);
+        public static final float DRAG_THRESHOLD = 0.2f;
     }
 
     public static final class AiConstants {
@@ -84,6 +91,7 @@ public final class Constants {
         }
 
         public static final String HIGHLIGHTED_CELLS = "hcells";
+        public static final String DRAG_CELLS = "dragCells";
 
         public static final String BOARD = "board";
         public static final String RENDERER = "renderer";

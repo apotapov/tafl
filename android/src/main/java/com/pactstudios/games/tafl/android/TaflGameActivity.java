@@ -19,10 +19,10 @@ public class TaflGameActivity extends AndroidApplication {
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
         config.useGL20 = Constants.GameConstants.USE_GL20;
 
+
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-
 
         TaflGameConfig gameConfig = new TaflGameConfig();
         gameConfig.deviceType = DeviceType.getDeviceType(size.x, size.y);

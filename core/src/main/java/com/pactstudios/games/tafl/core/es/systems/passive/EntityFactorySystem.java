@@ -85,6 +85,18 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         return e;
     }
 
+    public Entity createDragHighlightedCell(int cellId, Color color) {
+        Entity e = world.createEntity();
+
+        e.addComponent(componentFactory.createHilightComponent(cellId, color));
+
+        groupManager.add(e, Constants.GroupConstants.DRAG_CELLS);
+        groupManager.add(e, Constants.GroupConstants.HIGHLIGHTED_CELLS);
+
+        e.addToWorld();
+        return e;
+    }
+
 
 
     public Entity createCaptureAnimation(Vector2 position) {

@@ -13,6 +13,7 @@ public class LocalizedStrings {
         OPTIONS_TITLE,
         OPTIONS_SOUND_EFFECTS,
         OPTIONS_MUSIC,
+        OPTIONS_VIBRATE,
     }
 
     public enum LevelSelectionMenu {

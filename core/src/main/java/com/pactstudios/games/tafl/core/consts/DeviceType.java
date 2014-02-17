@@ -1,5 +1,6 @@
 package com.pactstudios.games.tafl.core.consts;
 
+import com.badlogic.gdx.math.Vector2;
 import com.roundtriangles.games.zaria.services.utils.FontDefinition;
 
 public enum DeviceType {
@@ -13,7 +14,8 @@ public enum DeviceType {
             Constants.ScreenConstants.PHONE_BUTTON_HEIGHT,
             Constants.ScreenConstants.PHONE_LIST_WIDTH,
             Constants.ScreenConstants.PHONE_LIST_HEIGHT,
-            Constants.ScreenConstants.PHONE_SPACING),
+            Constants.ScreenConstants.PHONE_SPACING,
+            Constants.GameConstants.DESKTOP_DRAG_POSITION_OFFSET),
 
 
             PHONE (Assets.Fonts.GOTHAM_MEDIUM_PHONE,
@@ -26,7 +28,8 @@ public enum DeviceType {
                     Constants.ScreenConstants.PHONE_BUTTON_HEIGHT,
                     Constants.ScreenConstants.PHONE_LIST_WIDTH,
                     Constants.ScreenConstants.PHONE_LIST_HEIGHT,
-                    Constants.ScreenConstants.PHONE_SPACING),
+                    Constants.ScreenConstants.PHONE_SPACING,
+                    Constants.GameConstants.MOBILE_DRAG_POSITION_OFFSET),
 
 
                     TABLET (Assets.Fonts.GOTHAM_MEDIUM_TABLET,
@@ -39,7 +42,8 @@ public enum DeviceType {
                             Constants.ScreenConstants.TABLET_BUTTON_HEIGHT,
                             Constants.ScreenConstants.TABLET_LIST_WIDTH,
                             Constants.ScreenConstants.TABLET_LIST_HEIGHT,
-                            Constants.ScreenConstants.TABLET_SPACING);
+                            Constants.ScreenConstants.TABLET_SPACING,
+                            Constants.GameConstants.MOBILE_DRAG_POSITION_OFFSET);
 
     public FontDefinition font;
     public int minResolution;
@@ -55,6 +59,8 @@ public enum DeviceType {
     public int menuListHeight;
     public int menuSpacing;
 
+    public Vector2 dragOffset;
+
     private DeviceType(FontDefinition font,
             int minResolution,
             String defaultStyle,
@@ -65,7 +71,8 @@ public enum DeviceType {
             int menuButtonHeight,
             int menuListWidth,
             int menuListHeight,
-            int menuSpacing) {
+            int menuSpacing,
+            Vector2 dragOffset) {
 
         this.font = font;
         this.minResolution = minResolution;
@@ -80,6 +87,8 @@ public enum DeviceType {
         this.menuListWidth = menuListWidth;
         this.menuListHeight = menuListHeight;
         this.menuSpacing = menuSpacing;
+
+        this.dragOffset = dragOffset;
     }
 
     public static DeviceType getDeviceType(int width, int height) {

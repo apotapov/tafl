@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.render;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.pactstudios.games.tafl.core.consts.Constants;
@@ -13,7 +13,7 @@ public class GameBoardImageRenderSystem extends RenderingSystem<MatchRenderingCo
 
     @SuppressWarnings("unchecked")
     public GameBoardImageRenderSystem() {
-        super(Aspect.getAspectForAll(MatchComponent.class), MatchRenderingComponent.class);
+        super(Filter.allComponents(MatchComponent.class), MatchRenderingComponent.class);
     }
 
     @Override

@@ -1,8 +1,9 @@
 package com.pactstudios.games.tafl.core.es.systems.passive;
 
-import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.Filter;
+import com.artemis.systems.event.EventProcessingSystem2;
 import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
@@ -10,7 +11,6 @@ import com.pactstudios.games.tafl.core.enums.DrawReasonEnum;
 import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
-import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem2;
 import com.pactstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.PlayerWarningEvent;
 
@@ -23,7 +23,7 @@ public class LifeCycleSystem extends EventProcessingSystem2<LifeCycleEvent, Play
 
     @SuppressWarnings("unchecked")
     public LifeCycleSystem(TaflWorld gameWorld) {
-        super(Aspect.getAspectForAll(HudRenderingComponent.class),
+        super(Filter.allComponents(HudRenderingComponent.class),
                 LifeCycleEvent.class, PlayerWarningEvent.class);
         this.gameWorld = gameWorld;
         lifecycleEvents = new Array<LifeCycleEvent>();

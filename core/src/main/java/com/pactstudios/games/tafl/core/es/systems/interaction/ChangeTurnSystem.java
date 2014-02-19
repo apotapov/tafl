@@ -1,8 +1,9 @@
 package com.pactstudios.games.tafl.core.es.systems.interaction;
 
-import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.Filter;
+import com.artemis.systems.event.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.enums.DrawReasonEnum;
 import com.pactstudios.games.tafl.core.enums.LifeCycle;
@@ -11,7 +12,6 @@ import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.systems.events.AiTurnEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.ChangeTurnEvent;
-import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.PlayerWarningEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
@@ -24,7 +24,7 @@ public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
 
     @SuppressWarnings("unchecked")
     public ChangeTurnSystem() {
-        super(Aspect.getAspectForAll(MatchComponent.class), ChangeTurnEvent.class);
+        super(Filter.allComponents(MatchComponent.class), ChangeTurnEvent.class);
     }
 
     @Override

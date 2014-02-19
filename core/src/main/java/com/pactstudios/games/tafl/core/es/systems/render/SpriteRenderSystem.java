@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.render;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
@@ -14,7 +14,7 @@ public class SpriteRenderSystem extends RenderingSystem<MatchRenderingComponent>
 
     @SuppressWarnings("unchecked")
     public SpriteRenderSystem() {
-        super(Aspect.getAspectForAll(DrawableComponent.class, PositionComponent.class),
+        super(Filter.allComponents(DrawableComponent.class, PositionComponent.class),
                 MatchRenderingComponent.class);
     }
 

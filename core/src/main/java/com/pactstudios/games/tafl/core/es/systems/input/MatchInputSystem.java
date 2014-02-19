@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.input;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
@@ -31,7 +31,7 @@ public class MatchInputSystem extends InputProcessingSystem<MatchRenderingCompon
 
     @SuppressWarnings("unchecked")
     public MatchInputSystem(TaflGame game) {
-        super(Aspect.getAspectForAll(MatchComponent.class), MatchRenderingComponent.class);
+        super(Filter.allComponents(MatchComponent.class), MatchRenderingComponent.class);
 
         draggingLocation = new Vector2();
 

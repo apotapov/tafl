@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.input;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -12,7 +12,7 @@ public abstract class InputProcessingSystem<T extends RenderingComponent> extend
 
     protected Array<InputEvent> inputEvents;
 
-    public InputProcessingSystem(Aspect aspect, Class<T> type) {
+    public InputProcessingSystem(Filter aspect, Class<T> type) {
         super(aspect, type);
         inputEvents = new Array<InputEvent>();
     }

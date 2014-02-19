@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.render;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.Entity;
 import com.artemis.managers.SingletonComponentManager;
 import com.artemis.systems.EntitySystem;
@@ -13,7 +13,7 @@ public abstract class RenderingSystem<T extends RenderingComponent> extends Enti
 
     SingletonComponentManager manager;
 
-    public RenderingSystem(Aspect aspect, Class<T> type) {
+    public RenderingSystem(Filter aspect, Class<T> type) {
         super(aspect);
         this.type = type;
     }

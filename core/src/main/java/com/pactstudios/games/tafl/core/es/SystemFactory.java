@@ -1,7 +1,7 @@
 package com.pactstudios.games.tafl.core.es;
 
 import com.artemis.systems.EntitySystem;
-import com.artemis.systems.event.BasicEventSystem;
+import com.artemis.systems.event.BasicEventDeliverySystem;
 import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.consts.LocalizedStrings;
 import com.pactstudios.games.tafl.core.es.systems.input.HudInputSystem;
@@ -51,7 +51,7 @@ public class SystemFactory {
     }
 
     protected static void initEventSystem(TaflWorld gameWorld) {
-        gameWorld.world.setSystem(new BasicEventSystem());
+        gameWorld.world.setEventDeliverySystem(new BasicEventDeliverySystem());
     }
 
     protected static void initActiveSystems(TaflWorld gameWorld, Array<EntitySystem> activeSystems) {

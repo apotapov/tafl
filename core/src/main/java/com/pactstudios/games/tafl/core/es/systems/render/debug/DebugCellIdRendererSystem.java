@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.render.debug;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
@@ -16,7 +16,7 @@ public class DebugCellIdRendererSystem extends RenderingSystem<MatchRenderingCom
 
     @SuppressWarnings("unchecked")
     public DebugCellIdRendererSystem() {
-        super(Aspect.getAspectForAll(MatchComponent.class),
+        super(Filter.allComponents(MatchComponent.class),
                 MatchRenderingComponent.class);
     }
 

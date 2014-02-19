@@ -2,11 +2,11 @@ package com.pactstudios.games.tafl.core.es.systems.passive;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.managers.GroupManager;
 import com.artemis.managers.SingletonComponentManager;
 import com.artemis.systems.PassiveEntitySystem;
 import com.badlogic.gdx.utils.Array;
 import com.pactstudios.games.tafl.core.consts.Constants;
+import com.pactstudios.games.tafl.core.enums.CellHighlightGroup;
 import com.pactstudios.games.tafl.core.enums.LifeCycle;
 import com.pactstudios.games.tafl.core.es.components.render.HighlightComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
@@ -14,12 +14,13 @@ import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.TaflMatchObserver;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
+import com.pactstudios.games.tafl.core.utils.HighlightManager;
 
 public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatchObserver {
 
     ComponentMapper<HighlightComponent> highlightMapper;
 
-    GroupManager groupManager;
+    HighlightManager highlightManager;
     SingletonComponentManager singletonManager;
 
     EntityFactorySystem efs;
@@ -28,8 +29,10 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
     public void initialize() {
         super.initialize();
         highlightMapper = world.getMapper(HighlightComponent.class);
-        groupManager = world.getManager(GroupManager.class);
+
+        highlightManager = world.getManager(HighlightManager.class);
         singletonManager = world.getManager(SingletonComponentManager.class);
+
         efs = world.getSystem(EntityFactorySystem.class);
     }
 
@@ -57,7 +60,7 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
     }
 
     public void clearCellHighlights() {
-        Array<Entity> highlights = groupManager.getEntities(Constants.GroupConstants.HIGHLIGHTED_CELLS);
+        Array<Entity> highlights = highlightManager.getEntities(CellHighlightGroup.HIGHLIGHT);
         for (Entity highlight : highlights) {
             highlight.deleteFromWorld();
         }
@@ -73,7 +76,7 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
 
 
     public void highlightDragCell(TaflMatch match, int cellId) {
-        Array<Entity> highlights = groupManager.getEntities(Constants.GroupConstants.DRAG_CELLS);
+        Array<Entity> highlights = highlightManager.getEntities(CellHighlightGroup.DRAG);
         if (highlights.size > 0) {
             for (Entity e : highlights) {
                 HighlightComponent c = highlightMapper.get(e);
@@ -91,7 +94,7 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
     }
 
     public void clearCellHighlights(int cellId) {
-        Array<Entity> highlights = groupManager.getEntities(Constants.GroupConstants.HIGHLIGHTED_CELLS);
+        Array<Entity> highlights = highlightManager.getEntities(CellHighlightGroup.HIGHLIGHT);
         for (Entity e : highlights) {
             HighlightComponent c = highlightMapper.get(e);
             if (c.cellId == cellId) {

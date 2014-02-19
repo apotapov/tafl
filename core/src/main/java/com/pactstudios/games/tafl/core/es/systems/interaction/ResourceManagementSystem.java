@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.interaction;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.managers.SingletonComponentManager;
@@ -19,7 +19,7 @@ public class ResourceManagementSystem extends EntityProcessingSystem {
 
     @SuppressWarnings("unchecked")
     public ResourceManagementSystem() {
-        super( Aspect.getAspectForAll(HudComponent.class));
+        super( Filter.allComponents(HudComponent.class));
     }
 
     @Override

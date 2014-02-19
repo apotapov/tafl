@@ -1,13 +1,13 @@
 package com.pactstudios.games.tafl.core.es.systems.interaction;
 
-import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.Filter;
+import com.artemis.systems.event.EventProcessingSystem;
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.systems.events.ChangeTurnEvent;
-import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceCaptureEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
@@ -21,7 +21,7 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
 
     @SuppressWarnings("unchecked")
     public PieceCaptureSystem() {
-        super(Aspect.getAspectForAll(MatchComponent.class), PieceCaptureEvent.class);
+        super(Filter.allComponents(MatchComponent.class), PieceCaptureEvent.class);
     }
 
     @Override

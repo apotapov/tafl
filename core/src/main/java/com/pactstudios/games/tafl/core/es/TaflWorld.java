@@ -1,7 +1,6 @@
 package com.pactstudios.games.tafl.core.es;
 
 import com.artemis.World;
-import com.artemis.managers.GroupManager;
 import com.artemis.managers.SingletonComponentManager;
 import com.artemis.systems.EntitySystem;
 import com.artemis.systems.event.SystemEvent;
@@ -21,6 +20,7 @@ import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityPieceSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.SoundSystem;
 import com.pactstudios.games.tafl.core.level.TaflLevel;
+import com.pactstudios.games.tafl.core.utils.HighlightManager;
 import com.roundtriangles.games.zaria.camera.Bounded2DCamera;
 
 public class TaflWorld implements Disposable {
@@ -50,7 +50,7 @@ public class TaflWorld implements Disposable {
 
         //world.setManager(new TaflManager());
         world.setManager(new SingletonComponentManager());
-        world.setManager(new GroupManager());
+        world.setManager(new HighlightManager());
         SystemFactory.initSystems(this, activeSystems);
         world.initialize();
 

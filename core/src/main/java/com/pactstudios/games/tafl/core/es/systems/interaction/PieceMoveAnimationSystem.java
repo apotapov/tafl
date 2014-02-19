@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.interaction;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.systems.EntityProcessingSystem;
@@ -17,7 +17,7 @@ public class PieceMoveAnimationSystem extends EntityProcessingSystem {
 
     @SuppressWarnings("unchecked")
     public PieceMoveAnimationSystem() {
-        super(Aspect.getAspectForAll(PositionComponent.class, VelocityComponent.class));
+        super(Filter.allComponents(PositionComponent.class, VelocityComponent.class));
     }
 
     @Override

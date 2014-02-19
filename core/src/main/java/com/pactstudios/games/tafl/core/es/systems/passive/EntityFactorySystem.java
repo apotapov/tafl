@@ -1,7 +1,7 @@
 package com.pactstudios.games.tafl.core.es.systems.passive;
 
 import com.artemis.Entity;
-import com.artemis.managers.GroupManager;
+import com.artemis.managers.GenericGroupManager;
 import com.artemis.managers.SingletonComponentManager;
 import com.artemis.systems.PassiveEntitySystem;
 import com.badlogic.gdx.graphics.Color;
@@ -9,11 +9,13 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Assets;
 import com.pactstudios.games.tafl.core.consts.Constants;
+import com.pactstudios.games.tafl.core.enums.CellHighlightGroup;
 import com.pactstudios.games.tafl.core.es.TaflWorld;
 import com.pactstudios.games.tafl.core.es.components.render.AnimationComponent;
 import com.pactstudios.games.tafl.core.es.components.render.DrawableComponent;
 import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
+import com.pactstudios.games.tafl.core.utils.HighlightManager;
 
 public class EntityFactorySystem extends PassiveEntitySystem {
 
@@ -21,7 +23,7 @@ public class EntityFactorySystem extends PassiveEntitySystem {
     EntityPieceSystem entityPieceSystem;
 
     SingletonComponentManager singletonManager;
-    GroupManager groupManager;
+    GenericGroupManager<CellHighlightGroup> groupManager;
 
     @Override
     public void initialize() {
@@ -29,7 +31,7 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         componentFactory = world.getSystem(ComponentFactorySystem.class);
         entityPieceSystem = world.getSystem(EntityPieceSystem.class);
         singletonManager = world.getManager(SingletonComponentManager.class);
-        groupManager = world.getManager(GroupManager.class);
+        groupManager = world.getManager(HighlightManager.class);
     }
 
     public Entity createMatch(TaflMatch match) {
@@ -79,7 +81,7 @@ public class EntityFactorySystem extends PassiveEntitySystem {
 
         e.addComponent(componentFactory.createHilightComponent(cellId, color));
 
-        groupManager.add(e, Constants.GroupConstants.HIGHLIGHTED_CELLS);
+        groupManager.add(e, CellHighlightGroup.HIGHLIGHT);
 
         e.addToWorld();
         return e;
@@ -90,8 +92,8 @@ public class EntityFactorySystem extends PassiveEntitySystem {
 
         e.addComponent(componentFactory.createHilightComponent(cellId, color));
 
-        groupManager.add(e, Constants.GroupConstants.DRAG_CELLS);
-        groupManager.add(e, Constants.GroupConstants.HIGHLIGHTED_CELLS);
+        groupManager.add(e, CellHighlightGroup.DRAG);
+        groupManager.add(e, CellHighlightGroup.HIGHLIGHT);
 
         e.addToWorld();
         return e;

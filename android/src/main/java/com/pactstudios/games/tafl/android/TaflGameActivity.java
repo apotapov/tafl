@@ -1,8 +1,6 @@
 package com.pactstudios.games.tafl.android;
 
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -19,14 +17,8 @@ public class TaflGameActivity extends AndroidApplication {
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
         config.useGL20 = Constants.GameConstants.USE_GL20;
 
-
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-
         TaflGameConfig gameConfig = new TaflGameConfig();
-        gameConfig.deviceType = DeviceType.getDeviceType(size.x, size.y);
-        gameConfig.deviceType = DeviceType.TABLET;
+        gameConfig.deviceType = DeviceType.PHONE;
 
         initialize(new TaflGame(gameConfig), config);
     }

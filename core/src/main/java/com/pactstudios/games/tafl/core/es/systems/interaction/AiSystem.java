@@ -3,15 +3,15 @@ package com.pactstudios.games.tafl.core.es.systems.interaction;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.Filter;
+import com.artemis.systems.event.EventProcessingSystem2;
 import com.pactstudios.games.tafl.core.es.components.render.AiProcessingComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.pactstudios.games.tafl.core.es.systems.events.AiCompleteEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.AiTurnEvent;
-import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem2;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceMoveEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
 import com.pactstudios.games.tafl.core.utils.AiThread;
@@ -29,7 +29,7 @@ public class AiSystem extends EventProcessingSystem2<AiTurnEvent, AiCompleteEven
 
     @SuppressWarnings("unchecked")
     public AiSystem(String thinking) {
-        super(Aspect.getAspectForAll(MatchComponent.class), AiTurnEvent.class, AiCompleteEvent.class);
+        super(Filter.allComponents(MatchComponent.class), AiTurnEvent.class, AiCompleteEvent.class);
 
         this.thinking = thinking;
         this.executor = Executors.newSingleThreadExecutor();

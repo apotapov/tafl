@@ -86,18 +86,6 @@ public final class Constants {
         public static final int TABLET_SPACING = 60;
     }
 
-    public static final class GroupConstants {
-        private GroupConstants(){
-        }
-
-        public static final String HIGHLIGHTED_CELLS = "hcells";
-        public static final String DRAG_CELLS = "dragCells";
-
-        public static final String BOARD = "board";
-        public static final String RENDERER = "renderer";
-        public static final String HUD = "hud";
-    }
-
     public static final class PieceConstants {
         private PieceConstants() {
         }

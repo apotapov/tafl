@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.render;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.pactstudios.games.tafl.core.consts.Constants;
@@ -16,7 +16,7 @@ public class HudRenderingSystem extends RenderingSystem<HudRenderingComponent> {
 
     @SuppressWarnings("unchecked")
     public HudRenderingSystem() {
-        super(Aspect.getAspectForAll(HudComponent.class), HudRenderingComponent.class);
+        super(Filter.allComponents(HudComponent.class), HudRenderingComponent.class);
 
         time = new TimeModifiableString();
     }

@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.render;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,7 +15,7 @@ public class AnimationRenderSystem extends RenderingSystem<MatchRenderingCompone
 
     @SuppressWarnings("unchecked")
     public AnimationRenderSystem() {
-        super(Aspect.getAspectForAll(
+        super(Filter.allComponents(
                 AnimationComponent.class,
                 PositionComponent.class),
                 MatchRenderingComponent.class);

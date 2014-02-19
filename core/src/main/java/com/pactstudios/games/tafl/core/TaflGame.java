@@ -68,7 +68,17 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
                     Assets.Graphics.SPLASH_ATLAS,
                     Assets.Graphics.SPLASH,
                     Constants.ScreenConstants.DISPLAY_TIME,
-                    Constants.ScreenConstants.FADE_TIME);
+                    Constants.ScreenConstants.FADE_TIME) {
+
+                @Override
+                public void resize(int width, int height) {
+                    super.resize(width, height);
+
+                    if (deviceType != DeviceType.DESKTOP) {
+                        deviceType = DeviceType.getDeviceType(width, height);
+                    }
+                }
+            };
             splashScreen.initialize();
         }
         return splashScreen;

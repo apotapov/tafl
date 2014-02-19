@@ -1,8 +1,9 @@
 package com.pactstudios.games.tafl.core.es.systems.interaction;
 
-import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.Filter;
+import com.artemis.systems.event.EventProcessingSystem3;
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.consts.Constants;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
@@ -11,7 +12,6 @@ import com.pactstudios.games.tafl.core.es.model.TaflMatch;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.pactstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.pactstudios.games.tafl.core.es.systems.events.ChangeTurnEvent;
-import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem3;
 import com.pactstudios.games.tafl.core.es.systems.events.MoveFinishedEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceCaptureEvent;
 import com.pactstudios.games.tafl.core.es.systems.events.PieceDragEvent;
@@ -35,7 +35,7 @@ public class PieceMovementSystem extends EventProcessingSystem3<PieceMoveEvent, 
 
     @SuppressWarnings("unchecked")
     public PieceMovementSystem() {
-        super(Aspect.getAspectForAll(MatchComponent.class), PieceMoveEvent.class, MoveFinishedEvent.class, PieceDragEvent.class);
+        super(Filter.allComponents(MatchComponent.class), PieceMoveEvent.class, MoveFinishedEvent.class, PieceDragEvent.class);
         velocity = new Vector2();
     }
 

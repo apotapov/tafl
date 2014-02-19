@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.input;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.pactstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
@@ -10,7 +10,7 @@ public class HudInputSystem extends InputProcessingSystem<HudRenderingComponent>
 
     @SuppressWarnings("unchecked")
     public HudInputSystem() {
-        super(Aspect.getAspectForAll(HudRenderingComponent.class), HudRenderingComponent.class);
+        super(Filter.allComponents(HudRenderingComponent.class), HudRenderingComponent.class);
     }
 
     @Override

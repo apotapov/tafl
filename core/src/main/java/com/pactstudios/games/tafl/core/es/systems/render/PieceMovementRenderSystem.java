@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.render;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.managers.SingletonComponentManager;
@@ -23,7 +23,7 @@ public class PieceMovementRenderSystem extends RenderingSystem<MatchRenderingCom
 
     @SuppressWarnings("unchecked")
     public PieceMovementRenderSystem() {
-        super(Aspect.getAspectForAll(VelocityComponent.class), MatchRenderingComponent.class);
+        super(Filter.allComponents(VelocityComponent.class), MatchRenderingComponent.class);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.render;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.badlogic.gdx.Gdx;
@@ -17,7 +17,7 @@ public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingCo
 
     @SuppressWarnings("unchecked")
     public AiProcessingRendererSystem() {
-        super(Aspect.getAspectForAll(AiProcessingComponent.class),
+        super(Filter.allComponents(AiProcessingComponent.class),
                 MatchRenderingComponent.class);
     }
 

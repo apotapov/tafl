@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.render;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.managers.SingletonComponentManager;
@@ -21,7 +21,7 @@ public class CellHighlightRenderSystem extends RenderingSystem<MatchRenderingCom
 
     @SuppressWarnings("unchecked")
     public CellHighlightRenderSystem() {
-        super(Aspect.getAspectForAll(HighlightComponent.class), MatchRenderingComponent.class);
+        super(Filter.allComponents(HighlightComponent.class), MatchRenderingComponent.class);
     }
 
     @Override

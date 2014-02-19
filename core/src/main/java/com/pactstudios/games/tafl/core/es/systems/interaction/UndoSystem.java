@@ -1,11 +1,11 @@
 package com.pactstudios.games.tafl.core.es.systems.interaction;
 
-import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.Filter;
+import com.artemis.systems.event.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.es.components.movement.PositionComponent;
 import com.pactstudios.games.tafl.core.es.components.singleton.MatchComponent;
-import com.pactstudios.games.tafl.core.es.systems.events.EventProcessingSystem;
 import com.pactstudios.games.tafl.core.es.systems.events.UndoEvent;
 import com.pactstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 import com.pactstudios.games.tafl.core.es.systems.passive.EntityFactorySystem;
@@ -20,7 +20,7 @@ public class UndoSystem extends EventProcessingSystem<UndoEvent> {
 
     @SuppressWarnings("unchecked")
     public UndoSystem() {
-        super(Aspect.getAspectForAll(MatchComponent.class), UndoEvent.class);
+        super(Filter.allComponents(MatchComponent.class), UndoEvent.class);
     }
 
     @Override

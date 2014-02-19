@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.render;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,7 +12,7 @@ public class PreRenderSystem extends RenderingSystem<MatchRenderingComponent> {
 
     @SuppressWarnings("unchecked")
     public PreRenderSystem() {
-        super(Aspect.getAspectForAll(RenderingComponent.class), MatchRenderingComponent.class);
+        super(Filter.allComponents(RenderingComponent.class), MatchRenderingComponent.class);
     }
 
     @Override

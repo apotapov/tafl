@@ -1,6 +1,6 @@
 package com.pactstudios.games.tafl.core.es.systems.render;
 
-import com.artemis.Aspect;
+import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.badlogic.gdx.Gdx;
@@ -15,7 +15,7 @@ public class GridRenderSystem extends RenderingSystem<MatchRenderingComponent> {
 
     @SuppressWarnings("unchecked")
     public GridRenderSystem() {
-        super(Aspect.getAspectForAll(MatchComponent.class), MatchRenderingComponent.class);
+        super(Filter.allComponents(MatchComponent.class), MatchRenderingComponent.class);
     }
 
     @Override

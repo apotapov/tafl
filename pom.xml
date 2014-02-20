@@ -40,7 +40,7 @@
         <dependency>
             <groupId>com.roundtriangles.games</groupId>
             <artifactId>gdx-artemis</artifactId>
-            <version>0.5-SNAPSHOT</version>
+            <version>0.4</version>
         </dependency>
         <dependency>
             <groupId>com.roundtriangles.games</groupId>

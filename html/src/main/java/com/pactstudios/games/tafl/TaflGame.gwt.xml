@@ -6,7 +6,7 @@
 
 	<public path="resources" />
 
-	<entry-point class='com.pactstudios.games.tafl.html.TaflGameHtml'/>
+	<entry-point class='com.captstudios.games.tafl.html.TaflGameHtml'/>
 	<set-configuration-property name="gdx.assetpath" value="assets" />
 	<set-configuration-property name="gdx.assetoutputpath" value="html/target/webapp" />
 </module>

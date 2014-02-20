@@ -1,5 +1,5 @@
 {
-	class: "com.pactstudios.games.tafl.core.level.TaflLevel",
+	class: "com.captstudios.games.tafl.core.level.TaflLevel",
     name: "LEVEL_1_3",
     rules: "OFFICIAL",
     boardRepresentation: "..W.....B.......B...B....................W......B........BW.KW....B...............W.....BB...........BW.B.W.....B....B...",

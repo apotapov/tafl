@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-					package="com.pactstudios.games.tafl.android"
+					package="com.captstudios.games.tafl.android"
 					android:screenOrientation="portrait"
                     android:configChanges="keyboardHidden"
 					android:versionCode="1"

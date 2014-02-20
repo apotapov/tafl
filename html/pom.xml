@@ -3,7 +3,7 @@
 	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.pactstudios.games</groupId>
+		<groupId>com.captstudios.games</groupId>
 		<artifactId>tafl</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
@@ -13,13 +13,13 @@
 	<name>TaflGame HTML</name>
 
 	<properties>
-		<gwt.module>com.pactstudios.games.tafl.TaflGame</gwt.module>
+		<gwt.module>com.captstudios.games.tafl.TaflGame</gwt.module>
 		<gwt.name>tafl</gwt.name>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>com.pactstudios.games</groupId>
+			<groupId>com.captstudios.games</groupId>
 			<artifactId>tafl-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -31,7 +31,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.pactstudios.games</groupId>
+			<groupId>com.captstudios.games</groupId>
 			<artifactId>tafl-core</artifactId>
 			<version>${project.version}</version>
 			<classifier>sources</classifier>

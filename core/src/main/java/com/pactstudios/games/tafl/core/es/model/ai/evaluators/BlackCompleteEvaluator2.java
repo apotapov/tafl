@@ -217,7 +217,7 @@ public class BlackCompleteEvaluator2 implements BoardEvaluator<TaflBoard> {
         return value;
     }
 
-    private int detectBarricade(TaflBoard board, int turn) {
+    protected int detectBarricade(TaflBoard board, int turn) {
         int value = 0;
 
         BitBoard blackBoard = board.blackBitBoard();

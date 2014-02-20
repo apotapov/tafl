@@ -137,7 +137,9 @@ public class TaflPreferenceService extends PreferenceService implements TaflMatc
     private void updateMatch(TaflMatch match) {
         try {
             setString(PREF_SAVED_MATCH, json.toJson(match));
-            Gdx.app.log(LOG_TAG, match.board.toString());
+            if (Constants.GameConstants.DEBUG) {
+                Gdx.app.log(LOG_TAG, match.board.toString());
+            }
         } catch (Exception e) {
             Gdx.app.error(LOG_TAG, "Could not save the game.", e);
         }

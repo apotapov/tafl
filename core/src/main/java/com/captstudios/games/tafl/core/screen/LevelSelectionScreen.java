@@ -12,13 +12,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.esotericsoftware.tablelayout.BaseTableLayout;
 import com.captstudios.games.tafl.core.TaflGame;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.consts.LocalizedStrings;
 import com.captstudios.games.tafl.core.enums.AiType;
 import com.captstudios.games.tafl.core.level.TaflLevel;
+import com.esotericsoftware.tablelayout.BaseTableLayout;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
 
 public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
@@ -47,7 +47,12 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         table.row();
 
         Array<TaflLevel> levels = game.levelService.getLevels();
-        createLevelList(levels, table, skin);
+
+        if (Constants.GameConstants.DEBUG) {
+            createLevelList(levels, table, skin);
+        } else {
+            game.preferenceService.setLevel(Constants.GameConstants.DEFAULT_LEVEL_INDEX);
+        }
 
         createPlayPreference(skin, table);
 

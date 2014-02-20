@@ -20,6 +20,7 @@ public class TaflGameActivity extends AndroidApplication {
         TaflGameConfig gameConfig = new TaflGameConfig();
         gameConfig.deviceType = DeviceType.PHONE;
 
+
         initialize(new TaflGame(gameConfig), config);
     }
 }

@@ -4,54 +4,104 @@ import com.badlogic.gdx.math.Vector2;
 import com.roundtriangles.games.zaria.services.utils.FontDefinition;
 
 public enum DeviceType {
-    DESKTOP (Assets.Fonts.GOTHAM_MEDIUM_PHONE,
-            Constants.GameConstants.DESKTOP_MIN_RESOLUTION,
-            Assets.Skin.SKIN_STYLE_PHONE_DEFAULT,
-            Assets.Skin.SKIN_STYLE_PHONE_MENU,
-            Assets.Skin.SKIN_STYLE_PHONE_DIALOG,
-            Assets.Skin.SKIN_STYLE_PHONE_PLAYER,
-            Constants.ScreenConstants.PHONE_BUTTON_WIDTH,
-            Constants.ScreenConstants.PHONE_BUTTON_HEIGHT,
-            Constants.ScreenConstants.PHONE_LIST_WIDTH,
-            Constants.ScreenConstants.PHONE_LIST_HEIGHT,
-            Constants.ScreenConstants.PHONE_SPACING,
-            Constants.GameConstants.DESKTOP_DRAG_POSITION_OFFSET),
+    DESKTOP (Assets.Fonts.FONT_DESTKOP_MENU,
+            Assets.Fonts.FONT_DESTKOP_SCREEN_TITLE,
+            Assets.Fonts.FONT_DESTKOP_GAME,
+            Assets.Fonts.FONT_DESTKOP_DIALOG,
+            Assets.Fonts.FONT_DESTKOP_DEBUG,
+            Constants.ScreenConstants.DESKTOP_MIN_WIDTH,
+            Constants.ScreenConstants.DESKTOP_BUTTON_WIDTH,
+            Constants.ScreenConstants.DESKTOP_BUTTON_HEIGHT,
+            Constants.ScreenConstants.DESKTOP_LIST_WIDTH,
+            Constants.ScreenConstants.DESKTOP_LIST_HEIGHT,
+            Constants.ScreenConstants.DESKTOP_SPACING,
+            Constants.ScreenConstants.DESKTOP_DIALOG_BUTTON_WIDTH,
+            Constants.ScreenConstants.DESKTOP_DIALOG_BUTTON_HEIGHT,
+            Constants.ScreenConstants.DESKTOP_DIALOG_BUTTON_SPACING,
+            Constants.ScreenConstants.DESKTOP_HUD_BUTTON_WIDTH,
+            Constants.ScreenConstants.DESKTOP_HUD_BUTTON_HEIGHT,
+            Constants.ScreenConstants.DESKTOP_DRAG_POSITION_OFFSET),
+
+            LDPI (Assets.Fonts.FONT_LDPI_MENU,
+                    Assets.Fonts.FONT_LDPI_SCREEN_TITLE,
+                    Assets.Fonts.FONT_LDPI_GAME,
+                    Assets.Fonts.FONT_LDPI_DIALOG,
+                    Assets.Fonts.FONT_LDPI_DEBUG,
+                    Constants.ScreenConstants.LDPI_MIN_WIDTH,
+                    Constants.ScreenConstants.LDPI_BUTTON_WIDTH,
+                    Constants.ScreenConstants.LDPI_BUTTON_HEIGHT,
+                    Constants.ScreenConstants.LDPI_LIST_WIDTH,
+                    Constants.ScreenConstants.LDPI_LIST_HEIGHT,
+                    Constants.ScreenConstants.LDPI_SPACING,
+                    Constants.ScreenConstants.LDPI_DIALOG_BUTTON_WIDTH,
+                    Constants.ScreenConstants.LDPI_DIALOG_BUTTON_HEIGHT,
+                    Constants.ScreenConstants.LDPI_DIALOG_BUTTON_SPACING,
+                    Constants.ScreenConstants.LDPI_HUD_BUTTON_WIDTH,
+                    Constants.ScreenConstants.LDPI_HUD_BUTTON_HEIGHT,
+                    Constants.ScreenConstants.LDPI_DRAG_POSITION_OFFSET),
+
+                    MDPI (Assets.Fonts.FONT_MDPI_MENU,
+                            Assets.Fonts.FONT_MDPI_SCREEN_TITLE,
+                            Assets.Fonts.FONT_MDPI_GAME,
+                            Assets.Fonts.FONT_MDPI_DIALOG,
+                            Assets.Fonts.FONT_MDPI_DEBUG,
+                            Constants.ScreenConstants.MDPI_MIN_WIDTH,
+                            Constants.ScreenConstants.MDPI_BUTTON_WIDTH,
+                            Constants.ScreenConstants.MDPI_BUTTON_HEIGHT,
+                            Constants.ScreenConstants.MDPI_LIST_WIDTH,
+                            Constants.ScreenConstants.MDPI_LIST_HEIGHT,
+                            Constants.ScreenConstants.MDPI_SPACING,
+                            Constants.ScreenConstants.MDPI_DIALOG_BUTTON_WIDTH,
+                            Constants.ScreenConstants.MDPI_DIALOG_BUTTON_HEIGHT,
+                            Constants.ScreenConstants.MDPI_DIALOG_BUTTON_SPACING,
+                            Constants.ScreenConstants.MDPI_HUD_BUTTON_WIDTH,
+                            Constants.ScreenConstants.MDPI_HUD_BUTTON_HEIGHT,
+                            Constants.ScreenConstants.MDPI_DRAG_POSITION_OFFSET),
+
+                            HDPI (Assets.Fonts.FONT_HDPI_MENU,
+                                    Assets.Fonts.FONT_HDPI_SCREEN_TITLE,
+                                    Assets.Fonts.FONT_HDPI_GAME,
+                                    Assets.Fonts.FONT_HDPI_DIALOG,
+                                    Assets.Fonts.FONT_HDPI_DEBUG,
+                                    Constants.ScreenConstants.HDPI_MIN_WIDTH,
+                                    Constants.ScreenConstants.HDPI_BUTTON_WIDTH,
+                                    Constants.ScreenConstants.HDPI_BUTTON_HEIGHT,
+                                    Constants.ScreenConstants.HDPI_LIST_WIDTH,
+                                    Constants.ScreenConstants.HDPI_LIST_HEIGHT,
+                                    Constants.ScreenConstants.HDPI_SPACING,
+                                    Constants.ScreenConstants.HDPI_DIALOG_BUTTON_WIDTH,
+                                    Constants.ScreenConstants.HDPI_DIALOG_BUTTON_HEIGHT,
+                                    Constants.ScreenConstants.HDPI_DIALOG_BUTTON_SPACING,
+                                    Constants.ScreenConstants.HDPI_HUD_BUTTON_WIDTH,
+                                    Constants.ScreenConstants.HDPI_HUD_BUTTON_HEIGHT,
+                                    Constants.ScreenConstants.HDPI_DRAG_POSITION_OFFSET),
 
 
-            PHONE (Assets.Fonts.GOTHAM_MEDIUM_PHONE,
-                    Constants.GameConstants.PHONE_MIN_RESOLUTION,
-                    Assets.Skin.SKIN_STYLE_PHONE_DEFAULT,
-                    Assets.Skin.SKIN_STYLE_PHONE_MENU,
-                    Assets.Skin.SKIN_STYLE_PHONE_DIALOG,
-                    Assets.Skin.SKIN_STYLE_PHONE_PLAYER,
-                    Constants.ScreenConstants.PHONE_BUTTON_WIDTH,
-                    Constants.ScreenConstants.PHONE_BUTTON_HEIGHT,
-                    Constants.ScreenConstants.PHONE_LIST_WIDTH,
-                    Constants.ScreenConstants.PHONE_LIST_HEIGHT,
-                    Constants.ScreenConstants.PHONE_SPACING,
-                    Constants.GameConstants.MOBILE_DRAG_POSITION_OFFSET),
+                                    XHDPI (Assets.Fonts.FONT_XHDPI_MENU,
+                                            Assets.Fonts.FONT_XHDPI_SCREEN_TITLE,
+                                            Assets.Fonts.FONT_XHDPI_GAME,
+                                            Assets.Fonts.FONT_XHDPI_DIALOG,
+                                            Assets.Fonts.FONT_XHDPI_DEBUG,
+                                            Constants.ScreenConstants.XHDPI_MIN_WIDTH,
+                                            Constants.ScreenConstants.XHDPI_BUTTON_WIDTH,
+                                            Constants.ScreenConstants.XHDPI_BUTTON_HEIGHT,
+                                            Constants.ScreenConstants.XHDPI_LIST_WIDTH,
+                                            Constants.ScreenConstants.XHDPI_LIST_HEIGHT,
+                                            Constants.ScreenConstants.XHDPI_SPACING,
+                                            Constants.ScreenConstants.XHDPI_DIALOG_BUTTON_WIDTH,
+                                            Constants.ScreenConstants.XHDPI_DIALOG_BUTTON_HEIGHT,
+                                            Constants.ScreenConstants.XHDPI_DIALOG_BUTTON_SPACING,
+                                            Constants.ScreenConstants.XHDPI_HUD_BUTTON_WIDTH,
+                                            Constants.ScreenConstants.XHDPI_HUD_BUTTON_HEIGHT,
+                                            Constants.ScreenConstants.XHDPI_DRAG_POSITION_OFFSET);
 
+    public FontDefinition menuFont;
+    public FontDefinition screenTitleFont;
+    public FontDefinition gameFont;
+    public FontDefinition dialogFont;
+    public FontDefinition debugFont;
 
-                    TABLET (Assets.Fonts.GOTHAM_MEDIUM_TABLET,
-                            Constants.GameConstants.TABLET_MIN_RESOLUTION,
-                            Assets.Skin.SKIN_STYLE_TABLET_DEFAULT,
-                            Assets.Skin.SKIN_STYLE_TABLET_MENU,
-                            Assets.Skin.SKIN_STYLE_TABLET_DIALOG,
-                            Assets.Skin.SKIN_STYLE_TABLET_PLAYER,
-                            Constants.ScreenConstants.TABLET_BUTTON_WIDTH,
-                            Constants.ScreenConstants.TABLET_BUTTON_HEIGHT,
-                            Constants.ScreenConstants.TABLET_LIST_WIDTH,
-                            Constants.ScreenConstants.TABLET_LIST_HEIGHT,
-                            Constants.ScreenConstants.TABLET_SPACING,
-                            Constants.GameConstants.MOBILE_DRAG_POSITION_OFFSET);
-
-    public FontDefinition font;
-    public int minResolution;
-
-    public String defaultStyle;
-    public String menuStyle;
-    public String dialogStyle;
-    public String playerTagStyle;
+    public int minWidth;
 
     public int menuButtonWidth;
     public int menuButtonHeight;
@@ -59,28 +109,40 @@ public enum DeviceType {
     public int menuListHeight;
     public int menuSpacing;
 
+    public int dialogButtonWidth;
+    public int dialogButtonHeight;
+    public int dialogSpacing;
+
+    public int hudButtonWidth;
+    public int hudButtonHeight;
+
     public Vector2 dragOffset;
 
-    private DeviceType(FontDefinition font,
-            int minResolution,
-            String defaultStyle,
-            String menuStyle,
-            String dialogStyle,
-            String playerTagStyle,
+    private DeviceType(FontDefinition menuFont,
+            FontDefinition screenTitleFont,
+            FontDefinition gameFont,
+            FontDefinition dialogFont,
+            FontDefinition debugFont,
+            int minWidth,
             int menuButtonWidth,
             int menuButtonHeight,
             int menuListWidth,
             int menuListHeight,
             int menuSpacing,
+            int dialogButtonWidth,
+            int dialogButtonHeight,
+            int dialogSpacing,
+            int hudButtonWidth,
+            int hudButtonHeight,
             Vector2 dragOffset) {
 
-        this.font = font;
-        this.minResolution = minResolution;
+        this.menuFont = menuFont;
+        this.screenTitleFont = screenTitleFont;
+        this.gameFont = gameFont;
+        this.dialogFont = dialogFont;
+        this.debugFont = debugFont;
 
-        this.defaultStyle = defaultStyle;
-        this.menuStyle = menuStyle;
-        this.dialogStyle = dialogStyle;
-        this.playerTagStyle = playerTagStyle;
+        this.minWidth = minWidth;
 
         this.menuButtonWidth = menuButtonWidth;
         this.menuButtonHeight = menuButtonHeight;
@@ -88,15 +150,25 @@ public enum DeviceType {
         this.menuListHeight = menuListHeight;
         this.menuSpacing = menuSpacing;
 
+        this.dialogButtonWidth = dialogButtonWidth;
+        this.dialogButtonHeight = dialogButtonHeight;
+        this.dialogSpacing = dialogSpacing;
+
+        this.hudButtonWidth = hudButtonWidth;
+        this.hudButtonHeight = hudButtonHeight;
+
         this.dragOffset = dragOffset;
     }
 
     public static DeviceType getDeviceType(int width, int height) {
-        int resolution = width * height;
-        if (resolution > TABLET.minResolution) {
-            return TABLET;
-        } else if (resolution > PHONE.minResolution) {
-            return PHONE;
+        if (width > XHDPI.minWidth) {
+            return XHDPI;
+        } else if (width > HDPI.minWidth) {
+            return HDPI;
+        } else if (width > MDPI.minWidth) {
+            return MDPI;
+        } else if (width > LDPI.minWidth) {
+            return LDPI;
         } else {
             return DESKTOP;
         }

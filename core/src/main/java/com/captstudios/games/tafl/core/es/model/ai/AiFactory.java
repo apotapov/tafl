@@ -16,22 +16,29 @@ public class AiFactory {
         HistoryTable historyTable = new HistoryTable(board.boardSize);
 
         switch (type) {
-        case AI_BEGINNER:
+        case AI_KID:
             return new RandomMoveStrategy();
+        case AI_BEGINNER:
+            return new AlphaBetaMoveStrategy(
+                    transpositionTable,
+                    historyTable,
+                    new CompleteEvaluator(board.boardSize, board.dimensions),
+                    board.rules,
+                    Constants.AiConstants.BEGINNER_TREE_DEPTH);
         case AI_INTERMEDIATE:
             return new AlphaBetaMoveStrategy(
                     transpositionTable,
                     historyTable,
                     new CompleteEvaluator(board.boardSize, board.dimensions),
                     board.rules,
-                    Constants.AiConstants.INT_TREE_DEPTH);
+                    Constants.AiConstants.INTERMEDIATE_TREE_DEPTH);
         case AI_ADVANCED:
             return new AlphaBetaMoveStrategy(
                     transpositionTable,
                     historyTable,
                     new CompleteEvaluator(board.boardSize, board.dimensions),
                     board.rules,
-                    Constants.AiConstants.ADV_TREE_DEPTH);
+                    Constants.AiConstants.ADVANCED_TREE_DEPTH);
         default:
             return null;
         }

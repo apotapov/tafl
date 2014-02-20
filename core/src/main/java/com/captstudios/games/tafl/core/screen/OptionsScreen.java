@@ -8,11 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.esotericsoftware.tablelayout.BaseTableLayout;
 import com.captstudios.games.tafl.core.TaflGame;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.consts.LocalizedStrings;
+import com.esotericsoftware.tablelayout.BaseTableLayout;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
 
 public class OptionsScreen extends AbstractScreen<TaflGame> {
@@ -33,12 +33,13 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
         Table table = new Table(skin);
         table.setFillParent(true);
 
-        Label label = new Label(game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_TITLE), skin, game.deviceType.menuStyle);
+        String text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_TITLE);
+        Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_SCREEN_TITLE);
         table.add(label).spaceBottom(game.deviceType.menuSpacing);
         table.row();
 
-        String text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_SOUND_EFFECTS);
-        final CheckBox soundEffectsCheckbox = new CheckBox(text, skin, game.deviceType.menuStyle);
+        text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_SOUND_EFFECTS);
+        final CheckBox soundEffectsCheckbox = new CheckBox(text, skin, Assets.Skin.SKIN_STYLE_MENU);
         soundEffectsCheckbox.setChecked(game.preferenceService.isSoundEnabled());
         soundEffectsCheckbox.addListener(new ChangeListener() {
 
@@ -52,7 +53,7 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
         table.row();
 
         text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_MUSIC);
-        final CheckBox musicCheckbox = new CheckBox(text, skin, game.deviceType.menuStyle);
+        final CheckBox musicCheckbox = new CheckBox(text, skin, Assets.Skin.SKIN_STYLE_MENU);
         musicCheckbox.setChecked(game.preferenceService.isMusicEnabled());
         musicCheckbox.addListener(new ChangeListener() {
             @Override
@@ -65,7 +66,7 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
         table.row();
 
         text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_VIBRATE);
-        final CheckBox vibrationCheckbox = new CheckBox(text, skin, game.deviceType.menuStyle);
+        final CheckBox vibrationCheckbox = new CheckBox(text, skin, Assets.Skin.SKIN_STYLE_MENU);
         vibrationCheckbox.setChecked(game.preferenceService.isVibrateEnabled());
         vibrationCheckbox.addListener(new ChangeListener() {
             @Override

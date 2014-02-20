@@ -104,8 +104,8 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
 
         component.spriteBatch = new SpriteBatch(Constants.GameConstants.BATCH_SIZE);
         component.shapeRenderer = new ShapeRenderer();
-        component.font = graphics.getFont(world.game.deviceType.font);
-        component.debugFont = graphics.getFont(world.game.deviceType.font);
+        component.font = graphics.getFont(world.game.deviceType.gameFont);
+        component.debugFont = graphics.getFont(world.game.deviceType.debugFont);
 
         component.backgroundTexture = graphics.getTexture(Assets.Graphics.BOARD_ATLAS, Assets.Graphics.BOARD);
         component.gridTexture = graphics.getSprite(Assets.Graphics.PIECE_ATLAS, Assets.Graphics.GRID);

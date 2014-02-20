@@ -18,7 +18,8 @@ public class TaflGameActivity extends AndroidApplication {
         config.useGL20 = Constants.GameConstants.USE_GL20;
 
         TaflGameConfig gameConfig = new TaflGameConfig();
-        gameConfig.deviceType = DeviceType.PHONE;
+        gameConfig.deviceType = DeviceType.LDPI;
+
 
         initialize(new TaflGame(gameConfig), config);
     }

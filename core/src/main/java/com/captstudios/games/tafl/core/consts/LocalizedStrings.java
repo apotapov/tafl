@@ -44,7 +44,6 @@ public class LocalizedStrings {
         BLACK_WIN_TEXT,
 
         MENU_TITLE,
-        MENU_TEXT,
 
         RESTART_BUTTON,
         MAIN_MENU_BUTTON,

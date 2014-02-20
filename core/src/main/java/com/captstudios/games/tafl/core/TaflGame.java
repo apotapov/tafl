@@ -2,8 +2,10 @@ package com.captstudios.games.tafl.core;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.captstudios.games.tafl.core.consts.Assets;
@@ -17,11 +19,15 @@ import com.captstudios.games.tafl.core.screen.LoadGameScreen;
 import com.captstudios.games.tafl.core.screen.MainMenuScreen;
 import com.captstudios.games.tafl.core.screen.OptionsScreen;
 import com.captstudios.games.tafl.core.utils.TaflGameConfig;
+import com.captstudios.games.tafl.core.utils.TaflGraphicsService;
 import com.captstudios.games.tafl.core.utils.TaflPreferenceService;
 import com.roundtriangles.games.zaria.AbstractGame;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
 import com.roundtriangles.games.zaria.screen.LoadingScreen;
+import com.roundtriangles.games.zaria.services.GraphicsService;
 import com.roundtriangles.games.zaria.services.IAssetBasedService;
+import com.roundtriangles.games.zaria.services.SoundService;
+import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
 public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedService {
 
@@ -37,6 +43,8 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     public Assets assets;
     public TaflLevelService levelService;
     public TaflPreferenceService preferenceService;
+    public GraphicsService graphicsService;
+    public LocaleService localeService;
 
     public DeviceType deviceType;
 
@@ -47,17 +55,13 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     }
 
     @Override
-    public void create() {
-        super.create();
-        this.fpsLogger = null;
-    }
-
-    @Override
     public void initialize() {
-        levelService = new TaflLevelService(this);
-        preferenceService = new TaflPreferenceService(getClass().getSimpleName(), soundService);
+        this.levelService = new TaflLevelService(this);
+        this.preferenceService = new TaflPreferenceService(getClass().getSimpleName(), soundService);
+        this.graphicsService = new TaflGraphicsService(this);
+        this.localeService = new LocaleService();
 
-        assets = new Assets(this, soundService, graphicsService, localeService, levelService);
+        this.assets = new Assets(soundService, graphicsService, localeService, levelService, this);
     }
 
     @Override
@@ -87,6 +91,19 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     @Override
     public AbstractScreen<TaflGame> getMainMenuScreen() {
         return mainMenuScreen;
+    }
+
+    @Override
+    public FPSLogger createFPSLogger() {
+        if (Constants.GameConstants.DEBUG) {
+            return new FPSLogger();
+        }
+        return null;
+    }
+
+    @Override
+    public SoundService createSoundService() {
+        return new SoundService();
     }
 
     @Override
@@ -121,9 +138,9 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     }
 
     public TextButton createSwitchScreenButton(String text, final Screen screen) {
-        TextButton button = new TextButton(text,
-                graphicsService.getSkin(Assets.Skin.UI_SKIN),
-                deviceType.menuStyle);
+
+        Skin skin = graphicsService.getSkin(Assets.Skin.UI_SKIN);
+        TextButton button = new TextButton(text, skin, Assets.Skin.SKIN_STYLE_MENU);
 
         button.addListener(new ChangeListener() {
 

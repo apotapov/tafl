@@ -32,8 +32,8 @@ public class Assets extends GameAssetLoader {
         public static final String KING_PIECE = "tafl-piece-king-01-11x11";
         public static final String BLACK_PIECE = "tafl-piece-dark-01-11x11";
 
-        public static final String BLACK_ICON = "tafl-piece-dark-01-icon";
-        public static final String WHITE_ICON = "tafl-piece-light-01-icon";
+        public static final String BLACK_ICON = BLACK_PIECE; //"tafl-piece-dark-01-icon";
+        public static final String WHITE_ICON = WHITE_PIECE; //"tafl-piece-light-01-icon";
 
         public static final String MENU_ICON = "tafl-menu-icon-mainmenu";
         public static final String SETTINGS_ICON = "tafl-menu-icon-settings";
@@ -51,16 +51,11 @@ public class Assets extends GameAssetLoader {
         }
         public static final String UI_SKIN = "skin/uiskin.json";
 
-
-        public static final String SKIN_STYLE_PHONE_DEFAULT = "default";
-        public static final String SKIN_STYLE_PHONE_MENU = "menu";
-        public static final String SKIN_STYLE_PHONE_DIALOG = "dialog";
-        public static final String SKIN_STYLE_PHONE_PLAYER = "player-tag";
-
-        public static final String SKIN_STYLE_TABLET_DEFAULT = "tablet-default";
-        public static final String SKIN_STYLE_TABLET_MENU = "tablet-menu";
-        public static final String SKIN_STYLE_TABLET_DIALOG = "tablet-dialog";
-        public static final String SKIN_STYLE_TABLET_PLAYER = "tablet-player-tag";
+        public static final String SKIN_STYLE_MENU = "menu";
+        public static final String SKIN_STYLE_SCREEN_TITLE = "screen-title";
+        public static final String SKIN_STYLE_GAME = "game";
+        public static final String SKIN_STYLE_DIALOG = "dialog";
+        public static final String SKIN_STYLE_PLAYER_TAG = "player-tag";
     }
 
     public static final class Sounds {
@@ -103,8 +98,35 @@ public class Assets extends GameAssetLoader {
     public static final class Fonts {
         private Fonts() {
         }
-        public static final FontDefinition GOTHAM_MEDIUM_PHONE = new FontDefinition("skin/Gotham-Medium.otf", 32);
-        public static final FontDefinition GOTHAM_MEDIUM_TABLET = new FontDefinition("skin/Gotham-Medium.otf", 64);
+        public static final FontDefinition FONT_DESTKOP_MENU = new FontDefinition("skin/Gotham-Medium.otf", 32);
+        public static final FontDefinition FONT_DESTKOP_SCREEN_TITLE = new FontDefinition("skin/Gotham-Medium.otf", 40);
+        public static final FontDefinition FONT_DESTKOP_GAME = new FontDefinition("skin/Gotham-Medium.otf", 24);
+        public static final FontDefinition FONT_DESTKOP_DIALOG = new FontDefinition("skin/Gotham-Medium.otf", 32);
+        public static final FontDefinition FONT_DESTKOP_DEBUG = new FontDefinition("skin/Gotham-Medium.otf", 10);
+
+        public static final FontDefinition FONT_LDPI_MENU = new FontDefinition("skin/Gotham-Medium.otf", 32);
+        public static final FontDefinition FONT_LDPI_SCREEN_TITLE = new FontDefinition("skin/Gotham-Medium.otf", 40);
+        public static final FontDefinition FONT_LDPI_GAME = new FontDefinition("skin/Gotham-Medium.otf", 24);
+        public static final FontDefinition FONT_LDPI_DIALOG = new FontDefinition("skin/Gotham-Medium.otf", 32);
+        public static final FontDefinition FONT_LDPI_DEBUG = new FontDefinition("skin/Gotham-Medium.otf", 10);
+
+        public static final FontDefinition FONT_MDPI_MENU = new FontDefinition("skin/Gotham-Medium.otf", 48);
+        public static final FontDefinition FONT_MDPI_SCREEN_TITLE = new FontDefinition("skin/Gotham-Medium.otf", 72);
+        public static final FontDefinition FONT_MDPI_GAME = new FontDefinition("skin/Gotham-Medium.otf", 32);
+        public static final FontDefinition FONT_MDPI_DIALOG = new FontDefinition("skin/Gotham-Medium.otf", 40);
+        public static final FontDefinition FONT_MDPI_DEBUG = new FontDefinition("skin/Gotham-Medium.otf", 20);
+
+        public static final FontDefinition FONT_HDPI_MENU = new FontDefinition("skin/Gotham-Medium.otf", 72);
+        public static final FontDefinition FONT_HDPI_SCREEN_TITLE = new FontDefinition("skin/Gotham-Medium.otf", 96);
+        public static final FontDefinition FONT_HDPI_GAME = new FontDefinition("skin/Gotham-Medium.otf", 48);
+        public static final FontDefinition FONT_HDPI_DIALOG = new FontDefinition("skin/Gotham-Medium.otf", 64);
+        public static final FontDefinition FONT_HDPI_DEBUG = new FontDefinition("skin/Gotham-Medium.otf", 30);
+
+        public static final FontDefinition FONT_XHDPI_MENU = new FontDefinition("skin/Gotham-Medium.otf", 96);
+        public static final FontDefinition FONT_XHDPI_SCREEN_TITLE = new FontDefinition("skin/Gotham-Medium.otf", 128);
+        public static final FontDefinition FONT_XHDPI_GAME = new FontDefinition("skin/Gotham-Medium.otf", 64);
+        public static final FontDefinition FONT_XHDPI_DIALOG = new FontDefinition("skin/Gotham-Medium.otf", 80);
+        public static final FontDefinition FONT_XHDPI_DEBUG = new FontDefinition("skin/Gotham-Medium.otf", 40);
     }
 
     protected SoundService soundService;
@@ -112,12 +134,12 @@ public class Assets extends GameAssetLoader {
     protected GraphicsService graphicsService;
     protected TaflLevelService levelService;
 
-    public Assets(TaflGame taflGame,
-            SoundService soundService,
+    public Assets(SoundService soundService,
             GraphicsService graphicsService,
             LocaleService localeService,
-            TaflLevelService levelService) {
-        super(taflGame, soundService, graphicsService, localeService, levelService);
+            TaflLevelService levelService,
+            TaflGame taflGame) {
+        super(soundService, graphicsService, localeService, levelService, taflGame);
 
         this.soundService = soundService;
         this.graphicsService = graphicsService;
@@ -154,8 +176,31 @@ public class Assets extends GameAssetLoader {
                 Assets.Graphics.MENU_ATLAS);
 
 
-        graphicsService.loadFonts(Assets.Fonts.GOTHAM_MEDIUM_PHONE,
-                Assets.Fonts.GOTHAM_MEDIUM_TABLET);
+        graphicsService.loadFonts(Assets.Fonts.FONT_DESTKOP_MENU,
+                Assets.Fonts.FONT_DESTKOP_SCREEN_TITLE,
+                Assets.Fonts.FONT_DESTKOP_GAME,
+                Assets.Fonts.FONT_DESTKOP_DIALOG,
+                Assets.Fonts.FONT_DESTKOP_DEBUG,
+                Assets.Fonts.FONT_LDPI_MENU,
+                Assets.Fonts.FONT_LDPI_SCREEN_TITLE,
+                Assets.Fonts.FONT_LDPI_GAME,
+                Assets.Fonts.FONT_LDPI_DIALOG,
+                Assets.Fonts.FONT_LDPI_DEBUG,
+                Assets.Fonts.FONT_MDPI_MENU,
+                Assets.Fonts.FONT_MDPI_SCREEN_TITLE,
+                Assets.Fonts.FONT_MDPI_GAME,
+                Assets.Fonts.FONT_MDPI_DIALOG,
+                Assets.Fonts.FONT_MDPI_DEBUG,
+                Assets.Fonts.FONT_HDPI_MENU,
+                Assets.Fonts.FONT_HDPI_SCREEN_TITLE,
+                Assets.Fonts.FONT_HDPI_GAME,
+                Assets.Fonts.FONT_HDPI_DIALOG,
+                Assets.Fonts.FONT_HDPI_DEBUG,
+                Assets.Fonts.FONT_XHDPI_MENU,
+                Assets.Fonts.FONT_XHDPI_SCREEN_TITLE,
+                Assets.Fonts.FONT_XHDPI_GAME,
+                Assets.Fonts.FONT_XHDPI_DIALOG,
+                Assets.Fonts.FONT_XHDPI_DEBUG);
 
         localeService.load(
                 Assets.Locales.DEFAULT_LOCALE,

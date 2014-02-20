@@ -36,27 +36,27 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
         table.setFillParent(true);
 
         String labelText = game.localeService.get(LocalizedStrings.MainMenu.GAME_TITLE);
-        Label label = new Label(labelText, skin, game.deviceType.menuStyle);
+        Label label = new Label(labelText, skin, Assets.Skin.SKIN_STYLE_SCREEN_TITLE);
         table.add(label).spaceBottom(game.deviceType.menuSpacing);
         table.row();
 
         String buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_START);
         Button button = game.createSwitchScreenButton(buttonText, game.levelSelectionScreen);
         table.add(button).size(game.deviceType.menuButtonWidth,
-                game.deviceType.menuButtonHeight).spaceBottom(game.deviceType.menuSpacing).uniform();
+                game.deviceType.menuButtonHeight).spaceBottom(game.deviceType.menuSpacing);
 
         table.row();
 
         buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_RESUME);
         button = game.createSwitchScreenButton(buttonText, game.loadGameScreen);
         table.add(button).size(game.deviceType.menuButtonWidth,
-                game.deviceType.menuButtonHeight).spaceBottom(game.deviceType.menuSpacing).uniform();
+                game.deviceType.menuButtonHeight).spaceBottom(game.deviceType.menuSpacing);
         table.row();
 
         buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_OPTIONS);
         button = game.createSwitchScreenButton(buttonText, game.optionsScreen);
         table.add(button).size(game.deviceType.menuButtonWidth,
-                game.deviceType.menuButtonHeight).uniform();
+                game.deviceType.menuButtonHeight);
 
         if (Constants.GameConstants.DEBUG) {
             table.debug();

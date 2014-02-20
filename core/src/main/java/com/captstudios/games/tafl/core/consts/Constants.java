@@ -33,24 +33,19 @@ public final class Constants {
         public static final int RAICHI_THRESHHOLD = 1;
         public static final int TUICHI_THRESHHOLD = 2;
 
-        public static final int DESKTOP_MIN_RESOLUTION = 0;
-        public static final int PHONE_MIN_RESOLUTION = 0;
-        public static final int TABLET_MIN_RESOLUTION = 1000000; // about 1280 x 800
-
         public static final int GAME_DESKTOP_HEIGHT = 800;
         public static final int GAME_DESKTOP_WIDTH = GAME_DESKTOP_HEIGHT *
                 GAME_WIDTH / Constants.GameConstants.GAME_HEIGHT;
 
         public static final int VIBRATION_LENGTH = 500;
 
-        public static final Vector2 DESKTOP_DRAG_POSITION_OFFSET = new Vector2();
-        public static final Vector2 MOBILE_DRAG_POSITION_OFFSET = new Vector2(0, 50);
         public static final float DRAG_THRESHOLD = 0.2f;
     }
 
     public static final class AiConstants {
-        public static final int INT_TREE_DEPTH = 2;
-        public static final int ADV_TREE_DEPTH = 4;
+        public static final int BEGINNER_TREE_DEPTH = 1;
+        public static final int INTERMEDIATE_TREE_DEPTH = 2;
+        public static final int ADVANCED_TREE_DEPTH = 3;
 
         public static final Color LOADING_PROMP_COLOR = new Color(0f, 0f, 0f, 0.4f);
         public static final float LOADING_PROMPT_WIDTH = 200;
@@ -73,17 +68,71 @@ public final class Constants {
         public static final float FADE_TIME = 1f;
         public static final float DISPLAY_TIME = 1.75f;
 
-        public static final int PHONE_LIST_WIDTH = 270;
-        public static final int PHONE_LIST_HEIGHT = 140;
-        public static final int PHONE_BUTTON_WIDTH = 250;
-        public static final int PHONE_BUTTON_HEIGHT = 70;
-        public static final int PHONE_SPACING = 30;
+        public static final int DESKTOP_MIN_WIDTH = 0;
+        public static final int DESKTOP_LIST_WIDTH = 270;
+        public static final int DESKTOP_LIST_HEIGHT = 140;
+        public static final int DESKTOP_BUTTON_WIDTH = 250;
+        public static final int DESKTOP_BUTTON_HEIGHT = 70;
+        public static final int DESKTOP_SPACING = 30;
+        public static final int DESKTOP_DIALOG_BUTTON_WIDTH = 200;
+        public static final int DESKTOP_DIALOG_BUTTON_HEIGHT = 70;
+        public static final int DESKTOP_DIALOG_BUTTON_SPACING = 20;
+        public static final Vector2 DESKTOP_DRAG_POSITION_OFFSET = new Vector2();
+        public static final int DESKTOP_HUD_BUTTON_WIDTH = 30;
+        public static final int DESKTOP_HUD_BUTTON_HEIGHT = 30;
 
-        public static final int TABLET_LIST_WIDTH = 540;
-        public static final int TABLET_LIST_HEIGHT = 280;
-        public static final int TABLET_BUTTON_WIDTH = 500;
-        public static final int TABLET_BUTTON_HEIGHT = 140;
-        public static final int TABLET_SPACING = 60;
+        public static final int LDPI_MIN_WIDTH = 0;
+        public static final int LDPI_LIST_WIDTH = 270;
+        public static final int LDPI_LIST_HEIGHT = 140;
+        public static final int LDPI_BUTTON_WIDTH = 250;
+        public static final int LDPI_BUTTON_HEIGHT = 70;
+        public static final int LDPI_SPACING = 30;
+        public static final int LDPI_DIALOG_BUTTON_WIDTH = 200;
+        public static final int LDPI_DIALOG_BUTTON_HEIGHT = 70;
+        public static final int LDPI_DIALOG_BUTTON_SPACING = 20;
+        public static final Vector2 LDPI_DRAG_POSITION_OFFSET = new Vector2(0, 25);
+        public static final int LDPI_HUD_BUTTON_WIDTH = 30;
+        public static final int LDPI_HUD_BUTTON_HEIGHT = 30;
+
+        public static final int MDPI_MIN_WIDTH = 500;
+        public static final int MDPI_LIST_WIDTH = 405;
+        public static final int MDPI_LIST_HEIGHT = 210;
+        public static final int MDPI_BUTTON_WIDTH = 375;
+        public static final int MDPI_BUTTON_HEIGHT = 105;
+        public static final int MDPI_SPACING = 45;
+        public static final int MDPI_DIALOG_BUTTON_WIDTH = 300;
+        public static final int MDPI_DIALOG_BUTTON_HEIGHT = 105;
+        public static final int MDPI_DIALOG_BUTTON_SPACING = 30;
+        public static final Vector2 MDPI_DRAG_POSITION_OFFSET = new Vector2(0, 50);
+        public static final int MDPI_HUD_BUTTON_WIDTH = 60;
+        public static final int MDPI_HUD_BUTTON_HEIGHT = 60;
+
+        public static final int HDPI_MIN_WIDTH = 900;
+        public static final int HDPI_LIST_WIDTH = 540;
+        public static final int HDPI_LIST_HEIGHT = 280;
+        public static final int HDPI_BUTTON_WIDTH = 500;
+        public static final int HDPI_BUTTON_HEIGHT = 140;
+        public static final int HDPI_SPACING = 60;
+        public static final int HDPI_DIALOG_BUTTON_WIDTH = 400;
+        public static final int HDPI_DIALOG_BUTTON_HEIGHT = 140;
+        public static final int HDPI_DIALOG_BUTTON_SPACING = 40;
+        public static final Vector2 HDPI_DRAG_POSITION_OFFSET = new Vector2(0, 50);
+        public static final int HDPI_HUD_BUTTON_WIDTH = 90;
+        public static final int HDPI_HUD_BUTTON_HEIGHT = 90;
+
+        public static final int XHDPI_MIN_WIDTH = 1200;
+        public static final int XHDPI_LIST_WIDTH = 910;
+        public static final int XHDPI_LIST_HEIGHT = 280;
+        public static final int XHDPI_BUTTON_WIDTH = 750;
+        public static final int XHDPI_BUTTON_HEIGHT = 210;
+        public static final int XHDPI_SPACING = 90;
+        public static final int XHDPI_DIALOG_BUTTON_WIDTH = 600;
+        public static final int XHDPI_DIALOG_BUTTON_HEIGHT = 210;
+        public static final int XHDPI_DIALOG_BUTTON_SPACING = 40;
+        public static final Vector2 XHDPI_DRAG_POSITION_OFFSET = new Vector2(0, 100);
+        public static final int XHDPI_HUD_BUTTON_WIDTH = 120;
+        public static final int XHDPI_HUD_BUTTON_HEIGHT = 120;
+
     }
 
     public static final class PieceConstants {
@@ -160,8 +209,6 @@ public final class Constants {
     public static final class HudConstants {
         private HudConstants() {
         }
-        public static final int HUD_BUTTON_WIDTH = 30;
-        public static final int HUD_BUTTON_HEIGHT = 30;
 
         public static final float HUD_TABLE_PADDING_TOP = 10f;
         public static final float HUD_TABLE_PADDING_SIDES = 15f;

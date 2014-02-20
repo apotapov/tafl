@@ -1,23 +1,4 @@
 {
-    com.badlogic.gdx.graphics.g2d.BitmapFont: { 
-        menu-font: { 
-            file: Gotham-Medium.otf,
-            size: 32
-        },
-        default-font: { 
-            file: Gotham-Medium.otf,
-            size: 18
-        },
-        tablet-menu-font: { 
-            file: Gotham-Medium.otf,
-            size: 64
-        },
-        tablet-default-font: { 
-            file: Gotham-Medium.otf,
-            size: 32
-        } 
-    },
-            
     com.badlogic.gdx.graphics.Color: {
         white: { 
             r: 0.9453125,
@@ -31,12 +12,6 @@
             b: 0.10546875,
             a: 0.6
         },
-        red: { 
-            r: 1,
-            g: 0,
-            b: 0,
-            a: 1
-        },
     },
     com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
         dialogDim: { 
@@ -45,103 +20,43 @@
                 r: 0,
                 g: 0,
                 b: 0,
-                a: 0.45
+                a: 0.40
             }
         }
     },
     com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
-        default: { 
+        game: { 
             down: default-round-down,
             up: default-round
         },
-        toggle: { 
-            down: default-round-down,
-            checked: default-round-down,
-            up: default-round
-        }
     },
     com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
-        default: { 
+        game: { 
             down: default-round-down,
             up: default-round,
-            font: default-font,
             fontColor: white
         },
         menu: { 
             down: default-round-down,
             up: default-round,
-            font: menu-font,
             fontColor: white
         },
-        tablet-default: { 
+        dialog: { 
             down: default-round-down,
             up: default-round,
-            font: tablet-default-font,
             fontColor: white
-        },
-        tablet-menu: { 
-            down: default-round-down,
-            up: default-round,
-            font: tablet-menu-font,
-            fontColor: white
-        },
-        toggle: { 
-            down: default-round-down,
-            up: default-round,
-            checked: default-round-down,
-            font: default-font,
-            fontColor: white,
-            downFontColor: red
-        },
-        tablet-toggle: { 
-            down: default-round-down,
-            up: default-round,
-            checked: default-round-down,
-            font: tablet-default-font,
-            fontColor: white,
-            downFontColor: red
         },
     },
     com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
-        default: { 
+        game: { 
             down: default-round-down,
             up: default-round,
-            font: default-font,
             fontColor: white
         },
         menu: { 
             down: default-round-down,
             up: default-round,
-            font: menu-font,
             fontColor: white
-        },
-        tablet-default: { 
-            down: default-round-down,
-            up: default-round,
-            font: tablet-default-font,
-            fontColor: white
-        },
-        tablet-menu: { 
-            down: default-round-down,
-            up: default-round,
-            font: tablet-menu-font,
-            fontColor: white
-        },
-        toggle: { 
-            down: default-round-down,
-            up: default-round,
-            checked: default-round-down,
-            font: default-font,
-            fontColor: white,
-            downFontColor: red
-        },
-        tablet-toggle: { 
-            down: default-round-down,
-            up: default-round,
-            checked: default-round-down,
-            font: tablet-default-font,
-            fontColor: white,
-            downFontColor: red
         },
     },
     com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
@@ -154,45 +69,21 @@
         }
     },
     com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
-        default: {
-            font: default-font,
+        game: {
             fontColor: white,
             background: default-select,
             scrollStyle: default,
             listStyle: { 
-            font: default-font,
-            selection: default-select-selection
-        },
+            	selection: default-select-selection
+        	},
         },
         menu: {
-            font: menu-font,
             fontColor: white,
             background: default-select,
             scrollStyle: default,
             listStyle: { 
-            font: menu-font,
-            selection: default-select-selection
-        },
-        },
-        tablet-default: {
-            font: tablet-default-font,
-            fontColor: white,
-            background: default-select,
-            scrollStyle: default,
-            listStyle: { 
-            font: tablet-default-font,
-            selection: default-select-selection
-        },
-        },
-        tablet-menu: {
-            font: tablet-menu-font,
-            fontColor: white,
-            background: default-select,
-            scrollStyle: default,
-            listStyle: { 
-            font: tablet-menu-font,
-            selection: default-select-selection
-        },
+            	selection: default-select-selection
+        	},
         },
     },
     com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle: {
@@ -204,37 +95,10 @@
         }
     },
     com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
-        default: { 
-            titleFont: default-font,
-            background: default-window,
-            titleFontColor: white
-        },
-        menu: { 
-            titleFont: menu-font,
-            background: default-window,
-            titleFontColor: white
-        },
-        tablet-default: { 
-            titleFont: tablet-default-font,
-            background: default-window,
-            titleFontColor: white
-        },
-        tablet-menu: { 
-            titleFont: tablet-menu-font,
-            background: default-window,
-            titleFontColor: white
-        },
-        dialog: { 
-            titleFont: default-font,
+        dialog: {
             background: default-window,
             titleFontColor: white,
-            stageBackground: dialogDim
-        },
-        tablet-dialog: { 
-            titleFont: tablet-default-font,
-            background: default-window,
-            titleFontColor: white,
-            stageBackground: dialogDim
+            stageBackground: dialogDim,
         },
     },
     com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
@@ -244,121 +108,68 @@
         }
     },
     com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
-        default: { 
-            font: default-font,
+        game: { 
             fontColor: white
         },
-        menu: { 
-            font: menu-font,
+        dialog: {
             fontColor: white
         },
-        tablet-default: { 
-            font: tablet-default-font,
+        menu: {
             fontColor: white
         },
-        tablet-menu: { 
-            font: tablet-menu-font,
+        screen-title: {
             fontColor: white
         },
-        player-tag: { 
-            font: default-font,
-            fontColor: player-tag
-        },
-        tablet-player-tag: { 
-            font: tablet-default-font,
+        player-tag: {
             fontColor: player-tag
         },
     },
     com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
-        default: { 
+        game: { 
             selection: selection,
             background: textfield,
-            font: default-font,
             fontColor: white,
             cursor: cursor
         },
         menu: { 
             selection: selection,
             background: textfield,
-            font: menu-font,
-            fontColor: white,
-            cursor: cursor
-        },
-        tablet-default: { 
-            selection: selection,
-            background: textfield,
-            font: tablet-default-font,
-            fontColor: white,
-            cursor: cursor
-        },
-        tablet-menu: { 
-            selection: selection,
-            background: textfield,
-            font: tablet-menu-font,
             fontColor: white,
             cursor: cursor
         },
     },
     com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
-        default: { 
+        game: { 
             checkboxOn: check-on,
             checkboxOff: check-off,
-            font: default-font,
             fontColor: white
         },
         menu: { 
             checkboxOn: check-on,
             checkboxOff: check-off,
-            font: menu-font,
-            fontColor: white
-        },
-        tablet-default: { 
-            checkboxOn: check-on,
-            checkboxOff: check-off,
-            font: tablet-default-font,
-            fontColor: white
-        },
-        tablet-menu: { 
-            checkboxOn: check-on,
-            checkboxOff: check-off,
-            font: tablet-menu-font,
             fontColor: white
         },
     },
     com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
-        default: { 
+        game: { 
             fontColorUnselected: white,
             selection: default-rect-pad,
             fontColorSelected: white,
-            font: default-font
         },
         menu: { 
             fontColorUnselected: white,
             selection: default-rect-pad,
             fontColorSelected: white,
-            font: menu-font
-        },
-        tablet-default: { 
-            fontColorUnselected: white,
-            selection: default-rect-pad,
-            fontColorSelected: white,
-            font: tablet-default-font
-        },
-        tablet-menu: { 
-            fontColorUnselected: white,
-            selection: default-rect-pad,
-            fontColorSelected: white,
-            font: tablet-menu-font
         },
     },
     com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle: {
-        default: { 
+        game: { 
             background: default-pane,
             knob: default-round-large
         }
     },
     com.badlogic.gdx.scenes.scene2d.ui.Tree$TreeStyle: {
-        default: { 
+        game: { 
             minus: tree-minus,
             plus: tree-plus,
             selection: default-select-selection

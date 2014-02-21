@@ -8,9 +8,12 @@
 		<artifactId>tafl</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
+    
+    <properties>
+        <mainClass>main</mainClass>
+    </properties>
 
 	<artifactId>tafl-ios</artifactId>
-	<packaging>dll</packaging>
 	<name>TaflGame iOS</name>
 
 	<dependencies>
@@ -21,44 +24,35 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.badlogic.gdx</groupId>
-			<artifactId>gdx-backend-ios</artifactId>
+			<groupId>com.badlogicgames.gdx</groupId>
+			<artifactId>gdx-backend-robovm</artifactId>
 			<version>${gdx.version}</version>
 		</dependency>
 	</dependencies>
 
 	<build>
-		<!-- use bin as that's where MonoDevelop puts its build bits -->
-		<directory>bin</directory>
-		<!-- omit the version from the dll name so it doesn't change with releases -->
-		<finalName>${project.artifactId}</finalName>
-		<plugins>
-			<plugin>
-				<groupId>com.samskivert</groupId>
-				<artifactId>ikvm-maven-plugin</artifactId>
-				<version>1.1.5</version>
-				<!-- this lets Maven know that we define 'packaging: dll' -->
-				<extensions>true</extensions>
-				<configuration>
-					<ikvmArgs>
-						<ikvmArg>-debug</ikvmArg>
-					</ikvmArgs>
-					<createStub>true</createStub>
-					<dlls>
-						<dll>OpenTK.dll</dll>
-						<dll>monotouch.dll</dll>
-						<dll>System.Data.dll</dll>
-						<dll>Mono.Data.Sqlite.dll</dll>
-					</dlls>
-					<copyDlls>
-						<copyDll>bin/IKVM.Runtime.dll</copyDll>
-						<copyDll>bin/IKVM.Runtime.JNI.dll</copyDll>
-						<copyDll>bin/IKVM.OpenJDK.Core.dll</copyDll>
-						<copyDll>bin/IKVM.OpenJDK.Util.dll</copyDll>
-						<copyDll>bin/IKVM.OpenJDK.Text.dll</copyDll>
-					</copyDlls>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+        <plugins>
+            <plugin>
+                <groupId>org.robovm</groupId>
+                <artifactId>robovm-maven-plugin</artifactId>
+                <version>0.0.9.1</version>
+                <configuration>
+                    <config>
+                        <mainClass>${mainClass}</mainClass>
+                        <os>ios</os>
+                        <arch>x86</arch>
+                    </config>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>iphone-sim</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>iphone-sim</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

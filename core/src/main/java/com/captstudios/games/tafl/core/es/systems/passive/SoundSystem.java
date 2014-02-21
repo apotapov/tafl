@@ -56,7 +56,7 @@ public class SoundSystem extends PassiveEntitySystem implements TaflMatchObserve
             int cardinality = capturedPieces.cardinality();
 
             if (cardinality > 0) {
-                soundService.vibrate(Constants.GameConstants.VIBRATION_LENGTH);
+                soundService.vibrate(Constants.GameConstants.CAPTURE_VIBRATION_LENGTH);
             }
 
             switch (cardinality) {
@@ -87,9 +87,11 @@ public class SoundSystem extends PassiveEntitySystem implements TaflMatchObserve
         case DRAW:
         case SURRENDER:
             soundService.playSound(Assets.Sounds.KING_WIN_SOUND);
+            soundService.vibrate(Constants.GameConstants.GAME_OVER_VIBRATION_LENGTH);
             break;
         case LOSS:
             soundService.playSound(Assets.Sounds.KING_LOSE_SOUND);
+            soundService.vibrate(Constants.GameConstants.GAME_OVER_VIBRATION_LENGTH);
             break;
         default:
         }

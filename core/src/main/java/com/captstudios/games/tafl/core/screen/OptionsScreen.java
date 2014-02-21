@@ -72,7 +72,7 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.preferenceService.setVibrateEnabled(vibrationCheckbox.isChecked());
-                game.soundService.vibrate(Constants.GameConstants.VIBRATION_LENGTH);
+                game.soundService.vibrate(Constants.GameConstants.CAPTURE_VIBRATION_LENGTH);
             }
         });
         table.add(vibrationCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceType.menuSpacing);

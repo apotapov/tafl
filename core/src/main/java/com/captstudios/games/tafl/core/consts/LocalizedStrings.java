@@ -86,6 +86,8 @@ public class LocalizedStrings {
         ABOUT_ENGINEERING_LABEL,
         ABOUT_ENGINEER,
         ABOUT_MUSIC_LABEL,
-        ABOUT_MUSICIAN
+        ABOUT_MUSICIAN,
+        ABOUT_TECHNOLOGY_LABLE,
+        ABOUT_TECHNOLOGY
     }
 }

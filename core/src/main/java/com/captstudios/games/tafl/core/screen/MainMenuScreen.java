@@ -53,6 +53,12 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
                 game.deviceType.menuButtonHeight).spaceBottom(game.deviceType.menuSpacing);
         table.row();
 
+        buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_INSTRUCTIONS);
+        button = game.createSwitchScreenButton(buttonText, game.instructionScreen);
+        table.add(button).size(game.deviceType.menuButtonWidth,
+                game.deviceType.menuButtonHeight).spaceBottom(game.deviceType.menuSpacing);
+        table.row();
+
         buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_OPTIONS);
         button = game.createSwitchScreenButton(buttonText, game.optionsScreen);
         table.add(button).size(game.deviceType.menuButtonWidth,

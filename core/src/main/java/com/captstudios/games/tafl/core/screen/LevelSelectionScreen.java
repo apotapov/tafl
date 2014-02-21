@@ -175,9 +175,4 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         table.add(mainMenuButton).size(game.deviceType.menuButtonWidth, game.deviceType.menuButtonHeight);
         table.row();
     }
-
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-    }
 }

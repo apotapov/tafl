@@ -68,6 +68,8 @@ public final class Constants {
         public static final float FADE_TIME = 1f;
         public static final float DISPLAY_TIME = 1.75f;
 
+        public static final Color ABOUT_COLOR = new Color(1, 1, 1, 0.3f);
+
         public static final int DESKTOP_MIN_WIDTH = 0;
         public static final int DESKTOP_LIST_WIDTH = 270;
         public static final int DESKTOP_LIST_HEIGHT = 140;

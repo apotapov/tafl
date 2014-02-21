@@ -79,7 +79,13 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
         table.row();
 
         Button mainMenuButton = game.getMainMenuButton();
-        table.add(mainMenuButton).size(game.deviceType.menuButtonWidth, game.deviceType.menuButtonHeight);
+        table.add(mainMenuButton).size(game.deviceType.menuButtonWidth,
+                game.deviceType.menuButtonHeight).spaceBottom(game.deviceType.menuSpacing);
+        table.row();
+
+        text = game.localeService.get(LocalizedStrings.OptionsMenu.ABOUT);
+        Button about = game.createSwitchScreenButton(text, game.aboutScreen);
+        table.add(about).size(game.deviceType.menuButtonWidth, game.deviceType.menuButtonHeight);
         table.row();
 
         if (Constants.GameConstants.DEBUG) {

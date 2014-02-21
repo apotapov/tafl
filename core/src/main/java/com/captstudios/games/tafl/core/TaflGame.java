@@ -13,7 +13,9 @@ import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.consts.DeviceType;
 import com.captstudios.games.tafl.core.consts.LocalizedStrings;
 import com.captstudios.games.tafl.core.level.TaflLevelService;
+import com.captstudios.games.tafl.core.screen.AboutScreen;
 import com.captstudios.games.tafl.core.screen.GamePlayScreen;
+import com.captstudios.games.tafl.core.screen.InstructionScreen;
 import com.captstudios.games.tafl.core.screen.LevelSelectionScreen;
 import com.captstudios.games.tafl.core.screen.LoadGameScreen;
 import com.captstudios.games.tafl.core.screen.MainMenuScreen;
@@ -35,7 +37,9 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
 
     public LoadingScreen<TaflGame> splashScreen;
     public MainMenuScreen mainMenuScreen;
+    public InstructionScreen instructionScreen;
     public OptionsScreen optionsScreen;
+    public AboutScreen aboutScreen;
     public LevelSelectionScreen levelSelectionScreen;
     public LoadGameScreen loadGameScreen;
     public GamePlayScreen gamePlayScreen;
@@ -125,13 +129,17 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     @Override
     public void onFinishLoading() {
         mainMenuScreen = new MainMenuScreen(this);
+        instructionScreen = new InstructionScreen(this, mainMenuScreen);
         optionsScreen = new OptionsScreen(this);
+        aboutScreen = new AboutScreen(this, optionsScreen);
         levelSelectionScreen = new LevelSelectionScreen(this);
         loadGameScreen = new LoadGameScreen(this);
         gamePlayScreen = new GamePlayScreen(this);
 
         mainMenuScreen.initialize();
+        instructionScreen.initialize();
         optionsScreen.initialize();
+        aboutScreen.initialize();
         levelSelectionScreen.initialize();
         loadGameScreen.initialize();
         gamePlayScreen.initialize();

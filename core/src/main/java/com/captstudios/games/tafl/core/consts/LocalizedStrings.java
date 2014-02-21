@@ -6,6 +6,7 @@ public class LocalizedStrings {
         MAIN_MENU_BUTTON_START,
         MAIN_MENU_BUTTON_RESUME,
         MAIN_MENU_BUTTON_OPTIONS,
+        MAIN_MENU_BUTTON_INSTRUCTIONS,
         MAIN_MENU_BUTTON
     }
 
@@ -14,6 +15,7 @@ public class LocalizedStrings {
         OPTIONS_SOUND_EFFECTS,
         OPTIONS_MUSIC,
         OPTIONS_VIBRATE,
+        ABOUT,
     }
 
     public enum LevelSelectionMenu {
@@ -74,5 +76,16 @@ public class LocalizedStrings {
         WHITE_TURN_LABEL,
         BLACK_TURN_LABEL,
         COMPUTER_TURN_LABEL,
+    }
+
+    public enum About {
+        ABOUT_COPYRIGHT,
+        ABOUT_RIGHTS_RESERVED,
+        ABOUT_ART_LABEL,
+        ABOUT_ARTIST,
+        ABOUT_ENGINEERING_LABEL,
+        ABOUT_ENGINEER,
+        ABOUT_MUSIC_LABEL,
+        ABOUT_MUSICIAN
     }
 }

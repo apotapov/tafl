@@ -10,7 +10,7 @@
 	</parent>
     
     <properties>
-        <mainClass>main</mainClass>
+        <mainClass>com.captstudios.games.tafl.ios.TaflGameIos</mainClass>
     </properties>
 
 	<artifactId>tafl-ios</artifactId>

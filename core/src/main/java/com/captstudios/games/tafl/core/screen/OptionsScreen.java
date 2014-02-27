@@ -64,18 +64,20 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
         table.add(musicCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
 
-        text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_VIBRATE);
-        final CheckBox vibrationCheckbox = new CheckBox(text, skin, Assets.Skin.SKIN_STYLE_MENU);
-        vibrationCheckbox.setChecked(game.preferenceService.isVibrateEnabled());
-        vibrationCheckbox.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.preferenceService.setVibrateEnabled(vibrationCheckbox.isChecked());
-                game.soundService.vibrate(Constants.GameConstants.CAPTURE_VIBRATION_LENGTH);
-            }
-        });
-        table.add(vibrationCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceSettings.menuSpacing);
-        table.row();
+        if (game.config.vibrationSupported) {
+            text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_VIBRATE);
+            final CheckBox vibrationCheckbox = new CheckBox(text, skin, Assets.Skin.SKIN_STYLE_MENU);
+            vibrationCheckbox.setChecked(game.preferenceService.isVibrateEnabled());
+            vibrationCheckbox.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    game.preferenceService.setVibrateEnabled(vibrationCheckbox.isChecked());
+                    game.soundService.vibrate(Constants.GameConstants.CAPTURE_VIBRATION_LENGTH);
+                }
+            });
+            table.add(vibrationCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceSettings.menuSpacing);
+            table.row();
+        }
 
         Button mainMenuButton = game.getMainMenuButton();
         table.add(mainMenuButton).size(game.deviceSettings.menuButtonWidth,

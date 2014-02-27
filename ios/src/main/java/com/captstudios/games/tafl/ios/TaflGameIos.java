@@ -19,6 +19,7 @@ public class TaflGameIos extends IOSApplication.Delegate {
 
         TaflGameConfig gameConfig = new TaflGameConfig();
         gameConfig.deviceType = DeviceType.IOS;
+        gameConfig.vibrationSupported = false;
 
         return new IOSApplication(new TaflGame(gameConfig), config);
     }

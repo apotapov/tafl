@@ -56,10 +56,12 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     public LocaleService localeService;
 
     public DeviceSettings deviceSettings;
+    public TaflGameConfig config;
 
     private boolean disposing;
 
     public TaflGame(TaflGameConfig config) {
+        this.config = config;
         this.deviceSettings = new DeviceSettings();
         this.deviceSettings.deviceType = config.deviceType;
     }

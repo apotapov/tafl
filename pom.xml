@@ -88,32 +88,12 @@
             <modules>
                 <module>android</module>
             </modules>
-            <dependencies>
-                <dependency>
-                    <groupId>com.badlogicgames.gdx</groupId>
-                    <artifactId>gdx-backend-android</artifactId>
-                    <version>${gdx.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>com.google.android</groupId>
-                    <artifactId>android</artifactId>
-                    <version>${android.version}</version>
-                    <scope>provided</scope>
-                </dependency>
-            </dependencies>
         </profile>
         <profile>
             <id>html</id>
             <modules>
                 <module>html</module>
             </modules>
-            <dependencies>
-                <dependency>
-                    <groupId>com.badlogicgames.gdx</groupId>
-                    <artifactId>gdx-backend-gwt</artifactId>
-                    <version>${gdx.version}</version>
-                </dependency>
-            </dependencies>
         </profile>
         <profile>
             <id>ios</id>
@@ -126,13 +106,6 @@
             <modules>
                 <module>texture-packer</module>
             </modules>
-            <dependencies>
-                <dependency>
-                    <groupId>com.badlogicgames.gdx</groupId>
-                    <artifactId>gdx-tools</artifactId>
-                    <version>${gdx.version}</version>
-                </dependency>
-            </dependencies>
         </profile>
     </profiles>
 

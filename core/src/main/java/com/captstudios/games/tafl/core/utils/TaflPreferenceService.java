@@ -25,13 +25,8 @@ public class TaflPreferenceService extends PreferenceService implements TaflMatc
 
     protected Json json;
 
-    public TaflPreferenceService(String preferencesName) {
-        super(preferencesName);
-        initializeJson();
-    }
-
     public TaflPreferenceService(String preferencesName, PreferenceChangeListener...listeners) {
-        super(preferencesName, listeners);
+        super(preferencesName, Constants.GameConstants.DEFAULT_VOLUME, listeners);
         initializeJson();
     }
 

@@ -7,10 +7,12 @@ import com.roundtriangles.games.zaria.services.utils.FontDefinition;
 
 
 public class DeviceSettings {
-    public DeviceType deviceType;
+    public TaflGameConfig config;
+
     public int width;
     public int height;
 
+    public String backgroundAtlas;
 
     public FontDefinition menuFont;
     public FontDefinition screenTitleFont;
@@ -33,11 +35,21 @@ public class DeviceSettings {
 
     public Vector2 dragOffset;
 
+    public DeviceSettings(TaflGameConfig config) {
+        this.config = config;
+
+        if (config.deviceType == DeviceType.IOS) {
+            backgroundAtlas = Assets.Graphics.ATLAS_IOS;
+        } else {
+            backgroundAtlas = Assets.Graphics.ATLAS_BACKGROUNDS;
+        }
+    }
+
     public void initialize(int width, int height) {
         this.width = width;
         this.height = height;
 
-        if (deviceType == DeviceType.DESKTOP) {
+        if (config.deviceType == DeviceType.DESKTOP) {
             setParameters(Assets.Fonts.FONT_DESTKOP_MENU,
                     Assets.Fonts.FONT_DESTKOP_SCREEN_TITLE,
                     Assets.Fonts.FONT_DESTKOP_GAME,

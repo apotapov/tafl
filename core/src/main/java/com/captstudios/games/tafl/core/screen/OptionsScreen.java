@@ -25,7 +25,7 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
     @Override
     public void initialize() {
         Sprite background = game.graphicsService.getSprite(
-                Assets.Graphics.ATLAS_BACKGROUNDS, Assets.Graphics.MENU);
+                game.deviceSettings.backgroundAtlas, Assets.Graphics.MENU);
         setBackgroundImage(new Image(background));
 
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
@@ -64,7 +64,7 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
         table.add(musicCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
 
-        if (game.config.vibrationSupported) {
+        if (game.deviceSettings.config.vibrationSupported) {
             text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_VIBRATE);
             final CheckBox vibrationCheckbox = new CheckBox(text, skin, Assets.Skin.SKIN_STYLE_MENU);
             vibrationCheckbox.setChecked(game.preferenceService.isVibrateEnabled());

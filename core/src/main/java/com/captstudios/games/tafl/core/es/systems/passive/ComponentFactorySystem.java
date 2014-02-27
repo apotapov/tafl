@@ -24,6 +24,7 @@ import com.captstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.captstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 import com.captstudios.games.tafl.core.es.model.TaflMatch;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
+import com.captstudios.games.tafl.core.utils.device.DeviceSettings;
 import com.roundtriangles.games.zaria.services.GraphicsService;
 
 public class ComponentFactorySystem extends PassiveEntitySystem {
@@ -102,12 +103,14 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         MatchRenderingComponent component = createComponent(MatchRenderingComponent.class);
         component.camera = world.camera;
 
+        DeviceSettings ds = world.game.deviceSettings;
+
         component.spriteBatch = new SpriteBatch(Constants.GameConstants.BATCH_SIZE);
         component.shapeRenderer = new ShapeRenderer();
-        component.font = graphics.getFont(world.game.deviceSettings.gameFont);
-        component.debugFont = graphics.getFont(world.game.deviceSettings.rulesFont);
+        component.font = graphics.getFont(ds.gameFont);
+        component.debugFont = graphics.getFont(ds.rulesFont);
 
-        component.backgroundTexture = graphics.getSprite(Assets.Graphics.ATLAS_BACKGROUNDS, Assets.Graphics.BOARD);
+        component.backgroundTexture = graphics.getSprite(ds.backgroundAtlas, Assets.Graphics.BOARD);
         component.gridTexture = graphics.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.GRID);
 
         return component;

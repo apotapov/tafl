@@ -51,12 +51,12 @@ public class InstructionScreen extends AbstractScreen<TaflGame> {
     @Override
     public void initialize() {
         instructions = new Image[] {
-                new Image(game.graphicsService.getSprite(Assets.Graphics.ATLAS_BACKGROUNDS, Assets.Graphics.INSTRUCTIONS_1)),
-                new Image(game.graphicsService.getSprite(Assets.Graphics.ATLAS_BACKGROUNDS, Assets.Graphics.INSTRUCTIONS_2)),
-                new Image(game.graphicsService.getSprite(Assets.Graphics.ATLAS_BACKGROUNDS, Assets.Graphics.INSTRUCTIONS_3)),
-                new Image(game.graphicsService.getSprite(Assets.Graphics.ATLAS_BACKGROUNDS, Assets.Graphics.INSTRUCTIONS_4)),
-                new Image(game.graphicsService.getSprite(Assets.Graphics.ATLAS_BACKGROUNDS, Assets.Graphics.INSTRUCTIONS_5)),
-                new Image(game.graphicsService.getSprite(Assets.Graphics.ATLAS_BACKGROUNDS, Assets.Graphics.INSTRUCTIONS_6))
+                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_1)),
+                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_2)),
+                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_3)),
+                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_4)),
+                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_5)),
+                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_6))
         };
 
         gestureDetector = new GestureDetector(new InstructionsGestureListener(this));

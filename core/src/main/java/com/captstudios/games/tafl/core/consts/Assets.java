@@ -19,7 +19,8 @@ public class Assets extends GameAssetLoader {
         private Graphics() {
         }
 
-        public static final String ATLAS_BACKGROUNDS = "image-atlases/backgrounds0.5.atlas";
+        public static final String ATLAS_BACKGROUNDS = "image-atlases/backgrounds.atlas";
+        public static final String ATLAS_IOS = "image-atlases/ios.atlas";
         public static final String ATLAS_PIECES = "image-atlases/pieces.atlas";
 
         public static final String BOARD = "tafl-board";
@@ -181,7 +182,7 @@ public class Assets extends GameAssetLoader {
         graphicsService.loadSkins(Assets.Skin.UI_SKIN);
 
         graphicsService.loadTextureAtlases(
-                Assets.Graphics.ATLAS_BACKGROUNDS,
+                game.deviceSettings.backgroundAtlas,
                 Assets.Graphics.ATLAS_PIECES,
                 Assets.Graphics.EXPLOSION_ATLAS);
 

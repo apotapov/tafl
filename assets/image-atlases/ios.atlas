@@ -1,0 +1,85 @@
+
+ios-1.jpg
+format: RGB888
+filter: MipMapLinearLinear,MipMapLinearLinear
+repeat: none
+captstudios_logo-800x800
+  rotate: false
+  xy: 2, 964
+  size: 540, 960
+  orig: 540, 960
+  offset: 0, 0
+  index: -1
+tafl-instr-screen01
+  rotate: false
+  xy: 544, 964
+  size: 540, 960
+  orig: 540, 960
+  offset: 0, 0
+  index: -1
+tafl-instr-screen02
+  rotate: false
+  xy: 1086, 964
+  size: 540, 960
+  orig: 540, 960
+  offset: 0, 0
+  index: -1
+tafl-instr-screen03
+  rotate: false
+  xy: 2, 2
+  size: 540, 960
+  orig: 540, 960
+  offset: 0, 0
+  index: -1
+tafl-instr-screen04
+  rotate: false
+  xy: 544, 2
+  size: 540, 960
+  orig: 540, 960
+  offset: 0, 0
+  index: -1
+tafl-instr-screen05
+  rotate: false
+  xy: 1086, 2
+  size: 540, 960
+  orig: 540, 960
+  offset: 0, 0
+  index: -1
+
+ios-2.jpg
+format: RGB888
+filter: MipMapLinearLinear,MipMapLinearLinear
+repeat: none
+tafl-board
+  rotate: false
+  xy: 2, 4
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1
+tafl-instr-screen06
+  rotate: false
+  xy: 1084, 964
+  size: 540, 960
+  orig: 540, 960
+  offset: 0, 0
+  index: -1
+tafl-menu-background
+  rotate: false
+  xy: 1084, 2
+  size: 540, 960
+  orig: 540, 960
+  offset: 0, 0
+  index: -1
+
+ios-3.jpg
+format: RGB888
+filter: MipMapLinearLinear,MipMapLinearLinear
+repeat: none
+tafl-splash
+  rotate: false
+  xy: 2, 2
+  size: 540, 960
+  orig: 540, 960
+  offset: 0, 0
+  index: -1

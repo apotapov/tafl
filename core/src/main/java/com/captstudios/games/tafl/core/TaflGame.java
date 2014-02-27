@@ -57,14 +57,11 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     public LocaleService localeService;
 
     public DeviceSettings deviceSettings;
-    public TaflGameConfig config;
 
     private boolean disposing;
 
     public TaflGame(TaflGameConfig config) {
-        this.config = config;
-        this.deviceSettings = new DeviceSettings();
-        this.deviceSettings.deviceType = config.deviceType;
+        this.deviceSettings = new DeviceSettings(config);
     }
 
     @Override
@@ -81,7 +78,7 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
         }
 
         mainMenuScreen = new MainMenuScreen(this);
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(Assets.Graphics.ATLAS_BACKGROUNDS));
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(deviceSettings.backgroundAtlas));
         splashScreen = new TaflLoadingScreen(this, atlas,  assets, mainMenuScreen);
         companyScreen = new TaflCompanyScreen(this, atlas, splashScreen);
         instructionScreen = new InstructionScreen(this, mainMenuScreen);

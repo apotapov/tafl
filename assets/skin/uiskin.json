@@ -123,6 +123,9 @@
         player-tag: {
             fontColor: player-tag
         },
+        rules: {
+            fontColor: white
+        },
     },
     com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
         game: { 

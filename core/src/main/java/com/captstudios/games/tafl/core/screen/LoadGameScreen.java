@@ -1,5 +1,6 @@
 package com.captstudios.games.tafl.core.screen;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.captstudios.games.tafl.core.TaflGame;
 import com.captstudios.games.tafl.core.consts.Assets;
@@ -8,12 +9,14 @@ import com.roundtriangles.games.zaria.screen.AbstractScreen;
 public class LoadGameScreen extends AbstractScreen<TaflGame> {
 
     public LoadGameScreen(final TaflGame game) {
-        super(game);
+        super(game, game.mainMenuScreen, 0);
     }
 
     @Override
     public void initialize() {
-        stage.addActor(new Image(game.graphicsService.getSprite(Assets.Graphics.SPLASH_ATLAS, Assets.Graphics.SPLASH)));
+        Sprite background = game.graphicsService.getSprite(
+                Assets.Graphics.ATLAS_BACKGROUNDS, Assets.Graphics.MENU);
+        setBackgroundImage(new Image(background));
     }
 
     @Override

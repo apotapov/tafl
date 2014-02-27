@@ -4,8 +4,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.captstudios.games.tafl.core.TaflGame;
 import com.captstudios.games.tafl.core.consts.Constants;
-import com.captstudios.games.tafl.core.consts.DeviceType;
-import com.captstudios.games.tafl.core.utils.TaflGameConfig;
+import com.captstudios.games.tafl.core.utils.device.DeviceType;
+import com.captstudios.games.tafl.core.utils.device.TaflGameConfig;
 
 public class TaflGameDesktop {
     public static void main (String[] args) {

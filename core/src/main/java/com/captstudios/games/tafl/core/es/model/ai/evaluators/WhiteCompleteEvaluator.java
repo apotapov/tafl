@@ -248,4 +248,75 @@ public class WhiteCompleteEvaluator implements BoardEvaluator<TaflBoard> {
 
         return value;
     }
+
+    //    private PlayerWarningEnum checkKingCaptureWarning() {
+    //        int king = board.king;
+    //        int surroundingEnemy = 0;
+    //        BitBoard blackPositions = board.blackBitBoard();
+    //
+    //        int kingUp = king + board.dimensions;
+    //        int kingDown = king - board.dimensions;
+    //        int kingLeft = king - 1;
+    //        if (kingLeft % board.dimensions == board.dimensions - 1) {
+    //            kingLeft = Constants.BoardConstants.ILLEGAL_CELL;
+    //        }
+    //        int kingRight = king + 1;
+    //        if (kingRight % board.dimensions == 0) {
+    //            kingRight = Constants.BoardConstants.ILLEGAL_CELL;
+    //        }
+    //
+    //        if (board.isValid(kingUp) && blackPositions.get(kingUp)) {
+    //            surroundingEnemy++;
+    //        }
+    //        if (board.isValid(kingDown) && blackPositions.get(kingDown)) {
+    //            surroundingEnemy++;
+    //        }
+    //        if (board.isValid(kingLeft) && blackPositions.get(kingLeft)) {
+    //            surroundingEnemy++;
+    //        }
+    //        if (board.isValid(kingRight) && blackPositions.get(kingRight)) {
+    //            surroundingEnemy++;
+    //        }
+    //
+    //        if (surroundingEnemy >= Constants.GameConstants.KING_CAPTURE_THRESHHOLD) {
+    //            if (lastKingWarning == null) {
+    //                lastKingWarning = PlayerWarningEnum.WATCH_YOUR_KING;
+    //                return lastKingWarning;
+    //            }
+    //        } else {
+    //            lastKingWarning = null;
+    //        }
+    //        return null;
+    //    }
+    //
+    //    private PlayerWarningEnum checkKingEscapeWarning() {
+    //        allPieces.set(board.whiteBitBoard()).or(board.blackBitBoard());
+    //        BitBoard kingLegalMoves = calculateMoves(board.king);
+    //
+    //        int escapeMoveCount = 0;
+    //        boolean certainEscape = false;
+    //        if (board.nearCorners.get(board.king)) {
+    //            certainEscape = true;
+    //        } else {
+    //            escapeMoveCount = BitBoard.intersectionCount(board.corners, kingLegalMoves);
+    //        }
+    //
+    //        if (certainEscape || escapeMoveCount == Constants.GameConstants.TUICHI_THRESHHOLD) {
+    //            if (board.king != kingEscapePosition || lastKingEscapeWarning != PlayerWarningEnum.TUICHI) {
+    //                lastKingEscapeWarning = PlayerWarningEnum.TUICHI;
+    //                kingEscapePosition = board.king;
+    //                return lastKingEscapeWarning;
+    //            }
+    //        } else if (escapeMoveCount == Constants.GameConstants.RAICHI_THRESHHOLD) {
+    //            if (board.king != kingEscapePosition || lastKingEscapeWarning != PlayerWarningEnum.RAICHI) {
+    //                lastKingEscapeWarning = PlayerWarningEnum.RAICHI;
+    //                kingEscapePosition = board.king;
+    //                return lastKingEscapeWarning;
+    //            }
+    //        } else {
+    //            lastKingEscapeWarning = null;
+    //            kingEscapePosition = Constants.BoardConstants.ILLEGAL_CELL;
+    //        }
+    //        return null;
+    //    }
 }

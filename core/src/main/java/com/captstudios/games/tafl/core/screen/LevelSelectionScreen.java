@@ -1,5 +1,6 @@
 package com.captstudios.games.tafl.core.screen;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -12,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.captstudios.games.tafl.core.TaflGame;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.consts.Constants;
@@ -24,20 +24,31 @@ import com.roundtriangles.games.zaria.screen.AbstractScreen;
 
 public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
 
-    ObjectMap<String, String> localizedMap;
+    private static class ListItem<T> {
+        T value;
+        String translatedValue;
+
+        public ListItem(T value, String translatedValue) {
+            this.value = value;
+            this.translatedValue = translatedValue;
+        }
+
+        @Override
+        public String toString() {
+            return translatedValue;
+        }
+    }
+
 
     public LevelSelectionScreen(TaflGame game) {
-        super(game);
-
-        localizedMap = new ObjectMap<String, String>();
+        super(game, game.mainMenuScreen, Constants.ScreenConstants.FADE_TIME);
     }
 
     @Override
     public void initialize() {
-        Image background = new Image(game.graphicsService.getSprite(
-                Assets.Graphics.MENU_ATLAS, Assets.Graphics.MENU));
-        background.setFillParent(true);
-        stage.addActor(background);
+        Sprite background = game.graphicsService.getSprite(
+                Assets.Graphics.ATLAS_BACKGROUNDS, Assets.Graphics.MENU);
+        setBackgroundImage(new Image(background));
 
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
         Table table = new Table(skin);
@@ -45,7 +56,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
 
         String text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.LEVEL_SELECTION_TITLE);
         Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_SCREEN_TITLE);
-        table.add(label).spaceBottom(game.deviceType.menuSpacing);
+        table.add(label).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
 
         Array<TaflLevel> levels = game.levelService.getLevels();
@@ -69,15 +80,14 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
     }
 
     private void createLevelList(Array<TaflLevel> levels, Table table, Skin skin) {
-        String[] levelNames = new String[levels.size];
-        int i = 0;
+        Array<ListItem<String>> levelNames = new Array<ListItem<String>>(levels.size);
         for (TaflLevel level : levels) {
             String localizedName = game.localeService.get(level.name);
-            levelNames[i++] = localizedName;
-            localizedMap.put(localizedName, level.name);
+            levelNames.add(new ListItem<String>(level.name, localizedName));
         }
 
-        final List levelList = new List(levelNames, skin, Assets.Skin.SKIN_STYLE_MENU);
+        final List<ListItem<String>> levelList = new List<ListItem<String>>(skin, Assets.Skin.SKIN_STYLE_MENU);
+        levelList.setItems(levelNames);
         levelList.setSelectedIndex(game.preferenceService.getLevel());
         levelList.addListener(new ChangeListener() {
 
@@ -88,7 +98,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
             }
         });
 
-        table.add(levelList).spaceBottom(game.deviceType.menuSpacing);
+        table.add(levelList).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
     }
 
@@ -122,28 +132,27 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(computerStarts).align(BaseTableLayout.LEFT).spaceBottom(game.deviceType.menuSpacing);
+        table.add(computerStarts).align(BaseTableLayout.LEFT).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
     }
 
     private void createAiPreference(Skin skin, Table table) {
         AiType[] aiTypes = AiType.values();
 
-        String[] localizedTypes = new String[aiTypes.length];
-        int i = 0;
+        Array<ListItem<AiType>> localizedTypes = new Array<ListItem<AiType>>(aiTypes.length);
         for (AiType type : aiTypes) {
             String localizedString = game.localeService.get(type.toString());
-            localizedTypes[i++] = localizedString;
-            localizedMap.put(localizedString, type.toString());
+            localizedTypes.add(new ListItem<AiType>(type, localizedString));
         }
 
-        final SelectBox selectBox = new SelectBox(localizedTypes, skin, Assets.Skin.SKIN_STYLE_MENU);
-        selectBox.setSelection(game.preferenceService.getAiType().ordinal());
+        final SelectBox<ListItem<AiType>> selectBox = new SelectBox<LevelSelectionScreen.ListItem<AiType>>(skin, Assets.Skin.SKIN_STYLE_MENU);
+        selectBox.setItems(localizedTypes);
+        selectBox.setSelectedIndex(game.preferenceService.getAiType().ordinal());
         selectBox.addListener(new ChangeListener() {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.preferenceService.setAiType(localizedMap.get(selectBox.getSelection()));
+                game.preferenceService.setAiType(selectBox.getSelection().first().value);
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
@@ -151,7 +160,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         String text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.AI_DIFFICULTY);
         table.add(text, Assets.Skin.SKIN_STYLE_MENU);
         table.row();
-        table.add(selectBox).spaceBottom(game.deviceType.menuSpacing);
+        table.add(selectBox).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
     }
 
@@ -167,12 +176,12 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(button).size(game.deviceType.menuButtonWidth,
-                game.deviceType.menuButtonHeight).spaceBottom(game.deviceType.menuSpacing);
+        table.add(button).size(game.deviceSettings.menuButtonWidth,
+                game.deviceSettings.menuButtonHeight).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
 
         Button mainMenuButton = game.getMainMenuButton();
-        table.add(mainMenuButton).size(game.deviceType.menuButtonWidth, game.deviceType.menuButtonHeight);
+        table.add(mainMenuButton).size(game.deviceSettings.menuButtonWidth, game.deviceSettings.menuButtonHeight);
         table.row();
     }
 }

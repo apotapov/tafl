@@ -15,7 +15,6 @@ public class LocalizedStrings {
         OPTIONS_SOUND_EFFECTS,
         OPTIONS_MUSIC,
         OPTIONS_VIBRATE,
-        ABOUT,
     }
 
     public enum LevelSelectionMenu {
@@ -28,20 +27,17 @@ public class LocalizedStrings {
     }
 
     public enum GameMenu {
-        LOSS_TITLE,
+        GAME_OVER_TITLE,
         LOSS_TEXT,
 
-        SURRENDER_TITLE,
         SURRENDER_TEXT,
 
-        DRAW_TITLE,
         DRAW_NO_MOVES_WHITE_TEXT,
         DRAW_NO_MOVES_BLACK_TEXT,
         DRAW_KING_TRAPPED_TEXT,
         DRAW_THREE_PEAT_TEXT,
         DRAW_TOO_MANY_TURNS_TEXT,
 
-        WIN_TITLE,
         WHITE_WIN_TEXT,
         BLACK_WIN_TEXT,
 
@@ -51,11 +47,6 @@ public class LocalizedStrings {
         MAIN_MENU_BUTTON,
         RESUME_BUTTON,
         OK_BUTTON,
-
-        PLAYER_WARNING_TITLE,
-        RAICHI_TEXT,
-        TUICHI_TEXT,
-        WATCH_YOUR_KING_TEXT,
     }
 
     public enum Game {
@@ -78,16 +69,28 @@ public class LocalizedStrings {
         COMPUTER_TURN_LABEL,
     }
 
-    public enum About {
+    public enum AboutInfo {
+        ABOUT,
+        ABOUT_VERSION,
         ABOUT_COPYRIGHT,
         ABOUT_RIGHTS_RESERVED,
+        ABOUT_RULES,
+    }
+
+    public enum AboutCredit {
         ABOUT_ART_LABEL,
         ABOUT_ARTIST,
         ABOUT_ENGINEERING_LABEL,
         ABOUT_ENGINEER,
-        ABOUT_MUSIC_LABEL,
-        ABOUT_MUSICIAN,
-        ABOUT_TECHNOLOGY_LABLE,
+        ABOUT_TECHNOLOGY_LABEL,
         ABOUT_TECHNOLOGY
+    }
+
+    public enum AboutRules {
+        ABOUT_RULES_1,
+        ABOUT_RULES_2,
+        ABOUT_RULES_3,
+        ABOUT_RULES_4,
+        ABOUT_RULES_5,
     }
 }

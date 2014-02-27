@@ -1,8 +1,11 @@
 package com.captstudios.games.tafl.core;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -10,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.consts.Constants;
-import com.captstudios.games.tafl.core.consts.DeviceType;
 import com.captstudios.games.tafl.core.consts.LocalizedStrings;
 import com.captstudios.games.tafl.core.level.TaflLevelService;
 import com.captstudios.games.tafl.core.screen.AboutScreen;
@@ -20,12 +22,14 @@ import com.captstudios.games.tafl.core.screen.LevelSelectionScreen;
 import com.captstudios.games.tafl.core.screen.LoadGameScreen;
 import com.captstudios.games.tafl.core.screen.MainMenuScreen;
 import com.captstudios.games.tafl.core.screen.OptionsScreen;
-import com.captstudios.games.tafl.core.utils.TaflGameConfig;
+import com.captstudios.games.tafl.core.screen.TaflCompanyScreen;
+import com.captstudios.games.tafl.core.screen.TaflLoadingScreen;
 import com.captstudios.games.tafl.core.utils.TaflGraphicsService;
 import com.captstudios.games.tafl.core.utils.TaflPreferenceService;
+import com.captstudios.games.tafl.core.utils.device.DeviceSettings;
+import com.captstudios.games.tafl.core.utils.device.TaflGameConfig;
 import com.roundtriangles.games.zaria.AbstractGame;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
-import com.roundtriangles.games.zaria.screen.LoadingScreen;
 import com.roundtriangles.games.zaria.services.GraphicsService;
 import com.roundtriangles.games.zaria.services.IAssetBasedService;
 import com.roundtriangles.games.zaria.services.SoundService;
@@ -35,8 +39,9 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
 
     public AbstractScreen<?> currentScreen;
 
-    public LoadingScreen<TaflGame> splashScreen;
     public MainMenuScreen mainMenuScreen;
+    public TaflLoadingScreen splashScreen;
+    public TaflCompanyScreen companyScreen;
     public InstructionScreen instructionScreen;
     public OptionsScreen optionsScreen;
     public AboutScreen aboutScreen;
@@ -50,12 +55,13 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     public GraphicsService graphicsService;
     public LocaleService localeService;
 
-    public DeviceType deviceType;
+    public DeviceSettings deviceSettings;
 
     private boolean disposing;
 
     public TaflGame(TaflGameConfig config) {
-        this.deviceType = config.deviceType;
+        this.deviceSettings = new DeviceSettings();
+        this.deviceSettings.deviceType = config.deviceType;
     }
 
     @Override
@@ -66,35 +72,26 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
         this.localeService = new LocaleService();
 
         this.assets = new Assets(soundService, graphicsService, localeService, levelService, this);
-    }
 
-    @Override
-    public LoadingScreen<TaflGame> getLoadingScreen() {
-        if (splashScreen == null) {
-            splashScreen = new LoadingScreen<TaflGame>(this,
-                    assets,
-                    Assets.Graphics.SPLASH_ATLAS,
-                    Assets.Graphics.SPLASH,
-                    Constants.ScreenConstants.DISPLAY_TIME,
-                    Constants.ScreenConstants.FADE_TIME) {
-
-                @Override
-                public void resize(int width, int height) {
-                    super.resize(width, height);
-
-                    if (deviceType != DeviceType.DESKTOP) {
-                        deviceType = DeviceType.getDeviceType(width, height);
-                    }
-                }
-            };
-            splashScreen.initialize();
+        if (Constants.GameConstants.DEBUG) {
+            Gdx.app.setLogLevel(Application.LOG_DEBUG);
         }
-        return splashScreen;
+
+        mainMenuScreen = new MainMenuScreen(this);
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(Assets.Graphics.ATLAS_BACKGROUNDS));
+        splashScreen = new TaflLoadingScreen(this, atlas,  assets, mainMenuScreen);
+        companyScreen = new TaflCompanyScreen(this, atlas, splashScreen);
+        instructionScreen = new InstructionScreen(this, mainMenuScreen);
+        optionsScreen = new OptionsScreen(this);
+        aboutScreen = new AboutScreen(this, optionsScreen);
+        levelSelectionScreen = new LevelSelectionScreen(this);
+        loadGameScreen = new LoadGameScreen(this);
+        gamePlayScreen = new GamePlayScreen(this);
     }
 
     @Override
-    public AbstractScreen<TaflGame> getMainMenuScreen() {
-        return mainMenuScreen;
+    public AbstractScreen<TaflGame> getFirstScreen() {
+        return companyScreen;
     }
 
     @Override
@@ -128,14 +125,6 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
 
     @Override
     public void onFinishLoading() {
-        mainMenuScreen = new MainMenuScreen(this);
-        instructionScreen = new InstructionScreen(this, mainMenuScreen);
-        optionsScreen = new OptionsScreen(this);
-        aboutScreen = new AboutScreen(this, optionsScreen);
-        levelSelectionScreen = new LevelSelectionScreen(this);
-        loadGameScreen = new LoadGameScreen(this);
-        gamePlayScreen = new GamePlayScreen(this);
-
         mainMenuScreen.initialize();
         instructionScreen.initialize();
         optionsScreen.initialize();
@@ -152,10 +141,11 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
 
         button.addListener(new ChangeListener() {
 
+            @SuppressWarnings("unchecked")
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 soundService.playSound(Assets.Sounds.CLICK_SOUND);
-                setScreen(screen);
+                ((AbstractScreen<TaflGame>)getScreen()).switchScreen(screen);
             }
         });
         return button;

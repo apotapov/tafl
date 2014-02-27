@@ -1,5 +1,6 @@
 package com.captstudios.games.tafl.core.screen;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -18,16 +19,14 @@ import com.roundtriangles.games.zaria.screen.AbstractScreen;
 public class OptionsScreen extends AbstractScreen<TaflGame> {
 
     public OptionsScreen(final TaflGame game) {
-        super(game);
+        super(game, game.mainMenuScreen, Constants.ScreenConstants.FADE_TIME);
     }
 
     @Override
     public void initialize() {
-
-        Image background = new Image(game.graphicsService.getSprite(
-                Assets.Graphics.MENU_ATLAS, Assets.Graphics.MENU));
-        background.setFillParent(true);
-        stage.addActor(background);
+        Sprite background = game.graphicsService.getSprite(
+                Assets.Graphics.ATLAS_BACKGROUNDS, Assets.Graphics.MENU);
+        setBackgroundImage(new Image(background));
 
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
         Table table = new Table(skin);
@@ -35,7 +34,7 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
 
         String text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_TITLE);
         Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_SCREEN_TITLE);
-        table.add(label).spaceBottom(game.deviceType.menuSpacing);
+        table.add(label).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
 
         text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_SOUND_EFFECTS);
@@ -49,7 +48,7 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(soundEffectsCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceType.menuSpacing);
+        table.add(soundEffectsCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
 
         text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_MUSIC);
@@ -62,7 +61,7 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(musicCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceType.menuSpacing);
+        table.add(musicCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
 
         text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_VIBRATE);
@@ -75,17 +74,17 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
                 game.soundService.vibrate(Constants.GameConstants.CAPTURE_VIBRATION_LENGTH);
             }
         });
-        table.add(vibrationCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceType.menuSpacing);
+        table.add(vibrationCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
 
         Button mainMenuButton = game.getMainMenuButton();
-        table.add(mainMenuButton).size(game.deviceType.menuButtonWidth,
-                game.deviceType.menuButtonHeight).spaceBottom(game.deviceType.menuSpacing);
+        table.add(mainMenuButton).size(game.deviceSettings.menuButtonWidth,
+                game.deviceSettings.menuButtonHeight).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
 
-        text = game.localeService.get(LocalizedStrings.OptionsMenu.ABOUT);
+        text = game.localeService.get(LocalizedStrings.AboutInfo.ABOUT);
         Button about = game.createSwitchScreenButton(text, game.aboutScreen);
-        table.add(about).size(game.deviceType.menuButtonWidth, game.deviceType.menuButtonHeight);
+        table.add(about).size(game.deviceSettings.menuButtonWidth, game.deviceSettings.menuButtonHeight);
         table.row();
 
         if (Constants.GameConstants.DEBUG) {

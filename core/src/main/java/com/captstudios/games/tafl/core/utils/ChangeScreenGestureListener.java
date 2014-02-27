@@ -19,8 +19,7 @@ public class ChangeScreenGestureListener implements GestureListener {
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-        screen.game.setScreen(screen.returnScreen);
-        return true;
+        return screen.back();
     }
 
     @Override

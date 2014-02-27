@@ -74,7 +74,7 @@ public class TaflWorld implements Disposable {
     public void render(float delta) {
         switch (lifecycle) {
         case QUIT:
-            game.setScreen(game.getMainMenuScreen());
+            game.setScreen(game.mainMenuScreen);
             break;
         case RESTART:
             restart();
@@ -86,9 +86,18 @@ public class TaflWorld implements Disposable {
     }
 
     public void resize(int width, int height) {
-        this.camera.position.set(0, 0, 0);
-        this.camera.viewportWidth = Constants.GameConstants.GAME_WIDTH;
-        this.camera.viewportHeight = Constants.GameConstants.GAME_HEIGHT;
+        float ratioDifference = ((float)Constants.GameConstants.GAME_HEIGHT / Constants.GameConstants.GAME_WIDTH) / (((float) height) / width);
+
+        float gameWidth = Constants.GameConstants.GAME_WIDTH;
+        float gameHeight = Constants.GameConstants.GAME_HEIGHT / ratioDifference;
+
+        this.camera.viewportWidth = gameWidth;
+        this.camera.viewportHeight = gameHeight;
+
+        float cameraX = 0;
+        float cameraY = (Constants.GameConstants.GAME_HEIGHT - gameHeight) / 2;
+
+        this.camera.position.set(cameraX, cameraY, 0);
 
         this.stage.setViewport(width, height, true);
     }

@@ -121,6 +121,19 @@
                 <module>ios</module>
             </modules>
         </profile>
+        <profile>
+            <id>texture-packer</id>
+            <modules>
+                <module>texture-packer</module>
+            </modules>
+            <dependencies>
+                <dependency>
+                    <groupId>com.badlogicgames.gdx</groupId>
+                    <artifactId>gdx-tools</artifactId>
+                    <version>${gdx.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
     </profiles>
 
 	<modules>

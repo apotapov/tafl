@@ -91,9 +91,9 @@ public class TaflBoard extends GameBoard {
 
     public Vector2 getCellPosition(int cellId) {
         position.x = cellId % dimensions * Constants.BoardRenderConstants.TILE_SIZE +
-                Constants.BoardRenderConstants.BOARD_HORIZONTAL_OFFSET;
+                Constants.BoardRenderConstants.CELL_HORIZONTAL_OFFSET;
         position.y = cellId / dimensions * Constants.BoardRenderConstants.TILE_SIZE +
-                Constants.BoardRenderConstants.BOARD_VERTICAL_OFFSET;
+                Constants.BoardRenderConstants.CELL_VERTICAL_OFFSET;
         return position;
     }
 
@@ -105,10 +105,10 @@ public class TaflBoard extends GameBoard {
 
     public int getCellId(Vector2 screenPosition) {
         int x = (int)((screenPosition.x -
-                Constants.BoardRenderConstants.BOARD_HORIZONTAL_OFFSET) /
+                Constants.BoardRenderConstants.CELL_HORIZONTAL_OFFSET) /
                 Constants.BoardRenderConstants.TILE_SIZE);
         int y = (int)((screenPosition.y -
-                Constants.BoardRenderConstants.BOARD_VERTICAL_OFFSET) /
+                Constants.BoardRenderConstants.CELL_VERTICAL_OFFSET) /
                 Constants.BoardRenderConstants.TILE_SIZE);
         return y * dimensions + x;
     }

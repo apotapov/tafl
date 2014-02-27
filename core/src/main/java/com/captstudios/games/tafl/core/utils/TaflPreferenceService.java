@@ -74,7 +74,7 @@ public class TaflPreferenceService extends PreferenceService implements TaflMatc
     }
 
     public void setAiType(AiType aiType) {
-        setString(PREF_DEFAULT_LEVEL, aiType.toString());
+        setString(PREF_AI_TYPE, aiType.toString());
     }
 
     public void setAiType(String aiType) {

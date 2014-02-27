@@ -26,10 +26,11 @@ public class TaflGraphicsService extends GraphicsService {
     @Override
     public void onFinishLoading() {
         Skin skin = getSkin(Assets.Skin.UI_SKIN);
-        BitmapFont menuFont = getFont(game.deviceType.menuFont);
-        BitmapFont screenTitle = getFont(game.deviceType.screenTitleFont);
-        BitmapFont gameFont = getFont(game.deviceType.gameFont);
-        BitmapFont dialogFont = getFont(game.deviceType.dialogFont);
+        BitmapFont menuFont = getFont(game.deviceSettings.menuFont);
+        BitmapFont screenTitle = getFont(game.deviceSettings.screenTitleFont);
+        BitmapFont gameFont = getFont(game.deviceSettings.gameFont);
+        BitmapFont dialogFont = getFont(game.deviceSettings.dialogFont);
+        BitmapFont rulesFont = getFont(game.deviceSettings.rulesFont);
 
         skin.get(Assets.Skin.SKIN_STYLE_MENU, TextButtonStyle.class).font = menuFont;
         skin.get(Assets.Skin.SKIN_STYLE_GAME, TextButtonStyle.class).font = gameFont;
@@ -51,6 +52,7 @@ public class TaflGraphicsService extends GraphicsService {
         skin.get(Assets.Skin.SKIN_STYLE_GAME, LabelStyle.class).font = gameFont;
         skin.get(Assets.Skin.SKIN_STYLE_DIALOG, LabelStyle.class).font = dialogFont;
         skin.get(Assets.Skin.SKIN_STYLE_PLAYER_TAG, LabelStyle.class).font = gameFont;
+        skin.get(Assets.Skin.SKIN_STYLE_RULES, LabelStyle.class).font = rulesFont;
 
         skin.get(Assets.Skin.SKIN_STYLE_MENU, TextFieldStyle.class).font = menuFont;
         skin.get(Assets.Skin.SKIN_STYLE_GAME, TextFieldStyle.class).font = gameFont;

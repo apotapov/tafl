@@ -1,8 +1,8 @@
 package com.captstudios.games.tafl.core.es.systems.input;
 
-import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.Filter;
 import com.badlogic.gdx.math.Vector2;
 import com.captstudios.games.tafl.core.TaflGame;
 import com.captstudios.games.tafl.core.consts.Constants;
@@ -54,7 +54,7 @@ public class MatchInputSystem extends InputProcessingSystem<MatchRenderingCompon
         if (matchComponent.acceptInput()) {
             int cellId;
             if (matchComponent.dragging > Constants.GameConstants.DRAG_THRESHOLD) {
-                draggingLocation.set(gameTouchPoint).add(game.deviceType.dragOffset);
+                draggingLocation.set(gameTouchPoint).add(game.deviceSettings.dragOffset);
                 cellId = match.board.getCellId(draggingLocation);
             } else {
                 cellId = match.board.getCellId(gameTouchPoint);
@@ -98,7 +98,7 @@ public class MatchInputSystem extends InputProcessingSystem<MatchRenderingCompon
 
     private void dragPiece(Vector2 gameTouchPoint) {
         PieceDragEvent event = world.createEvent(PieceDragEvent.class);
-        event.touchPoint.set(gameTouchPoint).add(game.deviceType.dragOffset);
+        event.touchPoint.set(gameTouchPoint).add(game.deviceSettings.dragOffset);
         world.postEvent(this, event);
     }
 

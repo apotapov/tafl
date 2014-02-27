@@ -16,13 +16,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.consts.Constants;
-import com.captstudios.games.tafl.core.consts.DeviceType;
 import com.captstudios.games.tafl.core.consts.LocalizedStrings;
 import com.captstudios.games.tafl.core.enums.LifeCycle;
 import com.captstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
 import com.captstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 import com.captstudios.games.tafl.core.es.systems.events.UndoEvent;
 import com.captstudios.games.tafl.core.es.systems.interaction.AiSystem;
+import com.captstudios.games.tafl.core.utils.device.DeviceSettings;
 import com.esotericsoftware.tablelayout.BaseTableLayout;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
@@ -80,7 +80,6 @@ public class HudFactory {
         createWinDialog(component, gameWorld, skin, ls, restartListener, quitListener);
         createLossDialog(component, gameWorld, skin, ls, restartListener, quitListener);
         createDrawDialog(component, gameWorld, skin, ls, restartListener, quitListener);
-        createPlayerWarningDialog(component, gameWorld, skin, ls, resumeListener);
         createSurrenderDialog(component, gameWorld, skin, ls, restartListener, quitListener);
     }
 
@@ -91,8 +90,8 @@ public class HudFactory {
             ChangeListener restartListener,
             ChangeListener quitListener) {
 
-        component.lossDialog = createDialog(LocalizedStrings.GameMenu.LOSS_TITLE,
-                skin, ls, gameWorld.game.deviceType);
+        component.lossDialog = createDialog(LocalizedStrings.GameMenu.GAME_OVER_TITLE,
+                skin, ls, gameWorld.game.deviceSettings);
 
         addText(LocalizedStrings.GameMenu.LOSS_TEXT, skin, ls, component.lossDialog);
         addButton(LocalizedStrings.GameMenu.RESTART_BUTTON, skin, ls, restartListener, component.lossDialog);
@@ -106,8 +105,8 @@ public class HudFactory {
             ChangeListener restartListener,
             ChangeListener quitListener) {
 
-        component.surrenderDialog = createDialog(LocalizedStrings.GameMenu.SURRENDER_TITLE,
-                skin, ls, gameWorld.game.deviceType);
+        component.surrenderDialog = createDialog(LocalizedStrings.GameMenu.GAME_OVER_TITLE,
+                skin, ls, gameWorld.game.deviceSettings);
 
         addText(LocalizedStrings.GameMenu.SURRENDER_TEXT, skin, ls, component.surrenderDialog);
         addButton(LocalizedStrings.GameMenu.RESTART_BUTTON, skin, ls, restartListener, component.surrenderDialog);
@@ -121,8 +120,8 @@ public class HudFactory {
             ChangeListener restartListener,
             ChangeListener quitListener) {
 
-        component.drawDialog = createDialog(LocalizedStrings.GameMenu.DRAW_TITLE,
-                skin, ls, gameWorld.game.deviceType);
+        component.drawDialog = createDialog(LocalizedStrings.GameMenu.GAME_OVER_TITLE,
+                skin, ls, gameWorld.game.deviceSettings);
 
         component.drawText = addText(skin, component.drawDialog);
         addButton(LocalizedStrings.GameMenu.RESTART_BUTTON, skin, ls, restartListener, component.drawDialog);
@@ -136,25 +135,12 @@ public class HudFactory {
             ChangeListener restartListener,
             ChangeListener quitListener) {
 
-        component.winDialog = createDialog(LocalizedStrings.GameMenu.WIN_TITLE,
-                skin, ls, gameWorld.game.deviceType);
+        component.winDialog = createDialog(LocalizedStrings.GameMenu.GAME_OVER_TITLE,
+                skin, ls, gameWorld.game.deviceSettings);
 
         component.winText = addText(skin, component.winDialog);
         addButton(LocalizedStrings.GameMenu.RESTART_BUTTON, skin, ls, restartListener, component.winDialog);
         addButton(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON, skin, ls, quitListener, component.winDialog);
-    }
-
-    private static void createPlayerWarningDialog(HudRenderingComponent component,
-            TaflWorld gameWorld,
-            Skin skin,
-            LocaleService ls,
-            ChangeListener resumeListener) {
-
-        component.playerWarningDialog = createDialog(LocalizedStrings.GameMenu.PLAYER_WARNING_TITLE,
-                skin, ls, gameWorld.game.deviceType);
-
-        component.playerWarningText = addText(skin, component.playerWarningDialog);
-        addButton(LocalizedStrings.GameMenu.OK_BUTTON, skin, ls, resumeListener, component.playerWarningDialog);
     }
 
     private static void createMenuDialog(HudRenderingComponent component,
@@ -166,7 +152,7 @@ public class HudFactory {
             ChangeListener quitListener) {
 
         component.menu = createDialog(LocalizedStrings.GameMenu.MENU_TITLE,
-                skin, ls, gameWorld.game.deviceType);
+                skin, ls, gameWorld.game.deviceSettings);
 
         addButton(LocalizedStrings.GameMenu.RESUME_BUTTON, skin, ls, resumeListener, component.menu);
         addButton(LocalizedStrings.GameMenu.RESTART_BUTTON, skin, ls, restartListener, component.menu);
@@ -192,21 +178,21 @@ public class HudFactory {
         dialog.getButtonTable().row();
     }
 
-    private static Dialog createDialog(Object title, Skin skin, LocaleService ls, DeviceType deviceType) {
+    private static Dialog createDialog(Object title, Skin skin, LocaleService ls, DeviceSettings deviceSettings) {
         Dialog dialog = new Dialog(ls.get(title), skin, Assets.Skin.SKIN_STYLE_DIALOG);
         dialog.setMovable(false);
         dialog.setModal(true);
 
-        dialog.getCell(dialog.getButtonTable()).pad(deviceType.dialogSpacing);
-        dialog.getContentTable().defaults().padTop(deviceType.dialogSpacing);
-        dialog.getContentTable().defaults().padLeft(deviceType.dialogSpacing);
-        dialog.getContentTable().defaults().padRight(deviceType.dialogSpacing);
-        dialog.getButtonTable().defaults().spaceTop(deviceType.dialogSpacing);
-        dialog.getButtonTable().defaults().spaceBottom(deviceType.dialogSpacing);
-        dialog.getButtonTable().defaults().padLeft(deviceType.dialogSpacing);
-        dialog.getButtonTable().defaults().padRight(deviceType.dialogSpacing);
-        dialog.getButtonTable().defaults().size(deviceType.dialogButtonWidth,
-                deviceType.dialogButtonHeight);
+        dialog.getCell(dialog.getButtonTable()).pad(deviceSettings.dialogSpacing);
+        dialog.getContentTable().defaults().padTop(deviceSettings.dialogSpacing);
+        dialog.getContentTable().defaults().padLeft(deviceSettings.dialogSpacing);
+        dialog.getContentTable().defaults().padRight(deviceSettings.dialogSpacing);
+        dialog.getButtonTable().defaults().spaceTop(deviceSettings.dialogSpacing);
+        dialog.getButtonTable().defaults().spaceBottom(deviceSettings.dialogSpacing);
+        dialog.getButtonTable().defaults().padLeft(deviceSettings.dialogSpacing);
+        dialog.getButtonTable().defaults().padRight(deviceSettings.dialogSpacing);
+        dialog.getButtonTable().defaults().size(deviceSettings.dialogButtonWidth,
+                deviceSettings.dialogButtonHeight);
 
         return dialog;
     }
@@ -258,8 +244,8 @@ public class HudFactory {
 
 
         Image blackIcon = new Image(gameWorld.game.graphicsService.getSprite(
-                Assets.Graphics.PIECE_ATLAS, Assets.Graphics.BLACK_ICON));
-        blackIcon.sizeBy(gameWorld.game.deviceType.hudButtonWidth, gameWorld.game.deviceType.hudButtonHeight);
+                Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BLACK_ICON));
+        //blackIcon.sizeBy(gameWorld.game.deviceSettings.hudButtonWidth, gameWorld.game.deviceSettings.hudButtonHeight);
 
         Label blackLabel = new Label(blackText, skin, Assets.Skin.SKIN_STYLE_PLAYER_TAG);
 
@@ -267,8 +253,8 @@ public class HudFactory {
         table.add(blackLabel).align(BaseTableLayout.LEFT);
 
         Image whiteIcon = new Image(gameWorld.game.graphicsService.getSprite(
-                Assets.Graphics.PIECE_ATLAS, Assets.Graphics.WHITE_ICON));
-        whiteIcon.sizeBy(gameWorld.game.deviceType.hudButtonWidth, gameWorld.game.deviceType.hudButtonHeight);
+                Assets.Graphics.ATLAS_PIECES, Assets.Graphics.WHITE_ICON));
+        //whiteIcon.sizeBy(gameWorld.game.deviceSettings.hudButtonWidth, gameWorld.game.deviceSettings.hudButtonHeight);
 
         Label whiteLabel = new Label(whiteText, skin, Assets.Skin.SKIN_STYLE_PLAYER_TAG);
 
@@ -283,7 +269,7 @@ public class HudFactory {
 
         TextureRegion textureRegion = new TextureRegion(
                 gameWorld.game.graphicsService.getSprite(
-                        Assets.Graphics.PIECE_ATLAS, Assets.Graphics.UNDO_ICON));
+                        Assets.Graphics.ATLAS_PIECES, Assets.Graphics.UNDO_ICON));
         Drawable imageUp = new TextureRegionDrawable(textureRegion);
         ImageButton button = new ImageButton(imageUp);
 
@@ -295,8 +281,8 @@ public class HudFactory {
                 world.postEvent(null, undoEvent);
             }
         });
-        table.add(button).size(gameWorld.game.deviceType.hudButtonWidth,
-                gameWorld.game.deviceType.hudButtonHeight);
+        table.add(button).size(gameWorld.game.deviceSettings.hudButtonWidth,
+                gameWorld.game.deviceSettings.hudButtonHeight);
     }
 
     private static void createMenu(HudRenderingComponent component,
@@ -306,7 +292,7 @@ public class HudFactory {
 
         TextureRegion textureRegion = new TextureRegion(
                 gameWorld.game.graphicsService.getSprite(
-                        Assets.Graphics.PIECE_ATLAS, Assets.Graphics.MENU_ICON));
+                        Assets.Graphics.ATLAS_PIECES, Assets.Graphics.MENU_ICON));
         Drawable imageUp = new TextureRegionDrawable(textureRegion);
         ImageButton button = new ImageButton(imageUp);
 
@@ -318,7 +304,7 @@ public class HudFactory {
                 world.postEvent(null, lifecycleEvent);
             }
         });
-        table.add(button).size(gameWorld.game.deviceType.hudButtonWidth,
-                gameWorld.game.deviceType.hudButtonHeight);
+        table.add(button).size(gameWorld.game.deviceSettings.hudButtonWidth,
+                gameWorld.game.deviceSettings.hudButtonHeight);
     }
 }

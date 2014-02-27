@@ -1,6 +1,7 @@
 package com.captstudios.games.tafl.core.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -15,38 +16,26 @@ import com.roundtriangles.games.zaria.screen.AbstractScreen;
 
 public class AboutScreen extends AbstractScreen<TaflGame> {
 
-    public AbstractScreen<TaflGame> returnScreen;
-
     public GestureDetector gestureDetector;
 
-    public AboutScreen(final TaflGame game, AbstractScreen<TaflGame> returnScreen) {
-        super(game);
-        this.returnScreen = returnScreen;
+    public AboutScreen(final TaflGame game, AbstractScreen<TaflGame> parentScreen) {
+        super(game, parentScreen, Constants.ScreenConstants.FADE_TIME);
     }
 
     @Override
     public void initialize() {
-        Image background = new Image(game.graphicsService.getSprite(
-                Assets.Graphics.SPLASH_ATLAS, Assets.Graphics.SPLASH));
-        background.setFillParent(true);
-        background.setColor(Constants.ScreenConstants.ABOUT_COLOR);
-        stage.addActor(background);
+        Sprite background = game.graphicsService.getSprite(
+                Assets.Graphics.ATLAS_BACKGROUNDS, Assets.Graphics.MENU);
+        setBackgroundImage(new Image(background));
+        backgroundImage.setColor(Constants.ScreenConstants.ABOUT_COLOR);
 
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
         Table table = new Table(skin);
         table.setFillParent(true);
 
-        String text = game.localeService.get(LocalizedStrings.OptionsMenu.ABOUT);
-        Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_SCREEN_TITLE);
-        table.add(label).spaceBottom(game.deviceType.menuSpacing);
-        table.row();
-
-        for (LocalizedStrings.About item : LocalizedStrings.About.values()) {
-            text = game.localeService.get(item);
-            label = new Label(text, skin, Assets.Skin.SKIN_STYLE_MENU);
-            table.add(label).spaceBottom(game.deviceType.menuSpacing);
-            table.row();
-        }
+        createInfo(skin, table);
+        createCredit(skin, table);
+        createRules(skin, table);
 
         if (Constants.GameConstants.DEBUG) {
             table.debug();
@@ -54,6 +43,62 @@ public class AboutScreen extends AbstractScreen<TaflGame> {
         stage.addActor(table);
 
         gestureDetector = new GestureDetector(new ChangeScreenGestureListener(this));
+    }
+
+    private void createInfo(Skin skin, Table table) {
+        String text = game.localeService.get(LocalizedStrings.MainMenu.GAME_TITLE);
+        Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_SCREEN_TITLE);
+        table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 8);
+        table.row();
+
+        text = game.localeService.get(LocalizedStrings.AboutInfo.ABOUT_VERSION);
+        label = new Label(text, skin, Assets.Skin.SKIN_STYLE_RULES);
+        table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 8);
+        table.row();
+
+        text = game.localeService.get(LocalizedStrings.AboutInfo.ABOUT_COPYRIGHT);
+        label = new Label(text, skin, Assets.Skin.SKIN_STYLE_RULES);
+        table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 8);
+        table.row();
+
+        text = game.localeService.get(LocalizedStrings.AboutInfo.ABOUT_RIGHTS_RESERVED);
+        label = new Label(text, skin, Assets.Skin.SKIN_STYLE_RULES);
+        table.add(label).spaceBottom(game.deviceSettings.menuSpacing);
+        table.row();
+    }
+
+    private void createCredit(Skin skin, Table table) {
+        int i = 0;
+        LocalizedStrings.AboutCredit[] credit = LocalizedStrings.AboutCredit.values();
+        for (LocalizedStrings.AboutCredit item : credit) {
+            String text = game.localeService.get(item);
+            if (i++ % 2 == 0) {
+                Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_GAME);
+                table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 8);
+            } else {
+                Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_MENU);
+                if (i < credit.length - 1) {
+                    table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 4);
+                } else {
+                    table.add(label).spaceBottom(game.deviceSettings.menuSpacing);
+                }
+
+            }
+            table.row();
+        }
+    }
+
+    private void createRules(Skin skin, Table table) {
+        String text = game.localeService.get(LocalizedStrings.AboutInfo.ABOUT_RULES);
+        Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_GAME);
+        table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 4);
+        table.row();
+        for (LocalizedStrings.AboutRules item : LocalizedStrings.AboutRules.values()) {
+            text = game.localeService.get(item);
+            label = new Label(text, skin, Assets.Skin.SKIN_STYLE_RULES);
+            table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 8);
+            table.row();
+        }
     }
 
     @Override

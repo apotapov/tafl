@@ -9,7 +9,7 @@ public class GamePlayScreen extends AbstractScreen<TaflGame> {
     TaflWorld world;
 
     public GamePlayScreen(TaflGame game) {
-        super(game);
+        super(game, game.mainMenuScreen, 0);
         world = new TaflWorld(game, stage);
     }
 

@@ -2,7 +2,6 @@ package com.captstudios.games.tafl.core.es.components.singleton;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,7 +14,7 @@ public class MatchRenderingComponent implements RenderingComponent {
     public ShapeRenderer shapeRenderer;
     public BitmapFont font;
     public BitmapFont debugFont;
-    public Texture backgroundTexture;
+    public Sprite backgroundTexture;
     public Sprite gridTexture;
 
     @Override

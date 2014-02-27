@@ -7,13 +7,11 @@ import com.artemis.systems.event.EventProcessingSystem;
 import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.enums.DrawReasonEnum;
 import com.captstudios.games.tafl.core.enums.LifeCycle;
-import com.captstudios.games.tafl.core.enums.PlayerWarningEnum;
 import com.captstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.captstudios.games.tafl.core.es.model.TaflMatch;
 import com.captstudios.games.tafl.core.es.systems.events.AiTurnEvent;
 import com.captstudios.games.tafl.core.es.systems.events.ChangeTurnEvent;
 import com.captstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
-import com.captstudios.games.tafl.core.es.systems.events.PlayerWarningEvent;
 import com.captstudios.games.tafl.core.es.systems.passive.CellHighlightSystem;
 
 public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
@@ -47,25 +45,12 @@ public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
 
             // Need the turn switched and moves calculated before checking
             // for draw
-            if (!checkDraw(match)) {
-                if (match.versusComputer && match.turn == match.computerTeam) {
-                    AiTurnEvent aiTurn = world.createEvent(AiTurnEvent.class);
-                    world.postEvent(this, aiTurn);
-                } else {
-                    checkPlayerWarning(match);
-                }
+            if (!checkDraw(match) && match.versusComputer && match.turn == match.computerTeam) {
+                AiTurnEvent aiTurn = world.createEvent(AiTurnEvent.class);
+                world.postEvent(this, aiTurn);
             }
         }
         matchComponent.animationInProgress = false;
-    }
-
-    private void checkPlayerWarning(TaflMatch match) {
-        PlayerWarningEnum playerWarning = match.board.rules.checkPlayerWarning(match.turn);
-        if (playerWarning != null) {
-            PlayerWarningEvent event = world.createEvent(PlayerWarningEvent.class);
-            event.playerWarning = playerWarning;
-            world.postEvent(this, event);
-        }
     }
 
     private boolean checkEndGame(TaflMatch match) {

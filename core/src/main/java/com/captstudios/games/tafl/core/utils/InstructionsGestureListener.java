@@ -15,21 +15,9 @@ public class InstructionsGestureListener implements GestureListener {
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
         if (velocityX > 0) {
-            screen.currentInstruction--;
-            if (screen.currentInstruction > -1) {
-                screen.stage.clear();
-                screen.stage.addActor(screen.instructions[screen.currentInstruction]);
-            } else {
-                screen.currentInstruction = 0;
-            }
+            screen.previousPage();
         } else {
-            screen.currentInstruction++;
-            if (screen.currentInstruction < screen.instructions.length) {
-                screen.stage.clear();
-                screen.stage.addActor(screen.instructions[screen.currentInstruction]);
-            } else {
-                screen.game.setScreen(screen.returnScreen);
-            }
+            screen.nextPage();
         }
         return true;
     }
@@ -41,7 +29,8 @@ public class InstructionsGestureListener implements GestureListener {
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-        return false;
+        return screen.stage.touchDown((int)x, (int)y, count, button) &&
+                screen.stage.touchUp((int)x, (int)y, count, button);
     }
 
     @Override

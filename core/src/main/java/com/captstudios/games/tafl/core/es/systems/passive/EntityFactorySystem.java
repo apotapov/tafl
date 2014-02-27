@@ -67,7 +67,7 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         }
 
 
-        DrawableComponent dc = componentFactory.createDrawableComponent(Assets.Graphics.PIECE_ATLAS, graphic);
+        DrawableComponent dc = componentFactory.createDrawableComponent(Assets.Graphics.ATLAS_PIECES, graphic);
         e.addComponent(dc);
         //        e.addComponent(componentFactory.createScalingComponent(
         //                Constants.PieceConstants.SCALING, Constants.PieceConstants.SCALING));
@@ -110,7 +110,7 @@ public class EntityFactorySystem extends PassiveEntitySystem {
                 Assets.Graphics.EXPLOSION_ATLAS,
                 Assets.Graphics.EXPLOSION,
                 Animation.NORMAL,
-                Constants.PieceConstants.EXPLOSION_FRAME_DURATION);
+                Constants.PieceConstants.CAPTURE_FRAME_DURATION);
         e.addComponent(ac);
 
         e.addToWorld();

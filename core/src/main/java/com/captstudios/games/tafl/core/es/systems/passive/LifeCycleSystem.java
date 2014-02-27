@@ -3,7 +3,7 @@ package com.captstudios.games.tafl.core.es.systems.passive;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.Filter;
-import com.artemis.systems.event.EventProcessingSystem2;
+import com.artemis.systems.event.EventProcessingSystem;
 import com.badlogic.gdx.utils.Array;
 import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.consts.LocalizedStrings;
@@ -12,9 +12,8 @@ import com.captstudios.games.tafl.core.enums.LifeCycle;
 import com.captstudios.games.tafl.core.es.TaflWorld;
 import com.captstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
 import com.captstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
-import com.captstudios.games.tafl.core.es.systems.events.PlayerWarningEvent;
 
-public class LifeCycleSystem extends EventProcessingSystem2<LifeCycleEvent, PlayerWarningEvent> {
+public class LifeCycleSystem extends EventProcessingSystem<LifeCycleEvent> {
 
     ComponentMapper<HudRenderingComponent> hudRendMapper;
 
@@ -23,8 +22,7 @@ public class LifeCycleSystem extends EventProcessingSystem2<LifeCycleEvent, Play
 
     @SuppressWarnings("unchecked")
     public LifeCycleSystem(TaflWorld gameWorld) {
-        super(Filter.allComponents(HudRenderingComponent.class),
-                LifeCycleEvent.class, PlayerWarningEvent.class);
+        super(Filter.allComponents(HudRenderingComponent.class), LifeCycleEvent.class);
         this.gameWorld = gameWorld;
         lifecycleEvents = new Array<LifeCycleEvent>();
     }
@@ -33,16 +31,6 @@ public class LifeCycleSystem extends EventProcessingSystem2<LifeCycleEvent, Play
     public void initialize() {
         super.initialize();
         hudRendMapper = world.getMapper(HudRenderingComponent.class);
-    }
-
-    @Override
-    protected void processEvent2(Entity e, PlayerWarningEvent event) {
-        HudRenderingComponent component = hudRendMapper.get(e);
-
-        gameWorld.pauseSystems();
-
-        component.playerWarningText.setText(gameWorld.game.localeService.get(event.playerWarning.text));
-        component.playerWarningDialog.show(component.hubStage);
     }
 
     @Override

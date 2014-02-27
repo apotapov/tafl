@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 
 
 public class HudRenderingComponent implements RenderingComponent {
@@ -21,9 +20,6 @@ public class HudRenderingComponent implements RenderingComponent {
     public Dialog drawDialog;
     public Label drawText;
 
-    public Dialog playerWarningDialog;
-    public Label playerWarningText;
-
     public Dialog surrenderDialog;
 
 
@@ -33,8 +29,6 @@ public class HudRenderingComponent implements RenderingComponent {
     // debug
     public Label fps;
 
-    public List log;
-
     @Override
     public void reset() {
         menu = null;
@@ -43,8 +37,6 @@ public class HudRenderingComponent implements RenderingComponent {
         lossDialog = null;
         drawDialog = null;
         drawText = null;
-        playerWarningDialog = null;
-        playerWarningText = null;
         surrenderDialog = null;
         timer = null;
     }

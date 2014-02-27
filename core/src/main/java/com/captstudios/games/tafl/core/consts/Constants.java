@@ -37,6 +37,9 @@ public final class Constants {
         public static final int GAME_DESKTOP_HEIGHT = 800;
         public static final int GAME_DESKTOP_WIDTH = 500; //GAME_DESKTOP_HEIGHT * GAME_WIDTH / Constants.GameConstants.GAME_HEIGHT;
 
+        public static final int GAME_HTML_HEIGHT = 400;
+        public static final int GAME_HTML_WIDTH = 250; //GAME_DESKTOP_HEIGHT * GAME_WIDTH / Constants.GameConstants.GAME_HEIGHT;
+
         public static final int CAPTURE_VIBRATION_LENGTH = 500;
         public static final int GAME_OVER_VIBRATION_LENGTH = 1000;
 

@@ -24,6 +24,7 @@ public final class Constants {
         public static final int DEFAULT_LEVEL_INDEX = 0;
         public static final boolean DEFAULT_VERSUS_COMPUTER = true;
         public static final boolean DEFAULT_COMPUTER_STARTS = true;
+        public static final boolean DEFAULT_SHOW_HELP_ON_START = true;
 
         public static final int DRAW_MOVE_THRESHHOLD = 300;
         public static final int DRAW_BOARD_REPETITION_THRESHHOLD = 3;

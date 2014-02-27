@@ -32,10 +32,11 @@ import com.roundtriangles.games.zaria.AbstractGame;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
 import com.roundtriangles.games.zaria.services.GraphicsService;
 import com.roundtriangles.games.zaria.services.IAssetBasedService;
+import com.roundtriangles.games.zaria.services.PreferenceService.PreferenceChangeListener;
 import com.roundtriangles.games.zaria.services.SoundService;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
-public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedService {
+public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedService, PreferenceChangeListener {
 
     public AbstractScreen<?> currentScreen;
 
@@ -69,7 +70,7 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     @Override
     public void initialize() {
         this.levelService = new TaflLevelService(this);
-        this.preferenceService = new TaflPreferenceService(getClass().getSimpleName(), soundService);
+        this.preferenceService = new TaflPreferenceService(getClass().toString(), soundService, this);
         this.graphicsService = new TaflGraphicsService(this);
         this.localeService = new LocaleService();
 
@@ -157,5 +158,24 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
         return createSwitchScreenButton(
                 localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON),
                 mainMenuScreen);
+    }
+
+    @Override
+    public void onPreferenceChange(String name, boolean value) {
+        if (TaflPreferenceService.PREF_SHOW_HELP_ON_START.equals(name) && instructionScreen != null) {
+            if (value) {
+                instructionScreen.parentScreen = gamePlayScreen;
+            } else {
+                instructionScreen.parentScreen = mainMenuScreen;
+            }
+        }
+    }
+
+    @Override
+    public void onPreferenceChange(String name, int value) {
+    }
+
+    @Override
+    public void onPreferenceChange(String name, String value) {
     }
 }

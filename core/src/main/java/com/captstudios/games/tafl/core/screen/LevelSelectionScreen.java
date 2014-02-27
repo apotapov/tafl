@@ -172,8 +172,12 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
             public void changed (ChangeEvent event, Actor actor) {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
                 game.gamePlayScreen.createNewMatch();
-                game.setScreen(game.gamePlayScreen);
-                game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
+                if (game.preferenceService.getShowHelpOnStart()) {
+                    game.instructionScreen.parentScreen = game.gamePlayScreen;
+                    switchScreen(game.instructionScreen);
+                } else {
+                    switchScreen(game.gamePlayScreen);
+                }
             }
         });
         table.add(button).size(game.deviceSettings.menuButtonWidth,

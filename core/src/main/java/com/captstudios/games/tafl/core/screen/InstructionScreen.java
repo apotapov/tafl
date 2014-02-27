@@ -90,6 +90,7 @@ public class InstructionScreen extends AbstractScreen<TaflGame> {
         currentInstruction = 0;
         super.show();
         Gdx.input.setInputProcessor(gestureDetector);
+        game.preferenceService.setShowHelpOnStart(false);
     }
 
     @Override

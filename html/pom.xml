@@ -13,7 +13,7 @@
 	<name>TaflGame HTML</name>
 
 	<properties>
-		<gwt.module>com.captstudios.games.tafl.TaflGame</gwt.module>
+		<gwt.module>com.captstudios.games.tafl.html.TaflGame</gwt.module>
 		<gwt.name>tafl</gwt.name>
 	</properties>
 

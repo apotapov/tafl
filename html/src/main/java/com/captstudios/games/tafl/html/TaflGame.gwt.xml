@@ -1,8 +1,8 @@
 <module rename-to='tafl'>
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 
-	<source path='core'/>
-	<source path='html'/>
+	<source path='core/src/main/java'/>
+	<source path='html/src/main/java'/>
 
 	<public path="resources" />
 

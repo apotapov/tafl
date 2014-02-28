@@ -39,7 +39,7 @@ public class DeviceSettings {
         this.config = config;
 
         if (config.deviceType == DeviceType.IOS) {
-            backgroundAtlas = Assets.Graphics.ATLAS_IOS;
+            backgroundAtlas = Assets.Graphics.ATLAS_BACKGROUNDS;
         } else {
             backgroundAtlas = Assets.Graphics.ATLAS_BACKGROUNDS;
         }

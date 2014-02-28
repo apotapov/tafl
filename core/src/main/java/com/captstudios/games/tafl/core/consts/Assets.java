@@ -20,7 +20,6 @@ public class Assets extends GameAssetLoader {
         }
 
         public static final String ATLAS_BACKGROUNDS = "image-atlases/backgrounds.atlas";
-        public static final String ATLAS_IOS = "image-atlases/ios.atlas";
         public static final String ATLAS_PIECES = "image-atlases/pieces.atlas";
 
         public static final String BOARD = "tafl-board";

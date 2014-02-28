@@ -55,7 +55,7 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
 
         up = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_SETTINGS);
         down = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_SETTINGS_PRESSED);
-        button = game.createSwitchScreenButton(up, down, this, game.loadGameScreen);
+        button = game.createSwitchScreenButton(up, down, this, game.optionsScreen);
         table.add(button).size(game.deviceSettings.menuButtonWidth,
                 game.deviceSettings.menuButtonHeight);
 

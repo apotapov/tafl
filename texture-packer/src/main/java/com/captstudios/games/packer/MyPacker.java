@@ -21,25 +21,15 @@ public class MyPacker {
         settings.outputFormat = "jpg";
         settings.jpegQuality = 0.9f;
 
-        String[] convert = new String[] { "ios" };
+        String[] convert = new String[] { "backgrounds" };
 
         for (String name : convert) {
             TexturePacker.process(settings, input + "/" + name, output, name);
         }
 
-        settings.maxWidth = 4096;
-        settings.maxHeight = settings.maxWidth;
-        convert = new String[] { "backgrounds" };
-
-        for (String name : convert) {
-            TexturePacker.process(settings, input + "/" + name, output, name);
-        }
-
-        settings.maxWidth = 2048;
-        settings.maxHeight = settings.maxWidth;
         settings.format = Format.RGBA8888;
         settings.outputFormat = "png";
-        settings.scale[0] = 1f;
+
         convert = new String[] { "pieces" };
         for (String name : convert) {
             TexturePacker.process(settings, input + "/" + name, output, name);

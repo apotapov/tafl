@@ -21,6 +21,7 @@ public class TaflGameActivity extends AndroidApplication {
         gameConfig.deviceType = DeviceType.ANDROID;
         gameConfig.vibrationSupported = true;
 
+
         initialize(new TaflGame(gameConfig), config);
     }
 }

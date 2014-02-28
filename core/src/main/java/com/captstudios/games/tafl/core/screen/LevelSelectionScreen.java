@@ -184,7 +184,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
                 game.deviceSettings.menuButtonHeight).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
 
-        Button mainMenuButton = game.getMainMenuButton();
+        Button mainMenuButton = game.getMainMenuButton(this);
         table.add(mainMenuButton).size(game.deviceSettings.menuButtonWidth, game.deviceSettings.menuButtonHeight);
         table.row();
     }

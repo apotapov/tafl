@@ -85,8 +85,8 @@ public final class Constants {
         public static final int DESKTOP_DIALOG_BUTTON_HEIGHT = 70;
         public static final int DESKTOP_DIALOG_BUTTON_SPACING = 20;
         public static final Vector2 DESKTOP_DRAG_POSITION_OFFSET = new Vector2();
-        public static final int DESKTOP_HUD_BUTTON_WIDTH = 30;
-        public static final int DESKTOP_HUD_BUTTON_HEIGHT = 30;
+        public static final int DESKTOP_HUD_BUTTON_WIDTH = 60;
+        public static final int DESKTOP_HUD_BUTTON_HEIGHT = 60;
 
         public static final int LDPI_MIN_WIDTH = 0;
         public static final int LDPI_LIST_WIDTH = 270;
@@ -98,8 +98,8 @@ public final class Constants {
         public static final int LDPI_DIALOG_BUTTON_HEIGHT = 70;
         public static final int LDPI_DIALOG_BUTTON_SPACING = 20;
         public static final Vector2 LDPI_DRAG_POSITION_OFFSET = new Vector2(0, 25);
-        public static final int LDPI_HUD_BUTTON_WIDTH = 30;
-        public static final int LDPI_HUD_BUTTON_HEIGHT = 30;
+        public static final int LDPI_HUD_BUTTON_WIDTH = 60;
+        public static final int LDPI_HUD_BUTTON_HEIGHT = 60;
 
         public static final int MDPI_MIN_WIDTH = 500;
         public static final int MDPI_LIST_WIDTH = 405;
@@ -111,8 +111,8 @@ public final class Constants {
         public static final int MDPI_DIALOG_BUTTON_HEIGHT = 105;
         public static final int MDPI_DIALOG_BUTTON_SPACING = 30;
         public static final Vector2 MDPI_DRAG_POSITION_OFFSET = new Vector2(0, 50);
-        public static final int MDPI_HUD_BUTTON_WIDTH = 60;
-        public static final int MDPI_HUD_BUTTON_HEIGHT = 60;
+        public static final int MDPI_HUD_BUTTON_WIDTH = 120;
+        public static final int MDPI_HUD_BUTTON_HEIGHT = 120;
 
         public static final int HDPI_MIN_WIDTH = 900;
         public static final int HDPI_LIST_WIDTH = 540;
@@ -124,8 +124,8 @@ public final class Constants {
         public static final int HDPI_DIALOG_BUTTON_HEIGHT = 140;
         public static final int HDPI_DIALOG_BUTTON_SPACING = 40;
         public static final Vector2 HDPI_DRAG_POSITION_OFFSET = new Vector2(0, 50);
-        public static final int HDPI_HUD_BUTTON_WIDTH = 90;
-        public static final int HDPI_HUD_BUTTON_HEIGHT = 90;
+        public static final int HDPI_HUD_BUTTON_WIDTH = 180;
+        public static final int HDPI_HUD_BUTTON_HEIGHT = 180;
 
         public static final int XHDPI_MIN_WIDTH = 1200;
         public static final int XHDPI_LIST_WIDTH = 910;
@@ -137,8 +137,8 @@ public final class Constants {
         public static final int XHDPI_DIALOG_BUTTON_HEIGHT = 210;
         public static final int XHDPI_DIALOG_BUTTON_SPACING = 40;
         public static final Vector2 XHDPI_DRAG_POSITION_OFFSET = new Vector2(0, 100);
-        public static final int XHDPI_HUD_BUTTON_WIDTH = 120;
-        public static final int XHDPI_HUD_BUTTON_HEIGHT = 120;
+        public static final int XHDPI_HUD_BUTTON_WIDTH = 240;
+        public static final int XHDPI_HUD_BUTTON_HEIGHT = 240;
 
 
         public static final float INSTRUCTION_CLOSE_BUTTON_X_OFFSET = 180;

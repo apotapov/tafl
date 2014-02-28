@@ -3,13 +3,11 @@ package com.captstudios.games.tafl.core.screen;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.captstudios.games.tafl.core.TaflGame;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.consts.Constants;
-import com.captstudios.games.tafl.core.consts.LocalizedStrings;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
 
 public class MainMenuScreen extends AbstractScreen<TaflGame> {
@@ -27,45 +25,48 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
     @Override
     public void initialize() {
         Sprite background = game.graphicsService.getSprite(
-                game.deviceSettings.backgroundAtlas, Assets.Graphics.MENU);
+                game.deviceSettings.backgroundAtlas, Assets.Graphics.MAIN_MENU);
         setBackgroundImage(new Image(background));
 
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
         Table table = new Table(skin);
-        table.setFillParent(true);
 
-        String labelText = game.localeService.get(LocalizedStrings.MainMenu.GAME_TITLE);
-        Label label = new Label(labelText, skin, Assets.Skin.SKIN_STYLE_SCREEN_TITLE);
-        table.add(label).spaceBottom(game.deviceSettings.menuSpacing);
-        table.row();
-
-        String buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_START);
-        Button button = game.createSwitchScreenButton(buttonText, game.levelSelectionScreen);
+        Sprite up = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_START);
+        Sprite down = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_START_PRESSED);
+        Button button = game.createSwitchScreenButton(up, down, this, game.levelSelectionScreen);
         table.add(button).size(game.deviceSettings.menuButtonWidth,
                 game.deviceSettings.menuButtonHeight).spaceBottom(game.deviceSettings.menuSpacing);
 
         table.row();
 
-        buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_RESUME);
-        button = game.createSwitchScreenButton(buttonText, game.loadGameScreen);
+        up = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_RESUME);
+        down = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_RESUME_PRESSED);
+        button = game.createSwitchScreenButton(up, down, this, game.loadGameScreen);
         table.add(button).size(game.deviceSettings.menuButtonWidth,
                 game.deviceSettings.menuButtonHeight).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
 
-        buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_INSTRUCTIONS);
-        button = game.createSwitchScreenButton(buttonText, game.instructionScreen);
+        up = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_HELP);
+        down = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_HELP_PRESSED);
+        button = game.createSwitchScreenButton(up, down, this, game.instructionScreen);
         table.add(button).size(game.deviceSettings.menuButtonWidth,
                 game.deviceSettings.menuButtonHeight).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
 
-        buttonText = game.localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON_OPTIONS);
-        button = game.createSwitchScreenButton(buttonText, game.optionsScreen);
+        up = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_SETTINGS);
+        down = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_SETTINGS_PRESSED);
+        button = game.createSwitchScreenButton(up, down, this, game.loadGameScreen);
         table.add(button).size(game.deviceSettings.menuButtonWidth,
                 game.deviceSettings.menuButtonHeight);
 
         if (Constants.GameConstants.DEBUG) {
             table.debug();
         }
+
+        float x = (stage.getWidth() - table.getWidth()) / 2;
+        float y = (stage.getHeight() - table.getHeight()) / 3;
+
+        table.setPosition(x, y);
         stage.addActor(table);
     }
 }

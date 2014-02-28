@@ -1,74 +1,151 @@
 
-pieces-1.png
+pieces.png
 format: RGBA8888
 filter: MipMapLinearLinear,MipMapLinearLinear
 repeat: none
 tafl-grid-11x11
   rotate: false
-  xy: 2, 104
+  xy: 2, 114
   size: 1080, 1920
   orig: 1080, 1920
   offset: 0, 0
   index: -1
 tafl-menu-icon-back
   rotate: false
-  xy: 1084, 1832
+  xy: 1629, 1842
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 tafl-menu-icon-close
   rotate: false
-  xy: 1186, 1934
+  xy: 1731, 1944
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 tafl-menu-icon-mainmenu
   rotate: false
-  xy: 206, 12
+  xy: 1084, 172
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
 tafl-menu-icon-undo
   rotate: false
-  xy: 1084, 1740
+  xy: 1186, 274
   size: 90, 90
   orig: 90, 90
   offset: 0, 0
   index: -1
-tafl-piece-dark
+tafl-menu-icon-undo-110x110
   rotate: false
   xy: 2, 2
+  size: 110, 110
+  orig: 110, 110
+  offset: 0, 0
+  index: -1
+tafl-menu-main-btn-blank
+  rotate: false
+  xy: 1084, 1869
+  size: 543, 165
+  orig: 543, 165
+  offset: 0, 0
+  index: -1
+tafl-menu-main-btn-blank-pressed
+  rotate: false
+  xy: 1084, 1702
+  size: 543, 165
+  orig: 543, 165
+  offset: 0, 0
+  index: -1
+tafl-menu-main-btn-help
+  rotate: false
+  xy: 1084, 1535
+  size: 543, 165
+  orig: 543, 165
+  offset: 0, 0
+  index: -1
+tafl-menu-main-btn-help-pressed
+  rotate: false
+  xy: 1084, 1368
+  size: 543, 165
+  orig: 543, 165
+  offset: 0, 0
+  index: -1
+tafl-menu-main-btn-resume
+  rotate: false
+  xy: 1084, 1201
+  size: 543, 165
+  orig: 543, 165
+  offset: 0, 0
+  index: -1
+tafl-menu-main-btn-resume-pressed
+  rotate: false
+  xy: 1084, 1034
+  size: 543, 165
+  orig: 543, 165
+  offset: 0, 0
+  index: -1
+tafl-menu-main-btn-settings
+  rotate: false
+  xy: 1084, 867
+  size: 543, 165
+  orig: 543, 165
+  offset: 0, 0
+  index: -1
+tafl-menu-main-btn-settings-pressed
+  rotate: false
+  xy: 1084, 700
+  size: 543, 165
+  orig: 543, 165
+  offset: 0, 0
+  index: -1
+tafl-menu-main-btn-start
+  rotate: false
+  xy: 1084, 533
+  size: 543, 165
+  orig: 543, 165
+  offset: 0, 0
+  index: -1
+tafl-menu-main-btn-start-pressed
+  rotate: false
+  xy: 1084, 366
+  size: 543, 165
+  orig: 543, 165
+  offset: 0, 0
+  index: -1
+tafl-piece-dark
+  rotate: false
+  xy: 1629, 1934
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 tafl-piece-dark-icon
   rotate: false
-  xy: 1278, 1974
+  xy: 216, 62
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 tafl-piece-king
   rotate: false
-  xy: 1084, 1924
+  xy: 1084, 264
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 tafl-piece-light
   rotate: false
-  xy: 104, 2
+  xy: 114, 12
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 tafl-piece-light-icon
   rotate: false
-  xy: 298, 52
+  xy: 1629, 1790
   size: 50, 50
   orig: 50, 50
   offset: 0, 0

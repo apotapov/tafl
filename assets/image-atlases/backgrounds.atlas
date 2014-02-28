@@ -1,5 +1,5 @@
 
-backgrounds-1.jpg
+backgrounds.jpg
 format: RGB888
 filter: MipMapLinearLinear,MipMapLinearLinear
 repeat: none
@@ -46,7 +46,7 @@ tafl-instr-screen04
   offset: 0, 0
   index: -1
 
-backgrounds-2.jpg
+backgrounds2.jpg
 format: RGB888
 filter: MipMapLinearLinear,MipMapLinearLinear
 repeat: none
@@ -71,9 +71,16 @@ tafl-menu-background
   orig: 1080, 1920
   offset: 0, 0
   index: -1
-tafl-splash
+tafl-menu-main
   rotate: false
   xy: 1084, 2
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1
+tafl-splash
+  rotate: false
+  xy: 2166, 1924
   size: 1080, 1920
   orig: 1080, 1920
   offset: 0, 0

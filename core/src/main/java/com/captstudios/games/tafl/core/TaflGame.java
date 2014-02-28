@@ -2,15 +2,18 @@ package com.captstudios.games.tafl.core;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.consts.LocalizedStrings;
@@ -81,12 +84,16 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(deviceSettings.backgroundAtlas));
         splashScreen = new TaflLoadingScreen(this, atlas,  assets, mainMenuScreen);
         companyScreen = new TaflCompanyScreen(this, atlas, splashScreen);
-        instructionScreen = new InstructionScreen(this, mainMenuScreen);
         optionsScreen = new OptionsScreen(this);
         aboutScreen = new AboutScreen(this, optionsScreen);
         levelSelectionScreen = new LevelSelectionScreen(this);
         loadGameScreen = new LoadGameScreen(this);
         gamePlayScreen = new GamePlayScreen(this);
+        if (preferenceService.getShowHelpOnStart()) {
+            instructionScreen = new InstructionScreen(this, gamePlayScreen);
+        } else {
+            instructionScreen = new InstructionScreen(this, mainMenuScreen);
+        }
     }
 
     @Override
@@ -134,26 +141,47 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
         gamePlayScreen.initialize();
     }
 
-    public TextButton createSwitchScreenButton(String text, final Screen screen) {
+
+    public Button createSwitchScreenButton(Sprite up,
+            Sprite down,
+            final AbstractScreen<TaflGame> parent,
+            final AbstractScreen<TaflGame> screen) {
+
+        ImageButton button = new ImageButton(new TextureRegionDrawable(new TextureRegion(up)),
+                new TextureRegionDrawable(new TextureRegion(down)));
+
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                soundService.playSound(Assets.Sounds.CLICK_SOUND);
+                parent.switchScreen(screen);
+            }
+        });
+
+        return button;
+    }
+
+    public TextButton createSwitchScreenButton(String text,
+            final AbstractScreen<TaflGame> parent,
+            final AbstractScreen<TaflGame> screen) {
 
         Skin skin = graphicsService.getSkin(Assets.Skin.UI_SKIN);
         TextButton button = new TextButton(text, skin, Assets.Skin.SKIN_STYLE_MENU);
 
         button.addListener(new ChangeListener() {
-
-            @SuppressWarnings("unchecked")
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 soundService.playSound(Assets.Sounds.CLICK_SOUND);
-                ((AbstractScreen<TaflGame>)getScreen()).switchScreen(screen);
+                parent.switchScreen(screen);
             }
         });
         return button;
     }
 
-    public Button getMainMenuButton() {
+    public Button getMainMenuButton(AbstractScreen<TaflGame> parent) {
         return createSwitchScreenButton(
                 localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON),
+                parent,
                 mainMenuScreen);
     }
 

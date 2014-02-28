@@ -27,7 +27,7 @@ public class InstructionScreen extends AbstractScreen<TaflGame> {
     public GestureDetector gestureDetector;
 
     public InstructionScreen(final TaflGame game, AbstractScreen<TaflGame> returnScreen) {
-        super(game, game.mainMenuScreen, Constants.ScreenConstants.FADE_TIME);
+        super(game, returnScreen, Constants.ScreenConstants.FADE_TIME);
     }
 
     public void nextPage() {
@@ -36,6 +36,7 @@ public class InstructionScreen extends AbstractScreen<TaflGame> {
             setBackgroundImage(instructions[currentInstruction]);
         } else {
             back();
+            game.preferenceService.setShowHelpOnStart(false);
         }
     }
 
@@ -90,12 +91,11 @@ public class InstructionScreen extends AbstractScreen<TaflGame> {
         currentInstruction = 0;
         super.show();
         Gdx.input.setInputProcessor(gestureDetector);
-        game.preferenceService.setShowHelpOnStart(false);
     }
 
     @Override
     public void setBackgroundImage(Image backgroundImage) {
-        super.setBackgroundImage(backgroundImage);
+        super.setBackgroundImage(backgroundImage, true);
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         if (controls != null) {
             controls.toFront();

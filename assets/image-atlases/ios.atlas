@@ -1,5 +1,5 @@
 
-ios-1.jpg
+ios.jpg
 format: RGB888
 filter: MipMapLinearLinear,MipMapLinearLinear
 repeat: none
@@ -46,7 +46,7 @@ tafl-instr-screen05
   offset: 0, 0
   index: -1
 
-ios-2.jpg
+ios2.jpg
 format: RGB888
 filter: MipMapLinearLinear,MipMapLinearLinear
 repeat: none
@@ -72,10 +72,17 @@ tafl-menu-background
   offset: 0, 0
   index: -1
 
-ios-3.jpg
+ios3.jpg
 format: RGB888
 filter: MipMapLinearLinear,MipMapLinearLinear
 repeat: none
+tafl-menu-main
+  rotate: false
+  xy: 2, 964
+  size: 540, 960
+  orig: 540, 960
+  offset: 0, 0
+  index: -1
 tafl-splash
   rotate: false
   xy: 2, 2

@@ -27,6 +27,18 @@ public class Assets extends GameAssetLoader {
         public static final String SPLASH = "tafl-splash";
         public static final String COMPANY_LOGO = "captstudios_logo-800x800";
         public static final String MENU = "tafl-menu-background";
+        public static final String MAIN_MENU = "tafl-menu-main";
+
+        public static final String BUTTON_BLANK_PRESSED = "tafl-menu-main-btn-blank-pressed";
+        public static final String BUTTON_BLANK = "tafl-menu-main-btn-blank";
+        public static final String BUTTON_HELP_PRESSED = "tafl-menu-main-btn-help-pressed";
+        public static final String BUTTON_HELP = "tafl-menu-main-btn-help";
+        public static final String BUTTON_RESUME_PRESSED = "tafl-menu-main-btn-resume-pressed";
+        public static final String BUTTON_RESUME = "tafl-menu-main-btn-resume";
+        public static final String BUTTON_SETTINGS_PRESSED = "tafl-menu-main-btn-settings-pressed";
+        public static final String BUTTON_SETTINGS = "tafl-menu-main-btn-settings";
+        public static final String BUTTON_START_PRESSED = "tafl-menu-main-btn-start-pressed";
+        public static final String BUTTON_START = "tafl-menu-main-btn-start";
 
         public static final String INSTRUCTIONS_1 = "tafl-instr-screen01";
         public static final String INSTRUCTIONS_2 = "tafl-instr-screen02";

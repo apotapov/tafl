@@ -1,10 +1,10 @@
 package com.captstudios.games.tafl.core.es.systems.render;
 
-import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.Filter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.captstudios.games.tafl.core.consts.Constants;
@@ -41,8 +41,8 @@ public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingCo
         float x = - Constants.AiConstants.LOADING_PROMPT_WIDTH / 2;
         float y = 0;
 
-        Gdx.gl.glEnable(GL10.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         rendComponent.shapeRenderer.begin(ShapeType.Filled);
         rendComponent.shapeRenderer.setProjectionMatrix(rendComponent.camera.combined);
 
@@ -54,7 +54,7 @@ public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingCo
                 Constants.AiConstants.LOADING_PROMPT_HEIGHT);
 
         rendComponent.shapeRenderer.end();
-        Gdx.gl.glDisable(GL10.GL_BLEND);
+        Gdx.gl.glDisable(GL20.GL_BLEND);
 
         TextBounds bounds = rendComponent.font.getBounds(component.text);
         x = - bounds.width / 2;

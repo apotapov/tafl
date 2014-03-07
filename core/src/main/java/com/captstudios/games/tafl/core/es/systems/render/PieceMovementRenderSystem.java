@@ -1,11 +1,11 @@
 package com.captstudios.games.tafl.core.es.systems.render;
 
-import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.Filter;
 import com.artemis.managers.SingletonComponentManager;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -35,8 +35,8 @@ public class PieceMovementRenderSystem extends RenderingSystem<MatchRenderingCom
 
     @Override
     protected void begin(MatchRenderingComponent rendComponent) {
-        Gdx.gl.glEnable(GL10.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         rendComponent.shapeRenderer.begin(ShapeType.Filled);
         rendComponent.shapeRenderer.setProjectionMatrix(rendComponent.camera.combined);
     }
@@ -44,7 +44,7 @@ public class PieceMovementRenderSystem extends RenderingSystem<MatchRenderingCom
     @Override
     protected void end(MatchRenderingComponent rendComponent) {
         rendComponent.shapeRenderer.end();
-        Gdx.gl.glDisable(GL10.GL_BLEND);
+        Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
     @Override

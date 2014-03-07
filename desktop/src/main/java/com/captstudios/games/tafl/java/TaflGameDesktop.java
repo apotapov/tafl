@@ -14,8 +14,6 @@ public class TaflGameDesktop {
         config.width = Constants.GameConstants.GAME_DESKTOP_WIDTH;
         config.height = Constants.GameConstants.GAME_DESKTOP_HEIGHT;
 
-        config.useGL20 = Constants.GameConstants.USE_GL20;
-
         TaflGameConfig gameConfig = new TaflGameConfig();
         gameConfig.deviceType = DeviceType.DESKTOP;
         gameConfig.vibrationSupported = false;

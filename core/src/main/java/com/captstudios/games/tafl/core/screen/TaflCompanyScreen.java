@@ -20,11 +20,4 @@ public class TaflCompanyScreen extends LoadingScreen<TaflGame> {
                 Constants.ScreenConstants.COMPANY_SCREEN_DISPLAY_TIME,
                 Constants.ScreenConstants.FADE_TIME);
     }
-
-    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-        game.deviceSettings.initialize(width, height);
-    }
-
 }

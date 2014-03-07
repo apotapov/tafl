@@ -31,7 +31,6 @@ public class TaflLevelService extends LevelService<TaflLevel>{
         match.name = level.name;
         match.status = LifeCycle.PLAY;
         match.rulesType = level.rules;
-        match.versusComputer = game.preferenceService.getVersusComputer();
         match.computerStarts = game.preferenceService.getComputerStarts();
         match.aiType = game.preferenceService.getAiType();
 

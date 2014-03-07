@@ -45,7 +45,7 @@ public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
 
             // Need the turn switched and moves calculated before checking
             // for draw
-            if (!checkDraw(match) && match.versusComputer && match.turn == match.computerTeam) {
+            if (!checkDraw(match) && match.turn == match.computerTeam) {
                 AiTurnEvent aiTurn = world.createEvent(AiTurnEvent.class);
                 world.postEvent(this, aiTurn);
             }
@@ -57,7 +57,7 @@ public class ChangeTurnSystem extends EventProcessingSystem<ChangeTurnEvent> {
         int winner = match.board.rules.checkWinner();
         if (winner != Constants.BoardConstants.NO_TEAM) {
             LifeCycle lifecycle = LifeCycle.WIN;
-            if (match.versusComputer && match.computerTeam == winner) {
+            if (match.computerTeam == winner) {
                 lifecycle = LifeCycle.LOSS;
             }
             LifeCycleEvent event = world.createEvent(LifeCycleEvent.class);

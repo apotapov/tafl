@@ -55,7 +55,6 @@ public class TaflGameSimulation {
             match.name = "test";
             match.status = LifeCycle.PLAY;
             match.rulesType = RulesEngineType.OFFICIAL;
-            match.versusComputer = true;
             match.computerStarts = true;
             match.aiType = AiType.AI_ADVANCED;
             match.boardRepresentation = "...BBBBB........B................B....W....BB...WWW...BBB.WWKWW.BBB...WWW...BB....W....B................B........BBBBB...";

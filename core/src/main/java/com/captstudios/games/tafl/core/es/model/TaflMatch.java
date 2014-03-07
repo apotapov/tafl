@@ -25,7 +25,6 @@ public class TaflMatch {
     public long updated;
     public float timer;
 
-    public boolean versusComputer;
     public int computerTeam = Constants.BoardConstants.NO_TEAM;
     public AiType aiType;
 
@@ -55,7 +54,7 @@ public class TaflMatch {
         if (turn == Constants.BoardConstants.NO_TEAM) {
             turn = board.rules.getFirstTurn();
         }
-        if (versusComputer && computerTeam == Constants.BoardConstants.NO_TEAM) {
+        if (computerTeam == Constants.BoardConstants.NO_TEAM) {
             int firstTurn = board.rules.getFirstTurn();
             int secondTurn = (firstTurn + 1) % 2;
             computerTeam = computerStarts ? firstTurn : secondTurn;
@@ -168,7 +167,7 @@ public class TaflMatch {
     }
 
     public boolean acceptInput() {
-        return !versusComputer || turn != computerTeam;
+        return turn != computerTeam;
     }
 
     public BitBoard currentBitBoard() {

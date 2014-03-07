@@ -30,6 +30,7 @@ import com.captstudios.games.tafl.core.screen.TaflLoadingScreen;
 import com.captstudios.games.tafl.core.utils.TaflGraphicsService;
 import com.captstudios.games.tafl.core.utils.TaflPreferenceService;
 import com.captstudios.games.tafl.core.utils.device.DeviceSettings;
+import com.captstudios.games.tafl.core.utils.device.DeviceType;
 import com.captstudios.games.tafl.core.utils.device.TaflGameConfig;
 import com.roundtriangles.games.zaria.AbstractGame;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
@@ -44,7 +45,7 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     public AbstractScreen<?> currentScreen;
 
     public MainMenuScreen mainMenuScreen;
-    public TaflLoadingScreen splashScreen;
+    public TaflLoadingScreen loadingScreen;
     public TaflCompanyScreen companyScreen;
     public InstructionScreen instructionScreen;
     public OptionsScreen optionsScreen;
@@ -82,8 +83,8 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
 
         mainMenuScreen = new MainMenuScreen(this);
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(deviceSettings.backgroundAtlas));
-        splashScreen = new TaflLoadingScreen(this, atlas,  assets, mainMenuScreen);
-        companyScreen = new TaflCompanyScreen(this, atlas, splashScreen);
+        loadingScreen = new TaflLoadingScreen(this, atlas,  assets, mainMenuScreen);
+        companyScreen = new TaflCompanyScreen(this, atlas, loadingScreen);
         optionsScreen = new OptionsScreen(this);
         aboutScreen = new AboutScreen(this, optionsScreen);
         levelSelectionScreen = new LevelSelectionScreen(this);
@@ -98,7 +99,11 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
 
     @Override
     public AbstractScreen<TaflGame> getFirstScreen() {
-        return companyScreen;
+        if (deviceSettings.config.deviceType == DeviceType.IOS) {
+            return loadingScreen;
+        } else {
+            return companyScreen;
+        }
     }
 
     @Override

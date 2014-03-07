@@ -54,19 +54,12 @@ public class LocalizedStrings {
 
         HUMAN_PLAYER,
         COMPUTER_PLAYER,
-
-        PLAYER_1,
-        PLAYER_2,
     }
 
     public enum Hud {
         MENU_BUTTON,
 
         UNDO_BUTTON,
-
-        WHITE_TURN_LABEL,
-        BLACK_TURN_LABEL,
-        COMPUTER_TURN_LABEL,
     }
 
     public enum AboutInfo {

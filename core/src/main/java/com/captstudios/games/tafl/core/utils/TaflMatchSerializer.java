@@ -12,7 +12,6 @@ public class TaflMatchSerializer implements Serializer<TaflMatch> {
         "status",
         "turn",
         "rulesType",
-        "versusComputer",
         "computerTeam",
         "aiType",
         "boardRepresentation",

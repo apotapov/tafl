@@ -64,8 +64,7 @@ public class TaflWorld implements Disposable {
 
         lifecycle = LifeCycle.PLAY;
 
-        if (match.versusComputer &&
-                match.turn == match.computerTeam) {
+        if (match.turn == match.computerTeam) {
             AiTurnEvent aiTurn = world.createEvent(AiTurnEvent.class);
             world.postEvent(null, aiTurn);
         }

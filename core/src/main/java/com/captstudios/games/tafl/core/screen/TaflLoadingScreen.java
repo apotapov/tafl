@@ -26,6 +26,7 @@ public class TaflLoadingScreen extends LoadingScreen<TaflGame> {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
+        game.deviceSettings.initialize(width, height);
     }
 
 }

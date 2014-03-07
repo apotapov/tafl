@@ -229,19 +229,13 @@ public class HudFactory {
     private static void createPlayerLabels(Skin skin, Table table, TaflWorld gameWorld) {
         String blackText;
         String whiteText;
-        if (gameWorld.match.versusComputer) {
-            if (gameWorld.match.computerStarts) {
-                blackText = gameWorld.game.localeService.get(LocalizedStrings.Game.COMPUTER_PLAYER);
-                whiteText = gameWorld.game.localeService.get(LocalizedStrings.Game.HUMAN_PLAYER);
-            } else {
-                blackText = gameWorld.game.localeService.get(LocalizedStrings.Game.HUMAN_PLAYER);
-                whiteText = gameWorld.game.localeService.get(LocalizedStrings.Game.COMPUTER_PLAYER);
-            }
+        if (gameWorld.match.computerStarts) {
+            blackText = gameWorld.game.localeService.get(LocalizedStrings.Game.COMPUTER_PLAYER);
+            whiteText = gameWorld.game.localeService.get(LocalizedStrings.Game.HUMAN_PLAYER);
         } else {
-            blackText = gameWorld.game.localeService.get(LocalizedStrings.Game.PLAYER_1);
-            whiteText = gameWorld.game.localeService.get(LocalizedStrings.Game.PLAYER_2);
+            blackText = gameWorld.game.localeService.get(LocalizedStrings.Game.HUMAN_PLAYER);
+            whiteText = gameWorld.game.localeService.get(LocalizedStrings.Game.COMPUTER_PLAYER);
         }
-
 
         Image blackIcon = new Image(gameWorld.game.graphicsService.getSprite(
                 Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BLACK_ICON));

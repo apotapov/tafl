@@ -97,7 +97,7 @@ public final class Constants {
         public static final int LDPI_DIALOG_BUTTON_WIDTH = 200;
         public static final int LDPI_DIALOG_BUTTON_HEIGHT = 70;
         public static final int LDPI_DIALOG_BUTTON_SPACING = 20;
-        public static final Vector2 LDPI_DRAG_POSITION_OFFSET = new Vector2(0, 25);
+        public static final Vector2 LDPI_DRAG_POSITION_OFFSET = new Vector2(0, 125);
         public static final int LDPI_HUD_BUTTON_WIDTH = 60;
         public static final int LDPI_HUD_BUTTON_HEIGHT = 60;
 
@@ -110,7 +110,7 @@ public final class Constants {
         public static final int MDPI_DIALOG_BUTTON_WIDTH = 300;
         public static final int MDPI_DIALOG_BUTTON_HEIGHT = 105;
         public static final int MDPI_DIALOG_BUTTON_SPACING = 30;
-        public static final Vector2 MDPI_DRAG_POSITION_OFFSET = new Vector2(0, 50);
+        public static final Vector2 MDPI_DRAG_POSITION_OFFSET = new Vector2(0, 125);
         public static final int MDPI_HUD_BUTTON_WIDTH = 120;
         public static final int MDPI_HUD_BUTTON_HEIGHT = 120;
 
@@ -123,7 +123,7 @@ public final class Constants {
         public static final int HDPI_DIALOG_BUTTON_WIDTH = 400;
         public static final int HDPI_DIALOG_BUTTON_HEIGHT = 140;
         public static final int HDPI_DIALOG_BUTTON_SPACING = 40;
-        public static final Vector2 HDPI_DRAG_POSITION_OFFSET = new Vector2(0, 50);
+        public static final Vector2 HDPI_DRAG_POSITION_OFFSET = new Vector2(0, 125);
         public static final int HDPI_HUD_BUTTON_WIDTH = 180;
         public static final int HDPI_HUD_BUTTON_HEIGHT = 180;
 
@@ -136,7 +136,7 @@ public final class Constants {
         public static final int XHDPI_DIALOG_BUTTON_WIDTH = 600;
         public static final int XHDPI_DIALOG_BUTTON_HEIGHT = 210;
         public static final int XHDPI_DIALOG_BUTTON_SPACING = 40;
-        public static final Vector2 XHDPI_DRAG_POSITION_OFFSET = new Vector2(0, 100);
+        public static final Vector2 XHDPI_DRAG_POSITION_OFFSET = new Vector2(0, 125);
         public static final int XHDPI_HUD_BUTTON_WIDTH = 240;
         public static final int XHDPI_HUD_BUTTON_HEIGHT = 240;
 

@@ -73,7 +73,7 @@
 			</plugin>
 			<plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.6</version>
+                <version>1.7</version>
                 <configuration>
                     <target>
                         <java fork="true" classname="${mainClass}" classpathref="maven.test.classpath">

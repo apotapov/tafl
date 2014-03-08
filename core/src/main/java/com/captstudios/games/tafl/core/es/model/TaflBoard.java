@@ -30,7 +30,6 @@ public class TaflBoard extends GameBoard {
 
     public int selectedPiece;
 
-    public int king;
     public int capturedKing;
 
     public RulesEngine rules;
@@ -52,7 +51,6 @@ public class TaflBoard extends GameBoard {
 
         this.hashCode = super.hashCode();
 
-        king = Constants.BoardConstants.ILLEGAL_CELL;
         capturedKing = Constants.BoardConstants.ILLEGAL_CELL;
 
         center = (dimensions/2) * dimensions + (dimensions / 2);
@@ -81,7 +79,7 @@ public class TaflBoard extends GameBoard {
     }
 
     public boolean canWalk(int piece, int cellId) {
-        return piece == king || (center != cellId && !corners.get(cellId));
+        return bitBoards[Constants.BoardConstants.KING].get(piece) || (center != cellId && !corners.get(cellId));
     }
 
     public float getDimensionWithBorders() {
@@ -133,29 +131,25 @@ public class TaflBoard extends GameBoard {
         return bitBoards[Constants.BoardConstants.WHITE_TEAM];
     }
 
-    @Override
-    public void applyMove(Move move, boolean simulate) {
-        super.applyMove(move, simulate);
-
-        if (move.source == king) {
-            king = move.destination;
-        }
+    public BitBoard kingBitBoard() {
+        return bitBoards[Constants.BoardConstants.KING];
     }
 
-    @Override
-    protected void undoMove(Move move) {
-        super.undoMove(move);
-        if (move.destination == king) {
-            king = move.source;
-        }
+    public int getKing() {
+        return bitBoards[Constants.BoardConstants.KING].nextSetBit(0);
     }
+
+    public boolean getKingCaptured() {
+        return bitBoards[Constants.BoardConstants.KING].isEmpty();
+    }
+
 
     @Override
     public void addPiece(int team, int piece) {
         super.addPiece(team, piece);
 
         if (piece == capturedKing) {
-            king = capturedKing;
+            bitBoards[Constants.BoardConstants.KING].set(capturedKing);
             capturedKing = Constants.BoardConstants.ILLEGAL_CELL;
         }
     }
@@ -164,9 +158,9 @@ public class TaflBoard extends GameBoard {
     public void removePieces(int team, BitBoard pieces) {
         super.removePieces(team, pieces);
 
-        if (pieces.get(king)) {
-            capturedKing = king;
-            king = Constants.BoardConstants.ILLEGAL_CELL;
+        if (bitBoards[Constants.BoardConstants.KING].intersects(pieces)) {
+            capturedKing = getKing();
+            bitBoards[Constants.BoardConstants.KING].clear();
         }
     }
 
@@ -191,8 +185,8 @@ public class TaflBoard extends GameBoard {
             boardString.setChar(i, Constants.BoardConstants.BLACK_PIECE);
         }
 
-        if (king != Constants.BoardConstants.ILLEGAL_CELL) {
-            boardString.setChar(king, Constants.BoardConstants.KING_PIECE);
+        if (!bitBoards[Constants.BoardConstants.KING].isEmpty()) {
+            boardString.setChar(getKing(), Constants.BoardConstants.KING_PIECE);
         }
 
         return boardString.toString();

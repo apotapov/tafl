@@ -6,8 +6,6 @@ import com.captstudios.games.tafl.core.es.model.ai.optimization.transposition.Zo
 
 public abstract class GameBoard {
 
-    public static final int NUMBER_OF_TEAMS = 2;
-
     public int dimensions;
     public int pieceTypes;
     public int boardSize;
@@ -93,22 +91,22 @@ public abstract class GameBoard {
         addPieces((move.pieceType + 1) % 2, move.capturedPieces);
     }
 
-    public void addPiece(int team, int piece) {
-        bitBoards[team].set(piece);
+    public void addPiece(int pieceType, int piece) {
+        bitBoards[pieceType].set(piece);
 
-        hashCode ^= zorbistHash.hash[team][piece];
+        hashCode ^= zorbistHash.hash[pieceType][piece];
     }
 
-    public void addPieces(int team, BitBoard pieces) {
+    public void addPieces(int pieceType, BitBoard pieces) {
         for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
-            addPiece(team, i);
+            addPiece(pieceType, i);
         }
     }
 
-    public void removePieces(int team, BitBoard pieces) {
+    public void removePieces(int pieceType, BitBoard pieces) {
         for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
-            bitBoards[team].clear(i);
-            hashCode ^= zorbistHash.hash[team][i];
+            bitBoards[pieceType].clear(i);
+            hashCode ^= zorbistHash.hash[pieceType][i];
         }
     }
 

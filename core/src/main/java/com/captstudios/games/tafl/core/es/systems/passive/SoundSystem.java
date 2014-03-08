@@ -14,6 +14,30 @@ import com.roundtriangles.games.zaria.services.SoundService;
 
 public class SoundSystem extends PassiveEntitySystem implements TaflMatchObserver {
 
+    private static final int MOVE_SOUND_COUNT = 2;
+
+    private static final String[][] MOVE_SOUNDS = new String[][] {
+        new String[] {
+                Assets.Sounds.WHITE_MOVE_1_SOUND,
+                Assets.Sounds.WHITE_MOVE_2_SOUND
+        },
+        new String[] {
+                Assets.Sounds.BLACK_MOVE_1_SOUND,
+                Assets.Sounds.BLACK_MOVE_2_SOUND
+        },
+        // King
+        new String[] {
+                Assets.Sounds.WHITE_MOVE_1_SOUND,
+                Assets.Sounds.WHITE_MOVE_2_SOUND
+        },
+    };
+
+    private static final String[] CAPTURE_SOUNDS = new String[] {
+        Assets.Sounds.CAPTURE_1_SOUND,
+        Assets.Sounds.CAPTURE_2_SOUND,
+        Assets.Sounds.CAPTURE_3_SOUND,
+    };
+
     private SoundService soundService;
     private Random random;
 
@@ -29,20 +53,7 @@ public class SoundSystem extends PassiveEntitySystem implements TaflMatchObserve
 
     @Override
     public void applyMove(TaflMatch match, Move move) {
-        int rnd = random.nextInt(2);
-        if (move.pieceType == Constants.BoardConstants.WHITE_TEAM) {
-            if (rnd == 0) {
-                soundService.playSound(Assets.Sounds.WHITE_MOVE_1_SOUND);
-            } else {
-                soundService.playSound(Assets.Sounds.WHITE_MOVE_2_SOUND);
-            }
-        } else {
-            if (rnd == 0) {
-                soundService.playSound(Assets.Sounds.BLACK_MOVE_1_SOUND);
-            } else {
-                soundService.playSound(Assets.Sounds.BLACK_MOVE_2_SOUND);
-            }
-        }
+        soundService.playSound(MOVE_SOUNDS[move.pieceType][random.nextInt(MOVE_SOUND_COUNT)]);
     }
 
     @Override
@@ -52,24 +63,12 @@ public class SoundSystem extends PassiveEntitySystem implements TaflMatchObserve
 
     @Override
     public void removePieces(TaflMatch match, int team, BitBoard capturedPieces) {
-        if (match.board.king != Constants.BoardConstants.ILLEGAL_CELL) {
+        if (!match.board.kingBitBoard().isEmpty()) {
             int cardinality = capturedPieces.cardinality();
 
             if (cardinality > 0) {
                 soundService.vibrate(Constants.GameConstants.CAPTURE_VIBRATION_LENGTH);
-            }
-
-            switch (cardinality) {
-            case 1:
-                soundService.playSound(Assets.Sounds.CAPTURE_1_SOUND);
-                break;
-            case 2:
-                soundService.playSound(Assets.Sounds.CAPTURE_2_SOUND);
-                break;
-            case 3:
-                soundService.playSound(Assets.Sounds.CAPTURE_3_SOUND);
-                break;
-            default:
+                soundService.playSound(CAPTURE_SOUNDS[cardinality - 1]);
             }
         }
     }

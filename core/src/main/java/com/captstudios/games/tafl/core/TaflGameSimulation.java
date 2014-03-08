@@ -66,7 +66,7 @@ public class TaflGameSimulation {
             while(!match.board.rules.isGameOver(0)) {
                 Move move = match.aiStrategy.search(match);
                 if (move != null) {
-                    if (move.source == match.board.king) {
+                    if (match.board.kingBitBoard().get(move.source)) {
                         int distance = Math.abs(move.destination - move.source);
                         if ( distance >= match.board.dimensions) {
                             distance /= match.board.dimensions;
@@ -84,7 +84,7 @@ public class TaflGameSimulation {
                         bw.write("\nMove: " + move);
                         bw.write("\nWhite pieces: " + match.board.bitBoards[0].cardinality());
                         bw.write("\nBlack pieces: " + match.board.bitBoards[1].cardinality());
-                        bw.write("\nKing: " + match.board.king);
+                        bw.write("\nKing: " + match.board.getKing());
                         String boardString = match.board.toString();
 
                         for (int i = 0; i < match.board.dimensions; i++) {
@@ -146,8 +146,8 @@ public class TaflGameSimulation {
             bw.write("\nKing moves: " + toString(kingMoves));
             kingMoves.reset();
 
-            if (winner == 1 && match.board.king == -1) {
-                match.board.king = match.board.capturedKing;
+            if (winner == 1 && match.board.getKing() == -1) {
+                match.board.kingBitBoard().set(match.board.capturedKing);
             }
 
             String boardString = match.board.toString();

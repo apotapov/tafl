@@ -76,7 +76,7 @@ public class WhiteCompleteEvaluator implements BoardEvaluator<TaflBoard> {
     private int kingMobility(TaflBoard board, int turn) {
         int value = 0;
 
-        value += board.rules.getLegalMoves(Constants.BoardConstants.WHITE_TEAM, board.king).cardinality() * KING_MOBILITY;
+        value += board.rules.getLegalMoves(Constants.BoardConstants.WHITE_TEAM, board.getKing()).cardinality() * KING_MOBILITY;
 
         if (turn == Constants.BoardConstants.BLACK_TEAM) {
             value *= -1;
@@ -124,8 +124,6 @@ public class WhiteCompleteEvaluator implements BoardEvaluator<TaflBoard> {
         BitBoard turnBoard = board.bitBoards[turn];
         BitBoard oppositeBoard = board.bitBoards[oppositTeam];
 
-        board.whiteBitBoard().clear(board.king);
-
         int pieceValue = WHITE_PIECE_VALUE;
         int pieceVulnerability = WHITE_PIECE_VULNERABILITY_VALUE;
         int oppositeVulnerability = WHITE_OPPOSITE_PIECE_VULNERABILITY_VALUE;
@@ -146,8 +144,6 @@ public class WhiteCompleteEvaluator implements BoardEvaluator<TaflBoard> {
                     - (board.rules.isVulnerable(oppositTeam, i) ? oppositeVulnerability
                             : 0);
         }
-
-        board.whiteBitBoard().set(board.king);
 
         return value;
     }
@@ -180,15 +176,17 @@ public class WhiteCompleteEvaluator implements BoardEvaluator<TaflBoard> {
     private int checkKingRanksAndFiles(TaflBoard board, int turn) {
         int value = 0;
 
+        int king = board.getKing();
+
         // all the pieces that are in the same column as the king
         allPiecesBoard.set(board.whiteBitBoard()).or(board.blackBitBoard());
-        tempBitBoard.set(allPiecesBoard).and(board.getColumn(board.king));
+        tempBitBoard.set(allPiecesBoard).and(board.getColumn(king));
 
-        int kingColumn = board.king % board.dimensions;
-        int kingRow = board.king / board.dimensions;
+        int kingColumn = king % board.dimensions;
+        int kingRow = king / board.dimensions;
 
         int piecesAbove = 0;
-        for (int i = tempBitBoard.nextSetBit(board.king + 1); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
+        for (int i = tempBitBoard.nextSetBit(king + 1); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
             piecesAbove++;
         }
 
@@ -201,7 +199,7 @@ public class WhiteCompleteEvaluator implements BoardEvaluator<TaflBoard> {
         }
 
         int piecesBelow = 0;
-        for (int i = tempBitBoard.prevSetBit(board.king - 1); i >= 0; i = tempBitBoard.prevSetBit(i-1)) {
+        for (int i = tempBitBoard.prevSetBit(king - 1); i >= 0; i = tempBitBoard.prevSetBit(i-1)) {
             piecesBelow++;
         }
 
@@ -214,10 +212,10 @@ public class WhiteCompleteEvaluator implements BoardEvaluator<TaflBoard> {
         }
 
         // all the pieces that are in the same row as the king
-        tempBitBoard.set(allPiecesBoard).and(board.getRow(board.king));
+        tempBitBoard.set(allPiecesBoard).and(board.getRow(king));
 
         int piecesLeft = 0;
-        for (int i = tempBitBoard.nextSetBit(board.king + 1); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
+        for (int i = tempBitBoard.nextSetBit(king + 1); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
             piecesAbove++;
         }
 
@@ -230,7 +228,7 @@ public class WhiteCompleteEvaluator implements BoardEvaluator<TaflBoard> {
         }
 
         int piecesRight = 0;
-        for (int i = tempBitBoard.prevSetBit(board.king - 1); i >= 0; i = tempBitBoard.prevSetBit(i-1)) {
+        for (int i = tempBitBoard.prevSetBit(king - 1); i >= 0; i = tempBitBoard.prevSetBit(i-1)) {
             piecesBelow++;
         }
 

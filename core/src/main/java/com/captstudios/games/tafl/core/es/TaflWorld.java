@@ -54,7 +54,7 @@ public class TaflWorld implements Disposable {
         SystemFactory.initSystems(this, activeSystems);
         world.initialize();
 
-        createEntities();
+        createSingletonEntities();
 
         match.initialize(
                 world.getSystem(EntityPieceSystem.class),
@@ -140,7 +140,7 @@ public class TaflWorld implements Disposable {
     }
 
     public boolean createNewMatch() {
-        level = game.levelService.getLevel(game.preferenceService.getLevel());
+        level = game.levelService.getLevel(game.preferenceService.getLevelIndex());
         match = game.levelService.createNewMatch(level);
         return match != null;
     }
@@ -154,7 +154,7 @@ public class TaflWorld implements Disposable {
         return false;
     }
 
-    protected void createEntities() {
+    protected void createSingletonEntities() {
         EntityFactorySystem efs = world.getSystem(EntityFactorySystem.class);
         efs.createMatch(match);
         efs.createHud(match);

@@ -3,6 +3,7 @@ package com.captstudios.games.tafl.core.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
+import com.captstudios.games.tafl.core.TaflGame;
 import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.enums.AiType;
 import com.captstudios.games.tafl.core.enums.LifeCycle;
@@ -24,8 +25,8 @@ public class TaflPreferenceService extends PreferenceService implements TaflMatc
 
     protected Json json;
 
-    public TaflPreferenceService(String preferencesName, PreferenceChangeListener...listeners) {
-        super(preferencesName, Constants.GameConstants.DEFAULT_VOLUME, listeners);
+    public TaflPreferenceService(PreferenceChangeListener...listeners) {
+        super(TaflGame.class.getName(), Constants.GameConstants.DEFAULT_VOLUME, listeners);
         initializeJson();
     }
 
@@ -38,10 +39,10 @@ public class TaflPreferenceService extends PreferenceService implements TaflMatc
     @Override
     public void initialize() {
         super.initialize();
-        setLevel(getInteger(PREF_DEFAULT_LEVEL, Constants.GameConstants.DEFAULT_LEVEL_INDEX));
-        setComputerStarts(getBoolean(PREF_COMPUTER_STARTS, Constants.GameConstants.DEFAULT_COMPUTER_STARTS));
-        setShowHelpOnStart(getBoolean(PREF_SHOW_HELP_ON_START, Constants.GameConstants.DEFAULT_SHOW_HELP_ON_START));
-        setAiType(getString(PREF_AI_TYPE, Constants.AiConstants.DEFAULT_AI_TYPE.toString()));
+        updateListeners(PREF_DEFAULT_LEVEL, getLevelIndex());
+        updateListeners(PREF_COMPUTER_STARTS, getComputerStarts());
+        updateListeners(PREF_SHOW_HELP_ON_START, getShowHelpOnStart());
+        updateListeners(PREF_AI_TYPE, getAiType().toString());
     }
 
     public void setComputerStarts(boolean computerStarts) {
@@ -60,11 +61,11 @@ public class TaflPreferenceService extends PreferenceService implements TaflMatc
         return getBoolean(PREF_SHOW_HELP_ON_START, Constants.GameConstants.DEFAULT_SHOW_HELP_ON_START);
     }
 
-    public void setLevel(int level) {
+    public void setLevelIndex(int level) {
         setInteger(PREF_DEFAULT_LEVEL, level);
     }
 
-    public int getLevel() {
+    public int getLevelIndex() {
         return getInteger(PREF_DEFAULT_LEVEL, Constants.GameConstants.DEFAULT_LEVEL_INDEX);
     }
 

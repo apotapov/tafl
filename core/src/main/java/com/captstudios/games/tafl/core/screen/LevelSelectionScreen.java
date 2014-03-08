@@ -66,7 +66,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         if (Constants.GameConstants.DEBUG) {
             createLevelList(levels, table, skin);
         } else {
-            game.preferenceService.setLevel(Constants.GameConstants.DEFAULT_LEVEL_INDEX);
+            game.preferenceService.setLevelIndex(Constants.GameConstants.DEFAULT_LEVEL_INDEX);
         }
 
         createPlayPreference(skin, table);
@@ -90,12 +90,12 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
 
         final List<ListItem<String>> levelList = new List<ListItem<String>>(skin, Assets.Skin.SKIN_STYLE_MENU);
         levelList.setItems(levelNames);
-        levelList.setSelectedIndex(game.preferenceService.getLevel());
+        levelList.setSelectedIndex(game.preferenceService.getLevelIndex());
         levelList.addListener(new ChangeListener() {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.preferenceService.setLevel(levelList.getSelectedIndex());
+                game.preferenceService.setLevelIndex(levelList.getSelectedIndex());
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });

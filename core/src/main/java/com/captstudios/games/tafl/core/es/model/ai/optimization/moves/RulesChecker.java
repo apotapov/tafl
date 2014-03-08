@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Array;
 
 public interface RulesChecker {
 
-    public Array<Move> generateLegalMoves(int pieceType);
+    public Array<Move> generateLegalMoves(int team);
     public void freeMoves(Array<Move> moves);
 
     public boolean isGameOver(int team);

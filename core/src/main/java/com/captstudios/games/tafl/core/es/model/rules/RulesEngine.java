@@ -16,11 +16,11 @@ public abstract class RulesEngine implements TaflMatchObserver, RulesChecker {
     public abstract int checkWinner();
     public abstract DrawReasonEnum checkDraw(int team);
 
-    public abstract boolean isMoveLegal(int team, int source, int destination);
     public abstract BitBoard getLegalMoves(int team, int source);
     public abstract Array<Move> allLegalMoves(int team);
 
-    public abstract boolean isHostile(int capturingTeam, int oppositeCell);
+    public abstract boolean isMoveLegal(int team, int source, int destination);
+
     public abstract boolean isVulnerable(int team, int cellId);
     public abstract boolean teamCanMoveToLocation(int team, int cellId);
 }

@@ -40,11 +40,13 @@ public class InstructionsGestureListener implements GestureListener {
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
+        screen.pan(deltaX);
         return false;
     }
 
     @Override
     public boolean panStop(float x, float y, int pointer, int button) {
+        screen.panStop();
         return false;
     }
 

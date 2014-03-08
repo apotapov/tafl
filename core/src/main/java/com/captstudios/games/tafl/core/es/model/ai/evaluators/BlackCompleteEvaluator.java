@@ -119,37 +119,37 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
         BitBoard whiteBoard = board.whiteBitBoard();
 
         if (checkBarricade(board, 0, blackBoard, whiteBoard, 1, board.dimensions) > 0) {
-            if (south.get(board.king)) {
+            if (south.intersects(board.kingBitBoard())) {
                 value += FULL_BARRICADE_BONUS;
             }
-            if (west.get(board.king)) {
+            if (west.intersects(board.kingBitBoard())) {
                 value += FULL_BARRICADE_BONUS;
             }
         }
 
         if (checkBarricade(board, 10, blackBoard, whiteBoard, -1, board.dimensions) > 0) {
-            if (south.get(board.king)) {
+            if (south.intersects(board.kingBitBoard())) {
                 value += FULL_BARRICADE_BONUS;
             }
-            if (east.get(board.king)) {
+            if (east.intersects(board.kingBitBoard())) {
                 value += FULL_BARRICADE_BONUS;
             }
         }
 
         if (checkBarricade(board, 110, blackBoard, whiteBoard, 1, -board.dimensions) > 0) {
-            if (north.get(board.king)) {
+            if (north.intersects(board.kingBitBoard())) {
                 value += FULL_BARRICADE_BONUS;
             }
-            if (west.get(board.king)) {
+            if (west.intersects(board.kingBitBoard())) {
                 value += FULL_BARRICADE_BONUS;
             }
         }
 
         if (checkBarricade(board, 120, blackBoard, whiteBoard, -1, -board.dimensions) > 0) {
-            if (north.get(board.king)) {
+            if (north.intersects(board.kingBitBoard())) {
                 value += FULL_BARRICADE_BONUS;
             }
-            if (east.get(board.king)) {
+            if (east.intersects(board.kingBitBoard())) {
                 value += FULL_BARRICADE_BONUS;
             }
         }
@@ -219,7 +219,7 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
     private int kingMobility(TaflBoard board, int turn) {
         int value = 0;
 
-        value += board.rules.getLegalMoves(Constants.BoardConstants.WHITE_TEAM, board.king).cardinality() * KING_MOBILITY;
+        value += board.rules.getLegalMoves(Constants.BoardConstants.WHITE_TEAM, board.getKing()).cardinality() * KING_MOBILITY;
 
         if (turn == Constants.BoardConstants.BLACK_TEAM) {
             value *= -1;
@@ -235,22 +235,22 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
         BitBoard blackBoard = board.blackBitBoard();
 
         BitBoard yHemisphere = null;
-        if (north.get(board.king)) {
+        if (north.intersects(board.kingBitBoard())) {
             yHemisphere = north;
-        } else if (south.get(board.king)) {
+        } else if (south.intersects(board.kingBitBoard())) {
             yHemisphere = south;
         }
 
         BitBoard xHemisphere = null;
-        if (west.get(board.king)) {
+        if (west.intersects(board.kingBitBoard())) {
             xHemisphere = west;
-        } else if (east.get(board.king)) {
+        } else if (east.intersects(board.kingBitBoard())) {
             xHemisphere = east;
         }
 
         for (int i = blackBoard.nextSetBit(0); i >= 0; i = blackBoard.nextSetBit(i + 1)) {
             if (cornerProtection.get(i)) {
-                if (board.king == board.center) {
+                if (board.kingBitBoard().get(board.center)) {
                     value += CORNER_PROTECTION_BONUS;
                 } else {
                     if (yHemisphere != null && yHemisphere.get(i)) {
@@ -291,8 +291,6 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
         BitBoard turnBoard = board.bitBoards[turn];
         BitBoard oppositeBoard = board.bitBoards[oppositTeam];
 
-        board.whiteBitBoard().clear(board.king);
-
         int pieceValue = WHITE_PIECE_VALUE;
         int pieceVulnerability = WHITE_PIECE_VULNERABILITY_VALUE;
         int oppositeVulnerability = WHITE_OPPOSITE_PIECE_VULNERABILITY_VALUE;
@@ -313,8 +311,6 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
                     - (board.rules.isVulnerable(oppositTeam, i) ? oppositeVulnerability
                             : 0);
         }
-
-        board.whiteBitBoard().set(board.king);
 
         return value;
     }
@@ -347,15 +343,17 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
     private int checkKingRanksAndFiles(TaflBoard board, int turn) {
         int value = 0;
 
+        int king = board.getKing();
+
         // all the pieces that are in the same column as the king
         allPiecesBoard.set(board.whiteBitBoard()).or(board.blackBitBoard());
-        tempBitBoard.set(allPiecesBoard).and(board.getColumn(board.king));
+        tempBitBoard.set(allPiecesBoard).and(board.getColumn(king));
 
-        int kingColumn = board.king % board.dimensions;
-        int kingRow = board.king / board.dimensions;
+        int kingColumn = king % board.dimensions;
+        int kingRow = king / board.dimensions;
 
         int piecesAbove = 0;
-        for (int i = tempBitBoard.nextSetBit(board.king + 1); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
+        for (int i = tempBitBoard.nextSetBit(king + 1); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
             piecesAbove++;
         }
 
@@ -368,7 +366,7 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
         }
 
         int piecesBelow = 0;
-        for (int i = tempBitBoard.prevSetBit(board.king - 1); i >= 0; i = tempBitBoard.prevSetBit(i-1)) {
+        for (int i = tempBitBoard.prevSetBit(king - 1); i >= 0; i = tempBitBoard.prevSetBit(i-1)) {
             piecesBelow++;
         }
 
@@ -381,10 +379,10 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
         }
 
         // all the pieces that are in the same row as the king
-        tempBitBoard.set(allPiecesBoard).and(board.getRow(board.king));
+        tempBitBoard.set(allPiecesBoard).and(board.getRow(king));
 
         int piecesLeft = 0;
-        for (int i = tempBitBoard.nextSetBit(board.king + 1); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
+        for (int i = tempBitBoard.nextSetBit(king + 1); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
             piecesAbove++;
         }
 
@@ -397,7 +395,7 @@ public class BlackCompleteEvaluator implements BoardEvaluator<TaflBoard> {
         }
 
         int piecesRight = 0;
-        for (int i = tempBitBoard.prevSetBit(board.king - 1); i >= 0; i = tempBitBoard.prevSetBit(i-1)) {
+        for (int i = tempBitBoard.prevSetBit(king - 1); i >= 0; i = tempBitBoard.prevSetBit(i-1)) {
             piecesBelow++;
         }
 

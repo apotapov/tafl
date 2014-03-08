@@ -9,7 +9,6 @@ import com.captstudios.games.tafl.core.enums.RulesEngineType;
 import com.captstudios.games.tafl.core.es.model.ai.AiFactory;
 import com.captstudios.games.tafl.core.es.model.ai.AiStrategy;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
-import com.captstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.transposition.ZorbistHash;
 import com.captstudios.games.tafl.core.es.model.rules.RulesFactory;
@@ -71,12 +70,12 @@ public class TaflMatch {
 
         int boardSize = boardRepresentation.length();
 
-        ZorbistHash hash = new ZorbistHash(GameBoard.NUMBER_OF_TEAMS,
+        ZorbistHash hash = new ZorbistHash(Constants.BoardConstants.PIECE_TYPES,
                 boardSize);
         hash.generate();
 
         board = new TaflBoard((int)Math.sqrt(boardRepresentation.length()),
-                GameBoard.NUMBER_OF_TEAMS,
+                Constants.BoardConstants.PIECE_TYPES,
                 hash,
                 RulesFactory.getRules(rulesType));
         if (initialUndoStack != null && initialUndoStack.size > 0) {
@@ -113,8 +112,7 @@ public class TaflMatch {
             } else if (current == Constants.BoardConstants.BLACK_PIECE) {
                 board.addPiece(Constants.BoardConstants.BLACK_TEAM, i);
             } else if (current == Constants.BoardConstants.KING_PIECE) {
-                board.king = i;
-                board.addPiece(Constants.BoardConstants.WHITE_TEAM, i);
+                board.addPiece(Constants.BoardConstants.KING, i);
             }
         }
     }

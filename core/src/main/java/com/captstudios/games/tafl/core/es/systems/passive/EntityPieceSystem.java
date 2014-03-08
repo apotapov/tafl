@@ -69,14 +69,19 @@ public class EntityPieceSystem extends PassiveEntitySystem implements TaflMatchO
     public void initializeMatch(TaflMatch match) {
         pieceEntities = new Entity[match.board.boardSize];
 
-        BitBoard board = match.board.bitBoards[Constants.BoardConstants.WHITE_TEAM];
+        BitBoard board = match.board.whiteBitBoard();
         for (int i = board.nextSetBit(0); i >= 0; i = board.nextSetBit(i+1)) {
             pieceEntities[i] = efs.createPiece(match, Constants.BoardConstants.WHITE_TEAM, i);
         }
 
-        board = match.board.bitBoards[Constants.BoardConstants.BLACK_TEAM];
+        board = match.board.blackBitBoard();
         for (int i = board.nextSetBit(0); i >= 0; i = board.nextSetBit(i+1)) {
             pieceEntities[i] = efs.createPiece(match, Constants.BoardConstants.BLACK_TEAM, i);
+        }
+
+        board = match.board.kingBitBoard();
+        for (int i = board.nextSetBit(0); i >= 0; i = board.nextSetBit(i+1)) {
+            pieceEntities[i] = efs.createPiece(match, Constants.BoardConstants.KING, i);
         }
     }
 

@@ -25,6 +25,7 @@ public class OfficialRulesEngine extends RulesEngine {
     int kingEscapePosition;
 
     BitBoard tempBitBoard;
+    BitBoard allWhiteBitBoard;
 
     IntArray boardConfigHistory;
     IntIntMap configurationCounter;
@@ -52,6 +53,7 @@ public class OfficialRulesEngine extends RulesEngine {
         allPieces = new BitBoard(match.board.boardSize);
 
         tempBitBoard = new BitBoard(match.board.boardSize);
+        allWhiteBitBoard = new BitBoard(match.board.boardSize);
 
         calculateLegalMoves(match.turn);
         boardConfigHistory.add(match.board.hashCode());
@@ -89,14 +91,22 @@ public class OfficialRulesEngine extends RulesEngine {
 
         Move.movePool.freeAll(allLegalMoves);
         allLegalMoves.clear();
-        allPieces.set(board.whiteBitBoard()).or(board.blackBitBoard());
+        allPieces.set(board.whiteBitBoard()).or(board.blackBitBoard()).or(board.kingBitBoard());
 
-        BitBoard bitBoard = board.bitBoards[team];
+        calculateMoves(team, allLegalMoves);
+
+        if (team == Constants.BoardConstants.WHITE_TEAM) {
+            calculateMoves(Constants.BoardConstants.KING, allLegalMoves);
+        }
+    }
+
+    private void calculateMoves(int pieceType, Array<Move> allLegalMoves) {
+        BitBoard bitBoard = board.bitBoards[pieceType];
         for (int source = bitBoard.nextSetBit(0); source >= 0; source = bitBoard.nextSetBit(source+1)) {
             BitBoard moves = calculateMoves(source);
             for (int dest = moves.nextSetBit(0); dest >= 0; dest = moves.nextSetBit(dest+1)) {
                 Move move = Move.movePool.obtain();
-                move.pieceType = team;
+                move.pieceType = pieceType;
                 move.source = source;
                 move.destination = dest;
                 allLegalMoves.add(move);
@@ -121,9 +131,9 @@ public class OfficialRulesEngine extends RulesEngine {
     @Override
     public int checkWinner() {
         int winner = Constants.BoardConstants.NO_TEAM;
-        if (board.king == Constants.BoardConstants.ILLEGAL_CELL) {
+        if (board.getKingCaptured()) {
             winner = Constants.BoardConstants.BLACK_TEAM;
-        } else if (board.corners.get(board.king)) {
+        } else if (board.corners.intersects(board.kingBitBoard())) {
             winner = Constants.BoardConstants.WHITE_TEAM;
         }
         return winner;
@@ -134,23 +144,38 @@ public class OfficialRulesEngine extends RulesEngine {
         tempBitBoard.clear();
 
         int capturer = move.destination;
-        int capturingTeam = move.pieceType;
-        int oppositeTeam = (capturingTeam + 1) % 2;
+        int capturingTeam = move.pieceType / 2;
+
+        allWhiteBitBoard.clear();
+        allWhiteBitBoard.set(board.whiteBitBoard()).or(board.kingBitBoard());
+
+        BitBoard oppositeBoard;
+        BitBoard capturingBoard;
+
+        if (capturingTeam == Constants.BoardConstants.WHITE_TEAM) {
+            capturingBoard = allWhiteBitBoard;
+            oppositeBoard = board.blackBitBoard();
+        } else {
+            capturingBoard = board.blackBitBoard();
+            oppositeBoard = allWhiteBitBoard;
+        }
+
+        int king = board.getKing();
 
         // CAPTURE ABOVE
         int beingCaptured = capturer + board.dimensions;
         int teammate = capturer + 2 * board.dimensions;
-        if (board.isValid(beingCaptured) && board.bitBoards[oppositeTeam].get(beingCaptured)) {
-            if (beingCaptured == board.king) {
+        if (board.isValid(beingCaptured) && oppositeBoard.get(beingCaptured)) {
+            if (board.kingBitBoard().get(beingCaptured)) {
                 int teammate2 = beingCaptured - 1;
                 int teammate3 = beingCaptured + 1;
-                if (isKingHostileVertical(capturingTeam, teammate) &&
-                        isKingHostileHorizontal(capturingTeam, board.king, teammate2) &&
-                        isKingHostileHorizontal(capturingTeam, board.king, teammate3)) {
-                    tempBitBoard.set(board.king);
+                if (isKingHostileVertical(capturingBoard, teammate) &&
+                        isKingHostileHorizontal(capturingBoard, king, teammate2) &&
+                        isKingHostileHorizontal(capturingBoard, king, teammate3)) {
+                    tempBitBoard.set(king);
                 }
             } else {
-                if (isHostile(capturingTeam, teammate)) {
+                if (isHostile(capturingTeam, capturingBoard, teammate)) {
                     tempBitBoard.set(beingCaptured);
                 }
             }
@@ -159,17 +184,17 @@ public class OfficialRulesEngine extends RulesEngine {
         // CAPTURE BELOW
         beingCaptured = capturer - board.dimensions;
         teammate = capturer - 2 * board.dimensions;
-        if (board.isValid(beingCaptured) && board.bitBoards[oppositeTeam].get(beingCaptured)) {
-            if (beingCaptured == board.king) {
+        if (board.isValid(beingCaptured) && oppositeBoard.get(beingCaptured)) {
+            if (board.kingBitBoard().get(beingCaptured)) {
                 int teammate2 = beingCaptured - 1;
                 int teammate3 = beingCaptured + 1;
-                if (isKingHostileVertical(capturingTeam, teammate) &&
-                        isKingHostileHorizontal(capturingTeam, board.king, teammate2) &&
-                        isKingHostileHorizontal(capturingTeam, board.king, teammate3)) {
-                    tempBitBoard.set(board.king);
+                if (isKingHostileVertical(capturingBoard, teammate) &&
+                        isKingHostileHorizontal(capturingBoard, king, teammate2) &&
+                        isKingHostileHorizontal(capturingBoard, king, teammate3)) {
+                    tempBitBoard.set(king);
                 }
             } else {
-                if (isHostile(capturingTeam, teammate)) {
+                if (isHostile(capturingTeam, capturingBoard, teammate)) {
                     tempBitBoard.set(beingCaptured);
                 }
             }
@@ -180,17 +205,17 @@ public class OfficialRulesEngine extends RulesEngine {
         teammate = capturer - 2;
         if (board.isValid(beingCaptured) &&
                 board.inRow(capturer, beingCaptured) &&
-                board.bitBoards[oppositeTeam].get(beingCaptured)) {
-            if (beingCaptured == board.king) {
+                oppositeBoard.get(beingCaptured)) {
+            if (board.kingBitBoard().get(beingCaptured)) {
                 int teammate2 = beingCaptured + board.dimensions;
                 int teammate3 = beingCaptured - board.dimensions;
-                if (isKingHostileHorizontal(capturingTeam, board.king, teammate) &&
-                        isKingHostileVertical(capturingTeam, teammate2) &&
-                        isKingHostileVertical(capturingTeam, teammate3)) {
-                    tempBitBoard.set(board.king);
+                if (isKingHostileHorizontal(capturingBoard, king, teammate) &&
+                        isKingHostileVertical(capturingBoard, teammate2) &&
+                        isKingHostileVertical(capturingBoard, teammate3)) {
+                    tempBitBoard.set(king);
                 }
             } else {
-                if (board.inRow(capturer, teammate) && isHostile(capturingTeam, teammate)) {
+                if (board.inRow(capturer, teammate) && isHostile(capturingTeam, capturingBoard, teammate)) {
                     tempBitBoard.set(beingCaptured);
                 }
             }
@@ -201,17 +226,17 @@ public class OfficialRulesEngine extends RulesEngine {
         teammate = move.destination + 2;
         if (board.isValid(beingCaptured) &&
                 board.inRow(move.destination, beingCaptured) &&
-                board.bitBoards[oppositeTeam].get(beingCaptured)) {
-            if (beingCaptured == board.king) {
+                oppositeBoard.get(beingCaptured)) {
+            if (board.kingBitBoard().get(beingCaptured)) {
                 int teammate2 = beingCaptured + board.dimensions;
                 int teammate3 = beingCaptured - board.dimensions;
-                if (isKingHostileHorizontal(capturingTeam, board.king, teammate) &&
-                        isKingHostileVertical(capturingTeam, teammate2) &&
-                        isKingHostileVertical(capturingTeam, teammate3)) {
-                    tempBitBoard.set(board.king);
+                if (isKingHostileHorizontal(capturingBoard, king, teammate) &&
+                        isKingHostileVertical(capturingBoard, teammate2) &&
+                        isKingHostileVertical(capturingBoard, teammate3)) {
+                    tempBitBoard.set(king);
                 }
             } else {
-                if (board.inRow(capturer, teammate) && isHostile(capturingTeam, teammate)) {
+                if (board.inRow(capturer, teammate) && isHostile(capturingTeam, capturingBoard, teammate)) {
                     tempBitBoard.set(beingCaptured);
                 }
             }
@@ -220,14 +245,12 @@ public class OfficialRulesEngine extends RulesEngine {
         return tempBitBoard;
     }
 
-    private boolean isKingHostileVertical(int capturingTeam, int oppositeCell) {
-        return board.isValid(oppositeCell) &&
-                board.bitBoards[capturingTeam].get(oppositeCell);
+    private boolean isKingHostileVertical(BitBoard capturingBoard, int oppositeCell) {
+        return board.isValid(oppositeCell) && capturingBoard.get(oppositeCell);
     }
 
-    private boolean isKingHostileHorizontal(int capturingTeam, int cell, int oppositeCell) {
-        return board.inRow(cell, oppositeCell) &&
-                board.bitBoards[capturingTeam].get(oppositeCell);
+    private boolean isKingHostileHorizontal(BitBoard capturingBoard, int cell, int oppositeCell) {
+        return board.inRow(cell, oppositeCell) && capturingBoard.get(oppositeCell);
     }
 
     @Override
@@ -235,11 +258,10 @@ public class OfficialRulesEngine extends RulesEngine {
         return Constants.BoardConstants.BLACK_TEAM;
     }
 
-    @Override
-    public boolean isHostile(int capturingTeam, int oppositeCell) {
+    private boolean isHostile(int capturingTeam, BitBoard capturingBoard, int oppositeCell) {
         return board.isValid(oppositeCell) &&
-                (board.bitBoards[capturingTeam].get(oppositeCell) ||
-                        (!board.canWalk(capturingTeam, oppositeCell) && oppositeCell != board.king));
+                (capturingBoard.get(oppositeCell) ||
+                        !board.canWalk(capturingTeam, oppositeCell));
     }
 
     @Override
@@ -281,15 +303,24 @@ public class OfficialRulesEngine extends RulesEngine {
     @Override
     public boolean isVulnerable(int team, int cellId) {
         int oppositeTeam = (team + 1) % 2;
-        BitBoard oppositeBoard = board.bitBoards[oppositeTeam];
+
+        BitBoard oppositeBoard;
+
+        if (team == Constants.BoardConstants.WHITE_TEAM) {
+            oppositeBoard = board.blackBitBoard();
+        } else {
+            allWhiteBitBoard.clear();
+            allWhiteBitBoard.set(board.whiteBitBoard()).or(board.kingBitBoard());
+            oppositeBoard = allWhiteBitBoard;
+        }
 
         int cellAbove = cellId + board.dimensions;
         int cellBelow = cellId - board.dimensions;
         int cellLeft = cellId - 1;
-        int cellRight = cellId +1;
+        int cellRight = cellId + 1;
 
         // ABOVE
-        if (board.isValid(cellBelow) && isHostile(oppositeTeam, cellAbove)) {
+        if (board.isValid(cellBelow) && isHostile(oppositeTeam, oppositeBoard, cellAbove)) {
             tempBitBoard.set(board.getRow(cellBelow)).and(oppositeBoard);
             for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
                 if (board.rules.isMoveLegal(oppositeTeam, i, cellId)) {
@@ -299,7 +330,7 @@ public class OfficialRulesEngine extends RulesEngine {
         }
 
         // BELOW
-        if (board.isValid(cellAbove) && isHostile(oppositeTeam, cellBelow)) {
+        if (board.isValid(cellAbove) && isHostile(oppositeTeam, oppositeBoard, cellBelow)) {
             tempBitBoard.set(board.getRow(cellAbove)).and(oppositeBoard);
             for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
                 if (board.rules.isMoveLegal(oppositeTeam, i, cellId)) {
@@ -310,9 +341,9 @@ public class OfficialRulesEngine extends RulesEngine {
 
         // LEFT
         if (board.isValid(cellRight) &&
-                isHostile(oppositeTeam, cellLeft) &&
+                board.inRow(cellId, cellLeft) &&
                 board.inRow(cellId, cellRight) &&
-                board.inRow(cellId, cellLeft)) {
+                isHostile(oppositeTeam, oppositeBoard, cellLeft)) {
             tempBitBoard.set(board.getColumn(cellRight)).and(oppositeBoard);
             for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
                 if (board.rules.isMoveLegal(oppositeTeam, i, cellId)) {
@@ -323,9 +354,9 @@ public class OfficialRulesEngine extends RulesEngine {
 
         // RIGHT
         if (board.isValid(cellLeft) &&
-                isHostile(oppositeTeam, cellRight) &&
                 board.inRow(cellId, cellLeft) &&
-                board.inRow(cellId, cellRight)) {
+                board.inRow(cellId, cellRight) &&
+                isHostile(oppositeTeam, oppositeBoard, cellRight)) {
             tempBitBoard.set(board.getColumn(cellLeft)).and(oppositeBoard);
             for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
                 if (board.rules.isMoveLegal(oppositeTeam, i, cellId)) {
@@ -445,8 +476,8 @@ public class OfficialRulesEngine extends RulesEngine {
     }
 
     @Override
-    public Array<Move> generateLegalMoves(int pieceType) {
-        calculateLegalMoves(pieceType);
-        return allLegalMoves(pieceType);
+    public Array<Move> generateLegalMoves(int team) {
+        calculateLegalMoves(team);
+        return allLegalMoves(team);
     }
 }

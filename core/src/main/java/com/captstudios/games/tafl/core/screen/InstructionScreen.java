@@ -3,7 +3,9 @@ package com.captstudios.games.tafl.core.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -19,7 +21,11 @@ import com.roundtriangles.games.zaria.screen.AbstractScreen;
 
 public class InstructionScreen extends AbstractScreen<TaflGame> {
 
+    private static final int TOP_SCREEN_Z_ORDER = 3;
+    private static final int NEXT_SCREEN_Z_ORDER = 2;
+
     public Image[] instructions;
+    public ImageButton closeButton;
     public int currentInstruction;
 
     Table controls;
@@ -31,42 +37,71 @@ public class InstructionScreen extends AbstractScreen<TaflGame> {
     }
 
     public void nextPage() {
-        currentInstruction++;
-        if (currentInstruction < instructions.length) {
-            setBackgroundImage(instructions[currentInstruction]);
+        if (currentInstruction < instructions.length - 1) {
+            createPageTransition(currentInstruction++, currentInstruction);
         } else {
             back();
-            game.preferenceService.setShowHelpOnStart(false);
+        }
+    }
+    public void previousPage() {
+        if (currentInstruction > 0) {
+            createPageTransition(currentInstruction--, currentInstruction);
         }
     }
 
-    public void previousPage() {
-        currentInstruction--;
-        if (currentInstruction > -1) {
-            setBackgroundImage(instructions[currentInstruction]);
-        } else {
-            currentInstruction = 0;
+    private void createPageTransition(int current, int next) {
+        final Image instruction = instructions[current];
+        final Image nextInstruciton = instructions[next];
+
+        float newX = -instruction.getWidth();
+        if (next < current) {
+            newX = instruction.getHeight();
         }
+
+        instruction.clearActions();
+        instruction.addAction(Actions.sequence(Actions.moveTo(
+                newX, instruction.getY(),
+                Constants.ScreenConstants.INSTRUCTION_SLIDE_DURATION),
+                new Action() {
+            @Override
+            public boolean act(float delta) {
+                nextInstruciton.setZIndex(TOP_SCREEN_Z_ORDER);
+                hide(instruction);
+                return true;
+            }
+        }));
+    }
+
+    @Override
+    public boolean back() {
+        stage.addAction(new Action() {
+
+            @Override
+            public boolean act(float delta) {
+                if (InstructionScreen.super.back()) {
+                    game.preferenceService.setShowHelpOnStart(false);
+                }
+                return true;
+            }
+        });
+
+        return false;
     }
 
     @Override
     public void initialize() {
-        instructions = new Image[] {
-                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_1)),
-                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_2)),
-                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_3)),
-                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_4)),
-                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_5)),
-                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_6))
-        };
+        initInstructions();
+        initControls();
 
         gestureDetector = new GestureDetector(new InstructionsGestureListener(this));
+    }
 
+    private void initControls() {
         TextureRegion textureRegion = new TextureRegion(
                 game.graphicsService.getSprite(
                         Assets.Graphics.ATLAS_PIECES, Assets.Graphics.CLOSE_ICON));
         Drawable imageUp = new TextureRegionDrawable(textureRegion);
-        ImageButton closeButton = new ImageButton(imageUp);
+        closeButton = new ImageButton(imageUp);
         closeButton.addListener(new ChangeListener() {
 
             @Override
@@ -85,20 +120,104 @@ public class InstructionScreen extends AbstractScreen<TaflGame> {
         stage.addActor(controls);
     }
 
-    @Override
-    public void show() {
-        setBackgroundImage(instructions[0]);
-        currentInstruction = 0;
-        super.show();
-        Gdx.input.setInputProcessor(gestureDetector);
+    private void initInstructions() {
+        instructions = new Image[] {
+                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_1)),
+                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_2)),
+                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_3)),
+                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_4)),
+                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_5)),
+                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_6)),
+        };
+
+        for (Image instruction : instructions) {
+            resetSizeAndPosition(instruction);
+            stage.addActor(instruction);
+        }
+    }
+
+    private void resetSizeAndPosition(Image instruction) {
+        float width = Gdx.graphics.getWidth();
+        float height = Gdx.graphics.getHeight();
+        float ratioDifference = (instruction.getHeight() / instruction.getWidth()) / ((height) / width);
+
+        float imageWidth = width;
+        float imageHeight = height * ratioDifference;
+        float x = 0;
+        float y = (height - imageHeight) / 2;
+        instruction.setWidth(imageWidth);
+        instruction.setHeight(imageHeight);
+        instruction.setPosition(x, y);
     }
 
     @Override
-    public void setBackgroundImage(Image backgroundImage) {
-        super.setBackgroundImage(backgroundImage, true);
-        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        if (controls != null) {
-            controls.toFront();
+    public void show() {
+        super.show();
+        currentInstruction = 0;
+        if (instructions.length > 1) {
+            queueUpNextPage(1);
         }
+        instructions[currentInstruction].setX(0);
+        instructions[currentInstruction].addAction(Actions.show());
+
+        closeButton.toFront();
+
+        Gdx.input.setInputProcessor(gestureDetector);
+    }
+
+    private void queueUpNextPage(int nextPage) {
+        queueUpNextPage(instructions[nextPage]);
+    }
+
+    private void queueUpNextPage(Image nextInstruction) {
+
+        Image current = instructions[currentInstruction];
+        for (Image instruction : instructions) {
+            if (instruction != current && instruction != nextInstruction) {
+                hide(instruction);
+            }
+        }
+
+        current.setZIndex(TOP_SCREEN_Z_ORDER);
+        nextInstruction.setZIndex(NEXT_SCREEN_Z_ORDER);
+        nextInstruction.setX(0);
+        nextInstruction.clearActions();
+        nextInstruction.addAction(Actions.show());
+    }
+
+    private void hide(Image instruction) {
+        instruction.toBack();
+        instruction.addAction(Actions.hide());
+    }
+
+    public void pan(float deltaX) {
+        Image instruction = instructions[currentInstruction];
+        Image nextInstruciton = null;
+        float currentX = instruction.getX();
+        if (deltaX > 0 && (currentInstruction > 0 || currentX + deltaX < 0)) {
+            if (currentX >= 0) {
+                nextInstruciton = instructions[currentInstruction - 1];
+            } else if (currentInstruction < instructions.length - 1) {
+                nextInstruciton = instructions[currentInstruction + 1];
+            }
+        } else if (deltaX < 0 && (currentInstruction < instructions.length - 1 || currentX + deltaX > 0)){
+            if (currentX <= 0) {
+                nextInstruciton = instructions[currentInstruction + 1];
+            } else if (currentInstruction > 0) {
+                nextInstruciton = instructions[currentInstruction - 1];
+            }
+        }
+
+        if (nextInstruciton != null) {
+            queueUpNextPage(nextInstruciton);
+            instruction.setX(instruction.getX() + deltaX);
+        }
+    }
+
+    public void panStop() {
+        Image instruction = instructions[currentInstruction];
+        instruction.addAction(Actions.moveTo(
+                0, instruction.getY(),
+                Constants.ScreenConstants.INSTRUCTION_SLIDE_BACK_DURATION));
     }
 }

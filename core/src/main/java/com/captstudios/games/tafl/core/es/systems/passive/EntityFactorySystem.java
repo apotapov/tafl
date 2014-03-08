@@ -58,7 +58,7 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         e.addComponent(componentFactory.createPositionComponent(position));
 
         String graphic;
-        if (cellId == match.board.king) {
+        if (match.board.kingBitBoard().get(cellId)) {
             graphic = Assets.Graphics.KING_PIECE;
         } else if (team == Constants.BoardConstants.WHITE_TEAM) {
             graphic = Assets.Graphics.WHITE_PIECE;

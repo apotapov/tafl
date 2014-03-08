@@ -71,7 +71,7 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     @Override
     public void initialize() {
         this.levelService = new TaflLevelService(this);
-        this.preferenceService = new TaflPreferenceService(getClass().getName(), soundService, this);
+        this.preferenceService = new TaflPreferenceService(soundService, this);
         this.graphicsService = new TaflGraphicsService(this);
         this.localeService = new LocaleService();
 

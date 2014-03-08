@@ -13,7 +13,7 @@ public final class Constants {
     public static final class GameConstants {
         private GameConstants() {
         }
-        public static final boolean DEBUG = false;
+        public static final boolean DEBUG = true;
         public static final int BATCH_SIZE = 100;
         public static final int GAME_WIDTH = 1080;
         public static final int GAME_HALF_WIDTH = GAME_WIDTH / 2;
@@ -141,6 +141,8 @@ public final class Constants {
 
         public static final float INSTRUCTION_CLOSE_BUTTON_X_OFFSET = 180;
         public static final float INSTRUCTION_CLOSE_BUTTON_Y_OFFSET = 180;
+        public static final float INSTRUCTION_SLIDE_DURATION = .75f;
+        public static final float INSTRUCTION_SLIDE_BACK_DURATION = INSTRUCTION_SLIDE_DURATION / 2;
 
     }
 
@@ -160,8 +162,10 @@ public final class Constants {
 
         public static final int ILLEGAL_CELL = -1;
 
+        public static final int PIECE_TYPES = 3;
         public static final int WHITE_TEAM = 0;
         public static final int BLACK_TEAM = 1;
+        public static final int KING = 2;
         public static final int NO_TEAM = -1;
 
         public static final char EMPTY_CELL = '.';

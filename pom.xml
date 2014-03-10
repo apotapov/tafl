@@ -12,7 +12,7 @@
         <gdx.version>1.0-SNAPSHOT</gdx.version>
         <ormlite.version>4.47</ormlite.version>
         <android.version>4.1.1.4</android.version>
-        <android.maven.version>3.6.0</android.maven.version>
+        <android.maven.version>3.8.2</android.maven.version>
         <gwt.version>2.5.0</gwt.version>
         <gwt.maven.version>2.5.0</gwt.maven.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -62,8 +62,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.5.1</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 		</plugins>

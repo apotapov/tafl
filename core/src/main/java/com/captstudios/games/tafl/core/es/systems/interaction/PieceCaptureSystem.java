@@ -5,6 +5,7 @@ import com.artemis.Entity;
 import com.artemis.Filter;
 import com.artemis.systems.event.EventProcessingSystem;
 import com.badlogic.gdx.math.Vector2;
+import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.captstudios.games.tafl.core.es.model.TaflMatch;
 import com.captstudios.games.tafl.core.es.systems.events.ChangeTurnEvent;
@@ -37,7 +38,12 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
 
         MatchComponent component = matchMapper.get(e);
 
-        component.match.removePieces((event.move.pieceType + 1) % 2, event.move.capturedPieces);
+        if (event.move.pieceType == Constants.BoardConstants.BLACK_TEAM) {
+            component.match.removePieces(Constants.BoardConstants.WHITE_TEAM, event.move.capturedPieces);
+            component.match.removePieces(Constants.BoardConstants.KING, event.move.capturedPieces);
+        } else {
+            component.match.removePieces(Constants.BoardConstants.BLACK_TEAM, event.move.capturedPieces);
+        }
 
         for (int i = event.move.capturedPieces.nextSetBit(0); i >= 0; i = event.move.capturedPieces.nextSetBit(i+1)) {
             highlightSystem.clearCellHighlights(i);

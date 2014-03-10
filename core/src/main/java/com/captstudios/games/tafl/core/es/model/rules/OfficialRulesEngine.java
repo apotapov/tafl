@@ -120,10 +120,6 @@ public class OfficialRulesEngine extends RulesEngine {
         DrawReasonEnum reason = checkDrawMoves(team);
         if (reason == null) {
             reason = checkDrawThreePeat();
-            if (reason == null) {
-                reason = checkDrawKingTrapped();
-
-            }
         }
         return reason;
     }
@@ -144,7 +140,10 @@ public class OfficialRulesEngine extends RulesEngine {
         tempBitBoard.clear();
 
         int capturer = move.destination;
-        int capturingTeam = move.pieceType / 2;
+        int capturingTeam = Constants.BoardConstants.WHITE_TEAM;
+        if (move.pieceType == Constants.BoardConstants.BLACK_TEAM) {
+            capturingTeam = Constants.BoardConstants.BLACK_TEAM;
+        }
 
         allWhiteBitBoard.clear();
         allWhiteBitBoard.set(board.whiteBitBoard()).or(board.kingBitBoard());
@@ -261,7 +260,8 @@ public class OfficialRulesEngine extends RulesEngine {
     private boolean isHostile(int capturingTeam, BitBoard capturingBoard, int oppositeCell) {
         return board.isValid(oppositeCell) &&
                 (capturingBoard.get(oppositeCell) ||
-                        !board.canWalk(capturingTeam, oppositeCell));
+                        (!board.canWalk(capturingTeam, oppositeCell) &&
+                                board.getKing() != oppositeCell));
     }
 
     @Override
@@ -370,7 +370,18 @@ public class OfficialRulesEngine extends RulesEngine {
 
     @Override
     public boolean teamCanMoveToLocation(int team, int cellId) {
-        tempBitBoard.set(board.getRow(cellId)).or(board.getColumn(cellId)).and(board.bitBoards[team]);
+
+        BitBoard teamBoard;
+
+        if (team == Constants.BoardConstants.WHITE_TEAM) {
+            allWhiteBitBoard.clear();
+            allWhiteBitBoard.set(board.whiteBitBoard()).or(board.kingBitBoard());
+            teamBoard = allWhiteBitBoard;
+        } else {
+            teamBoard = board.blackBitBoard();
+        }
+
+        tempBitBoard.set(board.getRow(cellId)).or(board.getColumn(cellId)).and(teamBoard);
         for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
             if (board.rules.isMoveLegal(team, i, cellId)) {
                 return true;
@@ -381,8 +392,6 @@ public class OfficialRulesEngine extends RulesEngine {
 
     private BitBoard calculateMoves(int source) {
         legalMoves.clear();
-
-        // TODO use row/column bitsets
 
         // LEGAL UP
         for (int i = source + board.dimensions; i < board.boardSize; i += board.dimensions) {
@@ -431,12 +440,6 @@ public class OfficialRulesEngine extends RulesEngine {
         }
 
         return legalMoves;
-    }
-
-
-    private DrawReasonEnum checkDrawKingTrapped() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     private DrawReasonEnum checkDrawMoves(int team) {

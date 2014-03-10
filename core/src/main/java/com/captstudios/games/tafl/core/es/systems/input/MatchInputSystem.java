@@ -72,7 +72,8 @@ public class MatchInputSystem extends InputProcessingSystem<MatchRenderingCompon
                     matchComponent.draggedPiece = Constants.BoardConstants.ILLEGAL_CELL;
                     break;
                 case TOUCH_DOWN:
-                    if (match.board.bitBoards[match.turn].get(cellId)) {
+                    if (match.board.bitBoards[match.turn].get(cellId) ||
+                            (match.turn == Constants.BoardConstants.WHITE_TEAM && match.board.getKing() == cellId)) {
                         selectPiece(match, cellId);
                         matchComponent.dragging += world.getDelta();
                         matchComponent.draggedPiece = cellId;
@@ -104,24 +105,32 @@ public class MatchInputSystem extends InputProcessingSystem<MatchRenderingCompon
 
     private boolean movePiece(TaflMatch match, int destination, float dragging) {
         if (match.board.rules.isMoveLegal(match.turn, match.board.selectedPiece, destination)) {
-            move(match.turn, match.board.selectedPiece, destination, dragging);
+            move(match, match.board.selectedPiece, destination, dragging);
             return true;
         }
         return false;
     }
 
-    private void move(int pieceType, int source, int destination, float dragging) {
+    private void move(TaflMatch match, int source, int destination, float dragging) {
         if (dragging > Constants.GameConstants.DRAG_THRESHOLD) {
             MoveFinishedEvent event = world.createEvent(MoveFinishedEvent.class);
             event.move = Move.movePool.obtain();
-            event.move.pieceType = pieceType;
+            if (match.board.getKing() == source) {
+                event.move.pieceType = Constants.BoardConstants.KING;
+            } else {
+                event.move.pieceType = match.turn;
+            }
             event.move.source = source;
             event.move.destination = destination;
             world.postEvent(this, event);
         } else {
             PieceMoveEvent event = world.createEvent(PieceMoveEvent.class);
             event.move = Move.movePool.obtain();
-            event.move.pieceType = pieceType;
+            if (match.board.getKing() == source) {
+                event.move.pieceType = Constants.BoardConstants.KING;
+            } else {
+                event.move.pieceType = match.turn;
+            }
             event.move.source = source;
             event.move.destination = destination;
             world.postEvent(this, event);

@@ -78,8 +78,8 @@ public class TaflBoard extends GameBoard {
         nearCorners.set(boardSize - dimensions - 1);
     }
 
-    public boolean canWalk(int piece, int cellId) {
-        return bitBoards[Constants.BoardConstants.KING].get(piece) || (center != cellId && !corners.get(cellId));
+    public boolean canWalk(int piece, int destination) {
+        return bitBoards[Constants.BoardConstants.KING].get(piece) || (center != destination && !corners.get(destination));
     }
 
     public float getDimensionWithBorders() {
@@ -148,7 +148,10 @@ public class TaflBoard extends GameBoard {
     }
 
     public int getKing() {
-        return bitBoards[Constants.BoardConstants.KING].nextSetBit(0);
+        if (!getKingCaptured()) {
+            return bitBoards[Constants.BoardConstants.KING].nextSetBit(0);
+        }
+        return Constants.BoardConstants.ILLEGAL_CELL;
     }
 
     public boolean getKingCaptured() {

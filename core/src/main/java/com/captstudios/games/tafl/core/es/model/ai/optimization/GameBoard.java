@@ -1,6 +1,7 @@
 package com.captstudios.games.tafl.core.es.model.ai.optimization;
 
 import com.badlogic.gdx.utils.Array;
+import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.transposition.ZorbistHash;
 
@@ -113,14 +114,19 @@ public abstract class GameBoard {
     public void simulateMove(Move move) {
         applyMove(move, true);
         move.capturedPieces.set(getCapturedPieces(move));
-        removePieces((move.pieceType + 1) % 2, move.capturedPieces);
+
+        if (move.pieceType == Constants.BoardConstants.BLACK_TEAM) {
+            removePieces(Constants.BoardConstants.WHITE_TEAM, move.capturedPieces);
+            removePieces(Constants.BoardConstants.KING, move.capturedPieces);
+        } else {
+            removePieces(Constants.BoardConstants.BLACK_TEAM, move.capturedPieces);
+        }
     }
 
     protected abstract BitBoard getCapturedPieces(Move move);
 
-    public void undoSimulatedMove(Move move) {
-        undoMove(move);
-        simulatedStack.pop();
+    public void undoSimulatedMove() {
+        undoMove(simulatedStack.pop());
     }
 
     public void reset() {

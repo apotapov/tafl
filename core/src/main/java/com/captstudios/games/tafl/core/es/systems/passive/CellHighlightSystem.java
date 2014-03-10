@@ -57,6 +57,15 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
                 highlightCell(matchComponent.match, i);
             }
         }
+
+        if (team == Constants.BoardConstants.WHITE_TEAM) {
+            pieces = match.board.bitBoards[Constants.BoardConstants.KING];
+            for (int i = pieces.nextSetBit(0); i >= 0; i = pieces.nextSetBit(i+1)) {
+                if (match.board.rules.getLegalMoves(match.turn, i).cardinality() > 0) {
+                    highlightCell(matchComponent.match, i);
+                }
+            }
+        }
     }
 
     public void clearCellHighlights() {

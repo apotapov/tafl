@@ -168,10 +168,6 @@ public class TaflMatch {
         return turn != computerTeam;
     }
 
-    public BitBoard currentBitBoard() {
-        return board.bitBoards[turn];
-    }
-
     public void changeTurn() {
         turn = (turn + 1) % 2;
 

@@ -259,7 +259,7 @@ public abstract class AISearchAgent<U extends GameBoard> {
                     }
                 }
             } finally {
-                board.undoSimulatedMove(move);
+                board.undoSimulatedMove();
             }
         }
         return bestSoFar;
@@ -300,7 +300,7 @@ public abstract class AISearchAgent<U extends GameBoard> {
                     }
                 }
             } finally {
-                board.undoSimulatedMove(move);
+                board.undoSimulatedMove();
             }
         }
 

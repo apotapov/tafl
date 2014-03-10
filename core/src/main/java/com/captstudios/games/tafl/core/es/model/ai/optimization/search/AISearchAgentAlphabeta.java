@@ -79,7 +79,7 @@ public class AISearchAgentAlphabeta<U extends GameBoard> extends AISearchAgent<U
                     bestMove.eval = movScore;
                     bestSoFar = movScore;
                 }
-                board.undoSimulatedMove(move);
+                board.undoSimulatedMove();
             }
 
             clearLegalMoves(legalMoves);

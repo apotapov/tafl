@@ -105,9 +105,21 @@ public class TaflBoard extends GameBoard {
         int x = (int)((screenPosition.x -
                 Constants.BoardRenderConstants.CELL_HORIZONTAL_OFFSET) /
                 Constants.BoardRenderConstants.TILE_SIZE);
+
+        // to make sure we are not wrapping around to the other side
+        // when we touch the edge of the board.
+        x = Math.min(x, dimensions - 1);
+
         int y = (int)((screenPosition.y -
                 Constants.BoardRenderConstants.CELL_VERTICAL_OFFSET) /
                 Constants.BoardRenderConstants.TILE_SIZE);
+
+        // leave some margin around the top as well
+        if (y == dimensions) {
+            y = dimensions - 1;
+        }
+
+
         return y * dimensions + x;
     }
 

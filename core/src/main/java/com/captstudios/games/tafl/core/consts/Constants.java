@@ -42,7 +42,7 @@ public final class Constants {
         public static final int CAPTURE_VIBRATION_LENGTH = 500;
         public static final int GAME_OVER_VIBRATION_LENGTH = 1000;
 
-        public static final float DRAG_THRESHOLD = 0.2f;
+        public static final float DRAG_THRESHOLD = 0.1f;
     }
 
     public static final class AiConstants {

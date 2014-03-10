@@ -27,11 +27,11 @@ import com.roundtriangles.games.zaria.screen.AbstractScreen;
 public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
 
     private static class ListItem<T> {
-        T value;
+        //T value;
         String translatedValue;
 
         public ListItem(T value, String translatedValue) {
-            this.value = value;
+            //this.value = value;
             this.translatedValue = translatedValue;
         }
 

@@ -161,11 +161,11 @@ public class TaflBoard extends GameBoard {
 
     @Override
     public void addPiece(int team, int piece) {
-        super.addPiece(team, piece);
-
         if (piece == capturedKing) {
-            bitBoards[Constants.BoardConstants.KING].set(capturedKing);
+            super.addPiece(Constants.BoardConstants.KING, piece);
             capturedKing = Constants.BoardConstants.ILLEGAL_CELL;
+        } else {
+            super.addPiece(team, piece);
         }
     }
 

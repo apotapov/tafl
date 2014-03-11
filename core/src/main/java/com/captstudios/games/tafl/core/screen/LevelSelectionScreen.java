@@ -1,5 +1,6 @@
 package com.captstudios.games.tafl.core.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -22,6 +23,7 @@ import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.consts.LocalizedStrings;
 import com.captstudios.games.tafl.core.enums.AiType;
 import com.captstudios.games.tafl.core.level.TaflLevel;
+import com.esotericsoftware.tablelayout.Cell;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
 
 public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
@@ -156,7 +158,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         innerTable.add();
         innerTable.add(computerLabel).uniform();
 
-        table.add(innerTable).spaceBottom(game.deviceSettings.menuSpacing);
+        table.add(innerTable).spaceBottom(game.deviceSettings.menuSpacing * 2);
         table.row();
     }
 
@@ -181,16 +183,17 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         });
 
         String text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.AI_DIFFICULTY);
-        Label difficultyLabel = new Label(text, skin, Assets.Skin.SKIN_STYLE_MENU);
+        Label difficultyLabel = new Label(text, skin, Assets.Skin.SKIN_STYLE_SCREEN_TITLE);
 
         innerTable.add(difficultyLabel);
         innerTable.row();
-        innerTable.add(slider);
+        Cell<?> sliderCell = innerTable.add(slider);
+        sliderCell.size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 15);
         innerTable.row();
         innerTable.add(difficulty);
         innerTable.row();
 
-        table.add(innerTable).spaceBottom(game.deviceSettings.menuSpacing);
+        table.add(innerTable).spaceBottom(game.deviceSettings.menuSpacing * 2);
         table.row();
     }
 

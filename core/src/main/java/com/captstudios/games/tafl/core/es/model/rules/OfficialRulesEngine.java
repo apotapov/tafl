@@ -93,11 +93,11 @@ public class OfficialRulesEngine extends RulesEngine {
         allLegalMoves.clear();
         allPieces.set(board.whiteBitBoard()).or(board.blackBitBoard()).or(board.kingBitBoard());
 
-        calculateMoves(team, allLegalMoves);
-
         if (team == Constants.BoardConstants.WHITE_TEAM) {
             calculateMoves(Constants.BoardConstants.KING, allLegalMoves);
         }
+
+        calculateMoves(team, allLegalMoves);
     }
 
     private void calculateMoves(int pieceType, Array<Move> allLegalMoves) {

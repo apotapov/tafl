@@ -51,8 +51,8 @@ public final class Constants {
         public static final int ADVANCED_TREE_DEPTH = 3;
 
         public static final Color LOADING_PROMP_COLOR = new Color(0f, 0f, 0f, 0.4f);
-        public static final float LOADING_PROMPT_WIDTH = 200;
-        public static final float LOADING_PROMPT_HEIGHT = 60;
+        public static final float LOADING_PROMPT_WIDTH = 250;
+        public static final float LOADING_PROMPT_HEIGHT = 80;
 
         public static final int TABLE_SIZE = 2097152; //4194304; //2097152; //1048576; // 1m
         public static final AiType DEFAULT_AI_TYPE = AiType.AI_BEGINNER;

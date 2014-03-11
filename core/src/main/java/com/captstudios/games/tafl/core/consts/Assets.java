@@ -118,32 +118,32 @@ public class Assets extends GameAssetLoader {
         }
         public static final FontDefinition FONT_DESTKOP_MENU = new FontDefinition("skin/Gotham-Medium.otf", 32);
         public static final FontDefinition FONT_DESTKOP_SCREEN_TITLE = new FontDefinition("skin/Gotham-Medium.otf", 40);
-        public static final FontDefinition FONT_DESTKOP_GAME = new FontDefinition("skin/Gotham-Medium.otf", 24);
-        public static final FontDefinition FONT_DESTKOP_DIALOG = new FontDefinition("skin/Gotham-Medium.otf", 32);
+        public static final FontDefinition FONT_DESTKOP_GAME = new FontDefinition("skin/Gotham-Medium.otf", 40);
+        public static final FontDefinition FONT_DESTKOP_HUD = new FontDefinition("skin/Gotham-Medium.otf", 24);
         public static final FontDefinition FONT_DESTKOP_RULES = new FontDefinition("skin/Gotham-Medium.otf", 16);
 
         public static final FontDefinition FONT_LDPI_MENU = new FontDefinition("skin/Gotham-Medium.otf", 32);
         public static final FontDefinition FONT_LDPI_SCREEN_TITLE = new FontDefinition("skin/Gotham-Medium.otf", 40);
-        public static final FontDefinition FONT_LDPI_GAME = new FontDefinition("skin/Gotham-Medium.otf", 24);
-        public static final FontDefinition FONT_LDPI_DIALOG = new FontDefinition("skin/Gotham-Medium.otf", 32);
+        public static final FontDefinition FONT_LDPI_GAME = new FontDefinition("skin/Gotham-Medium.otf", 40);
+        public static final FontDefinition FONT_LDPI_HUD = new FontDefinition("skin/Gotham-Medium.otf", 24);
         public static final FontDefinition FONT_LDPI_RULES = new FontDefinition("skin/Gotham-Medium.otf", 16);
 
         public static final FontDefinition FONT_MDPI_MENU = new FontDefinition("skin/Gotham-Medium.otf", 48);
         public static final FontDefinition FONT_MDPI_SCREEN_TITLE = new FontDefinition("skin/Gotham-Medium.otf", 72);
-        public static final FontDefinition FONT_MDPI_GAME = new FontDefinition("skin/Gotham-Medium.otf", 32);
-        public static final FontDefinition FONT_MDPI_DIALOG = new FontDefinition("skin/Gotham-Medium.otf", 40);
+        public static final FontDefinition FONT_MDPI_GAME = new FontDefinition("skin/Gotham-Medium.otf", 40);
+        public static final FontDefinition FONT_MDPI_HUD = new FontDefinition("skin/Gotham-Medium.otf", 32);
         public static final FontDefinition FONT_MDPI_RULES = new FontDefinition("skin/Gotham-Medium.otf", 24);
 
         public static final FontDefinition FONT_HDPI_MENU = new FontDefinition("skin/Gotham-Medium.otf", 72);
         public static final FontDefinition FONT_HDPI_SCREEN_TITLE = new FontDefinition("skin/Gotham-Medium.otf", 96);
-        public static final FontDefinition FONT_HDPI_GAME = new FontDefinition("skin/Gotham-Medium.otf", 48);
-        public static final FontDefinition FONT_HDPI_DIALOG = new FontDefinition("skin/Gotham-Medium.otf", 64);
+        public static final FontDefinition FONT_HDPI_GAME = new FontDefinition("skin/Gotham-Medium.otf", 40);
+        public static final FontDefinition FONT_HDPI_HUD = new FontDefinition("skin/Gotham-Medium.otf", 48);
         public static final FontDefinition FONT_HDPI_RULES = new FontDefinition("skin/Gotham-Medium.otf", 36);
 
         public static final FontDefinition FONT_XHDPI_MENU = new FontDefinition("skin/Gotham-Medium.otf", 96);
         public static final FontDefinition FONT_XHDPI_SCREEN_TITLE = new FontDefinition("skin/Gotham-Medium.otf", 128);
-        public static final FontDefinition FONT_XHDPI_GAME = new FontDefinition("skin/Gotham-Medium.otf", 64);
-        public static final FontDefinition FONT_XHDPI_DIALOG = new FontDefinition("skin/Gotham-Medium.otf", 80);
+        public static final FontDefinition FONT_XHDPI_GAME = new FontDefinition("skin/Gotham-Medium.otf", 40);
+        public static final FontDefinition FONT_XHDPI_HUD = new FontDefinition("skin/Gotham-Medium.otf", 64);
         public static final FontDefinition FONT_XHDPI_RULES = new FontDefinition("skin/Gotham-Medium.otf", 48);
     }
 
@@ -200,27 +200,27 @@ public class Assets extends GameAssetLoader {
         graphicsService.loadFonts(Assets.Fonts.FONT_DESTKOP_MENU,
                 Assets.Fonts.FONT_DESTKOP_SCREEN_TITLE,
                 Assets.Fonts.FONT_DESTKOP_GAME,
-                Assets.Fonts.FONT_DESTKOP_DIALOG,
+                Assets.Fonts.FONT_DESTKOP_HUD,
                 Assets.Fonts.FONT_DESTKOP_RULES,
                 Assets.Fonts.FONT_LDPI_MENU,
                 Assets.Fonts.FONT_LDPI_SCREEN_TITLE,
                 Assets.Fonts.FONT_LDPI_GAME,
-                Assets.Fonts.FONT_LDPI_DIALOG,
+                Assets.Fonts.FONT_LDPI_HUD,
                 Assets.Fonts.FONT_LDPI_RULES,
                 Assets.Fonts.FONT_MDPI_MENU,
                 Assets.Fonts.FONT_MDPI_SCREEN_TITLE,
                 Assets.Fonts.FONT_MDPI_GAME,
-                Assets.Fonts.FONT_MDPI_DIALOG,
+                Assets.Fonts.FONT_MDPI_HUD,
                 Assets.Fonts.FONT_MDPI_RULES,
                 Assets.Fonts.FONT_HDPI_MENU,
                 Assets.Fonts.FONT_HDPI_SCREEN_TITLE,
                 Assets.Fonts.FONT_HDPI_GAME,
-                Assets.Fonts.FONT_HDPI_DIALOG,
+                Assets.Fonts.FONT_HDPI_HUD,
                 Assets.Fonts.FONT_HDPI_RULES,
                 Assets.Fonts.FONT_XHDPI_MENU,
                 Assets.Fonts.FONT_XHDPI_SCREEN_TITLE,
                 Assets.Fonts.FONT_XHDPI_GAME,
-                Assets.Fonts.FONT_XHDPI_DIALOG,
+                Assets.Fonts.FONT_XHDPI_HUD,
                 Assets.Fonts.FONT_XHDPI_RULES);
 
         localeService.load(

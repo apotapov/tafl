@@ -28,40 +28,39 @@ public class TaflGraphicsService extends GraphicsService {
         Skin skin = getSkin(Assets.Skin.UI_SKIN);
         BitmapFont menuFont = getFont(game.deviceSettings.menuFont);
         BitmapFont screenTitle = getFont(game.deviceSettings.screenTitleFont);
-        BitmapFont gameFont = getFont(game.deviceSettings.gameFont);
-        BitmapFont dialogFont = getFont(game.deviceSettings.dialogFont);
+        BitmapFont hudFont = getFont(game.deviceSettings.hudFont);
         BitmapFont rulesFont = getFont(game.deviceSettings.rulesFont);
 
         skin.get(Assets.Skin.SKIN_STYLE_MENU, TextButtonStyle.class).font = menuFont;
-        skin.get(Assets.Skin.SKIN_STYLE_GAME, TextButtonStyle.class).font = gameFont;
-        skin.get(Assets.Skin.SKIN_STYLE_DIALOG, TextButtonStyle.class).font = dialogFont;
+        skin.get(Assets.Skin.SKIN_STYLE_GAME, TextButtonStyle.class).font = hudFont;
+        skin.get(Assets.Skin.SKIN_STYLE_DIALOG, TextButtonStyle.class).font = hudFont;
 
         skin.get(Assets.Skin.SKIN_STYLE_MENU, ImageTextButtonStyle.class).font = menuFont;
-        skin.get(Assets.Skin.SKIN_STYLE_GAME, ImageTextButtonStyle.class).font = gameFont;
+        skin.get(Assets.Skin.SKIN_STYLE_GAME, ImageTextButtonStyle.class).font = hudFont;
 
         skin.get(Assets.Skin.SKIN_STYLE_MENU, SelectBoxStyle.class).font = menuFont;
         skin.get(Assets.Skin.SKIN_STYLE_MENU, SelectBoxStyle.class).listStyle.font = menuFont;
-        skin.get(Assets.Skin.SKIN_STYLE_GAME, SelectBoxStyle.class).font = gameFont;
-        skin.get(Assets.Skin.SKIN_STYLE_GAME, SelectBoxStyle.class).listStyle.font = gameFont;
+        skin.get(Assets.Skin.SKIN_STYLE_GAME, SelectBoxStyle.class).font = hudFont;
+        skin.get(Assets.Skin.SKIN_STYLE_GAME, SelectBoxStyle.class).listStyle.font = hudFont;
 
-        skin.get(Assets.Skin.SKIN_STYLE_DIALOG, WindowStyle.class).titleFont = gameFont;
+        skin.get(Assets.Skin.SKIN_STYLE_DIALOG, WindowStyle.class).titleFont = hudFont;
 
         skin.get(Assets.Skin.SKIN_STYLE_MENU, LabelStyle.class).font = menuFont;
         skin.get(Assets.Skin.SKIN_STYLE_SCREEN_TITLE, LabelStyle.class).font = screenTitle;
 
-        skin.get(Assets.Skin.SKIN_STYLE_GAME, LabelStyle.class).font = gameFont;
-        skin.get(Assets.Skin.SKIN_STYLE_DIALOG, LabelStyle.class).font = dialogFont;
-        skin.get(Assets.Skin.SKIN_STYLE_PLAYER_TAG, LabelStyle.class).font = gameFont;
+        skin.get(Assets.Skin.SKIN_STYLE_GAME, LabelStyle.class).font = hudFont;
+        skin.get(Assets.Skin.SKIN_STYLE_DIALOG, LabelStyle.class).font = hudFont;
+        skin.get(Assets.Skin.SKIN_STYLE_PLAYER_TAG, LabelStyle.class).font = hudFont;
         skin.get(Assets.Skin.SKIN_STYLE_RULES, LabelStyle.class).font = rulesFont;
 
         skin.get(Assets.Skin.SKIN_STYLE_MENU, TextFieldStyle.class).font = menuFont;
-        skin.get(Assets.Skin.SKIN_STYLE_GAME, TextFieldStyle.class).font = gameFont;
+        skin.get(Assets.Skin.SKIN_STYLE_GAME, TextFieldStyle.class).font = hudFont;
 
         skin.get(Assets.Skin.SKIN_STYLE_MENU, CheckBoxStyle.class).font = menuFont;
-        skin.get(Assets.Skin.SKIN_STYLE_GAME, CheckBoxStyle.class).font = gameFont;
+        skin.get(Assets.Skin.SKIN_STYLE_GAME, CheckBoxStyle.class).font = hudFont;
 
         skin.get(Assets.Skin.SKIN_STYLE_MENU, ListStyle.class).font = menuFont;
-        skin.get(Assets.Skin.SKIN_STYLE_GAME, ListStyle.class).font = gameFont;
+        skin.get(Assets.Skin.SKIN_STYLE_GAME, ListStyle.class).font = hudFont;
     }
 
 }

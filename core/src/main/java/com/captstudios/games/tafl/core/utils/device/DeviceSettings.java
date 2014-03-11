@@ -17,7 +17,7 @@ public class DeviceSettings {
     public FontDefinition menuFont;
     public FontDefinition screenTitleFont;
     public FontDefinition gameFont;
-    public FontDefinition dialogFont;
+    public FontDefinition hudFont;
     public FontDefinition rulesFont;
 
     public int menuButtonWidth;
@@ -53,7 +53,7 @@ public class DeviceSettings {
             setParameters(Assets.Fonts.FONT_DESTKOP_MENU,
                     Assets.Fonts.FONT_DESTKOP_SCREEN_TITLE,
                     Assets.Fonts.FONT_DESTKOP_GAME,
-                    Assets.Fonts.FONT_DESTKOP_DIALOG,
+                    Assets.Fonts.FONT_DESTKOP_HUD,
                     Assets.Fonts.FONT_DESTKOP_RULES,
                     Constants.ScreenConstants.DESKTOP_BUTTON_WIDTH,
                     Constants.ScreenConstants.DESKTOP_BUTTON_HEIGHT,
@@ -72,7 +72,7 @@ public class DeviceSettings {
             setParameters(Assets.Fonts.FONT_XHDPI_MENU,
                     Assets.Fonts.FONT_XHDPI_SCREEN_TITLE,
                     Assets.Fonts.FONT_XHDPI_GAME,
-                    Assets.Fonts.FONT_XHDPI_DIALOG,
+                    Assets.Fonts.FONT_XHDPI_HUD,
                     Assets.Fonts.FONT_XHDPI_RULES,
                     Constants.ScreenConstants.XHDPI_BUTTON_WIDTH,
                     Constants.ScreenConstants.XHDPI_BUTTON_HEIGHT,
@@ -89,7 +89,7 @@ public class DeviceSettings {
             setParameters(Assets.Fonts.FONT_HDPI_MENU,
                     Assets.Fonts.FONT_HDPI_SCREEN_TITLE,
                     Assets.Fonts.FONT_HDPI_GAME,
-                    Assets.Fonts.FONT_HDPI_DIALOG,
+                    Assets.Fonts.FONT_HDPI_HUD,
                     Assets.Fonts.FONT_HDPI_RULES,
                     Constants.ScreenConstants.HDPI_BUTTON_WIDTH,
                     Constants.ScreenConstants.HDPI_BUTTON_HEIGHT,
@@ -106,7 +106,7 @@ public class DeviceSettings {
             setParameters(Assets.Fonts.FONT_MDPI_MENU,
                     Assets.Fonts.FONT_MDPI_SCREEN_TITLE,
                     Assets.Fonts.FONT_MDPI_GAME,
-                    Assets.Fonts.FONT_MDPI_DIALOG,
+                    Assets.Fonts.FONT_MDPI_HUD,
                     Assets.Fonts.FONT_MDPI_RULES,
                     Constants.ScreenConstants.MDPI_BUTTON_WIDTH,
                     Constants.ScreenConstants.MDPI_BUTTON_HEIGHT,
@@ -123,7 +123,7 @@ public class DeviceSettings {
             setParameters(Assets.Fonts.FONT_LDPI_MENU,
                     Assets.Fonts.FONT_LDPI_SCREEN_TITLE,
                     Assets.Fonts.FONT_LDPI_GAME,
-                    Assets.Fonts.FONT_LDPI_DIALOG,
+                    Assets.Fonts.FONT_LDPI_HUD,
                     Assets.Fonts.FONT_LDPI_RULES,
                     Constants.ScreenConstants.LDPI_BUTTON_WIDTH,
                     Constants.ScreenConstants.LDPI_BUTTON_HEIGHT,
@@ -142,7 +142,7 @@ public class DeviceSettings {
     private void setParameters(FontDefinition menuFont,
             FontDefinition screenTitleFont,
             FontDefinition gameFont,
-            FontDefinition dialogFont,
+            FontDefinition hudFont,
             FontDefinition debugFont,
             int menuButtonWidth,
             int menuButtonHeight,
@@ -159,7 +159,7 @@ public class DeviceSettings {
         this.menuFont = menuFont;
         this.screenTitleFont = screenTitleFont;
         this.gameFont = gameFont;
-        this.dialogFont = dialogFont;
+        this.hudFont = hudFont;
         this.rulesFont = debugFont;
 
         this.menuButtonWidth = menuButtonWidth;

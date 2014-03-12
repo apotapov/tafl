@@ -43,6 +43,7 @@ public final class Constants {
         public static final int GAME_OVER_VIBRATION_LENGTH = 1000;
 
         public static final float DRAG_THRESHOLD = 0; //0.1f;
+        public static final int MAX_NUMBER_OF_MOVES = 11 * 11 * 20;
     }
 
     public static final class AiConstants {

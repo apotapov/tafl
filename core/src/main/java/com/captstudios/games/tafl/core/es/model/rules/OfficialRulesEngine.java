@@ -35,7 +35,8 @@ public class OfficialRulesEngine extends RulesEngine {
 
     TaflBoard board;
 
-    private static final Random RANDOM = new Random();
+    private Random random;
+    private Move[] shuffleArray;
 
     public OfficialRulesEngine() {
         blackLegalMoves = new Array<Move>();
@@ -44,6 +45,9 @@ public class OfficialRulesEngine extends RulesEngine {
 
         boardConfigHistory = new IntArray();
         configurationCounter = new IntIntMap();
+
+        random = new Random();
+        shuffleArray = new Move[Constants.GameConstants.MAX_NUMBER_OF_MOVES];
     }
 
     @Override
@@ -116,32 +120,20 @@ public class OfficialRulesEngine extends RulesEngine {
 
     }
 
-    private static void shuffle(Array<Move> moves) {
-        for (int i = 0; i < moves.size; i++) {
-            Move current = moves.removeIndex(i);
-            int randomIndex = RANDOM.nextInt(moves.size);
-            if (randomIndex == i) {
-                if (i > moves.size) {
-                    moves.add(current);
-                } else {
-                    moves.insert(i, current);
-                }
-            } else {
-                Move randomMove = moves.removeIndex(randomIndex);
-
-                if (i > moves.size) {
-                    moves.add(randomMove);
-                } else {
-                    moves.insert(i, randomMove);
-                }
-
-                if (randomIndex > moves.size) {
-                    moves.add(current);
-                } else {
-                    moves.insert(randomIndex, current);
-                }
-            }
+    private void shuffle(Array<Move> moves) {
+        int size = moves.size;
+        for (int i = 0; i < size; i++) {
+            shuffleArray[i] = moves.get(i);
         }
+
+        for (int i = 0; i < size; i++) {
+            int randomIndex = random.nextInt(size);
+            Move current = shuffleArray[i];
+            shuffleArray[i] = shuffleArray[randomIndex];
+            shuffleArray[randomIndex] = current;
+        }
+        moves.clear();
+        moves.addAll(shuffleArray, 0, size);
     }
 
     private void calculateMoves(int pieceType, Array<Move> allLegalMoves) {

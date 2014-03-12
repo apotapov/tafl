@@ -21,7 +21,6 @@ import com.captstudios.games.tafl.core.enums.LifeCycle;
 import com.captstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
 import com.captstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 import com.captstudios.games.tafl.core.es.systems.events.UndoEvent;
-import com.captstudios.games.tafl.core.es.systems.interaction.AiSystem;
 import com.captstudios.games.tafl.core.utils.device.DeviceSettings;
 import com.esotericsoftware.tablelayout.BaseTableLayout;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
@@ -57,7 +56,6 @@ public class HudFactory {
         ChangeListener restartListener = new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                gameWorld.world.getSystem(AiSystem.class).stopThread();
                 LifeCycleEvent lifecycleEvent = SystemEvent.createEvent(LifeCycleEvent.class);
                 lifecycleEvent.lifecycle = LifeCycle.RESTART;
                 gameWorld.world.postEvent(null, lifecycleEvent);
@@ -68,7 +66,6 @@ public class HudFactory {
         ChangeListener quitListener = new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                gameWorld.world.getSystem(AiSystem.class).stopThread();
                 LifeCycleEvent lifecycleEvent = SystemEvent.createEvent(LifeCycleEvent.class);
                 lifecycleEvent.lifecycle = LifeCycle.QUIT;
                 gameWorld.world.postEvent(null, lifecycleEvent);
@@ -270,7 +267,6 @@ public class HudFactory {
         button.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                world.getSystem(AiSystem.class).stopThread();
                 UndoEvent undoEvent = SystemEvent.createEvent(UndoEvent.class);
                 world.postEvent(null, undoEvent);
             }

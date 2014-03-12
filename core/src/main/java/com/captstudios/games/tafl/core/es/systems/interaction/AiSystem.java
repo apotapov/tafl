@@ -65,8 +65,4 @@ public class AiSystem extends EventProcessingSystem2<AiTurnEvent, AiCompleteEven
         moveEvent.move.destination = event.move.destination;
         world.postEvent(this, moveEvent);
     }
-
-    public void stopThread() {
-        aiThread.interrupt();
-    }
 }

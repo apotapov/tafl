@@ -12,16 +12,6 @@ import com.roundtriangles.games.zaria.utils.ModifiableString;
 
 public class TaflBoard extends GameBoard {
 
-    private static final String[] HORIZONTAL_CELL_ID = new String[] {
-        "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
-        "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
-        "U", "V", "W", "X", "Y", "Z" };
-
-    private static final String[] VERTICAL_CELL_ID = new String[] {
-        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-        "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
-        "21", "22", "23", "24", "25", "26" };
-
     public BitBoard corners;
     public BitBoard nearCorners;
     public int center;
@@ -117,18 +107,6 @@ public class TaflBoard extends GameBoard {
 
 
         return y * dimensions + x;
-    }
-
-    public String getHorizontalCellId(int index) {
-        return HORIZONTAL_CELL_ID[index];
-    }
-
-    public String getVerticalCellId(int index) {
-        return VERTICAL_CELL_ID[index];
-    }
-
-    public String getCellName(int x, int y) {
-        return HORIZONTAL_CELL_ID[x] + VERTICAL_CELL_ID[y];
     }
 
     public BitBoard blackBitBoard() {

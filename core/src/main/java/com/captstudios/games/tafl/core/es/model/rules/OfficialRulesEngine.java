@@ -1,5 +1,7 @@
 package com.captstudios.games.tafl.core.es.model.rules;
 
+import java.util.Random;
+
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.IntIntMap;
@@ -18,6 +20,7 @@ public class OfficialRulesEngine extends RulesEngine {
 
     Array<Move> blackLegalMoves;
     Array<Move> whiteLegalMoves;
+    Array<Move> kingLegalMoves;
 
     BitBoard legalMoves;
     BitBoard allPieces;
@@ -32,9 +35,13 @@ public class OfficialRulesEngine extends RulesEngine {
 
     TaflBoard board;
 
+    private static final Random RANDOM = new Random();
+
     public OfficialRulesEngine() {
         blackLegalMoves = new Array<Move>();
         whiteLegalMoves = new Array<Move>();
+        kingLegalMoves = new Array<Move>();
+
         boardConfigHistory = new IntArray();
         configurationCounter = new IntIntMap();
     }
@@ -93,11 +100,48 @@ public class OfficialRulesEngine extends RulesEngine {
         allLegalMoves.clear();
         allPieces.set(board.whiteBitBoard()).or(board.blackBitBoard()).or(board.kingBitBoard());
 
+        calculateMoves(team, allLegalMoves);
+
+        shuffle(allLegalMoves);
+
         if (team == Constants.BoardConstants.WHITE_TEAM) {
-            calculateMoves(Constants.BoardConstants.KING, allLegalMoves);
+            kingLegalMoves.clear();
+            calculateMoves(Constants.BoardConstants.KING, kingLegalMoves);
+
+            // we want king moves in the beginning
+            kingLegalMoves.addAll(allLegalMoves);
+            whiteLegalMoves.clear();
+            whiteLegalMoves.addAll(kingLegalMoves);
         }
 
-        calculateMoves(team, allLegalMoves);
+    }
+
+    private static void shuffle(Array<Move> moves) {
+        for (int i = 0; i < moves.size; i++) {
+            Move current = moves.removeIndex(i);
+            int randomIndex = RANDOM.nextInt(moves.size);
+            if (randomIndex == i) {
+                if (i > moves.size) {
+                    moves.add(current);
+                } else {
+                    moves.insert(i, current);
+                }
+            } else {
+                Move randomMove = moves.removeIndex(randomIndex);
+
+                if (i > moves.size) {
+                    moves.add(randomMove);
+                } else {
+                    moves.insert(i, randomMove);
+                }
+
+                if (randomIndex > moves.size) {
+                    moves.add(current);
+                } else {
+                    moves.insert(randomIndex, current);
+                }
+            }
+        }
     }
 
     private void calculateMoves(int pieceType, Array<Move> allLegalMoves) {
@@ -214,7 +258,7 @@ public class OfficialRulesEngine extends RulesEngine {
                     tempBitBoard.set(king);
                 }
             } else {
-                if (board.inRow(capturer, teammate) && isHostile(capturingTeam, capturingBoard, teammate)) {
+                if (board.isValid(teammate) && board.inRow(capturer, teammate) && isHostile(capturingTeam, capturingBoard, teammate)) {
                     tempBitBoard.set(beingCaptured);
                 }
             }
@@ -235,7 +279,7 @@ public class OfficialRulesEngine extends RulesEngine {
                     tempBitBoard.set(king);
                 }
             } else {
-                if (board.inRow(capturer, teammate) && isHostile(capturingTeam, capturingBoard, teammate)) {
+                if (board.isValid(teammate) && board.inRow(capturer, teammate) && isHostile(capturingTeam, capturingBoard, teammate)) {
                     tempBitBoard.set(beingCaptured);
                 }
             }
@@ -340,7 +384,8 @@ public class OfficialRulesEngine extends RulesEngine {
         }
 
         // LEFT
-        if (board.isValid(cellRight) &&
+        if (board.isValid(cellLeft) &&
+                board.isValid(cellRight) &&
                 board.inRow(cellId, cellLeft) &&
                 board.inRow(cellId, cellRight) &&
                 isHostile(oppositeTeam, oppositeBoard, cellLeft)) {
@@ -354,6 +399,7 @@ public class OfficialRulesEngine extends RulesEngine {
 
         // RIGHT
         if (board.isValid(cellLeft) &&
+                board.isValid(cellRight) &&
                 board.inRow(cellId, cellLeft) &&
                 board.inRow(cellId, cellRight) &&
                 isHostile(oppositeTeam, oppositeBoard, cellRight)) {

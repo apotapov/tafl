@@ -1,7 +1,6 @@
 package com.captstudios.games.tafl.core.es.model;
 
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pool;
 import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.enums.AiType;
 import com.captstudios.games.tafl.core.enums.LifeCycle;
@@ -61,13 +60,6 @@ public class TaflMatch {
     }
 
     private void initializeComponents() {
-        Move.movePool = new Pool<Move>() {
-            @Override
-            protected Move newObject() {
-                return new Move(board.boardSize);
-            }
-        };
-
         int boardSize = boardRepresentation.length();
 
         ZorbistHash hash = new ZorbistHash(Constants.BoardConstants.PIECE_TYPES,

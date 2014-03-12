@@ -9,7 +9,6 @@ import com.artemis.Filter;
 import com.artemis.systems.event.EventProcessingSystem2;
 import com.captstudios.games.tafl.core.es.components.render.AiProcessingComponent;
 import com.captstudios.games.tafl.core.es.components.singleton.MatchComponent;
-import com.captstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.captstudios.games.tafl.core.es.systems.events.AiCompleteEvent;
 import com.captstudios.games.tafl.core.es.systems.events.AiTurnEvent;
 import com.captstudios.games.tafl.core.es.systems.events.PieceMoveEvent;
@@ -59,10 +58,7 @@ public class AiSystem extends EventProcessingSystem2<AiTurnEvent, AiCompleteEven
         e.removeComponent(AiProcessingComponent.class);
 
         PieceMoveEvent moveEvent = world.createEvent(PieceMoveEvent.class);
-        moveEvent.move = Move.movePool.obtain();
-        moveEvent.move.pieceType = event.move.pieceType;
-        moveEvent.move.source = event.move.source;
-        moveEvent.move.destination = event.move.destination;
+        moveEvent.move = event.move.clone();
         world.postEvent(this, moveEvent);
     }
 }

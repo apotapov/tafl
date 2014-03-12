@@ -8,7 +8,7 @@ public class PieceMoveEvent extends SystemEvent {
 
     @Override
     protected void resetForPooling() {
-        Move.movePool.free(move);
+        move.free();
         move = null;
     }
 }

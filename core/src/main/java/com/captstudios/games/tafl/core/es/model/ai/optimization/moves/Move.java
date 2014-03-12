@@ -7,9 +7,7 @@ import com.captstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 
 public class Move implements Poolable {
 
-    public static Pool<Move> movePool;
-
-    private static final int DEFAULT_BOARD_SIZE = 64;
+    public Pool<Move> movePool;
 
     public int pieceType;
 
@@ -22,12 +20,9 @@ public class Move implements Poolable {
 
     public BitBoard capturedPieces;
 
-    public Move() {
-        capturedPieces = new BitBoard(DEFAULT_BOARD_SIZE);
-    }
-
-    public Move(int boardSize) {
-        capturedPieces = new BitBoard(boardSize);
+    public Move(Pool<Move> movePool, int boardSize) {
+        this.movePool = movePool;
+        this.capturedPieces = new BitBoard(boardSize);
     }
 
     @Override
@@ -56,5 +51,9 @@ public class Move implements Poolable {
     @Override
     public String toString() {
         return pieceType + ": " + source + " -> " + destination;
+    }
+
+    public void free() {
+        movePool.free(this);
     }
 }

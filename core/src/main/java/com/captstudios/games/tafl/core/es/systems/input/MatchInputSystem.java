@@ -11,7 +11,6 @@ import com.captstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.captstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 import com.captstudios.games.tafl.core.es.model.TaflMatch;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
-import com.captstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.captstudios.games.tafl.core.es.systems.events.InputEvent;
 import com.captstudios.games.tafl.core.es.systems.events.MoveFinishedEvent;
 import com.captstudios.games.tafl.core.es.systems.events.PieceDragEvent;
@@ -114,7 +113,7 @@ public class MatchInputSystem extends InputProcessingSystem<MatchRenderingCompon
     private void move(TaflMatch match, int source, int destination, float dragging) {
         if (dragging > Constants.GameConstants.DRAG_THRESHOLD) {
             MoveFinishedEvent event = world.createEvent(MoveFinishedEvent.class);
-            event.move = Move.movePool.obtain();
+            event.move = match.board.movePool.obtain();
             if (match.board.getKing() == source) {
                 event.move.pieceType = Constants.BoardConstants.KING;
             } else {
@@ -125,7 +124,7 @@ public class MatchInputSystem extends InputProcessingSystem<MatchRenderingCompon
             world.postEvent(this, event);
         } else {
             PieceMoveEvent event = world.createEvent(PieceMoveEvent.class);
-            event.move = Move.movePool.obtain();
+            event.move = match.board.movePool.obtain();
             if (match.board.getKing() == source) {
                 event.move.pieceType = Constants.BoardConstants.KING;
             } else {

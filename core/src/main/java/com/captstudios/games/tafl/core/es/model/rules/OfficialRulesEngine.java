@@ -100,7 +100,7 @@ public class OfficialRulesEngine extends RulesEngine {
         Array<Move> allLegalMoves =
                 (team == Constants.BoardConstants.WHITE_TEAM) ? whiteLegalMoves : blackLegalMoves;
 
-        Move.movePool.freeAll(allLegalMoves);
+        board.movePool.freeAll(allLegalMoves);
         allLegalMoves.clear();
         allPieces.set(board.whiteBitBoard()).or(board.blackBitBoard()).or(board.kingBitBoard());
 
@@ -141,7 +141,7 @@ public class OfficialRulesEngine extends RulesEngine {
         for (int source = bitBoard.nextSetBit(0); source >= 0; source = bitBoard.nextSetBit(source+1)) {
             BitBoard moves = calculateMoves(source);
             for (int dest = moves.nextSetBit(0); dest >= 0; dest = moves.nextSetBit(dest+1)) {
-                Move move = Move.movePool.obtain();
+                Move move = board.movePool.obtain();
                 move.pieceType = pieceType;
                 move.source = source;
                 move.destination = dest;
@@ -513,7 +513,7 @@ public class OfficialRulesEngine extends RulesEngine {
 
     @Override
     public void freeMoves(Array<Move> moves) {
-        Move.movePool.freeAll(moves);
+        board.movePool.freeAll(moves);
     }
 
     @Override

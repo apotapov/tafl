@@ -1,6 +1,7 @@
 package com.captstudios.games.tafl.core.es.model;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Pool;
 import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.enums.BoardType;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
@@ -29,10 +30,20 @@ public class TaflBoard extends GameBoard {
 
     public BoardType boardType;
 
+    public Pool<Move> movePool;
+
     public TaflBoard(int dimensions, int pieceTypes, ZorbistHash zorbistHash, RulesEngine rulesEngine) {
         super(dimensions, pieceTypes, zorbistHash);
         this.rules = rulesEngine;
         this.boardType = BoardType.getBoardType(dimensions);
+
+        this.movePool = new Pool<Move>() {
+            @Override
+            protected Move newObject() {
+                return new Move(this, boardSize);
+            }
+        };
+
         initialize();
     }
 

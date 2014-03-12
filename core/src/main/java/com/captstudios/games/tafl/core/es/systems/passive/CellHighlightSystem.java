@@ -36,7 +36,7 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
         efs = world.getSystem(EntityFactorySystem.class);
     }
 
-    private void highlightTeam(int team) {
+    public void highlightTeam(int team) {
         clearCellHighlights();
         MatchComponent matchComponent = singletonManager.getSingletonComponent(MatchComponent.class);
         TaflMatch match = matchComponent.match;

@@ -38,6 +38,7 @@ public class GamePlayScreen extends AbstractScreen<TaflGame> {
 
     @Override
     public void pause() {
+        super.pause();
         world.pause();
     }
 

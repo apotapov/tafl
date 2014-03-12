@@ -76,8 +76,8 @@ public class LocalizedStrings {
         ABOUT_ARTIST,
         ABOUT_ENGINEERING_LABEL,
         ABOUT_ENGINEER,
-        ABOUT_TECHNOLOGY_LABEL,
-        ABOUT_TECHNOLOGY
+        //        ABOUT_TECHNOLOGY_LABEL,
+        //        ABOUT_TECHNOLOGY
     }
 
     public enum AboutRules {

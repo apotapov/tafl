@@ -27,7 +27,6 @@ public class AboutScreen extends AbstractScreen<TaflGame> {
         Sprite background = game.graphicsService.getSprite(
                 game.deviceSettings.backgroundAtlas, Assets.Graphics.MENU);
         setBackgroundImage(new Image(background));
-        backgroundImage.setColor(Constants.ScreenConstants.ABOUT_COLOR);
 
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
         Table table = new Table(skin);
@@ -103,6 +102,8 @@ public class AboutScreen extends AbstractScreen<TaflGame> {
 
     @Override
     public void show() {
+        super.show();
         Gdx.input.setInputProcessor(gestureDetector);
+        backgroundImage.setColor(Constants.ScreenConstants.ABOUT_COLOR);
     }
 }

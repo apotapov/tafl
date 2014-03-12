@@ -54,9 +54,12 @@ public class TaflWorld implements Disposable {
         SystemFactory.initSystems(this, activeSystems);
         world.initialize();
 
+        CellHighlightSystem cellHighlightSystem =
+                world.getSystem(CellHighlightSystem.class);
+
         match.initialize(
                 world.getSystem(EntityPieceSystem.class),
-                world.getSystem(CellHighlightSystem.class),
+                cellHighlightSystem,
                 world.getSystem(SoundSystem.class),
                 game.preferenceService);
 
@@ -68,6 +71,7 @@ public class TaflWorld implements Disposable {
             AiTurnEvent aiTurn = world.createEvent(AiTurnEvent.class);
             world.postEvent(null, aiTurn);
         }
+        cellHighlightSystem.highlightTeam(match.turn);
     }
 
     public void render(float delta) {

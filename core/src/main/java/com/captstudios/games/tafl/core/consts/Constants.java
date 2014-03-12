@@ -52,7 +52,7 @@ public final class Constants {
 
         public static final int BEGINNER_TREE_DEPTH_9 = 1;
         public static final int INTERMEDIATE_TREE_DEPTH_9 = 2;
-        public static final int ADVANCED_TREE_DEPTH_9 = 4;
+        public static final int ADVANCED_TREE_DEPTH_9 = 3;
 
         public static final Color LOADING_PROMP_COLOR = new Color(0f, 0f, 0f, 0.4f);
         public static final float LOADING_PROMPT_WIDTH = 250;

@@ -18,7 +18,8 @@ public class LocalizedStrings {
     }
 
     public enum LevelSelectionMenu {
-        LEVEL_SELECTION_TITLE,
+        BOARD_SELECTION_TITLE,
+        SIDE_SELECTION_TITLE,
         PLAY_LEVEL_BUTTON,
 
         PLAY_VERSUS_COMPUTER,

@@ -58,18 +58,9 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         Table table = new Table(skin);
         table.setFillParent(true);
 
-        String text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.LEVEL_SELECTION_TITLE);
-        Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_SCREEN_TITLE);
-        table.add(label).spaceBottom(game.deviceSettings.menuSpacing);
-        table.row();
-
         Array<TaflLevel> levels = game.levelService.getLevels();
 
-        if (Constants.GameConstants.DEBUG) {
-            createLevelList(levels, table, skin);
-        } else {
-            game.preferenceService.setLevelIndex(Constants.GameConstants.DEFAULT_LEVEL_INDEX);
-        }
+        createLevelList(levels, table, skin);
 
         createPlayPreference(skin, table);
 
@@ -84,6 +75,11 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
     }
 
     private void createLevelList(Array<TaflLevel> levels, Table table, Skin skin) {
+        String text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.BOARD_SELECTION_TITLE);
+        Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_SCREEN_TITLE);
+        table.add(label).spaceBottom(game.deviceSettings.menuSpacing);
+        table.row();
+
         Array<ListItem<String>> levelNames = new Array<ListItem<String>>(levels.size);
         for (TaflLevel level : levels) {
             String localizedName = game.localeService.get(level.name);
@@ -158,7 +154,12 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         innerTable.add();
         innerTable.add(computerLabel).uniform();
 
-        table.add(innerTable).spaceBottom(game.deviceSettings.menuSpacing * 2);
+        text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.SIDE_SELECTION_TITLE);
+        Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_SCREEN_TITLE);
+        table.add(label).spaceBottom(game.deviceSettings.menuSpacing);
+        table.row();
+
+        table.add(innerTable).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
     }
 
@@ -193,7 +194,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         innerTable.add(difficulty);
         innerTable.row();
 
-        table.add(innerTable).spaceBottom(game.deviceSettings.menuSpacing * 2);
+        table.add(innerTable).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
     }
 

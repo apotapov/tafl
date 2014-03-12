@@ -13,7 +13,7 @@ public final class Constants {
     public static final class GameConstants {
         private GameConstants() {
         }
-        public static final boolean DEBUG = true;
+        public static final boolean DEBUG = false;
         public static final int BATCH_SIZE = 100;
         public static final int GAME_WIDTH = 1080;
         public static final int GAME_HALF_WIDTH = GAME_WIDTH / 2;
@@ -157,12 +157,12 @@ public final class Constants {
         public static final float CAPTURE_FRAME_DURATION = 0.05f;
         public static final int PIECE_SPEED = 400;
 
-        public static final float TILE_SIZE_11 = 95.6f;
+        public static final float TILE_SIZE_11 = 95.8f;
         public static final float BOARD_FRAME_WIDTH_11 = 15;
 
         public static final float CELL_HORIZONTAL_OFFSET_11 = BOARD_FRAME_WIDTH_11 -
                 Constants.GameConstants.GAME_HALF_WIDTH;
-        public static final float CELL_VERTICAL_OFFSET_11 = 435 -
+        public static final float CELL_VERTICAL_OFFSET_11 = 434 -
                 Constants.GameConstants.GAME_HALF_HEIGHT ;
 
         public static final int[] CORNER_VALUE_CELLS_11 = {
@@ -172,12 +172,12 @@ public final class Constants {
             98, 108, 118
         };
 
-        public static final float TILE_SIZE_9 = 116.6f;
+        public static final float TILE_SIZE_9 = 117f;
         public static final float BOARD_FRAME_WIDTH_9 = 15;
 
         public static final float CELL_HORIZONTAL_OFFSET_9 = BOARD_FRAME_WIDTH_9 -
                 Constants.GameConstants.GAME_HALF_WIDTH;
-        public static final float CELL_VERTICAL_OFFSET_9 = 435 -
+        public static final float CELL_VERTICAL_OFFSET_9 = 434 -
                 Constants.GameConstants.GAME_HALF_HEIGHT;
 
         public static final int[] CORNER_VALUE_CELLS_9 = {

@@ -99,7 +99,7 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         return component;
     }
 
-    public MatchRenderingComponent createMapRenderingComponent(TaflWorld world) {
+    public MatchRenderingComponent createMapRenderingComponent(TaflWorld world, TaflMatch match) {
         MatchRenderingComponent component = createComponent(MatchRenderingComponent.class);
         component.camera = world.camera;
 
@@ -111,7 +111,7 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         component.debugFont = graphics.getFont(ds.rulesFont);
 
         component.backgroundTexture = graphics.getSprite(ds.backgroundAtlas, Assets.Graphics.BOARD);
-        component.gridTexture = graphics.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.GRID);
+        component.gridTexture = graphics.getSprite(Assets.Graphics.ATLAS_PIECES, match.board.boardType.grid);
 
         return component;
     }

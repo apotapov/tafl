@@ -1,10 +1,9 @@
 package com.captstudios.games.tafl.core.es.systems.render.debug;
 
-import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.Filter;
 import com.badlogic.gdx.math.Vector2;
-import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.captstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
 import com.captstudios.games.tafl.core.es.model.TaflBoard;
@@ -46,8 +45,8 @@ public class DebugCellIdRendererSystem extends RenderingSystem<MatchRenderingCom
 
             rendComponent.debugFont.draw(rendComponent.spriteBatch,
                     "" + i,
-                    position.x + Constants.BoardRenderConstants.HALF_TILE_SIZE,
-                    position.y + Constants.BoardRenderConstants.HALF_TILE_SIZE);
+                    position.x + board.boardType.halfTile,
+                    position.y + board.boardType.halfTile);
         }
     }
 

@@ -114,7 +114,6 @@ public class CellHighlightSystem extends PassiveEntitySystem implements TaflMatc
 
     @Override
     public void initializeMatch(TaflMatch match) {
-        highlightTeam(match.turn);
     }
 
     @Override

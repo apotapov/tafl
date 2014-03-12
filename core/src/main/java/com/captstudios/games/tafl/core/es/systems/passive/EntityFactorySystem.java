@@ -44,9 +44,9 @@ public class EntityFactorySystem extends PassiveEntitySystem {
                 componentFactory.createHudComponent(match));
     }
 
-    public Entity createRenderers(TaflWorld gameWorld) {
+    public Entity createRenderers(TaflWorld gameWorld, TaflMatch match) {
         singletonManager.addSingletonComponent(
-                componentFactory.createMapRenderingComponent(gameWorld));
+                componentFactory.createMapRenderingComponent(gameWorld, match));
         return singletonManager.addSingletonComponent(
                 componentFactory.createHudRenderingComponent(gameWorld));
     }
@@ -59,11 +59,11 @@ public class EntityFactorySystem extends PassiveEntitySystem {
 
         String graphic;
         if (match.board.kingBitBoard().get(cellId)) {
-            graphic = Assets.Graphics.KING_PIECE;
+            graphic = match.board.boardType.kingPiece;
         } else if (team == Constants.BoardConstants.WHITE_TEAM) {
-            graphic = Assets.Graphics.WHITE_PIECE;
+            graphic = match.board.boardType.whitePiece;
         } else {
-            graphic = Assets.Graphics.BLACK_PIECE;
+            graphic = match.board.boardType.blackPiece;
         }
 
 

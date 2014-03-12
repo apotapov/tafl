@@ -54,13 +54,13 @@ public class TaflWorld implements Disposable {
         SystemFactory.initSystems(this, activeSystems);
         world.initialize();
 
-        createSingletonEntities();
-
         match.initialize(
                 world.getSystem(EntityPieceSystem.class),
                 world.getSystem(CellHighlightSystem.class),
                 world.getSystem(SoundSystem.class),
                 game.preferenceService);
+
+        createSingletonEntities();
 
         lifecycle = LifeCycle.PLAY;
 
@@ -158,6 +158,6 @@ public class TaflWorld implements Disposable {
         EntityFactorySystem efs = world.getSystem(EntityFactorySystem.class);
         efs.createMatch(match);
         efs.createHud(match);
-        efs.createRenderers(this);
+        efs.createRenderers(this, match);
     }
 }

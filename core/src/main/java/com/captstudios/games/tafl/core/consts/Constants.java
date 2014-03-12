@@ -13,7 +13,7 @@ public final class Constants {
     public static final class GameConstants {
         private GameConstants() {
         }
-        public static final boolean DEBUG = false;
+        public static final boolean DEBUG = true;
         public static final int BATCH_SIZE = 100;
         public static final int GAME_WIDTH = 1080;
         public static final int GAME_HALF_WIDTH = GAME_WIDTH / 2;
@@ -46,9 +46,13 @@ public final class Constants {
     }
 
     public static final class AiConstants {
-        public static final int BEGINNER_TREE_DEPTH = 1;
-        public static final int INTERMEDIATE_TREE_DEPTH = 2;
-        public static final int ADVANCED_TREE_DEPTH = 3;
+        public static final int BEGINNER_TREE_DEPTH_11 = 1;
+        public static final int INTERMEDIATE_TREE_DEPTH_11 = 2;
+        public static final int ADVANCED_TREE_DEPTH_11 = 3;
+
+        public static final int BEGINNER_TREE_DEPTH_9 = 1;
+        public static final int INTERMEDIATE_TREE_DEPTH_9 = 2;
+        public static final int ADVANCED_TREE_DEPTH_9 = 4;
 
         public static final Color LOADING_PROMP_COLOR = new Color(0f, 0f, 0f, 0.4f);
         public static final float LOADING_PROMPT_WIDTH = 250;
@@ -151,9 +155,38 @@ public final class Constants {
         }
 
         public static final float CAPTURE_FRAME_DURATION = 0.05f;
-
-        public static final float SLOW_DOWN_DISTANCE = BoardRenderConstants.TILE_SIZE;
         public static final int PIECE_SPEED = 400;
+
+        public static final float TILE_SIZE_11 = 95.6f;
+        public static final float BOARD_FRAME_WIDTH_11 = 15;
+
+        public static final float CELL_HORIZONTAL_OFFSET_11 = BOARD_FRAME_WIDTH_11 -
+                Constants.GameConstants.GAME_HALF_WIDTH;
+        public static final float CELL_VERTICAL_OFFSET_11 = 435 -
+                Constants.GameConstants.GAME_HALF_HEIGHT ;
+
+        public static final int[] CORNER_VALUE_CELLS_11 = {
+            2, 12, 22,
+            6, 18, 32,
+            88, 100, 112,
+            98, 108, 118
+        };
+
+        public static final float TILE_SIZE_9 = 116.6f;
+        public static final float BOARD_FRAME_WIDTH_9 = 15;
+
+        public static final float CELL_HORIZONTAL_OFFSET_9 = BOARD_FRAME_WIDTH_9 -
+                Constants.GameConstants.GAME_HALF_WIDTH;
+        public static final float CELL_VERTICAL_OFFSET_9 = 435 -
+                Constants.GameConstants.GAME_HALF_HEIGHT;
+
+        public static final int[] CORNER_VALUE_CELLS_9 = {
+            2, 12, 22,
+            6, 16, 26,
+            54, 64, 74,
+            78, 70, 62
+        };
+
     }
 
     public static final class BoardConstants {
@@ -177,11 +210,6 @@ public final class Constants {
     public static final class BoardRenderConstants {
         private BoardRenderConstants() {
         }
-        public static final float TILE_SIZE = 91.5f;
-        public static final float HALF_TILE_SIZE = TILE_SIZE / 2;
-        public static final float QUARTER_TILE_SIZE = HALF_TILE_SIZE / 2;
-
-        public static final float BOARD_FRAME_WIDTH = 36;
 
         public static final Color HIGHLIGHT_COLOR = new Color(0.58203125f, 0.3671875f, 0.10546875f, 0.6f);
         public static final Color SPECIAL_HIGHLIGHT_COLOR = new Color(1f, 0f, 0f, 0.4f);
@@ -189,14 +217,7 @@ public final class Constants {
         public static final Color PATH_COLOR = HIGHLIGHT_COLOR;
         public static final Color END_COLOR = new Color(1f, 1f, 1f, 0.6f);
 
-        public static final float CELL_HORIZONTAL_OFFSET = BOARD_FRAME_WIDTH -
-                GameConstants.GAME_HALF_WIDTH;
-        public static final float CELL_VERTICAL_OFFSET = BOARD_FRAME_WIDTH -
-                GameConstants.GAME_HALF_HEIGHT + 420;
-
-        public static final Color TURN_HIGHLIGHT_COLOR = new Color(0, 0, 0, 0.1f);
-
-        public static final float GRID_RENDER_POSITION_X = -Constants.GameConstants.GAME_WIDTH / 2 - 2;
+        public static final float GRID_RENDER_POSITION_X = -Constants.GameConstants.GAME_WIDTH / 2;
         public static final float GRID_RENDER_POSITION_Y = -Constants.GameConstants.GAME_HEIGHT / 2;
     }
 

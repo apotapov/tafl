@@ -2,6 +2,7 @@ package com.captstudios.games.tafl.core.es.model;
 
 import com.badlogic.gdx.math.Vector2;
 import com.captstudios.games.tafl.core.consts.Constants;
+import com.captstudios.games.tafl.core.enums.BoardType;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.GameBoard;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
@@ -36,10 +37,12 @@ public class TaflBoard extends GameBoard {
 
     public ModifiableString boardString;
 
+    public BoardType boardType;
+
     public TaflBoard(int dimensions, int pieceTypes, ZorbistHash zorbistHash, RulesEngine rulesEngine) {
         super(dimensions, pieceTypes, zorbistHash);
         this.rules = rulesEngine;
-
+        this.boardType = BoardType.getBoardType(dimensions);
         initialize();
     }
 
@@ -82,37 +85,30 @@ public class TaflBoard extends GameBoard {
         return bitBoards[Constants.BoardConstants.KING].get(piece) || (center != destination && !corners.get(destination));
     }
 
-    public float getDimensionWithBorders() {
-        return dimensions * Constants.BoardRenderConstants.TILE_SIZE +
-                Constants.BoardRenderConstants.BOARD_FRAME_WIDTH * 2;
-    }
-
     public Vector2 getCellPosition(int cellId) {
-        position.x = cellId % dimensions * Constants.BoardRenderConstants.TILE_SIZE +
-                Constants.BoardRenderConstants.CELL_HORIZONTAL_OFFSET;
-        position.y = cellId / dimensions * Constants.BoardRenderConstants.TILE_SIZE +
-                Constants.BoardRenderConstants.CELL_VERTICAL_OFFSET;
+        position.x = cellId % dimensions * boardType.tileSize +
+                boardType.cellXOffset;
+        position.y = cellId / dimensions * boardType.tileSize +
+                boardType.cellYOffset;
         return position;
     }
 
     public Vector2 getCellPositionCenter(int cellId) {
         return getCellPosition(cellId).add(
-                Constants.BoardRenderConstants.HALF_TILE_SIZE,
-                Constants.BoardRenderConstants.HALF_TILE_SIZE);
+                boardType.halfTile,
+                boardType.halfTile);
     }
 
     public int getCellId(Vector2 screenPosition) {
-        int x = (int)((screenPosition.x -
-                Constants.BoardRenderConstants.CELL_HORIZONTAL_OFFSET) /
-                Constants.BoardRenderConstants.TILE_SIZE);
+        int x = (int)((screenPosition.x - boardType.cellXOffset) /
+                boardType.tileSize);
 
         // to make sure we are not wrapping around to the other side
         // when we touch the edge of the board.
         x = Math.min(x, dimensions - 1);
 
-        int y = (int)((screenPosition.y -
-                Constants.BoardRenderConstants.CELL_VERTICAL_OFFSET) /
-                Constants.BoardRenderConstants.TILE_SIZE);
+        int y = (int)((screenPosition.y - boardType.cellYOffset) /
+                boardType.tileSize);
 
         // leave some margin around the top as well
         if (y == dimensions) {

@@ -39,9 +39,22 @@ public class GridRenderSystem extends RenderingSystem<MatchRenderingComponent> {
 
     @Override
     protected void process(Entity e, MatchRenderingComponent rendComponent) {
+        float scaleX = Constants.GameConstants.GAME_WIDTH / (rendComponent.backgroundTexture.getWidth() * 2) + .06f;
+        float scaleY = scaleX;
+
+        float x = -rendComponent.gridTexture.getWidth() * scaleX / 2;
+        float y = -rendComponent.gridTexture.getHeight() * scaleY / 2;
+
         rendComponent.spriteBatch.draw(
                 rendComponent.gridTexture,
-                Constants.BoardRenderConstants.GRID_RENDER_POSITION_X,
-                Constants.BoardRenderConstants.GRID_RENDER_POSITION_Y);
+                x,
+                y,
+                0,
+                0,
+                rendComponent.gridTexture.getWidth(),
+                rendComponent.gridTexture.getHeight(),
+                scaleX,
+                scaleY,
+                0);
     }
 }

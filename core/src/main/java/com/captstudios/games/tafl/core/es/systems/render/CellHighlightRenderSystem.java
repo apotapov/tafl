@@ -8,7 +8,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
-import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.es.components.render.HighlightComponent;
 import com.captstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.captstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
@@ -57,8 +56,8 @@ public class CellHighlightRenderSystem extends RenderingSystem<MatchRenderingCom
 
         rendComponent.shapeRenderer.rect(position.x,
                 position.y,
-                Constants.BoardRenderConstants.TILE_SIZE,
-                Constants.BoardRenderConstants.TILE_SIZE);
+                matchComponent.match.board.boardType.tileSize,
+                matchComponent.match.board.boardType.tileSize);
     }
 
 }

@@ -79,7 +79,7 @@ public class PieceMovementRenderSystem extends RenderingSystem<MatchRenderingCom
         Vector2 position = match.board.getCellPosition(cellId);
         shapeRenderer.rect(position.x,
                 position.y,
-                Constants.BoardRenderConstants.TILE_SIZE,
-                Constants.BoardRenderConstants.TILE_SIZE);
+                match.board.boardType.tileSize,
+                match.board.boardType.tileSize);
     }
 }

@@ -10,13 +10,6 @@ import com.captstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 
 public class CompleteEvaluator implements BoardEvaluator<TaflBoard> {
 
-    private static final int[] CORNER_VALUE_CELLS = {
-        2, 12, 22,
-        8, 20, 32,
-        88, 100, 112,
-        98, 108, 118
-    };
-
     private static final int WIN = 100000;
     private static final int LOSS = -WIN;
     private static final int NEAR_WIN = WIN / 4;
@@ -56,31 +49,31 @@ public class CompleteEvaluator implements BoardEvaluator<TaflBoard> {
 
     public Array<Move> moves;
 
-    public CompleteEvaluator(int boardSize, int dimensions) {
-        tempBitBoard = new BitBoard(boardSize);
-        allPiecesBoard = new BitBoard(boardSize);
+    public CompleteEvaluator(TaflBoard board) {
+        tempBitBoard = new BitBoard(board.boardSize);
+        allPiecesBoard = new BitBoard(board.boardSize);
 
-        cornerProtection = new BitBoard(boardSize);
-        for (int element : CORNER_VALUE_CELLS) {
+        cornerProtection = new BitBoard(board.boardSize);
+        for (int element : board.boardType.barricades) {
             cornerProtection.set(element);
         }
 
-        int half = dimensions / 2;
-        north = new BitBoard(boardSize);
-        south = new BitBoard(boardSize);
-        east = new BitBoard(boardSize);
-        west = new BitBoard(boardSize);
-        for (int i = 0; i < dimensions; i++) {
-            for (int j = 0; j < dimensions; j++) {
+        int half = board.dimensions / 2;
+        north = new BitBoard(board.boardSize);
+        south = new BitBoard(board.boardSize);
+        east = new BitBoard(board.boardSize);
+        west = new BitBoard(board.boardSize);
+        for (int i = 0; i < board.dimensions; i++) {
+            for (int j = 0; j < board.dimensions; j++) {
                 if (i < half) {
-                    south.set(i * dimensions + j);
+                    south.set(i * board.dimensions + j);
                 } else if (i > half) {
-                    north.set(i * dimensions + j);
+                    north.set(i * board.dimensions + j);
                 }
                 if (j < half) {
-                    west.set(i * dimensions + j);
+                    west.set(i * board.dimensions + j);
                 } else if (j > half) {
-                    east.set(i * dimensions + j);
+                    east.set(i * board.dimensions + j);
                 }
             }
         }

@@ -22,23 +22,23 @@ public class AiFactory {
             return new AlphaBetaMoveStrategy(
                     transpositionTable,
                     historyTable,
-                    new CompleteEvaluator(board.boardSize, board.dimensions),
+                    new CompleteEvaluator(board),
                     board.rules,
-                    Constants.AiConstants.BEGINNER_TREE_DEPTH);
+                    board.boardType.beginnerDepth);
         case AI_INTERMEDIATE:
             return new AlphaBetaMoveStrategy(
                     transpositionTable,
                     historyTable,
-                    new CompleteEvaluator(board.boardSize, board.dimensions),
+                    new CompleteEvaluator(board),
                     board.rules,
-                    Constants.AiConstants.INTERMEDIATE_TREE_DEPTH);
+                    board.boardType.intermediateDepth);
         case AI_ADVANCED:
             return new AlphaBetaMoveStrategy(
                     transpositionTable,
                     historyTable,
-                    new CompleteEvaluator(board.boardSize, board.dimensions),
+                    new CompleteEvaluator(board),
                     board.rules,
-                    Constants.AiConstants.ADVANCED_TREE_DEPTH);
+                    board.boardType.advancedDepth);
         default:
             return null;
         }

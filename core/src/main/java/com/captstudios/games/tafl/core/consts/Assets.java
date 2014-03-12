@@ -46,11 +46,15 @@ public class Assets extends GameAssetLoader {
         public static final String INSTRUCTIONS_5 = "tafl-instr-screen05";
         public static final String INSTRUCTIONS_6 = "tafl-instr-screen06";
 
-        public static final String GRID = "tafl-grid-11x11";
+        public static final String GRID_11 = "tafl-grid-11x11";
+        public static final String WHITE_PIECE_11 = "tafl-piece-light-11x11";
+        public static final String KING_PIECE_11 = "tafl-piece-king-11x11";
+        public static final String BLACK_PIECE_11 = "tafl-piece-dark-11x11";
 
-        public static final String WHITE_PIECE = "tafl-piece-light";
-        public static final String KING_PIECE = "tafl-piece-king";
-        public static final String BLACK_PIECE = "tafl-piece-dark";
+        public static final String GRID_9 = "tafl-grid-9x9";
+        public static final String WHITE_PIECE_9 = "tafl-piece-light-9x9";
+        public static final String KING_PIECE_9 = "tafl-piece-king-9x9";
+        public static final String BLACK_PIECE_9 = "tafl-piece-dark-9x9";
 
         public static final String BLACK_ICON = "tafl-piece-dark-icon";
         public static final String WHITE_ICON = "tafl-piece-light-icon";

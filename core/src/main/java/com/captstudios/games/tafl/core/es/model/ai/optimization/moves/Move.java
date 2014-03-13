@@ -20,6 +20,13 @@ public class Move implements Poolable {
 
     public BitBoard capturedPieces;
 
+    /**
+     * For serialization only.
+     */
+    @Deprecated
+    public Move() {
+    }
+
     public Move(Pool<Move> movePool, int boardSize) {
         this.movePool = movePool;
         this.capturedPieces = new BitBoard(boardSize);
@@ -39,12 +46,13 @@ public class Move implements Poolable {
     @Override
     public Move clone() {
         Move move = movePool.obtain();
-        move.pieceType = pieceType;
-        move.source = source;
-        move.destination = destination;
-        move.eval = eval;
-        move.evalType = evalType;
-        move.searchDepth = searchDepth;
+        move.pieceType = this.pieceType;
+        move.source = this.source;
+        move.destination = this.destination;
+        move.eval = this.eval;
+        move.evalType = this.evalType;
+        move.searchDepth = this.searchDepth;
+        move.capturedPieces.set(this.capturedPieces);
         return move;
     }
 
@@ -55,5 +63,16 @@ public class Move implements Poolable {
 
     public void free() {
         movePool.free(this);
+    }
+
+    public Move populate(Move move) {
+        this.pieceType = move.pieceType;
+        this.source = move.source;
+        this.destination = move.destination;
+        this.eval = move.eval;
+        this.evalType = move.evalType;
+        this.searchDepth = move.searchDepth;
+        this.capturedPieces.set(move.capturedPieces);
+        return this;
     }
 }

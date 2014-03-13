@@ -1,8 +1,8 @@
 package com.captstudios.games.tafl.core.es.systems.interaction;
 
-import com.artemis.Filter;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.Filter;
 import com.artemis.managers.SingletonComponentManager;
 import com.artemis.systems.EntityProcessingSystem;
 import com.badlogic.gdx.Gdx;
@@ -33,8 +33,6 @@ public class ResourceManagementSystem extends EntityProcessingSystem {
     @Override
     protected void process(Entity e) {
         HudComponent infoComponent = hudMapper.get(e);
-
-        infoComponent.match.timer += world.getDelta();
 
         if (Constants.GameConstants.DEBUG) {
             infoComponent.fps = Gdx.graphics.getFramesPerSecond();

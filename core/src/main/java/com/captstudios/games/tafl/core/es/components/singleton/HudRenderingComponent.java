@@ -22,10 +22,6 @@ public class HudRenderingComponent implements RenderingComponent {
 
     public Dialog surrenderDialog;
 
-
-    // upper hud
-    public Label timer;
-
     // debug
     public Label fps;
 
@@ -38,7 +34,6 @@ public class HudRenderingComponent implements RenderingComponent {
         drawDialog = null;
         drawText = null;
         surrenderDialog = null;
-        timer = null;
     }
 
     @Override

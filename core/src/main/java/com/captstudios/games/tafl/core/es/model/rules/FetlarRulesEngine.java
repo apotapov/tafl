@@ -14,31 +14,29 @@ import com.captstudios.games.tafl.core.es.model.TaflMatch;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 
-public class OfficialRulesEngine extends RulesEngine {
+public class FetlarRulesEngine implements RulesEngine {
 
-    private static final Array<Move> NO_MOVES = new Array<Move>();
+    protected static final Array<Move> NO_MOVES = new Array<Move>();
 
-    Array<Move> blackLegalMoves;
-    Array<Move> whiteLegalMoves;
-    Array<Move> kingLegalMoves;
+    protected Array<Move> blackLegalMoves;
+    protected Array<Move> whiteLegalMoves;
+    protected Array<Move> kingLegalMoves;
 
-    BitBoard legalMoves;
-    BitBoard allPieces;
+    protected BitBoard legalMoves;
+    protected BitBoard allPieces;
 
-    int kingEscapePosition;
+    protected BitBoard tempBitBoard;
+    protected BitBoard allWhiteBitBoard;
 
-    BitBoard tempBitBoard;
-    BitBoard allWhiteBitBoard;
+    protected IntArray boardConfigHistory;
+    protected IntIntMap configurationCounter;
 
-    IntArray boardConfigHistory;
-    IntIntMap configurationCounter;
+    protected TaflBoard board;
 
-    TaflBoard board;
+    protected Random random;
+    protected Move[] shuffleArray;
 
-    private Random random;
-    private Move[] shuffleArray;
-
-    public OfficialRulesEngine() {
+    public FetlarRulesEngine() {
         blackLegalMoves = new Array<Move>();
         whiteLegalMoves = new Array<Move>();
         kingLegalMoves = new Array<Move>();
@@ -120,7 +118,7 @@ public class OfficialRulesEngine extends RulesEngine {
 
     }
 
-    private void shuffle(Array<Move> moves) {
+    protected void shuffle(Array<Move> moves) {
         int size = moves.size;
         for (int i = 0; i < size; i++) {
             shuffleArray[i] = moves.get(i);
@@ -136,7 +134,7 @@ public class OfficialRulesEngine extends RulesEngine {
         moves.addAll(shuffleArray, 0, size);
     }
 
-    private void calculateMoves(int pieceType, Array<Move> allLegalMoves) {
+    protected void calculateMoves(int pieceType, Array<Move> allLegalMoves) {
         BitBoard bitBoard = board.bitBoards[pieceType];
         for (int source = bitBoard.nextSetBit(0); source >= 0; source = bitBoard.nextSetBit(source+1)) {
             BitBoard moves = calculateMoves(source);
@@ -280,11 +278,11 @@ public class OfficialRulesEngine extends RulesEngine {
         return tempBitBoard;
     }
 
-    private boolean isKingHostileVertical(BitBoard capturingBoard, int oppositeCell) {
+    protected boolean isKingHostileVertical(BitBoard capturingBoard, int oppositeCell) {
         return board.isValid(oppositeCell) && capturingBoard.get(oppositeCell);
     }
 
-    private boolean isKingHostileHorizontal(BitBoard capturingBoard, int cell, int oppositeCell) {
+    protected boolean isKingHostileHorizontal(BitBoard capturingBoard, int cell, int oppositeCell) {
         return board.inRow(cell, oppositeCell) && capturingBoard.get(oppositeCell);
     }
 
@@ -293,7 +291,7 @@ public class OfficialRulesEngine extends RulesEngine {
         return Constants.BoardConstants.BLACK_TEAM;
     }
 
-    private boolean isHostile(int capturingTeam, BitBoard capturingBoard, int oppositeCell) {
+    protected boolean isHostile(int capturingTeam, BitBoard capturingBoard, int oppositeCell) {
         return board.isValid(oppositeCell) &&
                 (capturingBoard.get(oppositeCell) ||
                         (!board.canWalk(capturingTeam, oppositeCell) &&
@@ -313,7 +311,7 @@ public class OfficialRulesEngine extends RulesEngine {
         return retrieveLegalMoves(team);
     }
 
-    private Array<Move> retrieveLegalMoves(int team) {
+    protected Array<Move> retrieveLegalMoves(int team) {
         Array<Move> allLegalMoves =
                 (team == Constants.BoardConstants.WHITE_TEAM) ? whiteLegalMoves : blackLegalMoves;
 
@@ -428,7 +426,7 @@ public class OfficialRulesEngine extends RulesEngine {
         return false;
     }
 
-    private BitBoard calculateMoves(int source) {
+    protected BitBoard calculateMoves(int source) {
         legalMoves.clear();
 
         // LEGAL UP
@@ -480,7 +478,7 @@ public class OfficialRulesEngine extends RulesEngine {
         return legalMoves;
     }
 
-    private DrawReasonEnum checkDrawMoves(int team) {
+    protected DrawReasonEnum checkDrawMoves(int team) {
         if (board.undoStack.size >= Constants.GameConstants.DRAW_MOVE_THRESHHOLD) {
             return DrawReasonEnum.DRAW_TOO_MANY_TURNS;
         } else if (retrieveLegalMoves(team).size == 0){
@@ -492,7 +490,7 @@ public class OfficialRulesEngine extends RulesEngine {
         }
         return null;
     }
-    private DrawReasonEnum checkDrawThreePeat() {
+    protected DrawReasonEnum checkDrawThreePeat() {
         int boardsToExamine = Constants.GameConstants.DRAW_BOARD_REPETITION_THRESHHOLD *
                 Constants.GameConstants.DRAW_MOVES_TO_CHECK;
         if (boardConfigHistory.size >= boardsToExamine) {

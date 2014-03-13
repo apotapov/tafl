@@ -6,8 +6,10 @@ public class RulesFactory {
 
     public static RulesEngine getRules(RulesEngineType rule) {
         switch(rule) {
-        case OFFICIAL:
-            return new OfficialRulesEngine();
+        case FETLAR:
+            return new FetlarRulesEngine();
+        case SKALK:
+            return new SkalkRulesEngine();
         default:
             return null;
         }

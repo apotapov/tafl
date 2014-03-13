@@ -200,14 +200,11 @@ public class HudFactory {
 
         createMenu(component, skin, table, gameWorld);
 
-        component.timer = new Label("", skin, Assets.Skin.SKIN_STYLE_GAME);
-
         if (Constants.GameConstants.DEBUG) {
-            table.add(component.timer).expandX();
             component.fps = new Label("", skin, Assets.Skin.SKIN_STYLE_DIALOG);
-            table.add(component.fps).expandX();
+            table.add(component.fps).colspan(2).expandX();
         } else {
-            table.add(component.timer).colspan(2).expandX();
+            table.add().colspan(2).expandX();
         }
 
         createUndo(component, skin, table, gameWorld);

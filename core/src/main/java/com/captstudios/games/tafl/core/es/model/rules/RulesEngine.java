@@ -7,20 +7,20 @@ import com.captstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.moves.RulesChecker;
 
-public abstract class RulesEngine implements TaflMatchObserver, RulesChecker {
+public interface RulesEngine extends TaflMatchObserver, RulesChecker {
 
-    public abstract int getFirstTurn();
+    public int getFirstTurn();
 
-    public abstract BitBoard getCapturedPieces(Move move);
+    public BitBoard getCapturedPieces(Move move);
 
-    public abstract int checkWinner();
-    public abstract DrawReasonEnum checkDraw(int team);
+    public int checkWinner();
+    public DrawReasonEnum checkDraw(int team);
 
-    public abstract BitBoard getLegalMoves(int team, int source);
-    public abstract Array<Move> allLegalMoves(int team);
+    public BitBoard getLegalMoves(int team, int source);
+    public Array<Move> allLegalMoves(int team);
 
-    public abstract boolean isMoveLegal(int team, int source, int destination);
+    public boolean isMoveLegal(int team, int source, int destination);
 
-    public abstract boolean isVulnerable(int team, int cellId);
-    public abstract boolean teamCanMoveToLocation(int team, int cellId);
+    public boolean isVulnerable(int team, int cellId);
+    public boolean teamCanMoveToLocation(int team, int cellId);
 }

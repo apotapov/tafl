@@ -33,6 +33,7 @@ public class TaflPreferenceService extends PreferenceService implements TaflMatc
     private void initializeJson() {
         json = new Json();
         json.setSerializer(TaflMatch.class, new TaflMatchSerializer());
+        json.setSerializer(Move.class, new TaflMoveSerializer());
         json.setOutputType(OutputType.minimal);
     }
 

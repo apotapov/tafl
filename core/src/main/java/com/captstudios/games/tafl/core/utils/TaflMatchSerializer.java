@@ -14,8 +14,7 @@ public class TaflMatchSerializer implements Serializer<TaflMatch> {
         "rulesType",
         "computerTeam",
         "aiType",
-        "boardRepresentation",
-        "timer",
+        "boardRepresentation"
     };
 
     private static final String UNDO_STACK = "initialUndoStack";

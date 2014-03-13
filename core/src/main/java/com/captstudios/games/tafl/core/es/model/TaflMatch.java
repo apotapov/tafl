@@ -21,7 +21,6 @@ public class TaflMatch {
 
     public long created;
     public long updated;
-    public float timer;
 
     public int computerTeam = Constants.BoardConstants.NO_TEAM;
     public AiType aiType;
@@ -71,7 +70,9 @@ public class TaflMatch {
                 hash,
                 RulesFactory.getRules(rulesType));
         if (initialUndoStack != null && initialUndoStack.size > 0) {
-            board.undoStack.addAll(initialUndoStack);
+            for (Move move : initialUndoStack) {
+                board.undoStack.add(board.movePool.obtain().populate(move));
+            }
             initialUndoStack.clear();
         }
 

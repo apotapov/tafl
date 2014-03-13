@@ -204,7 +204,7 @@ public class HudFactory {
             component.fps = new Label("", skin, Assets.Skin.SKIN_STYLE_DIALOG);
             table.add(component.fps).colspan(2).expandX();
         } else {
-            table.add().colspan(2).expandX();
+            createMute(component, skin, table, gameWorld);
         }
 
         createUndo(component, skin, table, gameWorld);
@@ -270,6 +270,44 @@ public class HudFactory {
         });
         table.add(button).size(gameWorld.game.deviceSettings.hudButtonWidth,
                 gameWorld.game.deviceSettings.hudButtonHeight);
+    }
+
+    private static void createMute(HudRenderingComponent component,
+            Skin skin, Table table, final TaflWorld gameWorld) {
+
+        TextureRegion textureRegion = new TextureRegion(
+                gameWorld.game.graphicsService.getSprite(
+                        Assets.Graphics.ATLAS_PIECES, Assets.Graphics.MUTE_ICON));
+
+        final Drawable muteDrawable = new TextureRegionDrawable(textureRegion);
+
+        textureRegion = new TextureRegion(
+                gameWorld.game.graphicsService.getSprite(
+                        Assets.Graphics.ATLAS_PIECES, Assets.Graphics.UN_MUTE_ICON));
+
+        final Drawable unmuteDrawable = new TextureRegionDrawable(textureRegion);
+
+        final ImageButton button;
+        if (gameWorld.game.preferenceService.isSoundEnabled()) {
+            button = new ImageButton(muteDrawable);
+        } else {
+            button = new ImageButton(unmuteDrawable);
+        }
+
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                if (gameWorld.game.preferenceService.isSoundEnabled()) {
+                    gameWorld.game.preferenceService.setSoundEnabled(false);
+                    button.getStyle().imageUp = unmuteDrawable;
+                } else {
+                    gameWorld.game.preferenceService.setSoundEnabled(true);
+                    button.getStyle().imageUp = muteDrawable;
+                }
+            }
+        });
+        table.add(button).size(gameWorld.game.deviceSettings.hudButtonWidth,
+                gameWorld.game.deviceSettings.hudButtonHeight).expandX();
     }
 
     private static void createMenu(HudRenderingComponent component,

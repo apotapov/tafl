@@ -37,20 +37,6 @@ public class OptionsScreen extends AbstractScreen<TaflGame> {
         table.add(label).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
 
-        text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_SOUND_EFFECTS);
-        final CheckBox soundEffectsCheckbox = new CheckBox(text, skin, Assets.Skin.SKIN_STYLE_MENU);
-        soundEffectsCheckbox.setChecked(game.preferenceService.isSoundEnabled());
-        soundEffectsCheckbox.addListener(new ChangeListener() {
-
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.preferenceService.setSoundEnabled(soundEffectsCheckbox.isChecked());
-                game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
-            }
-        });
-        table.add(soundEffectsCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceSettings.menuSpacing);
-        table.row();
-
         text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_MUSIC);
         final CheckBox musicCheckbox = new CheckBox(text, skin, Assets.Skin.SKIN_STYLE_MENU);
         musicCheckbox.setChecked(game.preferenceService.isMusicEnabled());

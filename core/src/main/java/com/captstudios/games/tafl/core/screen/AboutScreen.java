@@ -88,14 +88,21 @@ public class AboutScreen extends AbstractScreen<TaflGame> {
     }
 
     private void createRules(Skin skin, Table table) {
-        String text = game.localeService.get(LocalizedStrings.AboutInfo.ABOUT_RULES);
-        Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_GAME);
-        table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 4);
-        table.row();
-        for (LocalizedStrings.AboutRules item : LocalizedStrings.AboutRules.values()) {
-            text = game.localeService.get(item);
-            label = new Label(text, skin, Assets.Skin.SKIN_STYLE_RULES);
-            table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 8);
+        int i = 0;
+        LocalizedStrings.AboutRules[] rules = LocalizedStrings.AboutRules.values();
+        for (LocalizedStrings.AboutRules item : rules) {
+            String text = game.localeService.get(item);
+            if (i++ % 2 == 0) {
+                Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_GAME);
+                table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 8);
+            } else {
+                Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_RULES);
+                if (i < rules.length - 1) {
+                    table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 2);
+                } else {
+                    table.add(label).spaceBottom(game.deviceSettings.menuSpacing);
+                }
+            }
             table.row();
         }
     }

@@ -68,7 +68,6 @@ public class LocalizedStrings {
         ABOUT_VERSION,
         ABOUT_COPYRIGHT,
         ABOUT_RIGHTS_RESERVED,
-        ABOUT_RULES,
     }
 
     public enum AboutCredit {
@@ -81,10 +80,11 @@ public class LocalizedStrings {
     }
 
     public enum AboutRules {
+        ABOUT_RULES_TITLE_11,
+        ABOUT_RULES_11,
+        ABOUT_RULES_TITLE_9,
+        ABOUT_RULES_9,
         ABOUT_RULES_1,
-        ABOUT_RULES_2,
-        ABOUT_RULES_3,
-        ABOUT_RULES_4,
-        ABOUT_RULES_5,
+        ABOUT_RULES_2
     }
 }

@@ -1,3 +1,4 @@
+package com.captstudios.games.tafl.core.utils.services;
 //package com.captstudios.games.tafl.core.utils;
 //
 //import com.badlogic.gdx.utils.GdxRuntimeException;

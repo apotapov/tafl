@@ -1,4 +1,4 @@
-package com.captstudios.games.tafl.core.utils;
+package com.captstudios.games.tafl.core.utils.services;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle;

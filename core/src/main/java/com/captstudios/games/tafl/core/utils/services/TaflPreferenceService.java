@@ -1,4 +1,4 @@
-package com.captstudios.games.tafl.core.utils;
+package com.captstudios.games.tafl.core.utils.services;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
@@ -11,6 +11,8 @@ import com.captstudios.games.tafl.core.es.model.TaflMatch;
 import com.captstudios.games.tafl.core.es.model.TaflMatchObserver;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
+import com.captstudios.games.tafl.core.utils.TaflMatchSerializer;
+import com.captstudios.games.tafl.core.utils.TaflMoveSerializer;
 import com.roundtriangles.games.zaria.services.PreferenceService;
 
 public class TaflPreferenceService extends PreferenceService implements TaflMatchObserver {

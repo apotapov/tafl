@@ -27,11 +27,12 @@ import com.captstudios.games.tafl.core.screen.MainMenuScreen;
 import com.captstudios.games.tafl.core.screen.OptionsScreen;
 import com.captstudios.games.tafl.core.screen.TaflCompanyScreen;
 import com.captstudios.games.tafl.core.screen.TaflLoadingScreen;
-import com.captstudios.games.tafl.core.utils.TaflGraphicsService;
-import com.captstudios.games.tafl.core.utils.TaflPreferenceService;
 import com.captstudios.games.tafl.core.utils.device.DeviceSettings;
 import com.captstudios.games.tafl.core.utils.device.DeviceType;
 import com.captstudios.games.tafl.core.utils.device.TaflGameConfig;
+import com.captstudios.games.tafl.core.utils.services.TaflGraphicsService;
+import com.captstudios.games.tafl.core.utils.services.TaflPreferenceService;
+import com.captstudios.games.tafl.core.utils.services.TaflSoundService;
 import com.roundtriangles.games.zaria.AbstractGame;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
 import com.roundtriangles.games.zaria.services.GraphicsService;
@@ -116,7 +117,7 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
 
     @Override
     public SoundService createSoundService() {
-        return new SoundService();
+        return new TaflSoundService(this);
     }
 
     @Override
@@ -144,6 +145,8 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
         levelSelectionScreen.initialize();
         loadGameScreen.initialize();
         gamePlayScreen.initialize();
+
+        preferenceService.initialize();
     }
 
 

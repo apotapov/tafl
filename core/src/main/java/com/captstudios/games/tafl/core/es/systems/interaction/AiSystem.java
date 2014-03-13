@@ -71,16 +71,18 @@ public class AiSystem extends EventProcessingSystem3<AiTurnEvent, AiCompleteEven
     protected void processEvent3(Entity e, HintEvent event) {
         MatchComponent component = matchMapper.get(e);
 
-        Move move = component.match.hintStrategy.search(component.match);
-        if (move != null) {
-            move = component.match.board.rules.generateLegalMoves(component.match.turn).random();
-        }
-        if (move != null) {
-            cellHighlightSystem.clearCellHighlights();
-            cellHighlightSystem.highlightCell(component.match, move.source);
-            cellHighlightSystem.highlightCell(component.match, move.destination);
-        }
+        if (component.acceptInput()) {
+            Move move = component.match.hintStrategy.search(component.match);
+            if (move != null) {
+                move = component.match.board.rules.generateLegalMoves(component.match.turn).random();
+            }
+            if (move != null) {
+                cellHighlightSystem.clearCellHighlights();
+                cellHighlightSystem.highlightCell(component.match, move.source);
+                cellHighlightSystem.highlightCell(component.match, move.destination);
+            }
 
-        component.match.board.rules.generateLegalMoves(component.match.turn);
+            component.match.board.rules.generateLegalMoves(component.match.turn);
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.captstudios.games.tafl.core.es;
 
 import com.artemis.World;
 import com.artemis.systems.event.SystemEvent;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -24,6 +25,7 @@ import com.captstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 import com.captstudios.games.tafl.core.es.systems.events.UndoEvent;
 import com.captstudios.games.tafl.core.utils.device.DeviceSettings;
 import com.esotericsoftware.tablelayout.BaseTableLayout;
+import com.esotericsoftware.tablelayout.Cell;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
 
@@ -205,7 +207,7 @@ public class HudFactory {
         createUndo(component, skin, table, gameWorld);
 
         if (Constants.GameConstants.DEBUG) {
-            table.row();
+            table.row().padTop(Constants.HudConstants.PLAYER_LABEL_PAD_TOP / 2);
             component.fps = new Label("", skin, Assets.Skin.SKIN_STYLE_DIALOG);
             table.add(component.fps).colspan(4);
         }
@@ -215,13 +217,17 @@ public class HudFactory {
         createPlayerLabels(skin, table, gameWorld);
 
         table.padTop(Constants.HudConstants.HUD_TABLE_PADDING_TOP);
-        table.padLeft(Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
-        table.padRight(Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
         table.right().top().setFillParent(true);
+
+        if (Constants.GameConstants.DEBUG) {
+            table.debug();
+        }
         component.hubStage.addActor(table);
     }
 
     private static void createPlayerLabels(Skin skin, Table table, TaflWorld gameWorld) {
+
+        Table innerTable = new Table(skin);
         String blackText;
         String whiteText;
         if (gameWorld.match.computerStarts) {
@@ -234,21 +240,26 @@ public class HudFactory {
 
         Image blackIcon = new Image(gameWorld.game.graphicsService.getSprite(
                 Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BLACK_ICON));
-        //blackIcon.sizeBy(gameWorld.game.deviceSettings.hudButtonWidth, gameWorld.game.deviceSettings.hudButtonHeight);
 
         Label blackLabel = new Label(blackText, skin, Assets.Skin.SKIN_STYLE_PLAYER_TAG);
 
-        table.add(blackIcon).padRight(Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
-        table.add(blackLabel).align(BaseTableLayout.LEFT);
+        innerTable.add(blackIcon).padLeft(
+                Constants.HudConstants.HUD_TABLE_PADDING_SIDES).padRight(
+                        Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
+        innerTable.add(blackLabel).align(BaseTableLayout.LEFT).expandX();
 
         Image whiteIcon = new Image(gameWorld.game.graphicsService.getSprite(
                 Assets.Graphics.ATLAS_PIECES, Assets.Graphics.WHITE_ICON));
-        //whiteIcon.sizeBy(gameWorld.game.deviceSettings.hudButtonWidth, gameWorld.game.deviceSettings.hudButtonHeight);
 
         Label whiteLabel = new Label(whiteText, skin, Assets.Skin.SKIN_STYLE_PLAYER_TAG);
 
-        table.add(whiteLabel).align(BaseTableLayout.RIGHT);
-        table.add(whiteIcon).padLeft(Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
+        innerTable.add(whiteLabel).align(BaseTableLayout.RIGHT).expandX();
+        innerTable.add(whiteIcon).padLeft(
+                Constants.HudConstants.HUD_TABLE_PADDING_SIDES).padRight(
+                        Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
+
+        Cell<?> innerTableCell = table.add(innerTable).colspan(4);
+        innerTableCell.size(Gdx.graphics.getWidth(), 50);
     }
 
     private static void createUndo(HudRenderingComponent component,

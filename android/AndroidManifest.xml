@@ -3,8 +3,8 @@
 					package="com.captstudios.games.tafl.android"
 					android:screenOrientation="portrait"
                     android:configChanges="keyboardHidden"
-					android:versionCode="8"
-					android:versionName="1.2.5">
+					android:versionCode="9"
+					android:versionName="1.2.6">
 	
     <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="19" />
     

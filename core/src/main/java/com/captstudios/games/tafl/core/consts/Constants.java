@@ -155,7 +155,7 @@ public final class Constants {
         private PieceConstants() {
         }
 
-        public static final float CAPTURE_FRAME_DURATION = 0.05f;
+        public static final float CAPTURE_FRAME_DURATION = .1f;
         public static final int PIECE_SPEED = 400;
 
         public static final float TILE_SIZE_11 = 95.8f;
@@ -187,7 +187,7 @@ public final class Constants {
             54, 64, 74,
             78, 70, 62
         };
-
+        public static final float SCALING_11 = TILE_SIZE_11 / TILE_SIZE_9;
     }
 
     public static final class BoardConstants {

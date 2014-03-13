@@ -46,15 +46,14 @@ public class Assets extends GameAssetLoader {
         public static final String INSTRUCTIONS_5 = "tafl-instr-screen05";
         public static final String INSTRUCTIONS_6 = "tafl-instr-screen06";
 
-        public static final String GRID_11 = "tafl-grid-11x11";
-        public static final String WHITE_PIECE_11 = "tafl-piece-light-11x11";
-        public static final String KING_PIECE_11 = "tafl-piece-king-11x11";
-        public static final String BLACK_PIECE_11 = "tafl-piece-dark-11x11";
-
         public static final String GRID_9 = "tafl-grid-9x9";
-        public static final String WHITE_PIECE_9 = "tafl-piece-light-9x9";
-        public static final String KING_PIECE_9 = "tafl-piece-king-9x9";
-        public static final String BLACK_PIECE_9 = "tafl-piece-dark-9x9";
+        public static final String GRID_11 = "tafl-grid-11x11";
+        public static final String WHITE_PIECE = "tafl-piece-light";
+        public static final String WHITE_PIECE_CAPTURE = "tafl-piece-light-capture";
+        public static final String KING_PIECE = "tafl-piece-king";
+        public static final String KING_PIECE_CAPTURE = "tafl-piece-king-capture";
+        public static final String BLACK_PIECE = "tafl-piece-dark";
+        public static final String BLACK_PIECE_CAPTURE = "tafl-piece-dark-capture";
 
         public static final String BLACK_ICON = "tafl-piece-dark-icon";
         public static final String WHITE_ICON = "tafl-piece-light-icon";
@@ -66,8 +65,9 @@ public class Assets extends GameAssetLoader {
         public static final String CLOSE_ICON = "tafl-menu-icon-close";
         public static final String HINT_ICON = "tafl-menu-icon-undo";
 
-        public static final String EXPLOSION_ATLAS = "image-atlases/explosion.atlas";
-        public static final String EXPLOSION = "explosion";
+        public static final String BOTTOM_BRAID = "tafl-braid-bottom";
+        public static final String HALF_BRAID = "tafl-braid-half";
+        //public static final String HALF_BRAID = "";
     }
 
     public static final class Skin {
@@ -201,8 +201,7 @@ public class Assets extends GameAssetLoader {
 
         graphicsService.loadTextureAtlases(
                 game.deviceSettings.backgroundAtlas,
-                Assets.Graphics.ATLAS_PIECES,
-                Assets.Graphics.EXPLOSION_ATLAS);
+                Assets.Graphics.ATLAS_PIECES);
 
         graphicsService.loadFonts(Assets.Fonts.FONT_DESTKOP_MENU,
                 Assets.Fonts.FONT_DESTKOP_SCREEN_TITLE,

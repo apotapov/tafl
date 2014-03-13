@@ -4,7 +4,6 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.Filter;
 import com.artemis.systems.event.EventProcessingSystem;
-import com.badlogic.gdx.math.Vector2;
 import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.es.components.singleton.MatchComponent;
 import com.captstudios.games.tafl.core.es.model.TaflMatch;
@@ -47,8 +46,7 @@ public class PieceCaptureSystem extends EventProcessingSystem<PieceCaptureEvent>
 
         for (int i = event.move.capturedPieces.nextSetBit(0); i >= 0; i = event.move.capturedPieces.nextSetBit(i+1)) {
             highlightSystem.clearCellHighlights(i);
-            Vector2 position = component.match.board.getCellPositionCenter(i);
-            efs.createCaptureAnimation(position);
+            efs.createCaptureAnimation(component.match, i);
         }
         component.match.board.undoStack.peek().capturedPieces.set(event.move.capturedPieces);
         changeTurn(component.match);

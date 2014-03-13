@@ -8,9 +8,6 @@ import com.captstudios.games.tafl.core.consts.Constants;
 public enum BoardType {
     BOARD_SIZE_11_11(
             Assets.Graphics.GRID_11,
-            Assets.Graphics.WHITE_PIECE_11,
-            Assets.Graphics.KING_PIECE_11,
-            Assets.Graphics.BLACK_PIECE_11,
             Constants.PieceConstants.TILE_SIZE_11,
             Constants.PieceConstants.BOARD_FRAME_WIDTH_11,
             Constants.PieceConstants.CELL_HORIZONTAL_OFFSET_11,
@@ -21,9 +18,6 @@ public enum BoardType {
             Constants.AiConstants.ADVANCED_TREE_DEPTH_11),
             BOARD_SIZE_9_9(
                     Assets.Graphics.GRID_9,
-                    Assets.Graphics.WHITE_PIECE_9,
-                    Assets.Graphics.KING_PIECE_9,
-                    Assets.Graphics.BLACK_PIECE_9,
                     Constants.PieceConstants.TILE_SIZE_9,
                     Constants.PieceConstants.BOARD_FRAME_WIDTH_9,
                     Constants.PieceConstants.CELL_HORIZONTAL_OFFSET_9,
@@ -34,9 +28,6 @@ public enum BoardType {
                     Constants.AiConstants.ADVANCED_TREE_DEPTH_9);
 
     public String grid;
-    public String whitePiece;
-    public String kingPiece;
-    public String blackPiece;
 
     public float tileSize;
     public float halfTile;
@@ -52,9 +43,6 @@ public enum BoardType {
 
     private BoardType(
             String grid,
-            String whitePiece,
-            String kingPiece,
-            String blackPiece,
             float tileSize,
             float borderWidth,
             float cellXOffset,
@@ -64,9 +52,6 @@ public enum BoardType {
             int intermediateDepth,
             int advancedDepth) {
         this.grid = grid;
-        this.whitePiece = whitePiece;
-        this.kingPiece = kingPiece;
-        this.blackPiece = blackPiece;
 
         this.tileSize = tileSize;
         this.halfTile = tileSize / 2;

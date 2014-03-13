@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.consts.Constants;
+import com.captstudios.games.tafl.core.enums.BoardType;
 import com.captstudios.games.tafl.core.enums.CellHighlightGroup;
 import com.captstudios.games.tafl.core.es.TaflWorld;
 import com.captstudios.games.tafl.core.es.components.render.AnimationComponent;
@@ -59,18 +60,20 @@ public class EntityFactorySystem extends PassiveEntitySystem {
 
         String graphic;
         if (match.board.kingBitBoard().get(cellId)) {
-            graphic = match.board.boardType.kingPiece;
+            graphic = Assets.Graphics.KING_PIECE;
         } else if (team == Constants.BoardConstants.WHITE_TEAM) {
-            graphic = match.board.boardType.whitePiece;
+            graphic = Assets.Graphics.WHITE_PIECE;
         } else {
-            graphic = match.board.boardType.blackPiece;
+            graphic = Assets.Graphics.BLACK_PIECE;
         }
 
 
         DrawableComponent dc = componentFactory.createDrawableComponent(Assets.Graphics.ATLAS_PIECES, graphic);
         e.addComponent(dc);
-        //        e.addComponent(componentFactory.createScalingComponent(
-        //                Constants.PieceConstants.SCALING, Constants.PieceConstants.SCALING));
+        if (match.board.boardType == BoardType.BOARD_SIZE_11_11) {
+            e.addComponent(componentFactory.createScalingComponent(
+                    Constants.PieceConstants.SCALING_11, Constants.PieceConstants.SCALING_11));
+        }
 
         e.addToWorld();
         return e;
@@ -101,17 +104,32 @@ public class EntityFactorySystem extends PassiveEntitySystem {
 
 
 
-    public Entity createCaptureAnimation(Vector2 position) {
+    public Entity createCaptureAnimation(TaflMatch match, int cellId) {
         Entity e = world.createEntity();
 
+        Vector2 position = match.board.getCellPositionCenter(cellId);
         e.addComponent(componentFactory.createPositionComponent(position));
 
+        String graphic;
+        if (match.board.kingBitBoard().get(cellId)) {
+            graphic = Assets.Graphics.KING_PIECE_CAPTURE;
+        } else if (match.turn == Constants.BoardConstants.WHITE_TEAM) {
+            graphic = Assets.Graphics.BLACK_PIECE_CAPTURE;
+        } else {
+            graphic = Assets.Graphics.WHITE_PIECE_CAPTURE;
+        }
+
         AnimationComponent ac = componentFactory.createAnimationComponent(
-                Assets.Graphics.EXPLOSION_ATLAS,
-                Assets.Graphics.EXPLOSION,
+                Assets.Graphics.ATLAS_PIECES,
+                graphic,
                 Animation.NORMAL,
                 Constants.PieceConstants.CAPTURE_FRAME_DURATION);
+
         e.addComponent(ac);
+        if (match.board.boardType == BoardType.BOARD_SIZE_11_11) {
+            e.addComponent(componentFactory.createScalingComponent(
+                    Constants.PieceConstants.SCALING_11, Constants.PieceConstants.SCALING_11));
+        }
 
         e.addToWorld();
         return e;

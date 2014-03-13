@@ -5,6 +5,6 @@ import com.captstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 
 public interface AiStrategy {
 
-    public Move search(TaflMatch match) throws InterruptedException;
+    public Move search(TaflMatch match);
 
 }

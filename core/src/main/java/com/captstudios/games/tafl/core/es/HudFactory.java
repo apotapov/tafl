@@ -19,6 +19,7 @@ import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.consts.LocalizedStrings;
 import com.captstudios.games.tafl.core.enums.LifeCycle;
 import com.captstudios.games.tafl.core.es.components.singleton.HudRenderingComponent;
+import com.captstudios.games.tafl.core.es.systems.events.HintEvent;
 import com.captstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 import com.captstudios.games.tafl.core.es.systems.events.UndoEvent;
 import com.captstudios.games.tafl.core.utils.device.DeviceSettings;
@@ -199,15 +200,15 @@ public class HudFactory {
         Table table = new Table(skin);
 
         createMenu(component, skin, table, gameWorld);
+        createMute(component, skin, table, gameWorld);
+        createHint(component, skin, table, gameWorld);
+        createUndo(component, skin, table, gameWorld);
 
         if (Constants.GameConstants.DEBUG) {
+            table.row();
             component.fps = new Label("", skin, Assets.Skin.SKIN_STYLE_DIALOG);
-            table.add(component.fps).colspan(2).expandX();
-        } else {
-            createMute(component, skin, table, gameWorld);
+            table.add(component.fps).colspan(4);
         }
-
-        createUndo(component, skin, table, gameWorld);
 
         table.row().padTop(Constants.HudConstants.PLAYER_LABEL_PAD_TOP);
 
@@ -269,7 +270,29 @@ public class HudFactory {
             }
         });
         table.add(button).size(gameWorld.game.deviceSettings.hudButtonWidth,
-                gameWorld.game.deviceSettings.hudButtonHeight);
+                gameWorld.game.deviceSettings.hudButtonHeight).expandX();
+    }
+
+    private static void createHint(HudRenderingComponent component,
+            Skin skin, Table table, TaflWorld gameWorld) {
+
+        final World world = gameWorld.world;
+
+        TextureRegion textureRegion = new TextureRegion(
+                gameWorld.game.graphicsService.getSprite(
+                        Assets.Graphics.ATLAS_PIECES, Assets.Graphics.HINT_ICON));
+        Drawable imageUp = new TextureRegionDrawable(textureRegion);
+        ImageButton button = new ImageButton(imageUp);
+
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                HintEvent undoEvent = SystemEvent.createEvent(HintEvent.class);
+                world.postEvent(null, undoEvent);
+            }
+        });
+        table.add(button).size(gameWorld.game.deviceSettings.hudButtonWidth,
+                gameWorld.game.deviceSettings.hudButtonHeight).expandX();
     }
 
     private static void createMute(HudRenderingComponent component,
@@ -330,6 +353,6 @@ public class HudFactory {
             }
         });
         table.add(button).size(gameWorld.game.deviceSettings.hudButtonWidth,
-                gameWorld.game.deviceSettings.hudButtonHeight);
+                gameWorld.game.deviceSettings.hudButtonHeight).expandX();
     }
 }

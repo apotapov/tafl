@@ -25,7 +25,7 @@ public class AlphaBetaMoveStrategy implements AiStrategy {
     }
 
     @Override
-    public Move search(TaflMatch match) throws InterruptedException {
+    public Move search(TaflMatch match) {
         return agent.pickBestMove(match.board, match.turn);
     }
 }

@@ -64,6 +64,7 @@ public class Assets extends GameAssetLoader {
         public static final String MUTE_ICON = "tafl-menu-icon-close";
         public static final String UN_MUTE_ICON = "tafl-menu-icon-mainmenu";
         public static final String CLOSE_ICON = "tafl-menu-icon-close";
+        public static final String HINT_ICON = "tafl-menu-icon-undo";
 
         public static final String EXPLOSION_ATLAS = "image-atlases/explosion.atlas";
         public static final String EXPLOSION = "explosion";

@@ -30,6 +30,7 @@ public class TaflMatch {
 
     public TaflBoard board;
     public AiStrategy aiStrategy;
+    public AiStrategy hintStrategy;
 
     public boolean computerStarts;
 
@@ -77,6 +78,7 @@ public class TaflMatch {
         }
 
         aiStrategy = AiFactory.getAiStrategy(aiType, board);
+        hintStrategy = AiFactory.getAiStrategy(AiType.AI_INTERMEDIATE, board);
     }
 
     private void initializeMatch() {

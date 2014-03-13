@@ -135,10 +135,7 @@ public abstract class AISearchAgent<U extends GameBoard> {
      * @param beta
      * @return
      */
-    public int max(U board, int turn, int depth, int alpha, int beta) throws InterruptedException {
-        if (Thread.interrupted()) {
-            throw new InterruptedException();
-        }
+    public int max(U board, int turn, int depth, int alpha, int beta) {
 
         // Count the number of nodes visited in the full-width search
         numRegularNodes++;
@@ -179,10 +176,7 @@ public abstract class AISearchAgent<U extends GameBoard> {
         return bestSoFar;
     }
 
-    public int min(U board, int turn, int depth, int alpha, int beta) throws InterruptedException {
-        if (Thread.interrupted()) {
-            throw new InterruptedException();
-        }
+    public int min(U board, int turn, int depth, int alpha, int beta) {
 
         // Count the number of nodes visited in the full-width search
         numRegularNodes++;
@@ -230,7 +224,7 @@ public abstract class AISearchAgent<U extends GameBoard> {
     }
 
     private int doMin(U board, int turn, int depth, int alpha,
-            int beta, Array<Move> legalMoves) throws InterruptedException {
+            int beta, Array<Move> legalMoves) {
 
         int bestSoFar = ALPHABETA_MAXVAL;
         int currentBeta = beta;
@@ -266,7 +260,7 @@ public abstract class AISearchAgent<U extends GameBoard> {
     }
 
     private int doMax(U board, int turn, int depth, int alpha,
-            int beta, Array<Move> legalMoves) throws InterruptedException {
+            int beta, Array<Move> legalMoves) {
 
         int bestSoFar = ALPHABETA_MINVAL;
         int currentAlpha = alpha;
@@ -327,5 +321,5 @@ public abstract class AISearchAgent<U extends GameBoard> {
      * @param theBoard
      * @return
      */
-    public abstract Move pickBestMove(U board, int turn) throws InterruptedException;
+    public abstract Move pickBestMove(U board, int turn);
 }

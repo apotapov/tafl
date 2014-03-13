@@ -32,7 +32,7 @@ public class AISearchAgentAlphabeta<U extends GameBoard> extends AISearchAgent<U
 
     // Implementation of the abstract method defined in the superclass
     @Override
-    public Move pickBestMove(U board, int turn) throws InterruptedException {
+    public Move pickBestMove(U board, int turn) {
         // Store the identity of the moving side, so that we can tell Evaluator
         // from whose perspective we need to evaluate positions
         fromWhosePerspective = turn;

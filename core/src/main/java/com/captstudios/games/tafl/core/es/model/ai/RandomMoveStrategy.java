@@ -6,7 +6,7 @@ import com.captstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 public class RandomMoveStrategy implements AiStrategy {
 
     @Override
-    public Move search(TaflMatch match) throws InterruptedException {
+    public Move search(TaflMatch match) {
         return match.board.rules.allLegalMoves(match.turn).random();
     }
 }

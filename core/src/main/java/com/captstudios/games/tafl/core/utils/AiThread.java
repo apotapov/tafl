@@ -33,8 +33,6 @@ public class AiThread extends Thread {
                 lce.lifecycle = LifeCycle.SURRENDER;
                 world.postEvent(runner, lce);
             }
-        } catch (InterruptedException ie) {
-            ie.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
 

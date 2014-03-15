@@ -63,8 +63,8 @@ public class Assets extends GameAssetLoader {
         public static final String ON_OFF_BLANK = "tafl-menu-settings-button-onoff";
         public static final String ON_OFF_PRESSED = "tafl-menu-settings-button-onoff-pressed";
 
-        public static final String PLAYERS_BLANK = "tafl-menu-start-button-playas";
-        public static final String PLAYERS_PRESSED = "tafl-menu-start-button-playas-pressed";
+        public static final String PLAY_AS_BLANK = "tafl-menu-start-button-playas";
+        public static final String PLAY_AS_PRESSED = "tafl-menu-start-button-playas-pressed";
 
         public static final String SIZE_BLANK = "tafl-menu-start-button-size";
         public static final String SIZE_PRESSED = "tafl-menu-start-button-size-pressed";
@@ -106,7 +106,7 @@ public class Assets extends GameAssetLoader {
         private Decoration() {
         }
 
-        public static final String BOTTOM_BRAID = "tafl-braid-bottom";
+        public static final String BRAID = "tafl-braid-bottom";
         public static final String HALF_BRAID = "tafl-braid-half";
         //public static final String HALF_BRAID = "";
     }
@@ -183,36 +183,36 @@ public class Assets extends GameAssetLoader {
         }
         public static final FontDefinition FONT_DESTKOP_MENU = new FontDefinition("skin/huggles.ttf", 32);
         public static final FontDefinition FONT_DESKTOP_SCREEN_TITLE = new FontDefinition("skin/huggles.ttf", 40);
-        public static final FontDefinition FONT_DESKTOP_GAME = new FontDefinition("skin/huggles.ttf", 40);
-        public static final FontDefinition FONT_DESKTOP_HUD = new FontDefinition("skin/huggles.ttf", 24);
+        public static final FontDefinition FONT_DESKTOP_GAME = new FontDefinition("skin/huggles.ttf", 64);
+        public static final FontDefinition FONT_DESKTOP_HUD = new FontDefinition("skin/huggles.ttf", 32);
         public static final FontDefinition FONT_DESKTOP_RULES = new FontDefinition("skin/Gotham-Medium.otf", 18);
         public static final FontDefinition FONT_DESKTOP_RULES_TITLE = new FontDefinition("skin/Gotham-Medium.otf", 28);
 
         public static final FontDefinition FONT_LDPI_MENU = new FontDefinition("skin/huggles.ttf", 32);
         public static final FontDefinition FONT_LDPI_SCREEN_TITLE = new FontDefinition("skin/huggles.ttf", 40);
-        public static final FontDefinition FONT_LDPI_GAME = new FontDefinition("skin/huggles.ttf", 40);
-        public static final FontDefinition FONT_LDPI_HUD = new FontDefinition("skin/huggles.ttf", 24);
+        public static final FontDefinition FONT_LDPI_GAME = new FontDefinition("skin/huggles.ttf", 64);
+        public static final FontDefinition FONT_LDPI_HUD = new FontDefinition("skin/huggles.ttf", 32);
         public static final FontDefinition FONT_LDPI_RULES = new FontDefinition("skin/Gotham-Medium.otf", 18);
         public static final FontDefinition FONT_LDPI_RULES_TITLE = new FontDefinition("skin/Gotham-Medium.otf", 28);
 
         public static final FontDefinition FONT_MDPI_MENU = new FontDefinition("skin/huggles.ttf", 48);
         public static final FontDefinition FONT_MDPI_SCREEN_TITLE = new FontDefinition("skin/huggles.ttf", 72);
-        public static final FontDefinition FONT_MDPI_GAME = new FontDefinition("skin/huggles.ttf", 40);
-        public static final FontDefinition FONT_MDPI_HUD = new FontDefinition("skin/huggles.ttf", 32);
+        public static final FontDefinition FONT_MDPI_GAME = new FontDefinition("skin/huggles.ttf", 64);
+        public static final FontDefinition FONT_MDPI_HUD = new FontDefinition("skin/huggles.ttf", 48);
         public static final FontDefinition FONT_MDPI_RULES = new FontDefinition("skin/Gotham-Medium.otf", 24);
         public static final FontDefinition FONT_MDPI_RULES_TITLE = new FontDefinition("skin/Gotham-Medium.otf", 42);
 
         public static final FontDefinition FONT_HDPI_MENU = new FontDefinition("skin/huggles.ttf", 72);
         public static final FontDefinition FONT_HDPI_SCREEN_TITLE = new FontDefinition("skin/huggles.ttf", 96);
-        public static final FontDefinition FONT_HDPI_GAME = new FontDefinition("skin/huggles.ttf", 40);
-        public static final FontDefinition FONT_HDPI_HUD = new FontDefinition("skin/huggles.ttf", 48);
+        public static final FontDefinition FONT_HDPI_GAME = new FontDefinition("skin/huggles.ttf", 64);
+        public static final FontDefinition FONT_HDPI_HUD = new FontDefinition("skin/huggles.ttf", 64);
         public static final FontDefinition FONT_HDPI_RULES = new FontDefinition("skin/Gotham-Medium.otf", 36);
         public static final FontDefinition FONT_HDPI_RULES_TITLE = new FontDefinition("skin/Gotham-Medium.otf", 54);
 
         public static final FontDefinition FONT_XHDPI_MENU = new FontDefinition("skin/huggles.ttf", 96);
         public static final FontDefinition FONT_XHDPI_SCREEN_TITLE = new FontDefinition("skin/huggles.ttf", 128);
-        public static final FontDefinition FONT_XHDPI_GAME = new FontDefinition("skin/huggles.ttf", 40);
-        public static final FontDefinition FONT_XHDPI_HUD = new FontDefinition("skin/huggles.ttf", 64);
+        public static final FontDefinition FONT_XHDPI_GAME = new FontDefinition("skin/huggles.ttf", 64);
+        public static final FontDefinition FONT_XHDPI_HUD = new FontDefinition("skin/huggles.ttf", 96);
         public static final FontDefinition FONT_XHDPI_RULES = new FontDefinition("skin/Gotham-Medium.otf", 48);
         public static final FontDefinition FONT_XHDPI_RULES_TITLE = new FontDefinition("skin/Gotham-Medium.otf", 84);
     }

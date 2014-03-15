@@ -53,7 +53,7 @@ public class MatchInputSystem extends InputProcessingSystem<MatchRenderingCompon
         if (matchComponent.acceptInput()) {
             int cellId;
             if (matchComponent.dragging > Constants.GameConstants.DRAG_THRESHOLD) {
-                draggingLocation.set(gameTouchPoint).add(game.deviceSettings.dragOffset);
+                draggingLocation.set(gameTouchPoint);
                 cellId = match.board.getCellId(draggingLocation);
             } else {
                 cellId = match.board.getCellId(gameTouchPoint);
@@ -98,7 +98,7 @@ public class MatchInputSystem extends InputProcessingSystem<MatchRenderingCompon
 
     private void dragPiece(Vector2 gameTouchPoint) {
         PieceDragEvent event = world.createEvent(PieceDragEvent.class);
-        event.touchPoint.set(gameTouchPoint).add(game.deviceSettings.dragOffset);
+        event.touchPoint.set(gameTouchPoint);
         world.postEvent(this, event);
     }
 

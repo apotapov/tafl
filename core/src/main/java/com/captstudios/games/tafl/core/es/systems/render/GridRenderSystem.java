@@ -56,5 +56,36 @@ public class GridRenderSystem extends RenderingSystem<MatchRenderingComponent> {
                 scaleX,
                 scaleY,
                 0);
+
+        x = -rendComponent.braid.getWidth() / 2;
+        y = y - Constants.BoardRenderConstants.BRAID_OFFSET_BOTTOM;
+
+        rendComponent.spriteBatch.draw(
+                rendComponent.braid,
+                x,
+                y,
+                0,
+                0,
+                rendComponent.braid.getWidth(),
+                rendComponent.braid.getHeight(),
+                1,
+                1,
+                0);
+
+        y = y + rendComponent.gridTexture.getHeight() * scaleY +
+                Constants.BoardRenderConstants.BRAID_OFFSET_BOTTOM +
+                Constants.BoardRenderConstants.BRAID_OFFSET_TOP;
+
+        rendComponent.spriteBatch.draw(
+                rendComponent.braid,
+                x,
+                y,
+                0,
+                0,
+                rendComponent.braid.getWidth(),
+                rendComponent.braid.getHeight(),
+                1,
+                1,
+                0);
     }
 }

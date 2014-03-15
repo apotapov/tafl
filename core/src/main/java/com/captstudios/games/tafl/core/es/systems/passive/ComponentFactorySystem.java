@@ -114,6 +114,7 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
                 Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.BOARD);
         component.gridTexture = graphics.getSprite(
                 Assets.GraphicFiles.ATLAS_PIECES, match.board.boardType.grid);
+        component.braid = graphics.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Decoration.BRAID);
 
         return component;
     }

@@ -1,7 +1,6 @@
 package com.captstudios.games.tafl.core.consts;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
 import com.captstudios.games.tafl.core.enums.AiType;
 
 
@@ -56,8 +55,6 @@ public final class Constants {
         public static final int ADVANCED_TREE_DEPTH_9 = 3;
 
         public static final Color LOADING_PROMP_COLOR = new Color(0f, 0f, 0f, 0.4f);
-        public static final float LOADING_PROMPT_WIDTH = 250;
-        public static final float LOADING_PROMPT_HEIGHT = 80;
 
         public static final int TABLE_SIZE = 2097152; //4194304; //2097152; //1048576; // 1m
         public static final AiType DEFAULT_AI_TYPE = AiType.AI_BEGINNER;
@@ -79,71 +76,71 @@ public final class Constants {
         public static final float COMPANY_SCREEN_DISPLAY_TIME = 1f;
 
         public static final Color ABOUT_COLOR = new Color(1, 1, 1, 0.2f);
-        public static final Color ABOUT_TEXT_COLOR = new Color(0.9453125f, 0.9453125f, 0.9453125f, 1);
+        public static final Color TEXT_COLOR = new Color(0.9453125f, 0.9453125f, 0.9453125f, 1);
 
-        public static final int DESKTOP_LIST_WIDTH = 270;
-        public static final int DESKTOP_LIST_HEIGHT = 140;
+        public static final int DESKTOP_LABEL_HEIGHT = 40;
         public static final int DESKTOP_BUTTON_WIDTH = 250;
         public static final int DESKTOP_BUTTON_HEIGHT = 70;
         public static final int DESKTOP_SPACING = 30;
         public static final int DESKTOP_DIALOG_BUTTON_WIDTH = 200;
         public static final int DESKTOP_DIALOG_BUTTON_HEIGHT = 70;
         public static final int DESKTOP_DIALOG_BUTTON_SPACING = 20;
-        public static final Vector2 DESKTOP_DRAG_POSITION_OFFSET = new Vector2();
         public static final int DESKTOP_HUD_BUTTON_WIDTH = 45;
         public static final int DESKTOP_HUD_BUTTON_HEIGHT = 45;
+        public static final int DESKTOP_HUD_TABLE_PADDING = 10;
+        public static final int DESKTOP_PLAYER_LABEL_PAD_TOP = 40;
 
         public static final int LDPI_MIN_WIDTH = 0;
-        public static final int LDPI_LIST_WIDTH = 270;
-        public static final int LDPI_LIST_HEIGHT = 140;
+        public static final int LDPI_LABEL_HEIGHT = 40;
         public static final int LDPI_BUTTON_WIDTH = 250;
         public static final int LDPI_BUTTON_HEIGHT = 70;
         public static final int LDPI_SPACING = 30;
         public static final int LDPI_DIALOG_BUTTON_WIDTH = 200;
         public static final int LDPI_DIALOG_BUTTON_HEIGHT = 70;
         public static final int LDPI_DIALOG_BUTTON_SPACING = 20;
-        public static final Vector2 LDPI_DRAG_POSITION_OFFSET = new Vector2();
         public static final int LDPI_HUD_BUTTON_WIDTH = 45;
         public static final int LDPI_HUD_BUTTON_HEIGHT = 45;
+        public static final int LDPI_HUD_TABLE_PADDING = 10;
+        public static final int LDPI_PLAYER_LABEL_PAD_TOP = 40;
 
         public static final int MDPI_MIN_WIDTH = 500;
-        public static final int MDPI_LIST_WIDTH = 405;
-        public static final int MDPI_LIST_HEIGHT = 210;
+        public static final int MDPI_LABEL_HEIGHT = 60;
         public static final int MDPI_BUTTON_WIDTH = 375;
         public static final int MDPI_BUTTON_HEIGHT = 105;
         public static final int MDPI_SPACING = 45;
         public static final int MDPI_DIALOG_BUTTON_WIDTH = 300;
         public static final int MDPI_DIALOG_BUTTON_HEIGHT = 105;
         public static final int MDPI_DIALOG_BUTTON_SPACING = 30;
-        public static final Vector2 MDPI_DRAG_POSITION_OFFSET = new Vector2();
         public static final int MDPI_HUD_BUTTON_WIDTH = 90;
         public static final int MDPI_HUD_BUTTON_HEIGHT = 90;
+        public static final int MDPI_HUD_TABLE_PADDING = 15;
+        public static final int MDPI_PLAYER_LABEL_PAD_TOP = 60;
 
         public static final int HDPI_MIN_WIDTH = 900;
-        public static final int HDPI_LIST_WIDTH = 540;
-        public static final int HDPI_LIST_HEIGHT = 280;
+        public static final int HDPI_LABEL_HEIGHT = 80;
         public static final int HDPI_BUTTON_WIDTH = 500;
         public static final int HDPI_BUTTON_HEIGHT = 140;
         public static final int HDPI_SPACING = 60;
         public static final int HDPI_DIALOG_BUTTON_WIDTH = 400;
         public static final int HDPI_DIALOG_BUTTON_HEIGHT = 140;
         public static final int HDPI_DIALOG_BUTTON_SPACING = 40;
-        public static final Vector2 HDPI_DRAG_POSITION_OFFSET = new Vector2();
         public static final int HDPI_HUD_BUTTON_WIDTH = 135;
         public static final int HDPI_HUD_BUTTON_HEIGHT = 135;
+        public static final int HDPI_HUD_TABLE_PADDING = 20;
+        public static final int HDPI_PLAYER_LABEL_PAD_TOP = 80;
 
         public static final int XHDPI_MIN_WIDTH = 1200;
-        public static final int XHDPI_LIST_WIDTH = 910;
-        public static final int XHDPI_LIST_HEIGHT = 280;
+        public static final int XHDPI_LABEL_HEIGHT = 120;
         public static final int XHDPI_BUTTON_WIDTH = 750;
         public static final int XHDPI_BUTTON_HEIGHT = 210;
         public static final int XHDPI_SPACING = 90;
         public static final int XHDPI_DIALOG_BUTTON_WIDTH = 600;
         public static final int XHDPI_DIALOG_BUTTON_HEIGHT = 210;
         public static final int XHDPI_DIALOG_BUTTON_SPACING = 40;
-        public static final Vector2 XHDPI_DRAG_POSITION_OFFSET = new Vector2();
         public static final int XHDPI_HUD_BUTTON_WIDTH = 180;
         public static final int XHDPI_HUD_BUTTON_HEIGHT = 180;
+        public static final int XHDPI_HUD_TABLE_PADDING = 30;
+        public static final int XHDPI_PLAYER_LABEL_PAD_TOP = 120;
 
 
         public static final float INSTRUCTION_CLOSE_BUTTON_X_OFFSET = 180;
@@ -222,15 +219,12 @@ public final class Constants {
 
         public static final float GRID_RENDER_POSITION_X = -Constants.GameConstants.GAME_WIDTH / 2;
         public static final float GRID_RENDER_POSITION_Y = -Constants.GameConstants.GAME_HEIGHT / 2;
+        public static final float BRAID_OFFSET_BOTTOM = 70;
+        public static final float BRAID_OFFSET_TOP = 20;
     }
 
     public static final class HudConstants {
         private HudConstants() {
         }
-
-        public static final float HUD_TABLE_PADDING_TOP = 10f;
-        public static final float HUD_TABLE_PADDING_SIDES = 10f;
-
-        public static final float PLAYER_LABEL_PAD_TOP = 50f;
     }
 }

@@ -31,6 +31,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
 
         Table table = new Table();
         table.setFillParent(true);
+        table.defaults().spaceBottom(game.deviceSettings.menuSpacing);
 
         Array<TaflLevel> levels = game.levelService.getLevels();
 
@@ -50,7 +51,11 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         Sprite labelSprite = game.graphicsService.getSprite(
                 Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.SIZE);
         Image imageLabel = new Image(new TextureRegionDrawable(new TextureRegion(labelSprite)));
-        table.add(imageLabel).spaceBottom(game.deviceSettings.menuSpacing);
+
+        float height = game.deviceSettings.menuLabelHeight;
+        float width = height * (imageLabel.getWidth() / imageLabel.getHeight());
+
+        table.add(imageLabel).spaceBottom(game.deviceSettings.menuSpacing).size(width, height).expandX().right();
 
         final Sprite[] text = new Sprite[] {
                 game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.SIZE_11),
@@ -82,7 +87,8 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(selector).spaceBottom(game.deviceSettings.menuSpacing);
+        table.add(selector).size(game.deviceSettings.menuButtonWidth,
+                game.deviceSettings.menuButtonHeight);
         table.row();
     }
 
@@ -91,7 +97,11 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         Sprite labelSprite = game.graphicsService.getSprite(
                 Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.PLAY_AS);
         Image imageLabel = new Image(new TextureRegionDrawable(new TextureRegion(labelSprite)));
-        table.add(imageLabel).spaceBottom(game.deviceSettings.menuSpacing);
+
+        float height = game.deviceSettings.menuLabelHeight * 1.5f;
+        float width = height * (imageLabel.getWidth() / imageLabel.getHeight());
+
+        table.add(imageLabel).spaceBottom(game.deviceSettings.menuSpacing).size(width, height).expandX().right();
 
         final Sprite[] text = new Sprite[] {
                 game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.PLAY_WHITE),
@@ -99,9 +109,9 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         };
 
         Sprite up = game.graphicsService.getSprite(
-                Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.SIZE_BLANK);
+                Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.PLAY_AS_BLANK);
         Sprite down = game.graphicsService.getSprite(
-                Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.SIZE_PRESSED);
+                Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.PLAY_AS_PRESSED);
 
         final int index = game.preferenceService.getComputerStarts() ? 0 : 1;
 
@@ -128,16 +138,19 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(selector).spaceBottom(game.deviceSettings.menuSpacing);
+        table.add(selector).size(game.deviceSettings.menuButtonWidth,
+                game.deviceSettings.menuButtonHeight);
         table.row();
     }
 
     private void createButtons() {
         Table buttonTable = new Table();
         buttonTable.right().bottom().setFillParent(true);
+        buttonTable.defaults().pad(game.deviceSettings.menuSpacing).size(
+                game.deviceSettings.menuButtonHeight * 1.5f, game.deviceSettings.menuButtonHeight);
         Sprite icon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.BACK);
         Button button = game.createSwitchScreenButton(icon, this, game.mainMenuScreen);
-        buttonTable.add(button).pad(Constants.HudConstants.PLAYER_LABEL_PAD_TOP / 4).expandX().left();
+        buttonTable.add(button);
 
         icon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.SETTINGS);
         button = new ImageButton(new TextureRegionDrawable(new TextureRegion(icon)));
@@ -150,7 +163,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
                 switchScreen(game.settingsScreen);
             }
         });
-        buttonTable.add(button).pad(Constants.HudConstants.PLAYER_LABEL_PAD_TOP / 4).expandX();
+        buttonTable.add(button).expandX();
 
         buttonTable.right().bottom().setFillParent(true);
         icon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.PLAY);
@@ -168,7 +181,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
                 }
             }
         });
-        buttonTable.add(button).pad(Constants.HudConstants.PLAYER_LABEL_PAD_TOP / 4);
+        buttonTable.add(button);
 
         if (Constants.GameConstants.DEBUG) {
             buttonTable.debug();

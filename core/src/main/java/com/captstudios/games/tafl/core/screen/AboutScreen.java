@@ -25,7 +25,7 @@ public class AboutScreen extends AbstractScreen<TaflGame> {
     @Override
     public void initialize() {
         Sprite background = game.graphicsService.getSprite(
-                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.MENU);
+                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.BOARD);
         setBackgroundImage(new Image(background));
 
         Table table = new Table();
@@ -33,10 +33,10 @@ public class AboutScreen extends AbstractScreen<TaflGame> {
 
         LabelStyle titleStyle = new LabelStyle();
         titleStyle.font = game.graphicsService.getFont(game.deviceSettings.rulesTitleFont);
-        titleStyle.fontColor = Constants.ScreenConstants.ABOUT_TEXT_COLOR;
+        titleStyle.fontColor = Constants.ScreenConstants.TEXT_COLOR;
         LabelStyle style = new LabelStyle();
         style.font = game.graphicsService.getFont(game.deviceSettings.rulesFont);
-        style.fontColor = Constants.ScreenConstants.ABOUT_TEXT_COLOR;
+        style.fontColor = Constants.ScreenConstants.TEXT_COLOR;
 
         createInfo(table, titleStyle, style);
         createCredit(table, titleStyle, style);

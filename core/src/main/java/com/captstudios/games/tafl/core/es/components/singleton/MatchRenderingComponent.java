@@ -16,6 +16,7 @@ public class MatchRenderingComponent implements RenderingComponent {
     public BitmapFont debugFont;
     public Sprite backgroundTexture;
     public Sprite gridTexture;
+    public Sprite braid;
 
     @Override
     public void reset() {

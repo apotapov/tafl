@@ -30,37 +30,36 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
 
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
         Table table = new Table(skin);
+        table.defaults().size(game.deviceSettings.menuButtonWidth,
+                game.deviceSettings.menuButtonHeight).spaceBottom(game.deviceSettings.menuSpacing);
 
         Sprite text = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.START);
         Sprite up = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK);
         Sprite down = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK_PRESSED);
         Button button = game.createSwitchScreenButton(text, up, down, this, game.levelSelectionScreen);
-        table.add(button).size(game.deviceSettings.menuButtonWidth,
-                game.deviceSettings.menuButtonHeight).spaceBottom(game.deviceSettings.menuSpacing);
-
+        table.add(button);
         table.row();
 
         text = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.RESUME);
         up = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK);
         down = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK_PRESSED);
         button = game.createSwitchScreenButton(text, up, down, this, game.loadGameScreen);
-        table.add(button).size(game.deviceSettings.menuButtonWidth,
-                game.deviceSettings.menuButtonHeight).spaceBottom(game.deviceSettings.menuSpacing);
+        table.add(button);
         table.row();
 
         text = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.HELP);
         up = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK);
         down = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK_PRESSED);
         button = game.createSwitchScreenButton(text, up, down, this, game.instructionScreen);
-        table.add(button).size(game.deviceSettings.menuButtonWidth,
-                game.deviceSettings.menuButtonHeight).spaceBottom(game.deviceSettings.menuSpacing);
+        table.add(button);
         table.row();
 
         Table iconTable = new Table(skin);
         iconTable.right().bottom().setFillParent(true);
         Sprite settingsIcon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.SETTINGS);
         button = game.createSwitchScreenButton(settingsIcon, this, game.settingsScreen);
-        iconTable.add(button).pad(Constants.HudConstants.PLAYER_LABEL_PAD_TOP / 4);
+        iconTable.add(button).pad(game.deviceSettings.menuSpacing).size(
+                game.deviceSettings.menuButtonHeight, game.deviceSettings.menuButtonHeight);
 
 
         if (Constants.GameConstants.DEBUG) {

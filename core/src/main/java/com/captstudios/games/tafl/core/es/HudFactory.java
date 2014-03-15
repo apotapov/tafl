@@ -3,6 +3,7 @@ package com.captstudios.games.tafl.core.es;
 import com.artemis.World;
 import com.artemis.systems.event.SystemEvent;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -91,7 +93,7 @@ public class HudFactory {
             ChangeListener restartListener,
             ChangeListener quitListener) {
 
-        component.lossDialog = createDialog(LocalizedStrings.GameMenu.GAME_OVER_TITLE,
+        component.lossDialog = createDialog(gameWorld.game, LocalizedStrings.GameMenu.GAME_OVER_TITLE,
                 skin, ls, gameWorld.game.deviceSettings);
 
         addText(LocalizedStrings.GameMenu.LOSS_TEXT, skin, ls, component.lossDialog);
@@ -106,7 +108,7 @@ public class HudFactory {
             ChangeListener restartListener,
             ChangeListener quitListener) {
 
-        component.surrenderDialog = createDialog(LocalizedStrings.GameMenu.GAME_OVER_TITLE,
+        component.surrenderDialog = createDialog(gameWorld.game, LocalizedStrings.GameMenu.GAME_OVER_TITLE,
                 skin, ls, gameWorld.game.deviceSettings);
 
         addText(LocalizedStrings.GameMenu.SURRENDER_TEXT, skin, ls, component.surrenderDialog);
@@ -121,7 +123,7 @@ public class HudFactory {
             ChangeListener restartListener,
             ChangeListener quitListener) {
 
-        component.drawDialog = createDialog(LocalizedStrings.GameMenu.GAME_OVER_TITLE,
+        component.drawDialog = createDialog(gameWorld.game, LocalizedStrings.GameMenu.GAME_OVER_TITLE,
                 skin, ls, gameWorld.game.deviceSettings);
 
         component.drawText = addText(skin, component.drawDialog);
@@ -136,7 +138,7 @@ public class HudFactory {
             ChangeListener restartListener,
             ChangeListener quitListener) {
 
-        component.winDialog = createDialog(LocalizedStrings.GameMenu.GAME_OVER_TITLE,
+        component.winDialog = createDialog(gameWorld.game, LocalizedStrings.GameMenu.GAME_OVER_TITLE,
                 skin, ls, gameWorld.game.deviceSettings);
 
         component.winText = addText(skin, component.winDialog);
@@ -152,7 +154,7 @@ public class HudFactory {
             ChangeListener restartListener,
             ChangeListener quitListener) {
 
-        component.menu = createDialog(LocalizedStrings.GameMenu.MENU_TITLE,
+        component.menu = createDialog(gameWorld.game, LocalizedStrings.GameMenu.MENU_TITLE,
                 skin, ls, gameWorld.game.deviceSettings);
 
         addButton(gameWorld.game, LocalizedStrings.GameMenu.RESUME_BUTTON, skin, ls, resumeListener, component.menu);
@@ -173,22 +175,29 @@ public class HudFactory {
     }
 
     private static void addButton(TaflGame game, Object text, Skin skin, LocaleService ls, ChangeListener listener, Dialog dialog) {
-        TextButton button = new TextButton(ls.get(text), skin, Assets.Skin.SKIN_STYLE_GAME);
 
-        //        Sprite up = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK);
-        //        Sprite down = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK_PRESSED);
-        //        button.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(up));
-        //        button.getStyle().imageDown = new TextureRegionDrawable(new TextureRegion(down));
+        Sprite up = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK);
+        Sprite down = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK_PRESSED);
+
+        TextButtonStyle style = new TextButtonStyle();
+        style.fontColor = Constants.ScreenConstants.TEXT_COLOR;
+        style.font = game.graphicsService.getFont(game.deviceSettings.hudFont);
+        style.up = new TextureRegionDrawable(new TextureRegion(up));
+        style.down = new TextureRegionDrawable(new TextureRegion(down));
+
+        TextButton button = new TextButton(ls.get(text), style);
 
         button.addListener(listener);
         dialog.button(button);
         dialog.getButtonTable().row();
     }
 
-    private static Dialog createDialog(Object title, Skin skin, LocaleService ls, DeviceSettings deviceSettings) {
+    private static Dialog createDialog(TaflGame game, Object title, Skin skin, LocaleService ls, DeviceSettings deviceSettings) {
         Dialog dialog = new Dialog(ls.get(title), skin, Assets.Skin.SKIN_STYLE_DIALOG);
         dialog.setMovable(false);
         dialog.setModal(true);
+
+        dialog.padTop(50);
 
         dialog.getCell(dialog.getButtonTable()).pad(deviceSettings.dialogSpacing);
         dialog.getContentTable().defaults().padTop(deviceSettings.dialogSpacing);
@@ -214,16 +223,16 @@ public class HudFactory {
         createUndo(component, skin, table, gameWorld);
 
         if (Constants.GameConstants.DEBUG) {
-            table.row().padTop(Constants.HudConstants.PLAYER_LABEL_PAD_TOP / 2);
+            table.row().padTop(gameWorld.game.deviceSettings.hudPlayerLablePad);
             component.fps = new Label("", skin, Assets.Skin.SKIN_STYLE_DIALOG);
             table.add(component.fps).colspan(4);
         }
 
-        table.row().padTop(Constants.HudConstants.PLAYER_LABEL_PAD_TOP);
+        table.row().padTop(gameWorld.game.deviceSettings.hudPlayerLablePad);
 
         createPlayerLabels(skin, table, gameWorld);
 
-        table.padTop(Constants.HudConstants.HUD_TABLE_PADDING_TOP);
+        table.padTop(gameWorld.game.deviceSettings.hudTablePadding);
         table.right().top().setFillParent(true);
 
         if (Constants.GameConstants.DEBUG) {
@@ -251,8 +260,8 @@ public class HudFactory {
         Label blackLabel = new Label(blackText, skin, Assets.Skin.SKIN_STYLE_PLAYER_TAG);
 
         innerTable.add(blackIcon).padLeft(
-                Constants.HudConstants.HUD_TABLE_PADDING_SIDES).padRight(
-                        Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
+                gameWorld.game.deviceSettings.hudTablePadding).padRight(
+                        gameWorld.game.deviceSettings.hudTablePadding);
         innerTable.add(blackLabel).left().expandX();
 
         Image whiteIcon = new Image(gameWorld.game.graphicsService.getSprite(
@@ -262,8 +271,8 @@ public class HudFactory {
 
         innerTable.add(whiteLabel).align(BaseTableLayout.RIGHT).expandX();
         innerTable.add(whiteIcon).padLeft(
-                Constants.HudConstants.HUD_TABLE_PADDING_SIDES).padRight(
-                        Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
+                gameWorld.game.deviceSettings.hudTablePadding).padRight(
+                        gameWorld.game.deviceSettings.hudTablePadding);
 
         Cell<?> innerTableCell = table.add(innerTable).colspan(4);
         innerTableCell.size(Gdx.graphics.getWidth(), 50);

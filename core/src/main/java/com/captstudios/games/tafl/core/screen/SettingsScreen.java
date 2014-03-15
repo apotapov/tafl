@@ -30,6 +30,7 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
 
         Table table = new Table();
         table.setFillParent(true);
+        table.defaults().spaceBottom(game.deviceSettings.menuSpacing);
 
         createMusicCheckBox(table);
         createDifficultySelector(table);
@@ -47,24 +48,11 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
         createButtons();
     }
 
-    //    private void createVibrationCheckbox(Skin skin, Table table) {
-    //        String text = game.localeService.get(LocalizedStrings.OptionsMenu.OPTIONS_VIBRATE);
-    //        final CheckBox vibrationCheckbox = new CheckBox(text, skin, Assets.Skin.SKIN_STYLE_MENU);
-    //        vibrationCheckbox.setChecked(game.preferenceService.isVibrateEnabled());
-    //        vibrationCheckbox.addListener(new ChangeListener() {
-    //            @Override
-    //            public void changed(ChangeEvent event, Actor actor) {
-    //                game.preferenceService.setVibrateEnabled(vibrationCheckbox.isChecked());
-    //                game.soundService.vibrate(Constants.GameConstants.CAPTURE_VIBRATION_LENGTH);
-    //            }
-    //        });
-    //        table.add(vibrationCheckbox).align(BaseTableLayout.LEFT).spaceBottom(game.deviceSettings.menuSpacing);
-    //        table.row();
-    //    }
-
     private void createButtons() {
         Table buttonTable = new Table();
         buttonTable.right().bottom().setFillParent(true);
+        buttonTable.defaults().pad(game.deviceSettings.menuSpacing).size(
+                game.deviceSettings.menuButtonHeight * 1.5f, game.deviceSettings.menuButtonHeight);
         Sprite icon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.BACK);
         Button button = new ImageButton(new TextureRegionDrawable(new TextureRegion(icon)));
 
@@ -75,12 +63,12 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
                 back();
             }
         });
-        buttonTable.add(button).pad(Constants.HudConstants.PLAYER_LABEL_PAD_TOP / 4).expandX().left();
+        buttonTable.add(button).expandX().left();
 
         buttonTable.right().bottom().setFillParent(true);
         icon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.ABOUT);
         button = game.createSwitchScreenButton(icon, this, game.aboutScreen);
-        buttonTable.add(button).pad(Constants.HudConstants.PLAYER_LABEL_PAD_TOP / 4);
+        buttonTable.add(button);
 
         if (Constants.GameConstants.DEBUG) {
             buttonTable.debug();
@@ -93,7 +81,11 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
         Sprite labelSprite = game.graphicsService.getSprite(
                 Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.MUSIC);
         Image imageLabel = new Image(new TextureRegionDrawable(new TextureRegion(labelSprite)));
-        table.add(imageLabel).spaceBottom(game.deviceSettings.menuSpacing);
+
+        float height = game.deviceSettings.menuLabelHeight;
+        float width = height * (imageLabel.getWidth() / imageLabel.getHeight());
+
+        table.add(imageLabel).spaceBottom(game.deviceSettings.menuSpacing).size(width, height).expandX().right();
 
         Sprite on = game.graphicsService.getSprite(
                 Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.ON);
@@ -104,21 +96,22 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
         Sprite down = game.graphicsService.getSprite(
                 Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.ON_OFF_PRESSED);
 
-        final ImageButton musicCheckbox = new ImageButton(
+        final ImageButton selector = new ImageButton(
                 new DoubleTextureDrawable(new TextureRegion(up), new TextureRegion(off)),
                 new DoubleTextureDrawable(new TextureRegion(down), new TextureRegion(on)),
                 new DoubleTextureDrawable(new TextureRegion(down), new TextureRegion(on)));
 
-        musicCheckbox.setChecked(game.preferenceService.isMusicEnabled());
+        selector.setChecked(game.preferenceService.isMusicEnabled());
 
-        musicCheckbox.addListener(new ChangeListener() {
+        selector.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.preferenceService.setMusicEnabled(musicCheckbox.isChecked());
+                game.preferenceService.setMusicEnabled(selector.isChecked());
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(musicCheckbox).spaceBottom(game.deviceSettings.menuSpacing);
+        table.add(selector).size(game.deviceSettings.menuButtonWidth,
+                game.deviceSettings.menuButtonHeight).left();
         table.row();
     }
 
@@ -126,7 +119,11 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
         Sprite labelSprite = game.graphicsService.getSprite(
                 Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.DIFFICULTY);
         Image imageLabel = new Image(new TextureRegionDrawable(new TextureRegion(labelSprite)));
-        table.add(imageLabel).spaceBottom(game.deviceSettings.menuSpacing);
+
+        float height = game.deviceSettings.menuLabelHeight * 1.5f;
+        float width = height * (imageLabel.getWidth() / imageLabel.getHeight());
+
+        table.add(imageLabel).spaceBottom(game.deviceSettings.menuSpacing).size(width, height).expandX().right();
 
         final Sprite[] text = new Sprite[] {
                 game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.NOVICE),
@@ -136,9 +133,9 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
         };
 
         Sprite up = game.graphicsService.getSprite(
-                Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.PLAYERS_BLANK);
+                Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.PLAY_AS_BLANK);
         Sprite down = game.graphicsService.getSprite(
-                Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.PLAYERS_PRESSED);
+                Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.PLAY_AS_PRESSED);
 
         final AiType initialType = game.preferenceService.getAiType();
         Sprite selectorTest = text[initialType.ordinal()];
@@ -161,7 +158,8 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(selector).spaceBottom(game.deviceSettings.menuSpacing);
+        table.add(selector).size(game.deviceSettings.menuButtonWidth,
+                game.deviceSettings.menuButtonHeight).expandX().left();
         table.row();
     }
 

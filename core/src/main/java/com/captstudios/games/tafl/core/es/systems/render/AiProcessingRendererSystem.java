@@ -44,7 +44,14 @@ public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingCo
     @Override
     protected void process(Entity e, MatchRenderingComponent rendComponent) {
         AiProcessingComponent component = promptMapper.get(e);
-        float x = - Constants.AiConstants.LOADING_PROMPT_WIDTH / 2;
+
+        String sizingText = localeService.get(LocalizedStrings.Ai.AI_PROCESSING3);
+        TextBounds bounds = rendComponent.font.getBounds(sizingText);
+
+        float backgroundWidth = bounds.width * 1.2f;
+        float backgroundHeight = bounds.height * 3f;
+
+        float x = - backgroundWidth / 2;
         float y = 0;
 
         Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -56,8 +63,8 @@ public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingCo
         rendComponent.shapeRenderer.rect(
                 x,
                 y,
-                Constants.AiConstants.LOADING_PROMPT_WIDTH,
-                Constants.AiConstants.LOADING_PROMPT_HEIGHT);
+                backgroundWidth,
+                backgroundHeight);
 
         rendComponent.shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
@@ -70,11 +77,8 @@ public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingCo
 
         String text = localeService.get(LocalizedStrings.Ai.values()[component.index]);
 
-        String sizingText = localeService.get(LocalizedStrings.Ai.AI_PROCESSING3);
-
-        TextBounds bounds = rendComponent.font.getBounds(sizingText);
         x = - bounds.width / 2;
-        y = Constants.AiConstants.LOADING_PROMPT_HEIGHT - bounds.height;
+        y = backgroundHeight - bounds.height;
 
         rendComponent.spriteBatch.begin();
         rendComponent.font.draw(rendComponent.spriteBatch, text, x, y);

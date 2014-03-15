@@ -51,10 +51,14 @@ public class LocalizedStrings {
     }
 
     public enum Game {
-        AI_PROCESSING,
-
         HUMAN_PLAYER,
         COMPUTER_PLAYER,
+    }
+
+    public enum Ai {
+        AI_PROCESSING1,
+        AI_PROCESSING2,
+        AI_PROCESSING3
     }
 
     public enum Hud {

@@ -10,13 +10,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.consts.Constants;
-import com.captstudios.games.tafl.core.consts.LocalizedStrings;
 import com.captstudios.games.tafl.core.level.TaflLevelService;
 import com.captstudios.games.tafl.core.screen.AboutScreen;
 import com.captstudios.games.tafl.core.screen.GamePlayScreen;
@@ -24,9 +21,10 @@ import com.captstudios.games.tafl.core.screen.InstructionScreen;
 import com.captstudios.games.tafl.core.screen.LevelSelectionScreen;
 import com.captstudios.games.tafl.core.screen.LoadGameScreen;
 import com.captstudios.games.tafl.core.screen.MainMenuScreen;
-import com.captstudios.games.tafl.core.screen.OptionsScreen;
+import com.captstudios.games.tafl.core.screen.SettingsScreen;
 import com.captstudios.games.tafl.core.screen.TaflCompanyScreen;
 import com.captstudios.games.tafl.core.screen.TaflLoadingScreen;
+import com.captstudios.games.tafl.core.utils.DoubleTextureDrawable;
 import com.captstudios.games.tafl.core.utils.device.DeviceSettings;
 import com.captstudios.games.tafl.core.utils.device.DeviceType;
 import com.captstudios.games.tafl.core.utils.device.TaflGameConfig;
@@ -49,7 +47,7 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     public TaflLoadingScreen loadingScreen;
     public TaflCompanyScreen companyScreen;
     public InstructionScreen instructionScreen;
-    public OptionsScreen optionsScreen;
+    public SettingsScreen settingsScreen;
     public AboutScreen aboutScreen;
     public LevelSelectionScreen levelSelectionScreen;
     public LoadGameScreen loadGameScreen;
@@ -83,11 +81,11 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
         }
 
         mainMenuScreen = new MainMenuScreen(this);
-        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(deviceSettings.backgroundAtlas));
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(Assets.GraphicFiles.ATLAS_SPLASH));
         loadingScreen = new TaflLoadingScreen(this, atlas,  assets, mainMenuScreen);
         companyScreen = new TaflCompanyScreen(this, atlas, loadingScreen);
-        optionsScreen = new OptionsScreen(this);
-        aboutScreen = new AboutScreen(this, optionsScreen);
+        settingsScreen = new SettingsScreen(this);
+        aboutScreen = new AboutScreen(this, settingsScreen);
         levelSelectionScreen = new LevelSelectionScreen(this);
         loadGameScreen = new LoadGameScreen(this);
         gamePlayScreen = new GamePlayScreen(this);
@@ -101,8 +99,11 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     @Override
     public AbstractScreen<TaflGame> getFirstScreen() {
         if (deviceSettings.config.deviceType == DeviceType.IOS) {
+            loadingScreen.initialize();
             return loadingScreen;
         } else {
+            companyScreen.initialize();
+            loadingScreen.initialize();
             return companyScreen;
         }
     }
@@ -140,7 +141,7 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     public void onFinishLoading() {
         mainMenuScreen.initialize();
         instructionScreen.initialize();
-        optionsScreen.initialize();
+        settingsScreen.initialize();
         aboutScreen.initialize();
         levelSelectionScreen.initialize();
         loadGameScreen.initialize();
@@ -150,13 +151,15 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
     }
 
 
-    public Button createSwitchScreenButton(Sprite up,
+    public Button createSwitchScreenButton(
+            Sprite text,
+            Sprite up,
             Sprite down,
             final AbstractScreen<TaflGame> parent,
             final AbstractScreen<TaflGame> screen) {
 
-        ImageButton button = new ImageButton(new TextureRegionDrawable(new TextureRegion(up)),
-                new TextureRegionDrawable(new TextureRegion(down)));
+        ImageButton button = new ImageButton(new DoubleTextureDrawable(new TextureRegion(up), new TextureRegion(text)),
+                new DoubleTextureDrawable(new TextureRegion(down), new TextureRegion(text)));
 
         button.addListener(new ChangeListener() {
             @Override
@@ -169,12 +172,11 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
         return button;
     }
 
-    public TextButton createSwitchScreenButton(String text,
+    public Button createSwitchScreenButton(Sprite icon,
             final AbstractScreen<TaflGame> parent,
             final AbstractScreen<TaflGame> screen) {
 
-        Skin skin = graphicsService.getSkin(Assets.Skin.UI_SKIN);
-        TextButton button = new TextButton(text, skin, Assets.Skin.SKIN_STYLE_MENU);
+        ImageButton button = new ImageButton(new TextureRegionDrawable(new TextureRegion(icon)));
 
         button.addListener(new ChangeListener() {
             @Override
@@ -184,13 +186,6 @@ public class TaflGame extends AbstractGame<TaflGame> implements IAssetBasedServi
             }
         });
         return button;
-    }
-
-    public Button getMainMenuButton(AbstractScreen<TaflGame> parent) {
-        return createSwitchScreenButton(
-                localeService.get(LocalizedStrings.MainMenu.MAIN_MENU_BUTTON),
-                parent,
-                mainMenuScreen);
     }
 
     @Override

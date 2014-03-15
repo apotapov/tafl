@@ -1,48 +1,23 @@
 package com.captstudios.games.tafl.core.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.captstudios.games.tafl.core.TaflGame;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.consts.Constants;
-import com.captstudios.games.tafl.core.consts.LocalizedStrings;
-import com.captstudios.games.tafl.core.enums.AiType;
 import com.captstudios.games.tafl.core.level.TaflLevel;
-import com.esotericsoftware.tablelayout.Cell;
+import com.captstudios.games.tafl.core.utils.DoubleTextureDrawable;
 import com.roundtriangles.games.zaria.screen.AbstractScreen;
 
 public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
-
-    private static class ListItem<T> {
-        //T value;
-        String translatedValue;
-
-        public ListItem(T value, String translatedValue) {
-            //this.value = value;
-            this.translatedValue = translatedValue;
-        }
-
-        @Override
-        public String toString() {
-            return translatedValue;
-        }
-    }
-
 
     public LevelSelectionScreen(TaflGame game) {
         super(game, game.mainMenuScreen, Constants.ScreenConstants.FADE_TIME);
@@ -51,22 +26,19 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
     @Override
     public void initialize() {
         Sprite background = game.graphicsService.getSprite(
-                game.deviceSettings.backgroundAtlas, Assets.Graphics.MENU);
+                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.MENU);
         setBackgroundImage(new Image(background));
 
-        Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
-        Table table = new Table(skin);
+        Table table = new Table();
         table.setFillParent(true);
 
         Array<TaflLevel> levels = game.levelService.getLevels();
 
-        createLevelList(levels, table, skin);
+        createLevelList(levels, table);
 
-        createPlayPreference(skin, table);
+        createPlayPreference(table);
 
-        createAiPreference(skin, table);
-
-        createButtons(table, skin);
+        createButtons();
 
         if (Constants.GameConstants.DEBUG) {
             table.debug();
@@ -74,133 +46,115 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
         stage.addActor(table);
     }
 
-    private void createLevelList(Array<TaflLevel> levels, Table table, Skin skin) {
-        String text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.BOARD_SELECTION_TITLE);
-        Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_SCREEN_TITLE);
-        table.add(label).spaceBottom(game.deviceSettings.menuSpacing);
-        table.row();
+    private void createLevelList(final Array<TaflLevel> levels, Table table) {
+        Sprite labelSprite = game.graphicsService.getSprite(
+                Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.SIZE);
+        Image imageLabel = new Image(new TextureRegionDrawable(new TextureRegion(labelSprite)));
+        table.add(imageLabel).spaceBottom(game.deviceSettings.menuSpacing);
 
-        Array<ListItem<String>> levelNames = new Array<ListItem<String>>(levels.size);
-        for (TaflLevel level : levels) {
-            String localizedName = game.localeService.get(level.name);
-            levelNames.add(new ListItem<String>(level.name, localizedName));
-        }
+        final Sprite[] text = new Sprite[] {
+                game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.SIZE_11),
+                game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.SIZE_9),
+        };
 
-        final List<ListItem<String>> levelList = new List<ListItem<String>>(skin, Assets.Skin.SKIN_STYLE_MENU);
-        levelList.setItems(levelNames);
-        levelList.setSelectedIndex(game.preferenceService.getLevelIndex());
-        levelList.addListener(new ChangeListener() {
+        Sprite up = game.graphicsService.getSprite(
+                Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.SIZE_BLANK);
+        Sprite down = game.graphicsService.getSprite(
+                Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.SIZE_PRESSED);
 
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.preferenceService.setLevelIndex(levelList.getSelectedIndex());
-                game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
-            }
-        });
+        Sprite selectorTest = text[game.preferenceService.getLevelIndex()];
 
-        table.add(levelList).spaceBottom(game.deviceSettings.menuSpacing);
-        table.row();
-    }
+        final ImageButton selector = new ImageButton(
+                new DoubleTextureDrawable(new TextureRegion(up), new TextureRegion(selectorTest)),
+                new DoubleTextureDrawable(new TextureRegion(down), new TextureRegion(selectorTest)));
 
-    private void createPlayPreference(Skin skin, Table table) {
 
-        Table innerTable = new Table(skin);
+        selector.addListener(new ChangeListener() {
 
-        final Drawable blackIcon = new TextureRegionDrawable(new TextureRegion(
-                game.graphicsService.getSprite(
-                        Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BLACK_ICON)));
-
-        final Drawable whiteIcon = new TextureRegionDrawable(new TextureRegion(
-                game.graphicsService.getSprite(
-                        Assets.Graphics.ATLAS_PIECES, Assets.Graphics.WHITE_ICON)));
-
-        final Image computerIcon = new Image(game.preferenceService.getComputerStarts() ? blackIcon : whiteIcon);
-        final Image humanIcon = new Image(game.preferenceService.getComputerStarts() ? whiteIcon : blackIcon);
-
-        TextureRegion textureRegion = new TextureRegion(
-                game.graphicsService.getSprite(
-                        Assets.Graphics.ATLAS_PIECES, Assets.Graphics.UNDO_ICON));
-        Drawable imageUp = new TextureRegionDrawable(textureRegion);
-        ImageButton swap = new ImageButton(imageUp);
-
-        swap.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                if (game.preferenceService.getComputerStarts()) {
-                    game.preferenceService.setComputerStarts(false);
-                    computerIcon.setDrawable(whiteIcon);
-                    humanIcon.setDrawable(blackIcon);
-                } else {
-                    game.preferenceService.setComputerStarts(true);
-                    computerIcon.setDrawable(blackIcon);
-                    humanIcon.setDrawable(whiteIcon);
-                }
-
-                game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
-            }
-        });
-
-        String text = game.localeService.get(LocalizedStrings.Game.HUMAN_PLAYER);
-        Label humanLabel = new Label(text, skin, Assets.Skin.SKIN_STYLE_MENU);
-
-        text = game.localeService.get(LocalizedStrings.Game.COMPUTER_PLAYER);
-        Label computerLabel = new Label(text, skin, Assets.Skin.SKIN_STYLE_MENU);
-
-        innerTable.add(humanIcon);
-        innerTable.add(swap).size(50, 50);
-        innerTable.add(computerIcon);
-        innerTable.row();
-        innerTable.add(humanLabel).uniform();
-        innerTable.add();
-        innerTable.add(computerLabel).uniform();
-
-        text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.SIDE_SELECTION_TITLE);
-        Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_SCREEN_TITLE);
-        table.add(label).spaceBottom(game.deviceSettings.menuSpacing);
-        table.row();
-
-        table.add(innerTable).spaceBottom(game.deviceSettings.menuSpacing);
-        table.row();
-    }
-
-    private void createAiPreference(Skin skin, Table table) {
-
-        Table innerTable = new Table(skin);
-
-        AiType initialType = game.preferenceService.getAiType();
-        final Label difficulty = new Label(game.localeService.get(initialType), skin, Assets.Skin.SKIN_STYLE_MENU);
-
-        final Slider slider = new Slider(0, AiType.values().length-1, 1, false, skin);
-        slider.setValue(initialType.ordinal());
-        slider.addListener(new ChangeListener() {
+            int selected = game.preferenceService.getLevelIndex();
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                AiType type = AiType.values()[(int) slider.getValue()];
-                game.preferenceService.setAiType(type);
-                difficulty.setText(game.localeService.get(type));
+                selected = (selected + 1) % levels.size;
+                ((DoubleTextureDrawable)selector.getStyle().imageDown).setInnerRegion(text[selected]);
+                ((DoubleTextureDrawable)selector.getStyle().imageUp).setInnerRegion(text[selected]);
+                game.preferenceService.setLevelIndex(selected);
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-
-        String text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.AI_DIFFICULTY);
-        Label difficultyLabel = new Label(text, skin, Assets.Skin.SKIN_STYLE_SCREEN_TITLE);
-
-        innerTable.add(difficultyLabel);
-        innerTable.row();
-        Cell<?> sliderCell = innerTable.add(slider);
-        sliderCell.size(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 15);
-        innerTable.row();
-        innerTable.add(difficulty);
-        innerTable.row();
-
-        table.add(innerTable).spaceBottom(game.deviceSettings.menuSpacing);
+        table.add(selector).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
     }
 
-    private void createButtons(Table table, Skin skin) {
-        String text = game.localeService.get(LocalizedStrings.LevelSelectionMenu.PLAY_LEVEL_BUTTON);
-        TextButton button = new TextButton(text, skin, Assets.Skin.SKIN_STYLE_MENU);
+    private void createPlayPreference(Table table) {
+
+        Sprite labelSprite = game.graphicsService.getSprite(
+                Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.PLAY_AS);
+        Image imageLabel = new Image(new TextureRegionDrawable(new TextureRegion(labelSprite)));
+        table.add(imageLabel).spaceBottom(game.deviceSettings.menuSpacing);
+
+        final Sprite[] text = new Sprite[] {
+                game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.PLAY_WHITE),
+                game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.PLAY_BLACK),
+        };
+
+        Sprite up = game.graphicsService.getSprite(
+                Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.SIZE_BLANK);
+        Sprite down = game.graphicsService.getSprite(
+                Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.SIZE_PRESSED);
+
+        final int index = game.preferenceService.getComputerStarts() ? 0 : 1;
+
+        Sprite selectorText = text[index];
+
+        final ImageButton selector = new ImageButton(
+                new DoubleTextureDrawable(new TextureRegion(up), new TextureRegion(selectorText)),
+                new DoubleTextureDrawable(new TextureRegion(down), new TextureRegion(selectorText)));
+
+
+        selector.addListener(new ChangeListener() {
+
+            int selected = index;
+
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                selected = (selected + 1) % 2;
+                ((DoubleTextureDrawable)selector.getStyle().imageDown).setInnerRegion(text[selected]);
+                ((DoubleTextureDrawable)selector.getStyle().imageUp).setInnerRegion(text[selected]);
+
+                game.preferenceService.setComputerStarts(selected == Constants.BoardConstants.WHITE_TEAM);
+                game.preferenceService.setLevelIndex(selected);
+
+                game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
+            }
+        });
+        table.add(selector).spaceBottom(game.deviceSettings.menuSpacing);
+        table.row();
+    }
+
+    private void createButtons() {
+        Table buttonTable = new Table();
+        buttonTable.right().bottom().setFillParent(true);
+        Sprite icon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.BACK);
+        Button button = game.createSwitchScreenButton(icon, this, game.mainMenuScreen);
+        buttonTable.add(button).pad(Constants.HudConstants.PLAYER_LABEL_PAD_TOP / 4).expandX().left();
+
+        icon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.SETTINGS);
+        button = new ImageButton(new TextureRegionDrawable(new TextureRegion(icon)));
+
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
+                game.settingsScreen.parentScreen = LevelSelectionScreen.this;
+                switchScreen(game.settingsScreen);
+            }
+        });
+        buttonTable.add(button).pad(Constants.HudConstants.PLAYER_LABEL_PAD_TOP / 4).expandX();
+
+        buttonTable.right().bottom().setFillParent(true);
+        icon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.PLAY);
+        button = new ImageButton(new TextureRegionDrawable(new TextureRegion(icon)));
         button.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -214,12 +168,12 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
                 }
             }
         });
-        table.add(button).size(game.deviceSettings.menuButtonWidth,
-                game.deviceSettings.menuButtonHeight).spaceBottom(game.deviceSettings.menuSpacing);
-        table.row();
+        buttonTable.add(button).pad(Constants.HudConstants.PLAYER_LABEL_PAD_TOP / 4);
 
-        Button mainMenuButton = game.getMainMenuButton(this);
-        table.add(mainMenuButton).size(game.deviceSettings.menuButtonWidth, game.deviceSettings.menuButtonHeight);
-        table.row();
+        if (Constants.GameConstants.DEBUG) {
+            buttonTable.debug();
+        }
+
+        stage.addActor(buttonTable);
     }
 }

@@ -15,7 +15,7 @@ public class LoadGameScreen extends AbstractScreen<TaflGame> {
     @Override
     public void initialize() {
         Sprite background = game.graphicsService.getSprite(
-                game.deviceSettings.backgroundAtlas, Assets.Graphics.MENU);
+                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.MENU);
         setBackgroundImage(new Image(background));
     }
 

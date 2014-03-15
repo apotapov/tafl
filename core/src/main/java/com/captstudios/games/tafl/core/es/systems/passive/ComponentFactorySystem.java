@@ -110,8 +110,10 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         component.font = graphics.getFont(ds.gameFont);
         component.debugFont = graphics.getFont(ds.rulesFont);
 
-        component.backgroundTexture = graphics.getSprite(ds.backgroundAtlas, Assets.Graphics.BOARD);
-        component.gridTexture = graphics.getSprite(Assets.Graphics.ATLAS_PIECES, match.board.boardType.grid);
+        component.backgroundTexture = graphics.getSprite(
+                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.BOARD);
+        component.gridTexture = graphics.getSprite(
+                Assets.GraphicFiles.ATLAS_PIECES, match.board.boardType.grid);
 
         return component;
     }
@@ -129,9 +131,8 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         return component;
     }
 
-    public AiProcessingComponent createAiProcessingComponent(String text) {
+    public AiProcessingComponent createAiProcessingComponent() {
         AiProcessingComponent component = createComponent(AiProcessingComponent.class);
-        component.text = text;
         return component;
     }
 }

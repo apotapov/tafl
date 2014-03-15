@@ -27,6 +27,17 @@ public class MyPacker {
             TexturePacker.process(settings, input + "/" + name, output, name);
         }
 
+        convert = new String[] { "splash" };
+
+        settings.maxWidth = 1024;
+        settings.maxHeight = settings.maxWidth;
+
+        for (String name : convert) {
+            TexturePacker.process(settings, input + "/" + name, output, name);
+        }
+
+        settings.maxWidth = 2048;
+        settings.maxHeight = settings.maxWidth;
         settings.format = Format.RGBA8888;
         settings.outputFormat = "png";
 

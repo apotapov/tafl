@@ -16,7 +16,7 @@ public class TaflCompanyScreen extends LoadingScreen<TaflGame> {
         super(game,
                 null,
                 nextScreen,
-                new Image(atlas.createSprite(Assets.Graphics.COMPANY_LOGO)),
+                new Image(atlas.createSprite(Assets.Background.COMPANY_LOGO)),
                 Constants.ScreenConstants.COMPANY_SCREEN_DISPLAY_TIME,
                 Constants.ScreenConstants.FADE_TIME);
     }

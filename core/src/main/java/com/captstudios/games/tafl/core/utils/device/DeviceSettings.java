@@ -12,13 +12,12 @@ public class DeviceSettings {
     public int width;
     public int height;
 
-    public String backgroundAtlas;
-
     public FontDefinition menuFont;
     public FontDefinition screenTitleFont;
     public FontDefinition gameFont;
     public FontDefinition hudFont;
     public FontDefinition rulesFont;
+    public FontDefinition rulesTitleFont;
 
     public int menuButtonWidth;
     public int menuButtonHeight;
@@ -37,12 +36,6 @@ public class DeviceSettings {
 
     public DeviceSettings(TaflGameConfig config) {
         this.config = config;
-
-        if (config.deviceType == DeviceType.IOS) {
-            backgroundAtlas = Assets.Graphics.ATLAS_BACKGROUNDS;
-        } else {
-            backgroundAtlas = Assets.Graphics.ATLAS_BACKGROUNDS;
-        }
     }
 
     public void initialize(int width, int height) {
@@ -51,10 +44,11 @@ public class DeviceSettings {
 
         if (config.deviceType == DeviceType.DESKTOP) {
             setParameters(Assets.Fonts.FONT_DESTKOP_MENU,
-                    Assets.Fonts.FONT_DESTKOP_SCREEN_TITLE,
-                    Assets.Fonts.FONT_DESTKOP_GAME,
-                    Assets.Fonts.FONT_DESTKOP_HUD,
-                    Assets.Fonts.FONT_DESTKOP_RULES,
+                    Assets.Fonts.FONT_DESKTOP_SCREEN_TITLE,
+                    Assets.Fonts.FONT_DESKTOP_GAME,
+                    Assets.Fonts.FONT_DESKTOP_HUD,
+                    Assets.Fonts.FONT_DESKTOP_RULES,
+                    Assets.Fonts.FONT_DESKTOP_RULES_TITLE,
                     Constants.ScreenConstants.DESKTOP_BUTTON_WIDTH,
                     Constants.ScreenConstants.DESKTOP_BUTTON_HEIGHT,
                     Constants.ScreenConstants.DESKTOP_LIST_WIDTH,
@@ -74,6 +68,7 @@ public class DeviceSettings {
                     Assets.Fonts.FONT_XHDPI_GAME,
                     Assets.Fonts.FONT_XHDPI_HUD,
                     Assets.Fonts.FONT_XHDPI_RULES,
+                    Assets.Fonts.FONT_XHDPI_RULES_TITLE,
                     Constants.ScreenConstants.XHDPI_BUTTON_WIDTH,
                     Constants.ScreenConstants.XHDPI_BUTTON_HEIGHT,
                     Constants.ScreenConstants.XHDPI_LIST_WIDTH,
@@ -91,6 +86,7 @@ public class DeviceSettings {
                     Assets.Fonts.FONT_HDPI_GAME,
                     Assets.Fonts.FONT_HDPI_HUD,
                     Assets.Fonts.FONT_HDPI_RULES,
+                    Assets.Fonts.FONT_HDPI_RULES_TITLE,
                     Constants.ScreenConstants.HDPI_BUTTON_WIDTH,
                     Constants.ScreenConstants.HDPI_BUTTON_HEIGHT,
                     Constants.ScreenConstants.HDPI_LIST_WIDTH,
@@ -108,6 +104,7 @@ public class DeviceSettings {
                     Assets.Fonts.FONT_MDPI_GAME,
                     Assets.Fonts.FONT_MDPI_HUD,
                     Assets.Fonts.FONT_MDPI_RULES,
+                    Assets.Fonts.FONT_MDPI_RULES_TITLE,
                     Constants.ScreenConstants.MDPI_BUTTON_WIDTH,
                     Constants.ScreenConstants.MDPI_BUTTON_HEIGHT,
                     Constants.ScreenConstants.MDPI_LIST_WIDTH,
@@ -125,6 +122,7 @@ public class DeviceSettings {
                     Assets.Fonts.FONT_LDPI_GAME,
                     Assets.Fonts.FONT_LDPI_HUD,
                     Assets.Fonts.FONT_LDPI_RULES,
+                    Assets.Fonts.FONT_LDPI_RULES_TITLE,
                     Constants.ScreenConstants.LDPI_BUTTON_WIDTH,
                     Constants.ScreenConstants.LDPI_BUTTON_HEIGHT,
                     Constants.ScreenConstants.LDPI_LIST_WIDTH,
@@ -143,7 +141,8 @@ public class DeviceSettings {
             FontDefinition screenTitleFont,
             FontDefinition gameFont,
             FontDefinition hudFont,
-            FontDefinition debugFont,
+            FontDefinition rulesFont,
+            FontDefinition rulesTitleFont,
             int menuButtonWidth,
             int menuButtonHeight,
             int menuListWidth,
@@ -160,7 +159,8 @@ public class DeviceSettings {
         this.screenTitleFont = screenTitleFont;
         this.gameFont = gameFont;
         this.hudFont = hudFont;
-        this.rulesFont = debugFont;
+        this.rulesFont = rulesFont;
+        this.rulesTitleFont = rulesTitleFont;
 
         this.menuButtonWidth = menuButtonWidth;
         this.menuButtonHeight = menuButtonHeight;

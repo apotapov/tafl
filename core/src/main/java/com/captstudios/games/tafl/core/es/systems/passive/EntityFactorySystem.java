@@ -60,15 +60,15 @@ public class EntityFactorySystem extends PassiveEntitySystem {
 
         String graphic;
         if (match.board.kingBitBoard().get(cellId)) {
-            graphic = Assets.Graphics.KING_PIECE;
+            graphic = Assets.GameGraphics.KING_PIECE;
         } else if (team == Constants.BoardConstants.WHITE_TEAM) {
-            graphic = Assets.Graphics.WHITE_PIECE;
+            graphic = Assets.GameGraphics.WHITE_PIECE;
         } else {
-            graphic = Assets.Graphics.BLACK_PIECE;
+            graphic = Assets.GameGraphics.BLACK_PIECE;
         }
 
 
-        DrawableComponent dc = componentFactory.createDrawableComponent(Assets.Graphics.ATLAS_PIECES, graphic);
+        DrawableComponent dc = componentFactory.createDrawableComponent(Assets.GraphicFiles.ATLAS_PIECES, graphic);
         e.addComponent(dc);
         if (match.board.boardType == BoardType.BOARD_SIZE_11_11) {
             e.addComponent(componentFactory.createScalingComponent(
@@ -112,15 +112,15 @@ public class EntityFactorySystem extends PassiveEntitySystem {
 
         String graphic;
         if (match.board.kingBitBoard().get(cellId)) {
-            graphic = Assets.Graphics.KING_PIECE_CAPTURE;
+            graphic = Assets.GameGraphics.KING_PIECE_CAPTURE;
         } else if (match.turn == Constants.BoardConstants.WHITE_TEAM) {
-            graphic = Assets.Graphics.BLACK_PIECE_CAPTURE;
+            graphic = Assets.GameGraphics.BLACK_PIECE_CAPTURE;
         } else {
-            graphic = Assets.Graphics.WHITE_PIECE_CAPTURE;
+            graphic = Assets.GameGraphics.WHITE_PIECE_CAPTURE;
         }
 
         AnimationComponent ac = componentFactory.createAnimationComponent(
-                Assets.Graphics.ATLAS_PIECES,
+                Assets.GraphicFiles.ATLAS_PIECES,
                 graphic,
                 Animation.NORMAL,
                 Constants.PieceConstants.CAPTURE_FRAME_DURATION);
@@ -141,7 +141,7 @@ public class EntityFactorySystem extends PassiveEntitySystem {
                 move, velocity, distanceRemaining));
     }
 
-    public void createAiProcessingPrompt(Entity e, String text) {
-        e.addComponent(componentFactory.createAiProcessingComponent(text));
+    public void createAiProcessingPrompt(Entity e) {
+        e.addComponent(componentFactory.createAiProcessingComponent());
     }
 }

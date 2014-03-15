@@ -3,7 +3,6 @@ package com.captstudios.games.tafl.core.es;
 import com.artemis.systems.EntitySystem;
 import com.artemis.systems.event.BasicEventDeliverySystem;
 import com.badlogic.gdx.utils.Array;
-import com.captstudios.games.tafl.core.consts.LocalizedStrings;
 import com.captstudios.games.tafl.core.es.systems.input.HudInputSystem;
 import com.captstudios.games.tafl.core.es.systems.input.MatchInputSystem;
 import com.captstudios.games.tafl.core.es.systems.interaction.AiSystem;
@@ -66,9 +65,7 @@ public class SystemFactory {
     protected static void initPassiveSystems(TaflWorld gameWorld) {
         gameWorld.world.setSystem(new ChangeTurnSystem());
 
-        String text = gameWorld.game.localeService.get(LocalizedStrings.Game.AI_PROCESSING);
-
-        gameWorld.world.setSystem(new AiSystem(text));
+        gameWorld.world.setSystem(new AiSystem());
         gameWorld.world.setSystem(new UndoSystem());
         gameWorld.world.setSystem(new PieceMovementSystem());
         gameWorld.world.setSystem(new PieceCaptureSystem());
@@ -88,7 +85,7 @@ public class SystemFactory {
         gameWorld.world.setSystem(new GridRenderSystem());
         gameWorld.world.setSystem(new SpriteRenderSystem());
         gameWorld.world.setSystem(new AnimationRenderSystem());
-        gameWorld.world.setSystem(new AiProcessingRendererSystem());
+        gameWorld.world.setSystem(new AiProcessingRendererSystem(gameWorld.game.localeService));
     }
 
     protected static void initDebugRenderingSystems(TaflWorld gameWorld) {

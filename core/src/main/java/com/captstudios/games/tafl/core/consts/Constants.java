@@ -67,6 +67,7 @@ public final class Constants {
 
         public static final int WIN = 100000;
         public static final int LOSS = -100000;
+        public static final float AI_THINKING_ANIMATION = 0.5f;
     }
 
     public static final class ScreenConstants {
@@ -77,7 +78,8 @@ public final class Constants {
         public static final float LOADING_SCREEN_DISPLAY_TIME = 1.75f;
         public static final float COMPANY_SCREEN_DISPLAY_TIME = 1f;
 
-        public static final Color ABOUT_COLOR = new Color(1, 1, 1, 0.5f);
+        public static final Color ABOUT_COLOR = new Color(1, 1, 1, 0.2f);
+        public static final Color ABOUT_TEXT_COLOR = new Color(0.9453125f, 0.9453125f, 0.9453125f, 1);
 
         public static final int DESKTOP_LIST_WIDTH = 270;
         public static final int DESKTOP_LIST_HEIGHT = 140;
@@ -216,7 +218,7 @@ public final class Constants {
         public static final Color SPECIAL_HIGHLIGHT_COLOR = new Color(1f, 0f, 0f, 0.4f);
 
         public static final Color PATH_COLOR = HIGHLIGHT_COLOR;
-        public static final Color END_COLOR = new Color(1f, 1f, 1f, 0.6f);
+        public static final Color END_COLOR = new Color(0.9453125f, 0.9453125f, 0.9453125f, 0.6f);
 
         public static final float GRID_RENDER_POSITION_X = -Constants.GameConstants.GAME_WIDTH / 2;
         public static final float GRID_RENDER_POSITION_Y = -Constants.GameConstants.GAME_HEIGHT / 2;
@@ -230,21 +232,5 @@ public final class Constants {
         public static final float HUD_TABLE_PADDING_SIDES = 10f;
 
         public static final float PLAYER_LABEL_PAD_TOP = 50f;
-    }
-
-    public static final class DbConstants {
-        private DbConstants() {
-        }
-        public static final String DB_URL_PREFIX = "jdbc:sqlite:";
-        public static final String SQLITE_DB_NAME = "tafl";
-        public static final String SQLITE_DB_FILE = SQLITE_DB_NAME + ".db";
-
-        public static final int CURRENT_DB_VERSION = 0;
-
-        public static final String MATCH_TABLE = "matches";
-        public static final String PIECE_TABLE = "pieces";
-        public static final String LOG_TABLE = "log";
-
-        public static final int CACHE_SIZE = 1000;
     }
 }

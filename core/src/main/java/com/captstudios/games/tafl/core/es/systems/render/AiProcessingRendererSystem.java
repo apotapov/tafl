@@ -8,17 +8,23 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.captstudios.games.tafl.core.consts.Constants;
+import com.captstudios.games.tafl.core.consts.LocalizedStrings;
 import com.captstudios.games.tafl.core.es.components.render.AiProcessingComponent;
 import com.captstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
+import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
 public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingComponent> {
+
+    LocaleService localeService;
 
     ComponentMapper<AiProcessingComponent> promptMapper;
 
     @SuppressWarnings("unchecked")
-    public AiProcessingRendererSystem() {
+    public AiProcessingRendererSystem(LocaleService localeService) {
         super(Filter.allComponents(AiProcessingComponent.class),
                 MatchRenderingComponent.class);
+
+        this.localeService = localeService;
     }
 
     @Override
@@ -56,12 +62,22 @@ public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingCo
         rendComponent.shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
 
-        TextBounds bounds = rendComponent.font.getBounds(component.text);
+        component.timeElapsed += world.getDelta();
+        if (component.timeElapsed > Constants.AiConstants.AI_THINKING_ANIMATION) {
+            component.timeElapsed -= Constants.AiConstants.AI_THINKING_ANIMATION;
+            component.index = (component.index + 1) % LocalizedStrings.Ai.values().length;
+        }
+
+        String text = localeService.get(LocalizedStrings.Ai.values()[component.index]);
+
+        String sizingText = localeService.get(LocalizedStrings.Ai.AI_PROCESSING3);
+
+        TextBounds bounds = rendComponent.font.getBounds(sizingText);
         x = - bounds.width / 2;
         y = Constants.AiConstants.LOADING_PROMPT_HEIGHT - bounds.height;
 
         rendComponent.spriteBatch.begin();
-        rendComponent.font.draw(rendComponent.spriteBatch, component.text, x, y);
+        rendComponent.font.draw(rendComponent.spriteBatch, text, x, y);
         rendComponent.spriteBatch.end();
     }
 

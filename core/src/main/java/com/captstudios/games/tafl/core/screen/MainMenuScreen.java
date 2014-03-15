@@ -25,48 +25,54 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
     @Override
     public void initialize() {
         Sprite background = game.graphicsService.getSprite(
-                game.deviceSettings.backgroundAtlas, Assets.Graphics.MAIN_MENU);
+                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.MENU);
         setBackgroundImage(new Image(background));
 
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
         Table table = new Table(skin);
 
-        Sprite up = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_START);
-        Sprite down = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_START_PRESSED);
-        Button button = game.createSwitchScreenButton(up, down, this, game.levelSelectionScreen);
+        Sprite text = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.START);
+        Sprite up = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK);
+        Sprite down = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK_PRESSED);
+        Button button = game.createSwitchScreenButton(text, up, down, this, game.levelSelectionScreen);
         table.add(button).size(game.deviceSettings.menuButtonWidth,
                 game.deviceSettings.menuButtonHeight).spaceBottom(game.deviceSettings.menuSpacing);
 
         table.row();
 
-        up = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_RESUME);
-        down = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_RESUME_PRESSED);
-        button = game.createSwitchScreenButton(up, down, this, game.loadGameScreen);
+        text = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.RESUME);
+        up = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK);
+        down = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK_PRESSED);
+        button = game.createSwitchScreenButton(text, up, down, this, game.loadGameScreen);
         table.add(button).size(game.deviceSettings.menuButtonWidth,
                 game.deviceSettings.menuButtonHeight).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
 
-        up = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_HELP);
-        down = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_HELP_PRESSED);
-        button = game.createSwitchScreenButton(up, down, this, game.instructionScreen);
+        text = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.HELP);
+        up = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK);
+        down = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK_PRESSED);
+        button = game.createSwitchScreenButton(text, up, down, this, game.instructionScreen);
         table.add(button).size(game.deviceSettings.menuButtonWidth,
                 game.deviceSettings.menuButtonHeight).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
 
-        up = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_SETTINGS);
-        down = game.graphicsService.getSprite(Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BUTTON_SETTINGS_PRESSED);
-        button = game.createSwitchScreenButton(up, down, this, game.optionsScreen);
-        table.add(button).size(game.deviceSettings.menuButtonWidth,
-                game.deviceSettings.menuButtonHeight);
+        Table iconTable = new Table(skin);
+        iconTable.right().bottom().setFillParent(true);
+        Sprite settingsIcon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.SETTINGS);
+        button = game.createSwitchScreenButton(settingsIcon, this, game.settingsScreen);
+        iconTable.add(button).pad(Constants.HudConstants.PLAYER_LABEL_PAD_TOP / 4);
+
 
         if (Constants.GameConstants.DEBUG) {
             table.debug();
+            iconTable.debug();
         }
 
         float x = (stage.getWidth() - table.getWidth()) / 2;
-        float y = (stage.getHeight() - table.getHeight()) / 3;
+        float y = (stage.getHeight() - table.getHeight()) * 5 / 12;
 
         table.setPosition(x, y);
         stage.addActor(table);
+        stage.addActor(iconTable);
     }
 }

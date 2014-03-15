@@ -239,17 +239,17 @@ public class HudFactory {
         }
 
         Image blackIcon = new Image(gameWorld.game.graphicsService.getSprite(
-                Assets.Graphics.ATLAS_PIECES, Assets.Graphics.BLACK_ICON));
+                Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.BLACK));
 
         Label blackLabel = new Label(blackText, skin, Assets.Skin.SKIN_STYLE_PLAYER_TAG);
 
         innerTable.add(blackIcon).padLeft(
                 Constants.HudConstants.HUD_TABLE_PADDING_SIDES).padRight(
                         Constants.HudConstants.HUD_TABLE_PADDING_SIDES);
-        innerTable.add(blackLabel).align(BaseTableLayout.LEFT).expandX();
+        innerTable.add(blackLabel).left().expandX();
 
         Image whiteIcon = new Image(gameWorld.game.graphicsService.getSprite(
-                Assets.Graphics.ATLAS_PIECES, Assets.Graphics.WHITE_ICON));
+                Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.WHITE));
 
         Label whiteLabel = new Label(whiteText, skin, Assets.Skin.SKIN_STYLE_PLAYER_TAG);
 
@@ -269,7 +269,7 @@ public class HudFactory {
 
         TextureRegion textureRegion = new TextureRegion(
                 gameWorld.game.graphicsService.getSprite(
-                        Assets.Graphics.ATLAS_PIECES, Assets.Graphics.UNDO_ICON));
+                        Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.UNDO));
         Drawable imageUp = new TextureRegionDrawable(textureRegion);
         ImageButton button = new ImageButton(imageUp);
 
@@ -291,7 +291,7 @@ public class HudFactory {
 
         TextureRegion textureRegion = new TextureRegion(
                 gameWorld.game.graphicsService.getSprite(
-                        Assets.Graphics.ATLAS_PIECES, Assets.Graphics.HINT_ICON));
+                        Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.HINT));
         Drawable imageUp = new TextureRegionDrawable(textureRegion);
         ImageButton button = new ImageButton(imageUp);
 
@@ -311,13 +311,13 @@ public class HudFactory {
 
         TextureRegion textureRegion = new TextureRegion(
                 gameWorld.game.graphicsService.getSprite(
-                        Assets.Graphics.ATLAS_PIECES, Assets.Graphics.MUTE_ICON));
+                        Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.MUTE));
 
         final Drawable muteDrawable = new TextureRegionDrawable(textureRegion);
 
         textureRegion = new TextureRegion(
                 gameWorld.game.graphicsService.getSprite(
-                        Assets.Graphics.ATLAS_PIECES, Assets.Graphics.UN_MUTE_ICON));
+                        Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.UN_MUTE));
 
         final Drawable unmuteDrawable = new TextureRegionDrawable(textureRegion);
 
@@ -351,7 +351,7 @@ public class HudFactory {
 
         TextureRegion textureRegion = new TextureRegion(
                 gameWorld.game.graphicsService.getSprite(
-                        Assets.Graphics.ATLAS_PIECES, Assets.Graphics.MENU_ICON));
+                        Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.MENU));
         Drawable imageUp = new TextureRegionDrawable(textureRegion);
         ImageButton button = new ImageButton(imageUp);
 

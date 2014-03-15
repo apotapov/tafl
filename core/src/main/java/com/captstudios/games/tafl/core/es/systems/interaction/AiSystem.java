@@ -28,13 +28,10 @@ public class AiSystem extends EventProcessingSystem3<AiTurnEvent, AiCompleteEven
     EntityFactorySystem efs;
     CellHighlightSystem cellHighlightSystem;
 
-    String thinking;
-
     @SuppressWarnings("unchecked")
-    public AiSystem(String thinking) {
+    public AiSystem() {
         super(Filter.allComponents(MatchComponent.class), AiTurnEvent.class, AiCompleteEvent.class, HintEvent.class);
 
-        this.thinking = thinking;
         this.executor = Executors.newSingleThreadExecutor();
     }
 
@@ -55,7 +52,7 @@ public class AiSystem extends EventProcessingSystem3<AiTurnEvent, AiCompleteEven
         aiThread.match = component.match;
         executor.execute(aiThread);
 
-        efs.createAiProcessingPrompt(e, thinking);
+        efs.createAiProcessingPrompt(e);
     }
 
     @Override

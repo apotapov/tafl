@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.captstudios.games.tafl.core.TaflGame;
 import com.captstudios.games.tafl.core.consts.Assets;
@@ -25,57 +25,64 @@ public class AboutScreen extends AbstractScreen<TaflGame> {
     @Override
     public void initialize() {
         Sprite background = game.graphicsService.getSprite(
-                game.deviceSettings.backgroundAtlas, Assets.Graphics.MENU);
+                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.MENU);
         setBackgroundImage(new Image(background));
 
-        Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
-        Table table = new Table(skin);
+        Table table = new Table();
         table.setFillParent(true);
 
-        createInfo(skin, table);
-        createCredit(skin, table);
-        createRules(skin, table);
+        LabelStyle titleStyle = new LabelStyle();
+        titleStyle.font = game.graphicsService.getFont(game.deviceSettings.rulesTitleFont);
+        titleStyle.fontColor = Constants.ScreenConstants.ABOUT_TEXT_COLOR;
+        LabelStyle style = new LabelStyle();
+        style.font = game.graphicsService.getFont(game.deviceSettings.rulesFont);
+        style.fontColor = Constants.ScreenConstants.ABOUT_TEXT_COLOR;
+
+        createInfo(table, titleStyle, style);
+        createCredit(table, titleStyle, style);
+        createRules(table, titleStyle, style);
 
         if (Constants.GameConstants.DEBUG) {
             table.debug();
         }
+
         stage.addActor(table);
 
         gestureDetector = new GestureDetector(new ChangeScreenGestureListener(this));
     }
 
-    private void createInfo(Skin skin, Table table) {
+    private void createInfo(Table table, LabelStyle titleStyle, LabelStyle style) {
         String text = game.localeService.get(LocalizedStrings.MainMenu.GAME_TITLE);
-        Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_SCREEN_TITLE);
+        Label label = new Label(text, titleStyle);
         table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 8);
         table.row();
 
         text = game.localeService.get(LocalizedStrings.AboutInfo.ABOUT_VERSION);
-        label = new Label(text, skin, Assets.Skin.SKIN_STYLE_RULES);
+        label = new Label(text, style);
         table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 8);
         table.row();
 
         text = game.localeService.get(LocalizedStrings.AboutInfo.ABOUT_COPYRIGHT);
-        label = new Label(text, skin, Assets.Skin.SKIN_STYLE_RULES);
+        label = new Label(text, style);
         table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 8);
         table.row();
 
         text = game.localeService.get(LocalizedStrings.AboutInfo.ABOUT_RIGHTS_RESERVED);
-        label = new Label(text, skin, Assets.Skin.SKIN_STYLE_RULES);
+        label = new Label(text, style);
         table.add(label).spaceBottom(game.deviceSettings.menuSpacing);
         table.row();
     }
 
-    private void createCredit(Skin skin, Table table) {
+    private void createCredit(Table table, LabelStyle titleStyle, LabelStyle style) {
         int i = 0;
         LocalizedStrings.AboutCredit[] credit = LocalizedStrings.AboutCredit.values();
         for (LocalizedStrings.AboutCredit item : credit) {
             String text = game.localeService.get(item);
             if (i++ % 2 == 0) {
-                Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_GAME);
+                Label label = new Label(text, titleStyle);
                 table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 8);
             } else {
-                Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_MENU);
+                Label label = new Label(text, style);
                 if (i < credit.length - 1) {
                     table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 4);
                 } else {
@@ -87,16 +94,16 @@ public class AboutScreen extends AbstractScreen<TaflGame> {
         }
     }
 
-    private void createRules(Skin skin, Table table) {
+    private void createRules(Table table, LabelStyle titleStyle, LabelStyle style) {
         int i = 0;
         LocalizedStrings.AboutRules[] rules = LocalizedStrings.AboutRules.values();
         for (LocalizedStrings.AboutRules item : rules) {
             String text = game.localeService.get(item);
             if (i++ % 2 == 0) {
-                Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_GAME);
+                Label label = new Label(text, titleStyle);
                 table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 8);
             } else {
-                Label label = new Label(text, skin, Assets.Skin.SKIN_STYLE_RULES);
+                Label label = new Label(text, style);
                 if (i < rules.length - 1) {
                     table.add(label).spaceBottom(game.deviceSettings.menuSpacing / 2);
                 } else {

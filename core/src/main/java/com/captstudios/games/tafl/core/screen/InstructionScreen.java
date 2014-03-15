@@ -99,7 +99,7 @@ public class InstructionScreen extends AbstractScreen<TaflGame> {
     private void initControls() {
         TextureRegion textureRegion = new TextureRegion(
                 game.graphicsService.getSprite(
-                        Assets.Graphics.ATLAS_PIECES, Assets.Graphics.CLOSE_ICON));
+                        Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.CLOSE));
         Drawable imageUp = new TextureRegionDrawable(textureRegion);
         closeButton = new ImageButton(imageUp);
         closeButton.addListener(new ChangeListener() {
@@ -122,12 +122,10 @@ public class InstructionScreen extends AbstractScreen<TaflGame> {
 
     private void initInstructions() {
         instructions = new Image[] {
-                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_1)),
-                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_2)),
-                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_3)),
-                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_4)),
-                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_5)),
-                new Image(game.graphicsService.getSprite(game.deviceSettings.backgroundAtlas, Assets.Graphics.INSTRUCTIONS_6)),
+                new Image(game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.INSTRUCTIONS_1)),
+                new Image(game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.INSTRUCTIONS_2)),
+                new Image(game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.INSTRUCTIONS_3)),
+                new Image(game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.INSTRUCTIONS_4)),
         };
 
         for (Image instruction : instructions) {

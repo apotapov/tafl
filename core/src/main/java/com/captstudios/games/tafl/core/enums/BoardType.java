@@ -7,7 +7,7 @@ import com.captstudios.games.tafl.core.consts.Constants;
 
 public enum BoardType {
     BOARD_SIZE_11_11(
-            Assets.Graphics.GRID_11,
+            Assets.GameGraphics.GRID_11,
             Constants.PieceConstants.TILE_SIZE_11,
             Constants.PieceConstants.BOARD_FRAME_WIDTH_11,
             Constants.PieceConstants.CELL_HORIZONTAL_OFFSET_11,
@@ -17,7 +17,7 @@ public enum BoardType {
             Constants.AiConstants.INTERMEDIATE_TREE_DEPTH_11,
             Constants.AiConstants.ADVANCED_TREE_DEPTH_11),
             BOARD_SIZE_9_9(
-                    Assets.Graphics.GRID_9,
+                    Assets.GameGraphics.GRID_9,
                     Constants.PieceConstants.TILE_SIZE_9,
                     Constants.PieceConstants.BOARD_FRAME_WIDTH_9,
                     Constants.PieceConstants.CELL_HORIZONTAL_OFFSET_9,

@@ -4,10 +4,12 @@ import com.artemis.Component;
 
 public class AiProcessingComponent implements Component {
 
-    public String text;
+    public float timeElapsed;
+    public int index;
 
     @Override
     public void reset() {
-        text = null;
+        timeElapsed = 0;
+        index = 0;
     }
 }

@@ -3,84 +3,44 @@ backgrounds.jpg
 format: RGB888
 filter: MipMapLinearLinear,MipMapLinearLinear
 repeat: none
-captstudios_logo-800x800
-  rotate: false
-  xy: 2, 964
-  size: 540, 960
-  orig: 540, 960
-  offset: 0, 0
-  index: -1
 tafl-board
   rotate: false
-  xy: 2, 2
+  xy: 1086, 966
   size: 540, 960
   orig: 540, 960
   offset: 0, 0
   index: -1
 tafl-instr-screen01
   rotate: false
-  xy: 544, 964
-  size: 540, 960
-  orig: 540, 960
+  xy: 2, 965
+  size: 540, 961
+  orig: 540, 961
   offset: 0, 0
   index: -1
 tafl-instr-screen02
   rotate: false
-  xy: 544, 2
-  size: 540, 960
-  orig: 540, 960
+  xy: 2, 2
+  size: 540, 961
+  orig: 540, 961
   offset: 0, 0
   index: -1
 tafl-instr-screen03
   rotate: false
-  xy: 1086, 964
-  size: 540, 960
-  orig: 540, 960
+  xy: 544, 965
+  size: 540, 961
+  orig: 540, 961
   offset: 0, 0
   index: -1
 tafl-instr-screen04
   rotate: false
-  xy: 1086, 2
-  size: 540, 960
-  orig: 540, 960
-  offset: 0, 0
-  index: -1
-
-backgrounds2.jpg
-format: RGB888
-filter: MipMapLinearLinear,MipMapLinearLinear
-repeat: none
-tafl-instr-screen05
-  rotate: false
-  xy: 2, 964
-  size: 540, 960
-  orig: 540, 960
-  offset: 0, 0
-  index: -1
-tafl-instr-screen06
-  rotate: false
-  xy: 2, 2
-  size: 540, 960
-  orig: 540, 960
-  offset: 0, 0
-  index: -1
-tafl-menu-background
-  rotate: false
-  xy: 544, 964
-  size: 540, 960
-  orig: 540, 960
-  offset: 0, 0
-  index: -1
-tafl-menu-main
-  rotate: false
   xy: 544, 2
-  size: 540, 960
-  orig: 540, 960
+  size: 540, 961
+  orig: 540, 961
   offset: 0, 0
   index: -1
-tafl-splash
+tafl-main
   rotate: false
-  xy: 1086, 964
+  xy: 1086, 4
   size: 540, 960
   orig: 540, 960
   offset: 0, 0

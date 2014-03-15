@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.captstudios.games.tafl.core.TaflGame;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.consts.LocalizedStrings;
@@ -94,8 +95,8 @@ public class HudFactory {
                 skin, ls, gameWorld.game.deviceSettings);
 
         addText(LocalizedStrings.GameMenu.LOSS_TEXT, skin, ls, component.lossDialog);
-        addButton(LocalizedStrings.GameMenu.RESTART_BUTTON, skin, ls, restartListener, component.lossDialog);
-        addButton(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON, skin, ls, quitListener, component.lossDialog);
+        addButton(gameWorld.game, LocalizedStrings.GameMenu.RESTART_BUTTON, skin, ls, restartListener, component.lossDialog);
+        addButton(gameWorld.game, LocalizedStrings.GameMenu.MAIN_MENU_BUTTON, skin, ls, quitListener, component.lossDialog);
     }
 
     private static void createSurrenderDialog(HudRenderingComponent component,
@@ -109,8 +110,8 @@ public class HudFactory {
                 skin, ls, gameWorld.game.deviceSettings);
 
         addText(LocalizedStrings.GameMenu.SURRENDER_TEXT, skin, ls, component.surrenderDialog);
-        addButton(LocalizedStrings.GameMenu.RESTART_BUTTON, skin, ls, restartListener, component.surrenderDialog);
-        addButton(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON, skin, ls, quitListener, component.surrenderDialog);
+        addButton(gameWorld.game, LocalizedStrings.GameMenu.RESTART_BUTTON, skin, ls, restartListener, component.surrenderDialog);
+        addButton(gameWorld.game, LocalizedStrings.GameMenu.MAIN_MENU_BUTTON, skin, ls, quitListener, component.surrenderDialog);
     }
 
     private static void createDrawDialog(HudRenderingComponent component,
@@ -124,8 +125,8 @@ public class HudFactory {
                 skin, ls, gameWorld.game.deviceSettings);
 
         component.drawText = addText(skin, component.drawDialog);
-        addButton(LocalizedStrings.GameMenu.RESTART_BUTTON, skin, ls, restartListener, component.drawDialog);
-        addButton(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON, skin, ls, quitListener, component.drawDialog);
+        addButton(gameWorld.game, LocalizedStrings.GameMenu.RESTART_BUTTON, skin, ls, restartListener, component.drawDialog);
+        addButton(gameWorld.game, LocalizedStrings.GameMenu.MAIN_MENU_BUTTON, skin, ls, quitListener, component.drawDialog);
     }
 
     private static void createWinDialog(HudRenderingComponent component,
@@ -139,8 +140,8 @@ public class HudFactory {
                 skin, ls, gameWorld.game.deviceSettings);
 
         component.winText = addText(skin, component.winDialog);
-        addButton(LocalizedStrings.GameMenu.RESTART_BUTTON, skin, ls, restartListener, component.winDialog);
-        addButton(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON, skin, ls, quitListener, component.winDialog);
+        addButton(gameWorld.game, LocalizedStrings.GameMenu.RESTART_BUTTON, skin, ls, restartListener, component.winDialog);
+        addButton(gameWorld.game, LocalizedStrings.GameMenu.MAIN_MENU_BUTTON, skin, ls, quitListener, component.winDialog);
     }
 
     private static void createMenuDialog(HudRenderingComponent component,
@@ -154,9 +155,9 @@ public class HudFactory {
         component.menu = createDialog(LocalizedStrings.GameMenu.MENU_TITLE,
                 skin, ls, gameWorld.game.deviceSettings);
 
-        addButton(LocalizedStrings.GameMenu.RESUME_BUTTON, skin, ls, resumeListener, component.menu);
-        addButton(LocalizedStrings.GameMenu.RESTART_BUTTON, skin, ls, restartListener, component.menu);
-        addButton(LocalizedStrings.GameMenu.MAIN_MENU_BUTTON, skin, ls, quitListener, component.menu);
+        addButton(gameWorld.game, LocalizedStrings.GameMenu.RESUME_BUTTON, skin, ls, resumeListener, component.menu);
+        addButton(gameWorld.game, LocalizedStrings.GameMenu.RESTART_BUTTON, skin, ls, restartListener, component.menu);
+        addButton(gameWorld.game, LocalizedStrings.GameMenu.MAIN_MENU_BUTTON, skin, ls, quitListener, component.menu);
     }
 
     private static Label addText(Skin skin, Dialog dialog) {
@@ -171,8 +172,14 @@ public class HudFactory {
         dialog.text(label);
     }
 
-    private static void addButton(Object text, Skin skin, LocaleService ls, ChangeListener listener, Dialog dialog) {
-        TextButton button = new TextButton(ls.get(text), skin, Assets.Skin.SKIN_STYLE_DIALOG);
+    private static void addButton(TaflGame game, Object text, Skin skin, LocaleService ls, ChangeListener listener, Dialog dialog) {
+        TextButton button = new TextButton(ls.get(text), skin, Assets.Skin.SKIN_STYLE_GAME);
+
+        //        Sprite up = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK);
+        //        Sprite down = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK_PRESSED);
+        //        button.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(up));
+        //        button.getStyle().imageDown = new TextureRegionDrawable(new TextureRegion(down));
+
         button.addListener(listener);
         dialog.button(button);
         dialog.getButtonTable().row();

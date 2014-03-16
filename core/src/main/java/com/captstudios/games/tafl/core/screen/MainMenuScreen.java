@@ -37,10 +37,10 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
         Sprite down = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK_PRESSED);
         Button button = game.createSwitchScreenButton(text, up, down, this, game.levelSelectionScreen);
 
-        float height = game.deviceSettings.menuButtonHeight * 1.2f;
+        float height = game.deviceSettings.menuButtonHeight;
         float width = height * (up.getWidth() / up.getHeight());
 
-        table.defaults().size(width, height).spaceBottom(game.deviceSettings.menuSpacing);
+        table.defaults().size(width, height).space(game.deviceSettings.menuSpacing);
 
         table.add(button);
         table.row();

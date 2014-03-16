@@ -52,8 +52,7 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
     private void createButtons() {
         Table buttonTable = new Table();
         buttonTable.right().bottom().setFillParent(true);
-        buttonTable.defaults().pad(game.deviceSettings.menuSpacing).size(
-                game.deviceSettings.menuButtonHeight * 1.5f, game.deviceSettings.menuButtonHeight);
+        buttonTable.defaults().pad(game.deviceSettings.menuSpacing).size(game.deviceSettings.menuButtonHeight);
         Sprite icon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.BACK);
         Button button = new ImageButton(new TextureRegionDrawable(new TextureRegion(icon)));
 
@@ -110,7 +109,7 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
             }
         });
 
-        height = game.deviceSettings.menuButtonHeight;
+        height = game.deviceSettings.menuSelectorHeight;
         width = height * (up.getWidth() / up.getHeight());
 
         table.add(musicSelector).size(width, height).left();
@@ -146,7 +145,7 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
                 new DoubleTextureDrawable(new TextureRegion(up), new TextureRegion(selectorTest)),
                 new DoubleTextureDrawable(new TextureRegion(down), new TextureRegion(selectorTest)));
 
-        height = game.deviceSettings.menuButtonHeight;
+        height = game.deviceSettings.menuSelectorHeight;
         width = height * (up.getWidth() / up.getHeight());
 
         table.add(difficultySelector).size(width, height).expandX().left();

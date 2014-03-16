@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -109,12 +108,10 @@ public class InstructionScreen extends AbstractScreen<TaflGame> {
             }
         });
 
-        float scalingFactor = Gdx.graphics.getWidth() / (float) Constants.GameConstants.GAME_WIDTH;
-
-        Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
-        Table controls = new Table(skin);
+        Table controls = new Table();
         controls.setFillParent(true);
-        controls.add(closeButton).expand().bottom().right().pad(game.deviceSettings.menuSpacing).size(closeButton.getWidth() * scalingFactor);
+        controls.add(closeButton).expand().bottom().right().pad(
+                game.deviceSettings.menuSpacing).size(game.deviceSettings.menuButtonHeight / 2);
         stage.addActor(controls);
     }
 

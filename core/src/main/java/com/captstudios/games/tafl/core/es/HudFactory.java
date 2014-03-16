@@ -275,7 +275,7 @@ public class HudFactory {
                         gameWorld.game.deviceSettings.hudTablePadding);
 
         Cell<?> innerTableCell = table.add(innerTable).colspan(4);
-        innerTableCell.size(Gdx.graphics.getWidth(), 50);
+        innerTableCell.size(Gdx.graphics.getWidth(), gameWorld.game.deviceSettings.hudPlayerLablePad);
     }
 
     private static void createUndo(HudRenderingComponent component,

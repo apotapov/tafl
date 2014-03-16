@@ -2,11 +2,18 @@ package com.captstudios.games.tafl.core.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.captstudios.games.tafl.core.TaflGame;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.consts.Constants;
@@ -47,6 +54,7 @@ public class AboutScreen extends AbstractScreen<TaflGame> {
         }
 
         stage.addActor(table);
+        initControls();
 
         gestureDetector = new GestureDetector(new ChangeScreenGestureListener(this));
     }
@@ -112,6 +120,30 @@ public class AboutScreen extends AbstractScreen<TaflGame> {
             }
             table.row();
         }
+    }
+
+    private void initControls() {
+        TextureRegion textureRegion = new TextureRegion(
+                game.graphicsService.getSprite(
+                        Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.CLOSE));
+        Drawable imageUp = new TextureRegionDrawable(textureRegion);
+        ImageButton closeButton = new ImageButton(imageUp);
+        closeButton.addListener(new ChangeListener() {
+
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
+                back();
+            }
+        });
+
+        float scalingFactor = Gdx.graphics.getWidth() / (float) Constants.GameConstants.GAME_WIDTH;
+
+        Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
+        Table controls = new Table(skin);
+        controls.setFillParent(true);
+        controls.add(closeButton).expand().bottom().right().pad(game.deviceSettings.menuSpacing).size(closeButton.getWidth() * scalingFactor);
+        stage.addActor(controls);
     }
 
     @Override

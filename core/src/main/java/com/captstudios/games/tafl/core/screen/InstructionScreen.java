@@ -28,8 +28,6 @@ public class InstructionScreen extends AbstractScreen<TaflGame> {
     public ImageButton closeButton;
     public int currentInstruction;
 
-    Table controls;
-
     public GestureDetector gestureDetector;
 
     public InstructionScreen(final TaflGame game, AbstractScreen<TaflGame> returnScreen) {
@@ -114,7 +112,7 @@ public class InstructionScreen extends AbstractScreen<TaflGame> {
         float scalingFactor = Gdx.graphics.getWidth() / (float) Constants.GameConstants.GAME_WIDTH;
 
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
-        controls = new Table(skin);
+        Table controls = new Table(skin);
         controls.setFillParent(true);
         controls.add(closeButton).expand().bottom().right().pad(game.deviceSettings.menuSpacing).size(closeButton.getWidth() * scalingFactor);
         stage.addActor(controls);

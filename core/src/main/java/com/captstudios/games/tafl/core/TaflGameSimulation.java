@@ -12,6 +12,7 @@ import com.captstudios.games.tafl.core.enums.DrawReasonEnum;
 import com.captstudios.games.tafl.core.enums.LifeCycle;
 import com.captstudios.games.tafl.core.enums.RulesEngineType;
 import com.captstudios.games.tafl.core.es.model.TaflMatch;
+import com.captstudios.games.tafl.core.es.model.ai.AiFactory;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 
@@ -56,10 +57,10 @@ public class TaflGameSimulation {
             match.status = LifeCycle.PLAY;
             match.rulesType = RulesEngineType.FETLAR;
             match.computerStarts = true;
-            match.aiType = AiType.AI_ADVANCED;
             match.boardRepresentation = "...BBBBB........B................B....W....BB...WWW...BBB.WWKWW.BBB...WWW...BB....W....B................B........BBBBB...";
 
             match.initialize();
+            match.aiStrategy = AiFactory.getAiStrategy(AiType.AI_ADVANCED, match.board);
 
             int count = 0;
             boolean noMoves = true;

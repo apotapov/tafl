@@ -9,6 +9,7 @@ import com.captstudios.games.tafl.core.enums.AiType;
 import com.captstudios.games.tafl.core.enums.LifeCycle;
 import com.captstudios.games.tafl.core.es.model.TaflMatch;
 import com.captstudios.games.tafl.core.es.model.TaflMatchObserver;
+import com.captstudios.games.tafl.core.es.model.ai.AiFactory;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.moves.Move;
 import com.captstudios.games.tafl.core.utils.TaflMatchSerializer;
@@ -102,6 +103,7 @@ public class TaflPreferenceService extends PreferenceService implements TaflMatc
 
     @Override
     public void initializeMatch(TaflMatch match) {
+        match.aiStrategy = AiFactory.getAiStrategy(getAiType(), match.board);
         updateMatch(match);
     }
 

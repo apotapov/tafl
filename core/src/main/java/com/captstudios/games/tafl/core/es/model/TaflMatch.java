@@ -23,7 +23,6 @@ public class TaflMatch {
     public long updated;
 
     public int computerTeam = Constants.BoardConstants.NO_TEAM;
-    public AiType aiType;
 
     public String boardRepresentation;
     public Array<Move> initialUndoStack;
@@ -77,7 +76,6 @@ public class TaflMatch {
             initialUndoStack.clear();
         }
 
-        aiStrategy = AiFactory.getAiStrategy(aiType, board);
         hintStrategy = AiFactory.getAiStrategy(AiType.AI_INTERMEDIATE, board);
     }
 

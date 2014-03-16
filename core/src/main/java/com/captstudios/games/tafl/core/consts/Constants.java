@@ -33,7 +33,9 @@ public final class Constants {
         public static final int TUICHI_THRESHHOLD = 2;
 
         public static final int GAME_DESKTOP_HEIGHT = 800;
-        public static final int GAME_DESKTOP_WIDTH = 500; //GAME_DESKTOP_HEIGHT * GAME_WIDTH / Constants.GameConstants.GAME_HEIGHT;
+        //        public static final int GAME_DESKTOP_WIDTH = 500; // 1.6 - Android
+        //        public static final int GAME_DESKTOP_WIDTH = 600; // 1.33 - iPad
+        public static final int GAME_DESKTOP_WIDTH = 450; // 1.78 - iPhone
 
         public static final int GAME_HTML_HEIGHT = 400;
         public static final int GAME_HTML_WIDTH = 250; //GAME_DESKTOP_HEIGHT * GAME_WIDTH / Constants.GameConstants.GAME_HEIGHT;

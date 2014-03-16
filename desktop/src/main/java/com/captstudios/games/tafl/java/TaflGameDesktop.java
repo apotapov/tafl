@@ -16,7 +16,6 @@ public class TaflGameDesktop {
 
         TaflGameConfig gameConfig = new TaflGameConfig();
         gameConfig.deviceType = DeviceType.DESKTOP;
-        gameConfig.vibrationSupported = false;
 
         new LwjglApplication(new TaflGame(gameConfig), config);
     }

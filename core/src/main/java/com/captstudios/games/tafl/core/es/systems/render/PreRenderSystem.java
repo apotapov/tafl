@@ -1,7 +1,7 @@
 package com.captstudios.games.tafl.core.es.systems.render;
 
-import com.artemis.Filter;
 import com.artemis.Entity;
+import com.artemis.Filter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.captstudios.games.tafl.core.es.components.singleton.MatchRenderingComponent;
@@ -18,8 +18,6 @@ public class PreRenderSystem extends RenderingSystem<MatchRenderingComponent> {
     @Override
     protected void begin(MatchRenderingComponent rendComponent) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        rendComponent.camera.update();
-        rendComponent.spriteBatch.setProjectionMatrix(rendComponent.camera.combined);
     }
 
     @Override

@@ -6,6 +6,8 @@ import com.artemis.systems.EntitySystem;
 import com.artemis.systems.event.SystemEvent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
@@ -29,6 +31,8 @@ public class TaflWorld implements Disposable {
     public World world;
 
     public OrthographicCamera camera;
+    public SpriteBatch spriteBatch;
+    public ShapeRenderer shapeRenderer;
     public Stage stage;
 
     public TaflLevel level;
@@ -45,7 +49,6 @@ public class TaflWorld implements Disposable {
 
     public void initialize() {
         this.world = new World();
-        this.camera = new Bounded2DCamera();
         this.activeSystems = new Array<EntitySystem>();
 
         //world.setManager(new TaflManager());
@@ -89,6 +92,10 @@ public class TaflWorld implements Disposable {
     }
 
     public void resize(int width, int height) {
+        this.camera = new Bounded2DCamera();
+        this.spriteBatch = new SpriteBatch(Constants.GameConstants.BATCH_SIZE);
+        this.shapeRenderer = new ShapeRenderer();
+
         float ratioDifference = ((float)Constants.GameConstants.GAME_HEIGHT / Constants.GameConstants.GAME_WIDTH) / (((float) height) / width);
 
         float gameWidth = Constants.GameConstants.GAME_WIDTH;
@@ -103,6 +110,12 @@ public class TaflWorld implements Disposable {
         this.camera.position.set(cameraX, cameraY, 0);
 
         this.stage.setViewport(width, height, true);
+
+        camera.update();
+        spriteBatch.setProjectionMatrix(camera.combined);
+        shapeRenderer.setProjectionMatrix(camera.combined);
+
+        initialize();
     }
 
     public void pause() {
@@ -131,7 +144,6 @@ public class TaflWorld implements Disposable {
         match.gameOver(LifeCycle.RESTART);
         createNewMatch();
 
-        initialize();
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
@@ -145,7 +157,7 @@ public class TaflWorld implements Disposable {
 
     public boolean createNewMatch() {
         level = game.levelService.getLevel(game.preferenceService.getLevelIndex());
-        match = game.levelService.createNewMatch(level);
+        match = game.levelService.createNewMatch(this, level);
         return match != null;
     }
 

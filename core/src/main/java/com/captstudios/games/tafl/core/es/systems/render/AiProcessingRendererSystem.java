@@ -57,7 +57,6 @@ public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingCo
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         rendComponent.shapeRenderer.begin(ShapeType.Filled);
-        rendComponent.shapeRenderer.setProjectionMatrix(rendComponent.camera.combined);
 
         rendComponent.shapeRenderer.setColor(Constants.AiConstants.LOADING_PROMP_COLOR);
         rendComponent.shapeRenderer.rect(

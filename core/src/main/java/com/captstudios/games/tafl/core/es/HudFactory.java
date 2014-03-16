@@ -275,7 +275,7 @@ public class HudFactory {
                         gameWorld.game.deviceSettings.hudTablePadding);
 
         Cell<?> innerTableCell = table.add(innerTable).colspan(4);
-        innerTableCell.size(Gdx.graphics.getWidth(), gameWorld.game.deviceSettings.hudPlayerLablePad);
+        innerTableCell.size(Gdx.graphics.getWidth(), blackIcon.getHeight());
     }
 
     private static void createUndo(HudRenderingComponent component,
@@ -296,8 +296,7 @@ public class HudFactory {
                 world.postEvent(null, undoEvent);
             }
         });
-        table.add(button).size(gameWorld.game.deviceSettings.hudButtonWidth,
-                gameWorld.game.deviceSettings.hudButtonHeight).expandX();
+        table.add(button).size(gameWorld.game.deviceSettings.hudButtonHeight).expandX();
     }
 
     private static void createHint(HudRenderingComponent component,
@@ -318,8 +317,7 @@ public class HudFactory {
                 world.postEvent(null, undoEvent);
             }
         });
-        table.add(button).size(gameWorld.game.deviceSettings.hudButtonWidth,
-                gameWorld.game.deviceSettings.hudButtonHeight).expandX();
+        table.add(button).size(gameWorld.game.deviceSettings.hudButtonHeight).expandX();
     }
 
     private static void createMute(HudRenderingComponent component,
@@ -356,8 +354,7 @@ public class HudFactory {
                 }
             }
         });
-        table.add(button).size(gameWorld.game.deviceSettings.hudButtonWidth,
-                gameWorld.game.deviceSettings.hudButtonHeight).expandX();
+        table.add(button).size(gameWorld.game.deviceSettings.hudButtonHeight).expandX();
     }
 
     private static void createMenu(HudRenderingComponent component,
@@ -379,7 +376,6 @@ public class HudFactory {
                 world.postEvent(null, lifecycleEvent);
             }
         });
-        table.add(button).size(gameWorld.game.deviceSettings.hudButtonWidth,
-                gameWorld.game.deviceSettings.hudButtonHeight).expandX();
+        table.add(button).size(gameWorld.game.deviceSettings.hudButtonHeight).expandX();
     }
 }

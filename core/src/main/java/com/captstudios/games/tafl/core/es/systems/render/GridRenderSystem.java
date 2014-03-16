@@ -43,7 +43,7 @@ public class GridRenderSystem extends RenderingSystem<MatchRenderingComponent> {
         float scaleY = scaleX;
 
         float x = -rendComponent.gridTexture.getWidth() * scaleX / 2;
-        float y = -rendComponent.gridTexture.getHeight() * scaleY / 2;
+        float y = -rendComponent.gridTexture.getHeight() * scaleY / 2 + rendComponent.camera.position.y / 2;
 
         rendComponent.spriteBatch.draw(
                 rendComponent.gridTexture,
@@ -57,35 +57,37 @@ public class GridRenderSystem extends RenderingSystem<MatchRenderingComponent> {
                 scaleY,
                 0);
 
-        x = -rendComponent.braid.getWidth() / 2;
-        y = y - Constants.BoardRenderConstants.BRAID_OFFSET_BOTTOM;
+        if (rendComponent.braid != null) {
+            x = -rendComponent.braid.getWidth() / 2;
+            y = y - Constants.BoardRenderConstants.BRAID_OFFSET_BOTTOM;
 
-        rendComponent.spriteBatch.draw(
-                rendComponent.braid,
-                x,
-                y,
-                0,
-                0,
-                rendComponent.braid.getWidth(),
-                rendComponent.braid.getHeight(),
-                1,
-                1,
-                0);
+            rendComponent.spriteBatch.draw(
+                    rendComponent.braid,
+                    x,
+                    y,
+                    0,
+                    0,
+                    rendComponent.braid.getWidth(),
+                    rendComponent.braid.getHeight(),
+                    1,
+                    1,
+                    0);
 
-        y = y + rendComponent.gridTexture.getHeight() * scaleY +
-                Constants.BoardRenderConstants.BRAID_OFFSET_BOTTOM +
-                Constants.BoardRenderConstants.BRAID_OFFSET_TOP;
+            y = y + rendComponent.gridTexture.getHeight() * scaleY +
+                    Constants.BoardRenderConstants.BRAID_OFFSET_BOTTOM +
+                    Constants.BoardRenderConstants.BRAID_OFFSET_TOP;
 
-        rendComponent.spriteBatch.draw(
-                rendComponent.braid,
-                x,
-                y,
-                0,
-                0,
-                rendComponent.braid.getWidth(),
-                rendComponent.braid.getHeight(),
-                1,
-                1,
-                0);
+            rendComponent.spriteBatch.draw(
+                    rendComponent.braid,
+                    x,
+                    y,
+                    0,
+                    0,
+                    rendComponent.braid.getWidth(),
+                    rendComponent.braid.getHeight(),
+                    1,
+                    1,
+                    0);
+        }
     }
 }

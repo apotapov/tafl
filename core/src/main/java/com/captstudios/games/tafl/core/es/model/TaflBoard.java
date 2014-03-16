@@ -1,5 +1,6 @@
 package com.captstudios.games.tafl.core.es.model;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 import com.captstudios.games.tafl.core.consts.Constants;
@@ -32,7 +33,9 @@ public class TaflBoard extends GameBoard {
 
     public Pool<Move> movePool;
 
-    public TaflBoard(int dimensions, int pieceTypes, ZorbistHash zorbistHash, RulesEngine rulesEngine) {
+    public OrthographicCamera camera;
+
+    public TaflBoard(int dimensions, int pieceTypes, ZorbistHash zorbistHash, RulesEngine rulesEngine, OrthographicCamera camera) {
         super(dimensions, pieceTypes, zorbistHash);
         this.rules = rulesEngine;
         this.boardType = BoardType.getBoardType(dimensions);
@@ -43,6 +46,8 @@ public class TaflBoard extends GameBoard {
                 return new Move(this, boardSize);
             }
         };
+
+        this.camera = camera;
 
         initialize();
     }
@@ -90,7 +95,7 @@ public class TaflBoard extends GameBoard {
         position.x = cellId % dimensions * boardType.tileSize +
                 boardType.cellXOffset;
         position.y = cellId / dimensions * boardType.tileSize +
-                boardType.cellYOffset;
+                boardType.cellYOffset + camera.position.y / 2;
         return position;
     }
 
@@ -108,7 +113,7 @@ public class TaflBoard extends GameBoard {
         // when we touch the edge of the board.
         x = Math.min(x, dimensions - 1);
 
-        int y = (int)((screenPosition.y - boardType.cellYOffset) /
+        int y = (int)((screenPosition.y - boardType.cellYOffset - camera.position.y / 2) /
                 boardType.tileSize);
 
         // leave some margin around the top as well

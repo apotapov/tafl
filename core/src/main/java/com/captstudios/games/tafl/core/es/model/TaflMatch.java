@@ -1,10 +1,12 @@
 package com.captstudios.games.tafl.core.es.model;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Array;
 import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.enums.AiType;
 import com.captstudios.games.tafl.core.enums.LifeCycle;
 import com.captstudios.games.tafl.core.enums.RulesEngineType;
+import com.captstudios.games.tafl.core.es.TaflWorld;
 import com.captstudios.games.tafl.core.es.model.ai.AiFactory;
 import com.captstudios.games.tafl.core.es.model.ai.AiStrategy;
 import com.captstudios.games.tafl.core.es.model.ai.optimization.BitBoard;
@@ -13,6 +15,8 @@ import com.captstudios.games.tafl.core.es.model.ai.optimization.transposition.Zo
 import com.captstudios.games.tafl.core.es.model.rules.RulesFactory;
 
 public class TaflMatch {
+
+    public TaflWorld gameWorld;
 
     public String name;
     public LifeCycle status;
@@ -35,8 +39,17 @@ public class TaflMatch {
 
     public Array<TaflMatchObserver> observers;
 
+    /**
+     * For serialization only.
+     */
+    @Deprecated
     public TaflMatch() {
+        this(null);
+    }
+
+    public TaflMatch(TaflWorld gameWorld) {
         observers = new Array<TaflMatchObserver>();
+        this.gameWorld = gameWorld;
     }
 
     public void initialize(TaflMatchObserver...observers) {
@@ -65,10 +78,16 @@ public class TaflMatch {
                 boardSize);
         hash.generate();
 
+        OrthographicCamera camera = null;
+        if (gameWorld != null) {
+            camera = gameWorld.camera;
+        }
+
         board = new TaflBoard((int)Math.sqrt(boardRepresentation.length()),
                 Constants.BoardConstants.PIECE_TYPES,
                 hash,
-                RulesFactory.getRules(rulesType));
+                RulesFactory.getRules(rulesType),
+                camera);
         if (initialUndoStack != null && initialUndoStack.size > 0) {
             for (Move move : initialUndoStack) {
                 board.undoStack.add(board.movePool.obtain().populate(move));

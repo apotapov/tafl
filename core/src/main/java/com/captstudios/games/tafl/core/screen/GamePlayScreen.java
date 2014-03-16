@@ -28,7 +28,6 @@ public class GamePlayScreen extends AbstractScreen<TaflGame> {
 
     @Override
     public void show() {
-        world.initialize();
     }
 
     @Override

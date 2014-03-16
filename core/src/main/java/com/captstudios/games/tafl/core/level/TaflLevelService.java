@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.captstudios.games.tafl.core.TaflGame;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.enums.LifeCycle;
+import com.captstudios.games.tafl.core.es.TaflWorld;
 import com.captstudios.games.tafl.core.es.model.TaflMatch;
 import com.roundtriangles.games.zaria.services.LevelService;
 
@@ -23,9 +24,9 @@ public class TaflLevelService extends LevelService<TaflLevel>{
         return new TaflLevelDataLoader(new InternalFileHandleResolver());
     }
 
-    public TaflMatch createNewMatch(TaflLevel level) {
+    public TaflMatch createNewMatch(TaflWorld gameWorld, TaflLevel level) {
 
-        TaflMatch match = new TaflMatch();
+        TaflMatch match = new TaflMatch(gameWorld);
         match.created = System.currentTimeMillis();
         match.updated = match.created;
         match.name = level.name;

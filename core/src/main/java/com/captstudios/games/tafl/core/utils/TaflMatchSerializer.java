@@ -31,7 +31,7 @@ public class TaflMatchSerializer implements Serializer<TaflMatch> {
         json.writeObjectEnd();
     }
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({ "rawtypes", "deprecation" })
     @Override
     public TaflMatch read(Json json, JsonValue jsonData, Class type) {
         TaflMatch match = new TaflMatch();

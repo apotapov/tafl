@@ -27,7 +27,6 @@ public class DeviceSettings {
     public int dialogButtonHeight;
     public int dialogSpacing;
 
-    public int hudButtonWidth;
     public int hudButtonHeight;
     public int hudTablePadding;
     public int hudPlayerLablePad;
@@ -54,7 +53,6 @@ public class DeviceSettings {
                     Constants.ScreenConstants.DESKTOP_DIALOG_BUTTON_WIDTH,
                     Constants.ScreenConstants.DESKTOP_DIALOG_BUTTON_HEIGHT,
                     Constants.ScreenConstants.DESKTOP_DIALOG_BUTTON_SPACING,
-                    Constants.ScreenConstants.DESKTOP_HUD_BUTTON_WIDTH,
                     Constants.ScreenConstants.DESKTOP_HUD_BUTTON_HEIGHT,
                     Constants.ScreenConstants.DESKTOP_HUD_TABLE_PADDING,
                     Constants.ScreenConstants.DESKTOP_PLAYER_LABEL_PAD_TOP);
@@ -74,7 +72,6 @@ public class DeviceSettings {
                     Constants.ScreenConstants.XHDPI_DIALOG_BUTTON_WIDTH,
                     Constants.ScreenConstants.XHDPI_DIALOG_BUTTON_HEIGHT,
                     Constants.ScreenConstants.XHDPI_DIALOG_BUTTON_SPACING,
-                    Constants.ScreenConstants.XHDPI_HUD_BUTTON_WIDTH,
                     Constants.ScreenConstants.XHDPI_HUD_BUTTON_HEIGHT,
                     Constants.ScreenConstants.XHDPI_HUD_TABLE_PADDING,
                     Constants.ScreenConstants.XHDPI_PLAYER_LABEL_PAD_TOP);
@@ -92,7 +89,6 @@ public class DeviceSettings {
                     Constants.ScreenConstants.HDPI_DIALOG_BUTTON_WIDTH,
                     Constants.ScreenConstants.HDPI_DIALOG_BUTTON_HEIGHT,
                     Constants.ScreenConstants.HDPI_DIALOG_BUTTON_SPACING,
-                    Constants.ScreenConstants.HDPI_HUD_BUTTON_WIDTH,
                     Constants.ScreenConstants.HDPI_HUD_BUTTON_HEIGHT,
                     Constants.ScreenConstants.HDPI_HUD_TABLE_PADDING,
                     Constants.ScreenConstants.HDPI_PLAYER_LABEL_PAD_TOP);
@@ -110,7 +106,6 @@ public class DeviceSettings {
                     Constants.ScreenConstants.MDPI_DIALOG_BUTTON_WIDTH,
                     Constants.ScreenConstants.MDPI_DIALOG_BUTTON_HEIGHT,
                     Constants.ScreenConstants.MDPI_DIALOG_BUTTON_SPACING,
-                    Constants.ScreenConstants.MDPI_HUD_BUTTON_WIDTH,
                     Constants.ScreenConstants.MDPI_HUD_BUTTON_HEIGHT,
                     Constants.ScreenConstants.MDPI_HUD_TABLE_PADDING,
                     Constants.ScreenConstants.MDPI_PLAYER_LABEL_PAD_TOP);
@@ -128,7 +123,6 @@ public class DeviceSettings {
                     Constants.ScreenConstants.LDPI_DIALOG_BUTTON_WIDTH,
                     Constants.ScreenConstants.LDPI_DIALOG_BUTTON_HEIGHT,
                     Constants.ScreenConstants.LDPI_DIALOG_BUTTON_SPACING,
-                    Constants.ScreenConstants.LDPI_HUD_BUTTON_WIDTH,
                     Constants.ScreenConstants.LDPI_HUD_BUTTON_HEIGHT,
                     Constants.ScreenConstants.LDPI_HUD_TABLE_PADDING,
                     Constants.ScreenConstants.LDPI_PLAYER_LABEL_PAD_TOP);
@@ -148,7 +142,6 @@ public class DeviceSettings {
             int dialogButtonWidth,
             int dialogButtonHeight,
             int dialogSpacing,
-            int hudButtonWidth,
             int hudButtonHeight,
             int hudTablePadding,
             int hudPlayerLablePad) {
@@ -169,9 +162,12 @@ public class DeviceSettings {
         this.dialogButtonHeight = dialogButtonHeight;
         this.dialogSpacing = dialogSpacing;
 
-        this.hudButtonWidth = hudButtonWidth;
         this.hudButtonHeight = hudButtonHeight;
         this.hudTablePadding = hudTablePadding;
         this.hudPlayerLablePad = hudPlayerLablePad;
+    }
+
+    public boolean isIpad() {
+        return (float)height / width < Constants.GameConstants.IPAD_ASPECT_RATIO_THRESHOLD;
     }
 }

@@ -3,11 +3,8 @@ package com.captstudios.games.tafl.core.es.systems.passive;
 import com.artemis.Component;
 import com.artemis.systems.PassiveEntitySystem;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.captstudios.games.tafl.core.consts.Assets;
-import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.es.HudFactory;
 import com.captstudios.games.tafl.core.es.TaflWorld;
 import com.captstudios.games.tafl.core.es.components.movement.PositionComponent;
@@ -105,8 +102,8 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
 
         DeviceSettings ds = world.game.deviceSettings;
 
-        component.spriteBatch = new SpriteBatch(Constants.GameConstants.BATCH_SIZE);
-        component.shapeRenderer = new ShapeRenderer();
+        component.spriteBatch = world.spriteBatch;
+        component.shapeRenderer = world.shapeRenderer;
         component.font = graphics.getFont(ds.gameFont);
         component.debugFont = graphics.getFont(ds.rulesFont);
 
@@ -114,7 +111,10 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
                 Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.BOARD);
         component.gridTexture = graphics.getSprite(
                 Assets.GraphicFiles.ATLAS_PIECES, match.board.boardType.grid);
-        component.braid = graphics.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Decoration.BRAID);
+
+        if (!world.game.deviceSettings.isIpad()) {
+            component.braid = graphics.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Decoration.BRAID);
+        }
 
         return component;
     }

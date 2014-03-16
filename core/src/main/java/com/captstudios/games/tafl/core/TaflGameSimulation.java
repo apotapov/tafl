@@ -50,7 +50,7 @@ public class TaflGameSimulation {
         for (int game = 0; game < NUMBER_OF_GAMES; game++) {
             long start = System.currentTimeMillis();
 
-            TaflMatch match = new TaflMatch();
+            TaflMatch match = new TaflMatch(null);
             match.created = System.currentTimeMillis();
             match.updated = match.created;
             match.name = "test";

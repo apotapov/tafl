@@ -18,7 +18,6 @@ public class DeviceSettings {
     public FontDefinition rulesFont;
     public FontDefinition rulesTitleFont;
 
-    public int menuButtonWidth;
     public int menuButtonHeight;
     public int menuLabelHeight;
     public int menuSpacing;
@@ -47,7 +46,6 @@ public class DeviceSettings {
                     Assets.Fonts.FONT_DESKTOP_HUD,
                     Assets.Fonts.FONT_DESKTOP_RULES,
                     Assets.Fonts.FONT_DESKTOP_RULES_TITLE,
-                    Constants.ScreenConstants.DESKTOP_BUTTON_WIDTH,
                     Constants.ScreenConstants.DESKTOP_BUTTON_HEIGHT,
                     Constants.ScreenConstants.DESKTOP_LABEL_HEIGHT,
                     Constants.ScreenConstants.DESKTOP_SPACING,
@@ -67,7 +65,6 @@ public class DeviceSettings {
                     Assets.Fonts.FONT_XHDPI_HUD,
                     Assets.Fonts.FONT_XHDPI_RULES,
                     Assets.Fonts.FONT_XHDPI_RULES_TITLE,
-                    Constants.ScreenConstants.XHDPI_BUTTON_WIDTH,
                     Constants.ScreenConstants.XHDPI_BUTTON_HEIGHT,
                     Constants.ScreenConstants.XHDPI_LABEL_HEIGHT,
                     Constants.ScreenConstants.XHDPI_SPACING,
@@ -85,7 +82,6 @@ public class DeviceSettings {
                     Assets.Fonts.FONT_HDPI_HUD,
                     Assets.Fonts.FONT_HDPI_RULES,
                     Assets.Fonts.FONT_HDPI_RULES_TITLE,
-                    Constants.ScreenConstants.HDPI_BUTTON_WIDTH,
                     Constants.ScreenConstants.HDPI_BUTTON_HEIGHT,
                     Constants.ScreenConstants.HDPI_LABEL_HEIGHT,
                     Constants.ScreenConstants.HDPI_SPACING,
@@ -103,7 +99,6 @@ public class DeviceSettings {
                     Assets.Fonts.FONT_MDPI_HUD,
                     Assets.Fonts.FONT_MDPI_RULES,
                     Assets.Fonts.FONT_MDPI_RULES_TITLE,
-                    Constants.ScreenConstants.MDPI_BUTTON_WIDTH,
                     Constants.ScreenConstants.MDPI_BUTTON_HEIGHT,
                     Constants.ScreenConstants.MDPI_LABEL_HEIGHT,
                     Constants.ScreenConstants.MDPI_SPACING,
@@ -121,7 +116,6 @@ public class DeviceSettings {
                     Assets.Fonts.FONT_LDPI_HUD,
                     Assets.Fonts.FONT_LDPI_RULES,
                     Assets.Fonts.FONT_LDPI_RULES_TITLE,
-                    Constants.ScreenConstants.LDPI_BUTTON_WIDTH,
                     Constants.ScreenConstants.LDPI_BUTTON_HEIGHT,
                     Constants.ScreenConstants.LDPI_LABEL_HEIGHT,
                     Constants.ScreenConstants.LDPI_SPACING,
@@ -141,7 +135,6 @@ public class DeviceSettings {
             FontDefinition hudFont,
             FontDefinition rulesFont,
             FontDefinition rulesTitleFont,
-            int menuButtonWidth,
             int menuButtonHeight,
             int menuLabelHeight,
             int menuSpacing,
@@ -160,7 +153,6 @@ public class DeviceSettings {
         this.rulesFont = rulesFont;
         this.rulesTitleFont = rulesTitleFont;
 
-        this.menuButtonWidth = menuButtonWidth;
         this.menuButtonHeight = menuButtonHeight;
         this.menuLabelHeight = menuLabelHeight;
         this.menuSpacing = menuSpacing;

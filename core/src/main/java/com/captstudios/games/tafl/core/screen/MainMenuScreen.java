@@ -30,13 +30,18 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
 
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
         Table table = new Table(skin);
-        table.defaults().size(game.deviceSettings.menuButtonWidth,
-                game.deviceSettings.menuButtonHeight).spaceBottom(game.deviceSettings.menuSpacing);
+        table.setFillParent(true);
 
         Sprite text = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.START);
         Sprite up = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK);
         Sprite down = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.ButtonGraphics.BLANK_PRESSED);
         Button button = game.createSwitchScreenButton(text, up, down, this, game.levelSelectionScreen);
+
+        float height = game.deviceSettings.menuButtonHeight * 1.2f;
+        float width = height * (up.getWidth() / up.getHeight());
+
+        table.defaults().size(width, height).spaceBottom(game.deviceSettings.menuSpacing);
+
         table.add(button);
         table.row();
 
@@ -67,10 +72,10 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
             iconTable.debug();
         }
 
-        float x = (stage.getWidth() - table.getWidth()) / 2;
-        float y = (stage.getHeight() - table.getHeight()) * 5 / 12;
-
-        table.setPosition(x, y);
+        //        float x = (stage.getWidth() - table.getWidth()) / 2;
+        //        float y = (stage.getHeight() - table.getHeight()) * 5 / 12;
+        //
+        //        table.setPosition(x, y);
         stage.addActor(table);
         stage.addActor(iconTable);
     }

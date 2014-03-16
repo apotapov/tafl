@@ -33,8 +33,8 @@ public final class Constants {
         public static final int TUICHI_THRESHHOLD = 2;
 
         public static final int GAME_DESKTOP_HEIGHT = 800;
-        //        public static final int GAME_DESKTOP_WIDTH = 500; // 1.6 - Android
         //        public static final int GAME_DESKTOP_WIDTH = 600; // 1.33 - iPad
+        //        public static final int GAME_DESKTOP_WIDTH = 500; // 1.6 - Android
         public static final int GAME_DESKTOP_WIDTH = 450; // 1.78 - iPhone
 
         public static final int GAME_HTML_HEIGHT = 400;
@@ -79,9 +79,8 @@ public final class Constants {
         public static final Color ABOUT_COLOR = new Color(1, 1, 1, 0.2f);
         public static final Color TEXT_COLOR = new Color(0.9453125f, 0.9453125f, 0.9453125f, 1);
 
-        public static final int DESKTOP_LABEL_HEIGHT = 40;
-        public static final int DESKTOP_BUTTON_WIDTH = 250;
-        public static final int DESKTOP_BUTTON_HEIGHT = 70;
+        public static final int DESKTOP_LABEL_HEIGHT = 30;
+        public static final int DESKTOP_BUTTON_HEIGHT = 60;
         public static final int DESKTOP_SPACING = 30;
         public static final int DESKTOP_DIALOG_BUTTON_WIDTH = 200;
         public static final int DESKTOP_DIALOG_BUTTON_HEIGHT = 70;
@@ -92,9 +91,8 @@ public final class Constants {
         public static final int DESKTOP_PLAYER_LABEL_PAD_TOP = 40;
 
         public static final int LDPI_MIN_WIDTH = 0;
-        public static final int LDPI_LABEL_HEIGHT = 40;
-        public static final int LDPI_BUTTON_WIDTH = 250;
-        public static final int LDPI_BUTTON_HEIGHT = 70;
+        public static final int LDPI_LABEL_HEIGHT = 30;
+        public static final int LDPI_BUTTON_HEIGHT = 60;
         public static final int LDPI_SPACING = 30;
         public static final int LDPI_DIALOG_BUTTON_WIDTH = 200;
         public static final int LDPI_DIALOG_BUTTON_HEIGHT = 70;
@@ -105,9 +103,8 @@ public final class Constants {
         public static final int LDPI_PLAYER_LABEL_PAD_TOP = 40;
 
         public static final int MDPI_MIN_WIDTH = 500;
-        public static final int MDPI_LABEL_HEIGHT = 60;
-        public static final int MDPI_BUTTON_WIDTH = 375;
-        public static final int MDPI_BUTTON_HEIGHT = 105;
+        public static final int MDPI_LABEL_HEIGHT = 45;
+        public static final int MDPI_BUTTON_HEIGHT = 90;
         public static final int MDPI_SPACING = 45;
         public static final int MDPI_DIALOG_BUTTON_WIDTH = 300;
         public static final int MDPI_DIALOG_BUTTON_HEIGHT = 105;
@@ -118,9 +115,8 @@ public final class Constants {
         public static final int MDPI_PLAYER_LABEL_PAD_TOP = 60;
 
         public static final int HDPI_MIN_WIDTH = 900;
-        public static final int HDPI_LABEL_HEIGHT = 80;
-        public static final int HDPI_BUTTON_WIDTH = 500;
-        public static final int HDPI_BUTTON_HEIGHT = 140;
+        public static final int HDPI_LABEL_HEIGHT = 60;
+        public static final int HDPI_BUTTON_HEIGHT = 120;
         public static final int HDPI_SPACING = 60;
         public static final int HDPI_DIALOG_BUTTON_WIDTH = 400;
         public static final int HDPI_DIALOG_BUTTON_HEIGHT = 140;
@@ -131,9 +127,8 @@ public final class Constants {
         public static final int HDPI_PLAYER_LABEL_PAD_TOP = 80;
 
         public static final int XHDPI_MIN_WIDTH = 1200;
-        public static final int XHDPI_LABEL_HEIGHT = 120;
-        public static final int XHDPI_BUTTON_WIDTH = 750;
-        public static final int XHDPI_BUTTON_HEIGHT = 210;
+        public static final int XHDPI_LABEL_HEIGHT = 90;
+        public static final int XHDPI_BUTTON_HEIGHT = 180;
         public static final int XHDPI_SPACING = 90;
         public static final int XHDPI_DIALOG_BUTTON_WIDTH = 600;
         public static final int XHDPI_DIALOG_BUTTON_HEIGHT = 210;

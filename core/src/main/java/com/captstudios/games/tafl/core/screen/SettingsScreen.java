@@ -35,7 +35,7 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
 
         Table table = new Table();
         table.setFillParent(true);
-        table.defaults().spaceBottom(game.deviceSettings.menuSpacing);
+        table.defaults().space(game.deviceSettings.menuSpacing);
 
         createMusicSelector(table);
         createDifficultySelector(table);
@@ -109,8 +109,11 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
                 game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
             }
         });
-        table.add(musicSelector).size(game.deviceSettings.menuButtonWidth,
-                game.deviceSettings.menuButtonHeight).left();
+
+        height = game.deviceSettings.menuButtonHeight;
+        width = height * (up.getWidth() / up.getHeight());
+
+        table.add(musicSelector).size(width, height).left();
         table.row();
     }
 
@@ -143,8 +146,10 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
                 new DoubleTextureDrawable(new TextureRegion(up), new TextureRegion(selectorTest)),
                 new DoubleTextureDrawable(new TextureRegion(down), new TextureRegion(selectorTest)));
 
-        table.add(difficultySelector).size(game.deviceSettings.menuButtonWidth,
-                game.deviceSettings.menuButtonHeight).expandX().left();
+        height = game.deviceSettings.menuButtonHeight;
+        width = height * (up.getWidth() / up.getHeight());
+
+        table.add(difficultySelector).size(width, height).expandX().left();
         table.row();
     }
 

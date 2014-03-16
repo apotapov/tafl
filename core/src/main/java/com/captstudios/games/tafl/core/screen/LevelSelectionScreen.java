@@ -40,7 +40,7 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
 
         Table table = new Table();
         table.setFillParent(true);
-        table.defaults().spaceBottom(game.deviceSettings.menuSpacing);
+        table.defaults().space(game.deviceSettings.menuSpacing);
 
         createBoardSelector(table);
         createSideSelector(table);
@@ -82,8 +82,10 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
                 new DoubleTextureDrawable(new TextureRegion(up), new TextureRegion(selectorTest)),
                 new DoubleTextureDrawable(new TextureRegion(down), new TextureRegion(selectorTest)));
 
-        table.add(difficultySelector).size(game.deviceSettings.menuButtonWidth,
-                game.deviceSettings.menuButtonHeight).expandX().left();
+        height = game.deviceSettings.menuButtonHeight;
+        width = height * (up.getWidth() / up.getHeight());
+
+        table.add(difficultySelector).size(width, height).expandX().left();
         table.row();
     }
 
@@ -113,8 +115,10 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
                 new DoubleTextureDrawable(new TextureRegion(up), new TextureRegion(selectorText)),
                 new DoubleTextureDrawable(new TextureRegion(down), new TextureRegion(selectorText)));
 
-        table.add(boardSelector).size(game.deviceSettings.menuButtonWidth,
-                game.deviceSettings.menuButtonHeight);
+        height = game.deviceSettings.menuButtonHeight;
+        width = height * (up.getWidth() / up.getHeight());
+
+        table.add(boardSelector).size(width, height).expandX().left();
         table.row();
     }
 
@@ -148,8 +152,10 @@ public class LevelSelectionScreen extends AbstractScreen<TaflGame> {
                 new DoubleTextureDrawable(new TextureRegion(up), new TextureRegion(selectorText)),
                 new DoubleTextureDrawable(new TextureRegion(down), new TextureRegion(selectorText)));
 
-        table.add(sideSelector).size(game.deviceSettings.menuButtonWidth,
-                game.deviceSettings.menuButtonHeight);
+        height = game.deviceSettings.menuButtonHeight;
+        width = height * (up.getWidth() / up.getHeight());
+
+        table.add(sideSelector).size(width, height).expandX().left();
         table.row();
     }
 

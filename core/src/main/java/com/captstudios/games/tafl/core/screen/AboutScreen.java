@@ -32,7 +32,7 @@ public class AboutScreen extends AbstractScreen<TaflGame> {
     @Override
     public void initialize() {
         Sprite background = game.graphicsService.getSprite(
-                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.BOARD);
+                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.MENU);
         setBackgroundImage(new Image(background));
 
         Table table = new Table();

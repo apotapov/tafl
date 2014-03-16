@@ -18,7 +18,11 @@ public class TaflSoundService extends SoundService {
             soundEnabled = value;
             changeMusicStatus(value && game.preferenceService.isMusicEnabled());
         } else if (name.equals(PreferenceService.PREF_MUSIC_ENABLED)) {
-            changeMusicStatus(value && game.preferenceService.isSoundEnabled());
+            if (value) {
+                game.preferenceService.setSoundEnabled(true);
+            } else {
+                changeMusicStatus(false);
+            }
         } else {
             super.onPreferenceChange(name, value);
         }

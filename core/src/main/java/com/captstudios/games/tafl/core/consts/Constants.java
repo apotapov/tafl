@@ -72,8 +72,7 @@ public final class Constants {
         }
 
         public static final float FADE_TIME = 0.5f;
-        public static final float LOADING_SCREEN_DISPLAY_TIME = 1.75f;
-        public static final float COMPANY_SCREEN_DISPLAY_TIME = 1f;
+        public static final float SPLASH_SCREEN_DISPLAY_TIME = 1f;
 
         public static final Color ABOUT_COLOR = new Color(1, 1, 1, 0.2f);
         public static final Color TEXT_COLOR = new Color(0.9453125f, 0.9453125f, 0.9453125f, 1);

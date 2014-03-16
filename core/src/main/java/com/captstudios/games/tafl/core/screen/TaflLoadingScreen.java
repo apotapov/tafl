@@ -22,46 +22,50 @@ public class TaflLoadingScreen extends LoadingScreen<TaflGame> {
                 assetLoader,
                 nextScreen,
                 new Image(atlas.createSprite(Assets.Background.SPLASH)),
-                Constants.ScreenConstants.COMPANY_SCREEN_DISPLAY_TIME,
+                Constants.ScreenConstants.SPLASH_SCREEN_DISPLAY_TIME,
                 Constants.ScreenConstants.FADE_TIME);
+
     }
 
     @Override
     public void initialize() {
-        super.initialize();
-        Table table = new Table();
-        table.setFillParent(true);
+        Table topTable = new Table();
+        topTable.top().left().setFillParent(true);
+        topTable.defaults().pad(Gdx.graphics.getWidth() / 20).size(Gdx.graphics.getWidth() / 5);
+
 
         Texture cornerTexture = new Texture(Gdx.files.internal(Assets.GraphicFiles.CORNER));
 
         Image corner = new Image(cornerTexture);
-        corner.setOrigin(corner.getWidth() / 2, corner.getHeight() / 2);
+        corner.setOrigin(Gdx.graphics.getWidth() / 10, Gdx.graphics.getWidth() / 10);
         corner.setRotation(180);
-        corner.setScale(0.5f);
-        table.add(corner).expand().left().top();
+        corner.setPosition(corner.getWidth(), corner.getHeight());
+        topTable.add(corner).expandX().left();
+
         corner = new Image(cornerTexture);
-        corner.setOrigin(corner.getWidth() / 2, corner.getHeight() / 2);
+        corner.setOrigin(Gdx.graphics.getWidth() / 10, Gdx.graphics.getWidth() / 10);
         corner.setRotation(90);
-        corner.setScale(0.5f);
-        table.add(corner).expand().right().top();
+        topTable.add(corner);
 
-        table.row();
+        Table bottomTable = new Table();
+        bottomTable.bottom().setFillParent(true);
+        bottomTable.defaults().pad(Gdx.graphics.getWidth() / 20).size(Gdx.graphics.getWidth() / 5);
 
         corner = new Image(cornerTexture);
-        corner.setOrigin(corner.getWidth() / 2, corner.getHeight() / 2);
+        corner.setOrigin(Gdx.graphics.getWidth() / 10, Gdx.graphics.getWidth() / 10);
         corner.setRotation(270);
-        corner.setScale(0.5f);
-        table.add(corner).expand().left().bottom();
+        bottomTable.add(corner).expandX().left();
+
         corner = new Image(cornerTexture);
-        corner.setOrigin(corner.getWidth() / 2, corner.getHeight() / 2);
-        corner.setScale(0.5f);
-        table.add(corner).expand().right().bottom();
+        bottomTable.add(corner);
 
         if (Constants.GameConstants.DEBUG) {
-            table.debug();
+            topTable.debug();
+            bottomTable.debug();
         }
 
-        stage.addActor(table);
+        stage.addActor(topTable);
+        stage.addActor(bottomTable);
     }
 
     @Override

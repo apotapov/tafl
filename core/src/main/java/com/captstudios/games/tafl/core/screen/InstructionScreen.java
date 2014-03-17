@@ -96,7 +96,7 @@ public class InstructionScreen extends AbstractScreen<TaflGame> {
     private void initControls() {
         TextureRegion textureRegion = new TextureRegion(
                 game.graphicsService.getSprite(
-                        Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.CLOSE));
+                        Assets.GraphicFiles.ATLAS_PIECES, Assets.Icons.CLOSE));
         Drawable imageUp = new TextureRegionDrawable(textureRegion);
         closeButton = new ImageButton(imageUp);
         closeButton.addListener(new ChangeListener() {
@@ -117,10 +117,10 @@ public class InstructionScreen extends AbstractScreen<TaflGame> {
 
     private void initInstructions() {
         instructions = new Image[] {
-                new Image(game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.INSTRUCTIONS_1)),
-                new Image(game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.INSTRUCTIONS_2)),
-                new Image(game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.INSTRUCTIONS_3)),
-                new Image(game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.INSTRUCTIONS_4)),
+                new Image(game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Backgrounds.INSTRUCTIONS_1)),
+                new Image(game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Backgrounds.INSTRUCTIONS_2)),
+                new Image(game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Backgrounds.INSTRUCTIONS_3)),
+                new Image(game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Backgrounds.INSTRUCTIONS_4)),
         };
 
         for (Image instruction : instructions) {

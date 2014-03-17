@@ -31,7 +31,7 @@ public class AboutScreen extends AbstractScreen<TaflGame> {
     @Override
     public void initialize() {
         Sprite background = game.graphicsService.getSprite(
-                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.MENU);
+                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Backgrounds.MENU);
         setBackgroundImage(new Image(background));
 
         Table table = new Table();
@@ -124,7 +124,7 @@ public class AboutScreen extends AbstractScreen<TaflGame> {
     private void initControls() {
         TextureRegion textureRegion = new TextureRegion(
                 game.graphicsService.getSprite(
-                        Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.CLOSE));
+                        Assets.GraphicFiles.ATLAS_PIECES, Assets.Icons.CLOSE));
         Drawable imageUp = new TextureRegionDrawable(textureRegion);
         ImageButton closeButton = new ImageButton(imageUp);
         closeButton.addListener(new ChangeListener() {

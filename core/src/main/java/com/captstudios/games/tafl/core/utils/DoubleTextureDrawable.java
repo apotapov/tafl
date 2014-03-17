@@ -19,6 +19,10 @@ public class DoubleTextureDrawable extends TextureRegionDrawable {
 
         float innerWidth = inner.getRegionWidth() * width / getMinWidth();
         float innerHeight = inner.getRegionHeight() * height / getMinHeight();
+        if (inner.getRegionWidth() / getMinWidth() > 0.9) {
+            innerWidth *= 0.9f;
+            innerHeight *= 0.9f;
+        }
 
         float innerX = x + (width - innerWidth) / 2;
         float innerY = y + (height - innerHeight) / 2;

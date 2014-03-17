@@ -31,20 +31,19 @@ public class Assets extends GameAssetLoader {
         public static final String START = "tafl-main-text-start";
         public static final String RESUME = "tafl-main-text-resume";
         public static final String HELP = "tafl-main-text-help";
-        public static final String ABOUT = "tafl-menu-settings-text-about";
 
         public static final String NOVICE = "tafl-menu-settings-text-novice";
         public static final String BEGINNER = "tafl-menu-settings-text-beginner";
         public static final String INTERMEDIATE = "tafl-menu-settings-text-intermediate";
         public static final String ADVANCED = "tafl-menu-settings-text-advance";
 
-        public static final String DIFFICULTY = "tafl-menu-settings-text-difficulty";
+        public static final String LEVEL = "tafl-main-text-level";
+        //public static final String DIFFICULTY = "tafl-menu-settings-text-difficulty";
         public static final String MUSIC = "tafl-menu-settings-text-music";
 
         public static final String OFF = "tafl-menu-settings-text-off";
         public static final String ON = "tafl-menu-settings-text-on";
 
-        public static final String PLAY = "tafl-menu-start-text-play";
         public static final String PLAY_AS = "tafl-menu-start-text-playas";
         public static final String PLAY_BLACK = "tafl-menu-start-text-red";
         public static final String PLAY_WHITE = "tafl-menu-start-text-white";
@@ -87,8 +86,8 @@ public class Assets extends GameAssetLoader {
         public static final String BLACK_PIECE_CAPTURE = "tafl-piece-dark-capture";
     }
 
-    public static final class Background {
-        private Background() {
+    public static final class Backgrounds {
+        private Backgrounds() {
         }
 
         public static final String BOARD = "tafl-board";
@@ -102,8 +101,8 @@ public class Assets extends GameAssetLoader {
         public static final String INSTRUCTIONS_4 = "tafl-instr-screen04";
     }
 
-    public static final class Decoration {
-        private Decoration() {
+    public static final class Decorations {
+        private Decorations() {
         }
 
         public static final String BRAID = "tafl-braid-bottom";
@@ -111,8 +110,8 @@ public class Assets extends GameAssetLoader {
         //public static final String HALF_BRAID = "";
     }
 
-    public static final class Icon {
-        private Icon() {
+    public static final class Icons {
+        private Icons() {
         }
 
         public static final String BLACK = "tafl-piece-dark-icon";
@@ -126,6 +125,8 @@ public class Assets extends GameAssetLoader {
         public static final String HINT = "tafl-menu-icon-hint";
         public static final String SETTINGS = "tafl-menu-icon-settings";
         public static final String BACK = "tafl-menu-icon-back";
+        public static final String PLAY = "tafl-menu-icon-play";
+        public static final String ABOUT = "tafl-menu-icon-about";
     }
 
     public static final class Skin {

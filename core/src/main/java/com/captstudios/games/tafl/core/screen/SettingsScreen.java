@@ -30,7 +30,7 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
     @Override
     public void initialize() {
         Sprite background = game.graphicsService.getSprite(
-                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.MENU);
+                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Backgrounds.MENU);
         setBackgroundImage(new Image(background));
 
         Table table = new Table();
@@ -53,7 +53,7 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
         Table buttonTable = new Table();
         buttonTable.right().bottom().setFillParent(true);
         buttonTable.defaults().pad(game.deviceSettings.menuSpacing).size(game.deviceSettings.menuButtonHeight);
-        Sprite icon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.BACK);
+        Sprite icon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Icons.BACK);
         Button button = new ImageButton(new TextureRegionDrawable(new TextureRegion(icon)));
 
         button.addListener(new ChangeListener() {
@@ -66,7 +66,7 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
         buttonTable.add(button).expandX().left();
 
         buttonTable.right().bottom().setFillParent(true);
-        icon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.ABOUT);
+        icon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Icons.ABOUT);
         button = game.createSwitchScreenButton(icon, this, game.aboutScreen);
         buttonTable.add(button);
 
@@ -118,10 +118,10 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
 
     private void createDifficultySelector(Table table) {
         Sprite labelSprite = game.graphicsService.getSprite(
-                Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.DIFFICULTY);
+                Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.LEVEL);
         Image difficultyImageLabel = new Image(new TextureRegionDrawable(new TextureRegion(labelSprite)));
 
-        float height = game.deviceSettings.menuLabelHeight * 1.5f;
+        float height = game.deviceSettings.menuLabelHeight;
         float width = height * (difficultyImageLabel.getWidth() / difficultyImageLabel.getHeight());
 
         table.add(difficultyImageLabel).spaceBottom(game.deviceSettings.menuSpacing).size(width, height).expandX().right();

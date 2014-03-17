@@ -21,7 +21,7 @@ public class TaflLoadingScreen extends LoadingScreen<TaflGame> {
         super(game,
                 assetLoader,
                 nextScreen,
-                new Image(atlas.createSprite(Assets.Background.SPLASH)),
+                new Image(atlas.createSprite(Assets.Backgrounds.SPLASH)),
                 Constants.ScreenConstants.SPLASH_SCREEN_DISPLAY_TIME,
                 Constants.ScreenConstants.FADE_TIME);
 

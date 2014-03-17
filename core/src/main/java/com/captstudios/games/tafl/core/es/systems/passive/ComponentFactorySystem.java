@@ -108,12 +108,12 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         component.debugFont = graphics.getFont(ds.rulesFont);
 
         component.backgroundTexture = graphics.getSprite(
-                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.BOARD);
+                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Backgrounds.BOARD);
         component.gridTexture = graphics.getSprite(
                 Assets.GraphicFiles.ATLAS_PIECES, match.board.boardType.grid);
 
         if (!world.game.deviceSettings.isIpad()) {
-            component.braid = graphics.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Decoration.BRAID);
+            component.braid = graphics.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Decorations.BRAID);
         }
 
         return component;

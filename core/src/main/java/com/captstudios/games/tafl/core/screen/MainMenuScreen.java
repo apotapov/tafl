@@ -25,7 +25,7 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
     @Override
     public void initialize() {
         Sprite background = game.graphicsService.getSprite(
-                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Background.MENU);
+                Assets.GraphicFiles.ATLAS_BACKGROUNDS, Assets.Backgrounds.MENU);
         setBackgroundImage(new Image(background));
 
         Skin skin = game.graphicsService.getSkin(Assets.Skin.UI_SKIN);
@@ -61,7 +61,7 @@ public class MainMenuScreen extends AbstractScreen<TaflGame> {
 
         Table iconTable = new Table(skin);
         iconTable.right().bottom().setFillParent(true);
-        Sprite settingsIcon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Icon.SETTINGS);
+        Sprite settingsIcon = game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.Icons.SETTINGS);
         button = game.createSwitchScreenButton(settingsIcon, this, game.settingsScreen);
         iconTable.add(button).pad(game.deviceSettings.menuSpacing).size(
                 game.deviceSettings.menuButtonHeight, game.deviceSettings.menuButtonHeight);

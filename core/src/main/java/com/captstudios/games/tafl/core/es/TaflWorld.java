@@ -164,6 +164,7 @@ public class TaflWorld implements Disposable {
     public boolean loadExistingMatch() {
         TaflMatch match = game.preferenceService.loadMatch();
         if (match != null) {
+            match.gameWorld = this;
             this.match = match;
             return true;
         }

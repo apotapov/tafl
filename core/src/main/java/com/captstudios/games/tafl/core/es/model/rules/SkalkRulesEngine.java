@@ -34,7 +34,7 @@ public class SkalkRulesEngine extends FetlarRulesEngine {
         int beingCaptured = capturer + board.dimensions;
         int teammate = capturer + 2 * board.dimensions;
         if (board.isValid(beingCaptured) && oppositeBoard.get(beingCaptured)) {
-            if (isHostile(capturingTeam, capturingBoard, teammate)) {
+            if (isHostile(beingCaptured, capturingTeam, capturingBoard, teammate)) {
                 tempBitBoard.set(beingCaptured);
             }
         }
@@ -43,7 +43,7 @@ public class SkalkRulesEngine extends FetlarRulesEngine {
         beingCaptured = capturer - board.dimensions;
         teammate = capturer - 2 * board.dimensions;
         if (board.isValid(beingCaptured) && oppositeBoard.get(beingCaptured)) {
-            if (isHostile(capturingTeam, capturingBoard, teammate)) {
+            if (isHostile(beingCaptured, capturingTeam, capturingBoard, teammate)) {
                 tempBitBoard.set(beingCaptured);
             }
         }
@@ -54,7 +54,8 @@ public class SkalkRulesEngine extends FetlarRulesEngine {
         if (board.isValid(beingCaptured) &&
                 board.inRow(capturer, beingCaptured) &&
                 oppositeBoard.get(beingCaptured)) {
-            if (board.isValid(teammate) && board.inRow(capturer, teammate) && isHostile(capturingTeam, capturingBoard, teammate)) {
+            if (board.isValid(teammate) && board.inRow(capturer, teammate) &&
+                    isHostile(beingCaptured, capturingTeam, capturingBoard, teammate)) {
                 tempBitBoard.set(beingCaptured);
             }
         }
@@ -65,11 +66,22 @@ public class SkalkRulesEngine extends FetlarRulesEngine {
         if (board.isValid(beingCaptured) &&
                 board.inRow(move.destination, beingCaptured) &&
                 oppositeBoard.get(beingCaptured)) {
-            if (board.isValid(teammate) && board.inRow(capturer, teammate) && isHostile(capturingTeam, capturingBoard, teammate)) {
+            if (board.isValid(teammate) && board.inRow(capturer, teammate) &&
+                    isHostile(beingCaptured, capturingTeam, capturingBoard, teammate)) {
                 tempBitBoard.set(beingCaptured);
             }
         }
 
         return tempBitBoard;
+    }
+
+    @Override
+    protected boolean isHostile(int beingCaptured, int capturingTeam, BitBoard capturingBoard, int oppositeCell) {
+        int king = board.getKing();
+        return board.isValid(oppositeCell) &&
+                (capturingBoard.get(oppositeCell) ||
+                        (!board.canWalk(capturingTeam, oppositeCell) &&
+                                king != oppositeCell &&
+                                king != beingCaptured));
     }
 }

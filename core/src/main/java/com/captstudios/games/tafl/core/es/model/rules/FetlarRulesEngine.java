@@ -208,7 +208,7 @@ public class FetlarRulesEngine implements RulesEngine {
                     tempBitBoard.set(king);
                 }
             } else {
-                if (isHostile(capturingTeam, capturingBoard, teammate)) {
+                if (isHostile(beingCaptured, capturingTeam, capturingBoard, teammate)) {
                     tempBitBoard.set(beingCaptured);
                 }
             }
@@ -227,7 +227,7 @@ public class FetlarRulesEngine implements RulesEngine {
                     tempBitBoard.set(king);
                 }
             } else {
-                if (isHostile(capturingTeam, capturingBoard, teammate)) {
+                if (isHostile(beingCaptured, capturingTeam, capturingBoard, teammate)) {
                     tempBitBoard.set(beingCaptured);
                 }
             }
@@ -248,7 +248,8 @@ public class FetlarRulesEngine implements RulesEngine {
                     tempBitBoard.set(king);
                 }
             } else {
-                if (board.isValid(teammate) && board.inRow(capturer, teammate) && isHostile(capturingTeam, capturingBoard, teammate)) {
+                if (board.isValid(teammate) && board.inRow(capturer, teammate) &&
+                        isHostile(beingCaptured, capturingTeam, capturingBoard, teammate)) {
                     tempBitBoard.set(beingCaptured);
                 }
             }
@@ -269,7 +270,8 @@ public class FetlarRulesEngine implements RulesEngine {
                     tempBitBoard.set(king);
                 }
             } else {
-                if (board.isValid(teammate) && board.inRow(capturer, teammate) && isHostile(capturingTeam, capturingBoard, teammate)) {
+                if (board.isValid(teammate) && board.inRow(capturer, teammate) &&
+                        isHostile(beingCaptured, capturingTeam, capturingBoard, teammate)) {
                     tempBitBoard.set(beingCaptured);
                 }
             }
@@ -291,7 +293,7 @@ public class FetlarRulesEngine implements RulesEngine {
         return Constants.BoardConstants.BLACK_TEAM;
     }
 
-    protected boolean isHostile(int capturingTeam, BitBoard capturingBoard, int oppositeCell) {
+    protected boolean isHostile(int beingCaptured, int capturingTeam, BitBoard capturingBoard, int oppositeCell) {
         return board.isValid(oppositeCell) &&
                 (capturingBoard.get(oppositeCell) ||
                         (!board.canWalk(capturingTeam, oppositeCell) &&
@@ -354,7 +356,7 @@ public class FetlarRulesEngine implements RulesEngine {
         int cellRight = cellId + 1;
 
         // ABOVE
-        if (board.isValid(cellBelow) && isHostile(oppositeTeam, oppositeBoard, cellAbove)) {
+        if (board.isValid(cellBelow) && isHostile(cellId, oppositeTeam, oppositeBoard, cellAbove)) {
             tempBitBoard.set(board.getRow(cellBelow)).and(oppositeBoard);
             for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
                 if (board.rules.isMoveLegal(oppositeTeam, i, cellId)) {
@@ -364,7 +366,7 @@ public class FetlarRulesEngine implements RulesEngine {
         }
 
         // BELOW
-        if (board.isValid(cellAbove) && isHostile(oppositeTeam, oppositeBoard, cellBelow)) {
+        if (board.isValid(cellAbove) && isHostile(cellId, oppositeTeam, oppositeBoard, cellBelow)) {
             tempBitBoard.set(board.getRow(cellAbove)).and(oppositeBoard);
             for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
                 if (board.rules.isMoveLegal(oppositeTeam, i, cellId)) {
@@ -378,7 +380,7 @@ public class FetlarRulesEngine implements RulesEngine {
                 board.isValid(cellRight) &&
                 board.inRow(cellId, cellLeft) &&
                 board.inRow(cellId, cellRight) &&
-                isHostile(oppositeTeam, oppositeBoard, cellLeft)) {
+                isHostile(cellId, oppositeTeam, oppositeBoard, cellLeft)) {
             tempBitBoard.set(board.getColumn(cellRight)).and(oppositeBoard);
             for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
                 if (board.rules.isMoveLegal(oppositeTeam, i, cellId)) {
@@ -392,7 +394,7 @@ public class FetlarRulesEngine implements RulesEngine {
                 board.isValid(cellRight) &&
                 board.inRow(cellId, cellLeft) &&
                 board.inRow(cellId, cellRight) &&
-                isHostile(oppositeTeam, oppositeBoard, cellRight)) {
+                isHostile(cellId, oppositeTeam, oppositeBoard, cellRight)) {
             tempBitBoard.set(board.getColumn(cellLeft)).and(oppositeBoard);
             for (int i = tempBitBoard.nextSetBit(0); i >= 0; i = tempBitBoard.nextSetBit(i+1)) {
                 if (board.rules.isMoveLegal(oppositeTeam, i, cellId)) {

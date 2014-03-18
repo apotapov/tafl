@@ -127,7 +127,6 @@ public class SettingsScreen extends AbstractScreen<TaflGame> {
         table.add(difficultyImageLabel).spaceBottom(game.deviceSettings.menuSpacing).size(width, height).expandX().right();
 
         difficultyValues = new Sprite[] {
-                game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.NOVICE),
                 game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.BEGINNER),
                 game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.INTERMEDIATE),
                 game.graphicsService.getSprite(Assets.GraphicFiles.ATLAS_PIECES, Assets.TextGraphics.ADVANCED)

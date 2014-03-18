@@ -16,8 +16,6 @@ public class AiFactory {
         HistoryTable historyTable = new HistoryTable(board.boardSize);
 
         switch (type) {
-        case AI_KID:
-            return new RandomMoveStrategy();
         case AI_BEGINNER:
             return new AlphaBetaMoveStrategy(
                     transpositionTable,

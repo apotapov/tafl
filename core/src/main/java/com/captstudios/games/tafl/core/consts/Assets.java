@@ -32,7 +32,6 @@ public class Assets extends GameAssetLoader {
         public static final String RESUME = "tafl-main-text-resume";
         public static final String HELP = "tafl-main-text-help";
 
-        public static final String NOVICE = "tafl-menu-settings-text-novice";
         public static final String BEGINNER = "tafl-menu-settings-text-beginner";
         public static final String INTERMEDIATE = "tafl-menu-settings-text-intermediate";
         public static final String ADVANCED = "tafl-menu-settings-text-advance";

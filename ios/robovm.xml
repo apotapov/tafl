@@ -14,7 +14,7 @@
       <skipPngCrush>true</skipPngCrush>
     </resource>
     <resource>
-      <directory>../assets-ios</directory>
+      <directory>res</directory>
       <includes>
         <include>**</include>
       </includes>

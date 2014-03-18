@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.captstudios.games.tafl.core.TaflGame;
 import com.captstudios.games.tafl.core.consts.Assets;
@@ -125,7 +124,11 @@ public class AboutScreen extends AbstractScreen<TaflGame> {
         TextureRegion textureRegion = new TextureRegion(
                 game.graphicsService.getSprite(
                         Assets.GraphicFiles.ATLAS_PIECES, Assets.Icons.CLOSE));
-        Drawable imageUp = new TextureRegionDrawable(textureRegion);
+
+        TextureRegionDrawable imageUp = new TextureRegionDrawable(textureRegion);
+        imageUp.setMinWidth(game.deviceSettings.menuButtonHeight / 2);
+        imageUp.setMinHeight(game.deviceSettings.menuButtonHeight / 2);
+
         ImageButton closeButton = new ImageButton(imageUp);
         closeButton.addListener(new ChangeListener() {
 
@@ -139,7 +142,7 @@ public class AboutScreen extends AbstractScreen<TaflGame> {
         Table controls = new Table();
         controls.setFillParent(true);
         controls.add(closeButton).expand().bottom().right().pad(
-                game.deviceSettings.menuSpacing).size(game.deviceSettings.menuButtonHeight / 2);
+                game.deviceSettings.menuSpacing).size(game.deviceSettings.menuButtonHeight);
         stage.addActor(controls);
     }
 

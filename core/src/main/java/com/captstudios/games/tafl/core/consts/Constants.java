@@ -74,7 +74,7 @@ public final class Constants {
         private ScreenConstants() {
         }
 
-        public static final float FADE_TIME = 0.5f;
+        public static final float FADE_TIME = 0.25f;
         public static final float SPLASH_SCREEN_DISPLAY_TIME = 1f;
 
         public static final Color ABOUT_COLOR = new Color(1, 1, 1, 0.2f);

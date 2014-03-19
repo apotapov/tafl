@@ -89,7 +89,7 @@ public final class Constants {
         public static final int DESKTOP_DIALOG_BUTTON_SPACING = 20;
         public static final int DESKTOP_HUD_BUTTON_HEIGHT = 45;
         public static final int DESKTOP_HUD_TABLE_PADDING = 10;
-        public static final int DESKTOP_PLAYER_LABEL_PAD_TOP = 40;
+        public static final int DESKTOP_PLAYER_LABEL_PAD_TOP = 20;
 
         public static final int LDPI_MIN_WIDTH = 0;
         public static final int LDPI_LABEL_HEIGHT = 30;
@@ -101,7 +101,7 @@ public final class Constants {
         public static final int LDPI_DIALOG_BUTTON_SPACING = 20;
         public static final int LDPI_HUD_BUTTON_HEIGHT = 45;
         public static final int LDPI_HUD_TABLE_PADDING = 10;
-        public static final int LDPI_PLAYER_LABEL_PAD_TOP = 40;
+        public static final int LDPI_PLAYER_LABEL_PAD_TOP = 20;
 
         public static final int MDPI_MIN_WIDTH = 500;
         public static final int MDPI_LABEL_HEIGHT = 45;
@@ -113,7 +113,7 @@ public final class Constants {
         public static final int MDPI_DIALOG_BUTTON_SPACING = 30;
         public static final int MDPI_HUD_BUTTON_HEIGHT = 90;
         public static final int MDPI_HUD_TABLE_PADDING = 15;
-        public static final int MDPI_PLAYER_LABEL_PAD_TOP = 60;
+        public static final int MDPI_PLAYER_LABEL_PAD_TOP = 30;
 
         public static final int HDPI_MIN_WIDTH = 900;
         public static final int HDPI_LABEL_HEIGHT = 60;
@@ -125,7 +125,7 @@ public final class Constants {
         public static final int HDPI_DIALOG_BUTTON_SPACING = 40;
         public static final int HDPI_HUD_BUTTON_HEIGHT = 135;
         public static final int HDPI_HUD_TABLE_PADDING = 20;
-        public static final int HDPI_PLAYER_LABEL_PAD_TOP = 80;
+        public static final int HDPI_PLAYER_LABEL_PAD_TOP = 40;
 
         public static final int XHDPI_MIN_WIDTH = 1200;
         public static final int XHDPI_LABEL_HEIGHT = 90;
@@ -137,7 +137,7 @@ public final class Constants {
         public static final int XHDPI_DIALOG_BUTTON_SPACING = 40;
         public static final int XHDPI_HUD_BUTTON_HEIGHT = 180;
         public static final int XHDPI_HUD_TABLE_PADDING = 30;
-        public static final int XHDPI_PLAYER_LABEL_PAD_TOP = 120;
+        public static final int XHDPI_PLAYER_LABEL_PAD_TOP = 60;
 
 
         public static final float INSTRUCTION_CLOSE_BUTTON_X_OFFSET = 180;

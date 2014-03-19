@@ -19,7 +19,7 @@ public final class Constants {
         public static final int GAME_HEIGHT = 1920;
         public static final int GAME_HALF_HEIGHT = GAME_HEIGHT / 2;
 
-        public static final int DEFAULT_LEVEL_INDEX = 0;
+        public static final int DEFAULT_LEVEL_INDEX = 1;
         public static final boolean DEFAULT_COMPUTER_STARTS = true;
         public static final boolean DEFAULT_SHOW_HELP_ON_START = true;
         public static final float DEFAULT_VOLUME = 0.5f;

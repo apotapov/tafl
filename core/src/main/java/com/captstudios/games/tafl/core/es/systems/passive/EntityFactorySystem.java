@@ -5,7 +5,7 @@ import com.artemis.managers.GenericGroupManager;
 import com.artemis.managers.SingletonComponentManager;
 import com.artemis.systems.PassiveEntitySystem;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.consts.Constants;
@@ -122,7 +122,7 @@ public class EntityFactorySystem extends PassiveEntitySystem {
         AnimationComponent ac = componentFactory.createAnimationComponent(
                 Assets.GraphicFiles.ATLAS_PIECES,
                 graphic,
-                Animation.NORMAL,
+                PlayMode.NORMAL,
                 Constants.PieceConstants.CAPTURE_FRAME_DURATION);
 
         e.addComponent(ac);

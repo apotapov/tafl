@@ -2,6 +2,7 @@ package com.captstudios.games.tafl.core.es.components.render;
 
 import com.artemis.Component;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AnimationComponent implements Component {
@@ -26,7 +27,7 @@ public class AnimationComponent implements Component {
     }
 
     public boolean isFinished() {
-        return animation.getPlayMode() != Animation.LOOP && animation.isAnimationFinished(stateTime);
+        return animation.getPlayMode() != PlayMode.LOOP && animation.isAnimationFinished(stateTime);
     }
 
     @Override

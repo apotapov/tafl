@@ -109,7 +109,7 @@ public class TaflWorld implements Disposable {
 
         this.camera.position.set(cameraX, cameraY, 0);
 
-        this.stage.setViewport(width, height, true);
+        this.stage.getViewport().setWorldSize(width, height);
 
         camera.update();
         spriteBatch.setProjectionMatrix(camera.combined);

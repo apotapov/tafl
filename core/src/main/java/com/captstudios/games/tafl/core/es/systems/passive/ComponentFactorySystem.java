@@ -3,6 +3,7 @@ package com.captstudios.games.tafl.core.es.systems.passive;
 import com.artemis.Component;
 import com.artemis.systems.PassiveEntitySystem;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.es.HudFactory;
@@ -63,9 +64,9 @@ public class ComponentFactorySystem extends PassiveEntitySystem {
         return component;
     }
 
-    public AnimationComponent createAnimationComponent(String atlasName, String animationName, int playType, float duration) {
+    public AnimationComponent createAnimationComponent(String atlasName, String animationName, PlayMode playMode, float duration) {
         AnimationComponent component = createComponent(AnimationComponent.class);
-        component.animation = graphics.getAnimation(atlasName, animationName, playType, duration);
+        component.animation = graphics.getAnimation(atlasName, animationName, playMode, duration);
         component.name = animationName;
         return component;
     }

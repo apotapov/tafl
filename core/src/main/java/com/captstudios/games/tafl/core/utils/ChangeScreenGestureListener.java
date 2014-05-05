@@ -2,6 +2,7 @@ package com.captstudios.games.tafl.core.utils;
 
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
+import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.screen.AboutScreen;
 
 public class ChangeScreenGestureListener implements GestureListener {
@@ -19,6 +20,7 @@ public class ChangeScreenGestureListener implements GestureListener {
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
+        screen.game.soundService.playSound(Assets.Sounds.CLICK_SOUND);
         return screen.back();
     }
 

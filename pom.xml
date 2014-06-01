@@ -19,6 +19,15 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     
+  <repositories>
+       <repository>
+         <id>snapshots-repo</id>
+         <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+         <releases><enabled>false</enabled></releases>
+         <snapshots><enabled>true</enabled></snapshots>
+       </repository>
+     </repositories>
+    
     <dependencies>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
@@ -33,7 +42,7 @@
         <dependency>
             <groupId>com.roundtriangles.games</groupId>
             <artifactId>gdx-artemis</artifactId>
-            <version>0.4</version>
+            <version>0.5</version>
         </dependency>
         <dependency>
             <groupId>com.roundtriangles.games</groupId>

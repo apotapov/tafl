@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.captstudios.games.tafl.core.TaflGame;
 import com.captstudios.games.tafl.core.consts.Assets;
 import com.captstudios.games.tafl.core.consts.Constants;
@@ -27,8 +29,6 @@ import com.captstudios.games.tafl.core.es.systems.events.HintEvent;
 import com.captstudios.games.tafl.core.es.systems.events.LifeCycleEvent;
 import com.captstudios.games.tafl.core.es.systems.events.UndoEvent;
 import com.captstudios.games.tafl.core.utils.device.DeviceSettings;
-import com.esotericsoftware.tablelayout.BaseTableLayout;
-import com.esotericsoftware.tablelayout.Cell;
 import com.roundtriangles.games.zaria.services.resources.LocaleService;
 
 
@@ -269,7 +269,7 @@ public class HudFactory {
 
         Label whiteLabel = new Label(whiteText, skin, Assets.Skin.SKIN_STYLE_PLAYER_TAG);
 
-        innerTable.add(whiteLabel).align(BaseTableLayout.RIGHT).expandX();
+        innerTable.add(whiteLabel).align(Align.right).expandX();
         innerTable.add(whiteIcon).padLeft(
                 gameWorld.game.deviceSettings.hudTablePadding).padRight(
                         gameWorld.game.deviceSettings.hudTablePadding);

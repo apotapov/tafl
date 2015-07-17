@@ -5,7 +5,7 @@ import com.artemis.Entity;
 import com.artemis.Filter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.captstudios.games.tafl.core.consts.Constants;
 import com.captstudios.games.tafl.core.consts.LocalizedStrings;
@@ -16,7 +16,8 @@ import com.roundtriangles.games.zaria.services.resources.LocaleService;
 public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingComponent> {
 
     LocaleService localeService;
-
+    GlyphLayout layout;
+    
     ComponentMapper<AiProcessingComponent> promptMapper;
 
     @SuppressWarnings("unchecked")
@@ -25,6 +26,7 @@ public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingCo
                 MatchRenderingComponent.class);
 
         this.localeService = localeService;
+        this.layout = new GlyphLayout();
     }
 
     @Override
@@ -46,10 +48,10 @@ public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingCo
         AiProcessingComponent component = promptMapper.get(e);
 
         String sizingText = localeService.get(LocalizedStrings.Ai.AI_PROCESSING3);
-        TextBounds bounds = rendComponent.font.getBounds(sizingText);
-
-        float backgroundWidth = bounds.width * 1.2f;
-        float backgroundHeight = bounds.height * 3f;
+        layout.setText(rendComponent.font, sizingText);
+        
+        float backgroundWidth = layout.width * 1.2f;
+        float backgroundHeight = layout.height * 3f;
 
         float x = - backgroundWidth / 2;
         float y = 0;
@@ -76,8 +78,8 @@ public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingCo
 
         String text = localeService.get(LocalizedStrings.Ai.values()[component.index]);
 
-        x = - bounds.width / 2;
-        y = backgroundHeight - bounds.height;
+        x = - layout.width / 2;
+        y = backgroundHeight - layout.height;
 
         rendComponent.spriteBatch.begin();
         rendComponent.font.draw(rendComponent.spriteBatch, text, x, y);

@@ -9,12 +9,10 @@
 	<name>Tafl Game Parent</name>
 
 	<properties>
-        <gdx.version>1.0.0</gdx.version>
+        <gdx.version>1.6.1</gdx.version>
         <ormlite.version>4.47</ormlite.version>
         <android.version>4.1.1.4</android.version>
         <android.maven.version>3.8.2</android.maven.version>
-        <gwt.version>2.5.0</gwt.version>
-        <gwt.maven.version>2.5.0</gwt.maven.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
@@ -42,7 +40,7 @@
         <dependency>
             <groupId>com.roundtriangles.games</groupId>
             <artifactId>gdx-artemis</artifactId>
-            <version>0.5</version>
+            <version>0.6-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.roundtriangles.games</groupId>

@@ -1,3 +1,7 @@
+# Deployed
+
+* https://play.google.com/store/apps/details?id=com.captstudios.games.tafl
+
 # Instructions
 
 ## Download

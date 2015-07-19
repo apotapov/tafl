@@ -1,0 +1,24 @@
+
+splash.jpg
+format: RGB888
+filter: MipMapLinearLinear,MipMapLinearLinear
+repeat: none
+company-logo
+  rotate: false
+  xy: 2, 2
+  size: 540, 960
+  orig: 540, 960
+  offset: 0, 0
+  index: -1
+
+splash2.jpg
+format: RGB888
+filter: MipMapLinearLinear,MipMapLinearLinear
+repeat: none
+tafl-splash
+  rotate: false
+  xy: 2, 2
+  size: 540, 960
+  orig: 540, 960
+  offset: 0, 0
+  index: -1

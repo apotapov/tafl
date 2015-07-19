@@ -3,51 +3,57 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleDevelopmentRegion</key>
-        <string>en</string>
+    <string>en</string>
     <key>CFBundleDisplayName</key>
-        <string>${app.name}</string>
+    <string>${app.name}</string>
     <key>CFBundleExecutable</key>
-        <string>${app.executable}</string>
+    <string>${app.executable}</string>
     <key>CFBundleIdentifier</key>
-        <string>${app.id}</string>
+    <string>${app.id}</string>
     <key>CFBundleInfoDictionaryVersion</key>
-        <string>6.0</string>
+    <string>6.0</string>
     <key>CFBundleName</key>
-        <string>${app.name}</string>
+    <string>${app.name}</string>
     <key>CFBundlePackageType</key>
-        <string>APPL</string>
+    <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-        <string>${app.version}</string>
+    <string>${app.version}</string>
     <key>CFBundleSignature</key>
-        <string>${app.bundleSignature}</string>
+    <string>????</string>
     <key>CFBundleVersion</key>
-        <string>${app.build}</string>
+    <string>${app.build}</string>
     <key>LSRequiresIPhoneOS</key>
-        <true/>
+    <true/>
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+    <false/>
+    <key>UIStatusBarHidden</key>
+    <true/>
     <key>UIDeviceFamily</key>
-        <array>
-            <integer>1</integer>
-            <integer>2</integer>
-        </array>
+    <array>
+        <integer>1</integer>
+        <integer>2</integer>
+    </array>
     <key>UIRequiredDeviceCapabilities</key>
-        <array>
-            <string>armv7</string>
-        </array>
+    <array>
+        <string>armv7</string>
+        <string>opengles-2</string>
+    </array>
     <key>UISupportedInterfaceOrientations</key>
-        <array>
-            <string>UIInterfaceOrientationPortrait</string>
-        </array>
-    <key>UISupportedInterfaceOrientations~ipad</key>
-        <array>
-            <string>UIInterfaceOrientationPortrait</string>
-        </array>
-    <key>CFBundleIconFiles</key>
-        <array>
-            <string>icon57.png</string>
-            <string>icon72.png</string>
-            <string>icon76.png</string>
-            <string>icon120.png</string>
-            <string>icon152.png</string>
-        </array>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+    <key>CFBundleIcons</key>
+    <dict>
+        <key>CFBundlePrimaryIcon</key>
+        <dict>
+            <key>CFBundleIconFiles</key>
+            <array>
+                <string>Icon</string>
+                <string>Icon-72</string>
+            </array>
+        </dict>
+    </dict>
 </dict>
 </plist>

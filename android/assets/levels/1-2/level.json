@@ -1,0 +1,6 @@
+{
+	class: "com.captstudios.games.tafl.core.level.TaflLevel",
+    name: "LEVEL_1_2",
+    rules: "SKALK",
+    boardRepresentation: "...BBB.......B........W....B...W...BBBWWKWWBBB...W...B....W........B.......BBB...",
+}

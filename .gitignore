@@ -9,3 +9,5 @@
 target
 
 tafl.db
+
+android/build/*

@@ -1,0 +1,181 @@
+{
+    com.badlogic.gdx.graphics.Color: {
+        white: { 
+            r: 0.9453125,
+            g: 0.9453125,
+            b: 0.9453125,
+            a: 1
+        },
+        player-tag: { 
+            r: 0.58203125,
+            g: 0.3671875,
+            b: 0.10546875,
+            a: 0.6
+        },
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+        dialogDim: { 
+            name: white,
+            color: { 
+                r: 0,
+            	g: 0,
+            	b: 0,
+            	a: 0.7
+            }
+        }
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+        game: { 
+            down: default-round-down,
+            up: default-round
+        },
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+        game: { 
+            down: default-round-down,
+            up: default-round,
+            fontColor: white
+        },
+        menu: { 
+            down: default-round-down,
+            up: default-round,
+            fontColor: white
+        },
+        dialog: { 
+            down: default-round-down,
+            up: default-round,
+            fontColor: white
+        },
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
+        game: { 
+            down: default-round-down,
+            up: default-round,
+            fontColor: white
+        },
+        menu: { 
+            down: default-round-down,
+            up: default-round,
+            fontColor: white
+        },
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+        default: { 
+            vScroll: default-scroll,
+            hScrollKnob: default-round-large,
+            background: default-rect,
+            hScroll: default-scroll,
+            vScrollKnob: default-round-large
+        }
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
+        game: {
+            fontColor: white,
+            background: default-select,
+            scrollStyle: default,
+            listStyle: { 
+            	selection: default-select-selection
+        	},
+        },
+        menu: {
+            fontColor: white,
+            background: default-select,
+            scrollStyle: default,
+            listStyle: { 
+            	selection: default-select-selection
+        	},
+        },
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle: {
+        default-vertical: { 
+            handle: default-splitpane-vertical
+        },
+        default-horizontal: { 
+            handle: default-splitpane
+        }
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+        dialog: {
+            background: default-window,
+            titleFontColor: white,
+            stageBackground: dialogDim,
+        },
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
+        default-horizontal: { 
+            background: default-slider,
+            knob: default-slider-knob
+        }
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+        game: { 
+            fontColor: white
+        },
+        dialog: {
+            fontColor: white
+        },
+        menu: {
+            fontColor: white
+        },
+        screen-title: {
+            fontColor: white
+        },
+        player-tag: {
+            fontColor: player-tag
+        },
+        rules: {
+            fontColor: white
+        },
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+        game: { 
+            selection: selection,
+            background: textfield,
+            fontColor: white,
+            cursor: cursor
+        },
+        menu: { 
+            selection: selection,
+            background: textfield,
+            fontColor: white,
+            cursor: cursor
+        },
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+        game: { 
+            checkboxOn: check-on,
+            checkboxOff: check-off,
+            fontColor: white
+        },
+        menu: { 
+            checkboxOn: check-on,
+            checkboxOff: check-off,
+            fontColor: white
+        },
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
+        game: { 
+            fontColorUnselected: white,
+            selection: default-rect-pad,
+            fontColorSelected: white,
+        },
+        menu: { 
+            fontColorUnselected: white,
+            selection: default-rect-pad,
+            fontColorSelected: white,
+        },
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle: {
+        game: { 
+            background: default-pane,
+            knob: default-round-large
+        }
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.Tree$TreeStyle: {
+        game: { 
+            minus: tree-minus,
+            plus: tree-plus,
+            selection: default-select-selection
+        }
+    }
+}

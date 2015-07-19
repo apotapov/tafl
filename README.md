@@ -15,8 +15,6 @@ cd gdx-artemis
 mvn install
 cd ../zaria
 mvn install
-cd ../tafl
-mvn install -Pdesktop
 ```
 
 ## Update from repository
@@ -34,13 +32,12 @@ mvn clean install
 ```
 cd ~/game/tafl
 git pull origin master
-mvn clean install -Pdesktop
 ```
  
 ## Run On Desktop
 ```
 cd ~/game/tafl
-mvn antrun:run -Pdesktop
+./gradlew desktop:run
 ```
 
 ## Requirements for Genymotion to work
@@ -53,7 +50,6 @@ mvn antrun:run -Pdesktop
 * Make sure Genymotion virtual device is started.
 ```
 cd ~/game/tafl
-mvn clean install -Pandroid
 ```
 
 

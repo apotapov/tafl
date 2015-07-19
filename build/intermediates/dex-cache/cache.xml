@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/apotapov/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-backend-android/1.6.4/d681be06ea6873f2056bbcbe091367bd9f7c23f2/gdx-backend-android-1.6.4.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d681be06ea6873f2056bbcbe091367bd9f7c23f2">
+        <dex dex="/Users/apotapov/Dropbox/Documents/Projects/workspace/tafl/android/build/intermediates/pre-dexed/debug/gdx-backend-android-1.6.4-af684937e49ac00e9cf59191c6ab29440589ed8e.jar" />
+    </item>
+    <item
+        jar="/Users/apotapov/.m2/repository/com/roundtriangles/games/zaria/0.1-SNAPSHOT/zaria-0.1-SNAPSHOT.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="646c7833a2756709d0c63a9f554f4231cdad4d4b">
+        <dex dex="/Users/apotapov/Dropbox/Documents/Projects/workspace/tafl/android/build/intermediates/pre-dexed/debug/zaria-0.1-SNAPSHOT-3d14f287fac54c09db6805f0f9fc10db78904aa6.jar" />
+    </item>
+    <item
+        jar="/Users/apotapov/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx/1.6.4/13ed9a042554afce8c8b38c53e9b6d6d9c10600e/gdx-1.6.4.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="13ed9a042554afce8c8b38c53e9b6d6d9c10600e">
+        <dex dex="/Users/apotapov/Dropbox/Documents/Projects/workspace/tafl/android/build/intermediates/pre-dexed/debug/gdx-1.6.4-27eada85616f2c0617c64d0ea8141a29f32daa20.jar" />
+    </item>
+    <item
+        jar="/Users/apotapov/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-freetype/1.6.4/171df06ca4699c6367dff7fa849e957fa342acd2/gdx-freetype-1.6.4.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="171df06ca4699c6367dff7fa849e957fa342acd2">
+        <dex dex="/Users/apotapov/Dropbox/Documents/Projects/workspace/tafl/android/build/intermediates/pre-dexed/debug/gdx-freetype-1.6.4-b4e407b55d844d836f1d29ff7c482213205dc4f5.jar" />
+    </item>
+    <item
+        jar="/Users/apotapov/.m2/repository/com/roundtriangles/games/gdx-artemis/0.6-SNAPSHOT/gdx-artemis-0.6-SNAPSHOT.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ae76489594bacc2b5985ca1c796616992dc5db0a">
+        <dex dex="/Users/apotapov/Dropbox/Documents/Projects/workspace/tafl/android/build/intermediates/pre-dexed/debug/gdx-artemis-0.6-SNAPSHOT-971c90bc4bf59ede05b8fac3df49ec05266823d9.jar" />
+    </item>
+    <item
+        jar="/Users/apotapov/Dropbox/Documents/Projects/workspace/tafl/core/build/libs/core-1.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="cfa82120e6c974cbb865c780a4e825f7306ba7b4">
+        <dex dex="/Users/apotapov/Dropbox/Documents/Projects/workspace/tafl/android/build/intermediates/pre-dexed/debug/core-1.0-a8c7c1bc754b24b9fcdf180a5421ba61af6bab7d.jar" />
+    </item>
+
+</items>

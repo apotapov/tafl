@@ -47,9 +47,11 @@ public class TaflWorld implements Disposable {
         this.stage = stage;
     }
 
-    public void initialize() {
+    public void initialize(TaflMatch match) {
+        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         this.world = new World();
         this.activeSystems = new Array<EntitySystem>();
+        this.match = match;
 
         //world.setManager(new TaflManager());
         world.setManager(new SingletonComponentManager());
@@ -114,8 +116,6 @@ public class TaflWorld implements Disposable {
         camera.update();
         spriteBatch.setProjectionMatrix(camera.combined);
         shapeRenderer.setProjectionMatrix(camera.combined);
-
-        initialize();
     }
 
     public void pause() {
@@ -143,8 +143,6 @@ public class TaflWorld implements Disposable {
 
         match.gameOver(LifeCycle.RESTART);
         createNewMatch();
-
-        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override
@@ -158,14 +156,18 @@ public class TaflWorld implements Disposable {
     public boolean createNewMatch() {
         level = game.levelService.getLevel(game.preferenceService.getLevelIndex());
         match = game.levelService.createNewMatch(this, level);
-        return match != null;
+        if (match != null) {
+            initialize(match);
+            return true;
+        }
+        return false;
     }
 
     public boolean loadExistingMatch() {
         TaflMatch match = game.preferenceService.loadMatch();
         if (match != null) {
             match.gameWorld = this;
-            this.match = match;
+            initialize(match);
             return true;
         }
         return false;

@@ -1,6 +1,0 @@
-{
-	class: "com.captstudios.games.tafl.core.level.TaflLevel",
-    name: "LEVEL_1_1",
-    rules: "FETLAR",
-    boardRepresentation: "...BBBBB........B................B....W....BB...WWW...BBB.WWKWW.BBB...WWW...BB....W....B................B........BBBBB...",
-}

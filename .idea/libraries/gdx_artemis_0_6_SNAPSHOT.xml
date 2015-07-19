@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="gdx-artemis-0.6-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/roundtriangles/games/gdx-artemis/0.6-SNAPSHOT/gdx-artemis-0.6-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/roundtriangles/games/gdx-artemis/0.6-SNAPSHOT/gdx-artemis-0.6-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

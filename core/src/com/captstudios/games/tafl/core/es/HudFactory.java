@@ -193,7 +193,13 @@ public class HudFactory {
     }
 
     private static Dialog createDialog(TaflGame game, Object title, Skin skin, LocaleService ls, DeviceSettings deviceSettings) {
-        Dialog dialog = new Dialog(ls.get(title), skin, Assets.Skin.SKIN_STYLE_DIALOG);
+
+        String localTitle = ls.get(title);
+        if (localTitle == null) {
+            localTitle = Constants.HudConstants.DEFAULT_DIALOG_TITLE;
+        }
+
+        Dialog dialog = new Dialog(localTitle, skin, Assets.Skin.SKIN_STYLE_DIALOG);
         dialog.setMovable(false);
         dialog.setModal(true);
 

@@ -223,5 +223,7 @@ public final class Constants {
     public static final class HudConstants {
         private HudConstants() {
         }
+
+        public static final String DEFAULT_DIALOG_TITLE = "Menu";
     }
 }

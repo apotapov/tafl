@@ -47,8 +47,13 @@ public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingCo
     protected void process(Entity e, MatchRenderingComponent rendComponent) {
         AiProcessingComponent component = promptMapper.get(e);
 
-        String sizingText = localeService.get(LocalizedStrings.Ai.AI_PROCESSING3);
-        layout.setText(rendComponent.font, sizingText);
+        String text = localeService.get(LocalizedStrings.Ai.AI_PROCESSING_THREE);
+
+        //Not sure why this hack is needed but we are getting NPE's here on some of the devices
+        if (text == null) {
+            text = "THINKING.";
+        }
+        layout.setText(rendComponent.font, text);
         
         float backgroundWidth = layout.width * 1.2f;
         float backgroundHeight = layout.height * 3f;
@@ -76,7 +81,10 @@ public class AiProcessingRendererSystem extends RenderingSystem<MatchRenderingCo
             component.index = (component.index + 1) % LocalizedStrings.Ai.values().length;
         }
 
-        String text = localeService.get(LocalizedStrings.Ai.values()[component.index]);
+        text = localeService.get(LocalizedStrings.Ai.values()[component.index]);
+        if (text == null) {
+            text = "THINKING.";
+        }
 
         x = - layout.width / 2;
         y = backgroundHeight - layout.height;

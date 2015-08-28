@@ -6,7 +6,6 @@
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/desktop/desktop.iml" filepath="$PROJECT_DIR$/desktop/desktop.iml" />
       <module fileurl="file://$PROJECT_DIR$/ios/ios.iml" filepath="$PROJECT_DIR$/ios/ios.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ios/ios.iml" filepath="$PROJECT_DIR$/ios/ios.iml" />
       <module fileurl="file://$PROJECT_DIR$/tafl.iml" filepath="$PROJECT_DIR$/tafl.iml" />
       <module fileurl="file://$PROJECT_DIR$/../zaria/zaria.iml" filepath="$PROJECT_DIR$/../zaria/zaria.iml" />
     </modules>

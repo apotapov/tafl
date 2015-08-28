@@ -56,9 +56,9 @@ public class LocalizedStrings {
     }
 
     public enum Ai {
-        AI_PROCESSING1,
-        AI_PROCESSING2,
-        AI_PROCESSING3
+        AI_PROCESSING_ONE,
+        AI_PROCESSING_TWO,
+        AI_PROCESSING_THREE
     }
 
     public enum Hud {
@@ -84,11 +84,11 @@ public class LocalizedStrings {
     }
 
     public enum AboutRules {
-        ABOUT_RULES_TITLE_11,
-        ABOUT_RULES_11,
-        ABOUT_RULES_TITLE_9,
-        ABOUT_RULES_9,
-        ABOUT_RULES_1,
-        ABOUT_RULES_2
+        ABOUT_RULES_TITLE_BIG,
+        ABOUT_RULES_BIG,
+        ABOUT_RULES_TITLE_SMALL,
+        ABOUT_RULES_SMALL,
+        ABOUT_RULES_ONE,
+        ABOUT_RULES_TWO
     }
 }

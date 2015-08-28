@@ -1,6 +1,6 @@
 {
 	class: "com.captstudios.games.tafl.core.level.TaflLevel",
-    name: "LEVEL_1_4",
+    name: "LEVEL_FOUR",
     rules: "FETLAR",
     boardRepresentation: "....BBB..W...............W..................B.........BB.........BB.........B........W......WW..........W....K....BBB....",
     turn: 1,
